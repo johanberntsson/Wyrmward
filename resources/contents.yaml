@@ -1,0 +1,63 @@
+# Wyrmward's pictures, for the Ozmoo z6 build.
+#
+# Read by make_blorb.py: "python make_blorb.py resources" writes wyrmward.blb
+# and the converted PNGs in pics/. The numbers match the old drakmagi.bli, so
+# the game's @draw_picture calls are unchanged.
+#
+# Source images are found beside this file (srcdir defaults to the folder
+# holding it); override with a "srcdir:" line if they live elsewhere.
+
+blorb:  wyrmward.blb
+outdir: pics
+
+# id and file are mandatory; name, location, width and height are optional.
+# width/height cap a single picture (preserving aspect ratio); omit them for
+# the full 320x200 v6 screen. Inline room pictures stay short to leave room
+# for text and the [More] prompt; the title fills the screen.
+pictures:
+  - id: 1
+    file: title.png
+    name: title
+    location: Introduction
+
+  - id: 3
+    file: dragon.png
+    name: dragon
+    height: 128
+    location: Dragon Hall
+
+  - id: 4
+    file: pic5a.png
+    name: hut
+    height: 128
+    location: Meadow (the hut)
+
+  - id: 5
+    file: teleport.png
+    name: teleport
+    height: 128
+    location: On the Steppe
+
+  - id: 6
+    file: pic1a.png
+    name: church
+    height: 128
+    location: Before a Temple
+
+  - id: 7
+    file: pic2a.png
+    name: wave
+    height: 128
+    location: Beach
+
+  - id: 8
+    file: pic4a.png
+    name: wood
+    height: 128
+    location: Forest Path
+
+  - id: 9
+    file: pic3a.png
+    name: village
+    height: 128
+    location: Country Road

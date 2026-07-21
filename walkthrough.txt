@@ -1,0 +1,65 @@
+take scroll
+s
+read summary
+give scroll to istar
+x scroll
+copy animation spell
+n
+copy teleportation spell
+teleport
+e
+e
+e
+take coin
+w
+z
+z
+z
+point at left cup
+give coin to hawker
+animate bench
+w
+give coin to beggar
+wear amulet
+teleport
+n
+e
+e
+n
+take stone
+illuminate it
+n
+take scroll
+read it
+n
+animate left
+animate right
+freeze mud
+z
+heal dragon
+ask dragon about magic
+teleport
+w
+e
+pray
+w
+s
+swim
+take stone
+u
+n
+e
+pray
+teleport
+s
+s
+put green stone in box
+put blue stone in box
+put red stone in box
+touch field with amulet
+kill demon
+resurrect mentor
+z
+z
+z
+z
