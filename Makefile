@@ -3,7 +3,7 @@ OZMOO = /home/johan/commodore/ozmoo-z6
 PUNY = /home/johan/commodore/punyinform
 X16 = /home/johan/commodore/ozmoo/x16-emulator46/x16emu
 XMEGA65 = xemu-xmega65
-WYRMWARD = /home/johan/commodore/punyinform/wyrmward
+WYRMWARD = /home/johan/commodore/punyinform/Wyrmward
 
 all: test
 
