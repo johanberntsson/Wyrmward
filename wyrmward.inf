@@ -123,6 +123,7 @@ Include "puny.h";
 #Iftrue (#version_number == 6);
 Include ">ext_z6graphics.h";
 Constant PIC_INTRO      = 1;
+Constant PIC_WARRIOR    = 2;
 Constant PIC_DRAGON     = 3;
 Constant PIC_HUT        = 4;
 Constant PIC_TELEPORT   = 5;
@@ -136,8 +137,9 @@ Constant PIC_VILLAGE    = 9;
     if(_rows == 0) return;          ! no such picture: draw nothing, print nothing
      ! first scroll down so we're sure that the picture will fit without [MORE]
      for(_i=0: _i<_rows: _i++) new_line;  
-     ! get the cursor row (NB: Z6CursorRow gives pixels for sfrotz)
-     _row = Z6CursorRowCell(); 
+     ! get the cursor row as a text row (NB: the raw Z6CursorRow is in units --
+     ! pixels on sfrotz and Ozmoo - so use the Cell version here)
+     _row = Z6CursorRowCell();
      Z6MoveCursorCell(_row - _rows, 1);
      Z6DrawPictureHere(p_num);
      Z6MoveCursorCell(_row, 1);
@@ -523,13 +525,17 @@ Object tiny_claws "scuttling sound" thedark
 
 Object RemoteHut "Hut"
     with
-        description
+        description [;
+#Iftrue (#version_number == 6);
+            ShowPicture(PIC_WARRIOR);
+#Endif;
             "The interior of the hut is cramped and gloomy. Thick soot cakes the solitary window,
             leaving the flickering flames of a stone hearth as the room's sole source of light. Atop
             the fire, rusted iron vessels bubble quietly, venting strange, multi-colored vapors. A
             massive, cluttered workbench is buried under a chaotic heap of heavy grimoires, brittle
             parchments, and exotic alchemical ingredients. A heavy wooden door leads north, back out
-            to the forest path.",
+            to the forest path.";
+        ],
         cheap_scenery
             'solidary' 'window'
             "Thick layers of black grease and soot coat the glass, completely choking out the daylight

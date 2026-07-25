@@ -8,12 +8,20 @@
 ! them without dropping into assembler.
 !
 ! v6 measures the screen in "units", and what a unit is depends on the
-! interpreter: Ozmoo counts CHARACTER CELLS, sfrotz counts REAL PIXELS. Every
-! opcode here uses the same unit as every other within one interpreter, so
+! interpreter. None of them is a text cell you can count on:
+!   Ozmoo   reports the 320x200 space Infocom drew the art in -- font 4x8 on the
+!           80-column graphics screens, 8x8 on the 40-column one, picture_data in
+!           native art pixels. (Ozmoo counted whole cells, font 1x1, until 2026;
+!           its -pu:0 switch still does, but that is not the default.)
+!   sfrotz  reports 640x400, font 16x8, picture_data doubled -- twice Ozmoo's on
+!           both axes.
+! Every opcode here uses the same unit as every other within one interpreter, so
 ! feeding the result of one straight into another (e.g. Z6CursorRow into
 ! Z6DrawPicture) is always correct without the game knowing which is in play.
-! Only arithmetic that mixes units with row counts needs care -- see
-! Z6PictureRows, which converts a pixel height back to text rows.
+! What is NOT safe is mixing a unit with a text row or column count: that used to
+! work on Ozmoo by luck, when a unit happened to be a cell, and it does not any
+! more. Convert through the font size (property 13) at the boundary -- the Cell
+! helpers below do this -- and the game is right on every interpreter.
 ! ----------------------------------------------------------------------------
 
 System_file;
@@ -110,13 +118,14 @@ Array _z6g_s3   --> 64;   ! scratch table for measuring text through stream 3
 ! ============================ units ========================================
 ! Property 13 is the font size: height in the high byte, width in the low. It
 ! is the conversion factor between TEXT ROWS/COLUMNS and the interpreter's
-! units, and the only portable way to ask which is which. Ozmoo answers 1x1
-! (a unit IS a cell), sfrotz answers the real pixel size of its font.
+! units, and the only portable way to ask which is which. Ozmoo answers 8x4 on
+! its 80-column graphics screen (8x8 at 40 columns), sfrotz answers 16x8; the
+! long-gone 1x1 (a unit is a cell) only comes back under Ozmoo's -pu:0.
 !
 ! So: units = cells * font size. Anything that mixes a row/column count with a
-! coordinate must go through Z6RowsToY / Z6ColsToX, or it will be eight times
-! wrong on one of the two interpreters -- which is a picture drawn off the
-! bottom of the screen, not an obviously wrong number.
+! coordinate must go through Z6RowsToY / Z6ColsToX, or it will be several times
+! wrong -- which is a picture drawn off the bottom of the screen, not an
+! obviously wrong number. This bites Ozmoo now too, not only sfrotz.
 
 [ Z6FontHeight _v;
     _v = (Z6GetWindowProp(Z6_CURRENT_WINDOW, WPROP_FONT_SIZE) & $ff00) / $100;
@@ -152,9 +161,10 @@ Array _z6g_s3   --> 64;   ! scratch table for measuring text through stream 3
 ! The cursor as a TEXT ROW / COLUMN, both 1-based -- the inverse of
 ! Z6MoveCursorCell, and what to use whenever a cursor position is about to be
 ! compared with, or added to, a count of rows (a picture's height, say). The
-! raw Z6CursorRow is in units, so `Z6CursorRow() - Z6PictureRows(n)` mixes
-! pixels with rows on sfrotz and is silently eight or sixteen times wrong there
-! while looking perfect in Ozmoo, where a unit IS a row.
+! raw Z6CursorRow is in units, so `Z6CursorRow() - Z6PictureRows(n)` mixes units
+! with rows and is silently several times wrong -- on Ozmoo as much as sfrotz
+! now, since Ozmoo's unit is no longer a row. It used to look perfect on Ozmoo,
+! which is exactly what made the bug easy to ship.
 [ Z6CursorRowCell; return Z6YToRows(Z6CursorRow() - 1) + 1; ];
 [ Z6CursorColCell; return Z6XToCols(Z6CursorCol() - 1) + 1; ];
 [ Z6HideCursor;           @set_cursor (-1) 0; ];   ! spec 8.7.2.3
