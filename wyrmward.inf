@@ -135,7 +135,7 @@ Include "puny.h";
 #Iftrue (#version_number == 6);
 Include ">ext_z6graphics.h";
 Constant PIC_INTRO      = 1;
-Constant PIC_WARRIOR    = 2;
+Constant PIC_DEMON      = 2;
 Constant PIC_DRAGON     = 3;
 Constant PIC_HUT        = 4;
 Constant PIC_TELEPORT   = 5;
@@ -585,9 +585,6 @@ Object tiny_claws "scuttling sound" thedark
 Room RemoteHut "Hut"
     with
         description [;
-#Iftrue (#version_number == 6);
-            ShowPicture(PIC_WARRIOR);
-#Endif;
             "The interior of the hut is cramped and gloomy. Thick soot cakes the solitary window,
             leaving the flickering flames of a stone hearth as the room's sole source of light. Atop
             the fire, rusted iron vessels bubble quietly, venting strange, multi-coloured vapors. A
@@ -2122,11 +2119,15 @@ Object -> SilverCoin "silver coin"
 Room GateRoom "The Crypt"
     with
         number 0,
-        description
+        description [;
+#Iftrue (#version_number == 6);
+            ShowPicture(PIC_DEMON);
+#Endif;
             "This room is like a heathen temple. Obsidian pillars rise into the darkness,
             carved with blasphemous runes that seem to shift when you aren't looking directly
             at them. A great stone altar stands in the center of the chamber, stained dark from
-            unholy rituals, and four glowing pedestals surround it. There are no exits.",
+            unholy rituals, and four glowing pedestals surround it. There are no exits.";
+	],
         cheap_scenery
         CS_NO_ADJ 'altar'
             "A massive block of dark, unpolished granite, carved with jagged channels that drain toward a central vortex."

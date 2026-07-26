@@ -16,9 +16,15 @@ outdir: pics
 # for text and the [More] prompt; the title fills the screen.
 pictures:
   - id: 1
-    file: title.png
+    file: title-v2.png
     name: title
+    height: 180
     location: Introduction
+
+  - id: 2
+    file: demon.png
+    name: demon
+    location: The Crypt
 
   - id: 3
     file: dragon.png
