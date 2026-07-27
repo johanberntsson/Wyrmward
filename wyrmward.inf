@@ -66,9 +66,9 @@ Constant OPTIONAL_LANGUAGE_NUMBER;
 ! MAX_CARRIED, SACK_OBJECT,    etc.
 
 Constant MAX_SCORE = 50;
-Constant INITIAL_LOCATION_VALUE = Glen;
-Constant SACK_OBJECT                        = BackPack;
-Constant CUSTOM_PLAYER_OBJECT     = PlayerObject;
+Constant INITIAL_LOCATION_VALUE = Meadow;
+Constant SACK_OBJECT            = BackPack;
+Constant CUSTOM_PLAYER_OBJECT   = PlayerObject;
 
 Include "globals.h";
 
@@ -575,34 +575,99 @@ Object PlayerObject "yourself"
 Class Room
     has light;
 
-Object tiny_claws "scuttling sound" thedark
-    ! Creepy effect, borrowed from the Inform Designer's Manual.
+Room Meadow "Meadow"
     with
-        name 'scuttling' 'sound' 'noise' 'animals' 'creatures' 'insects',
-        initial "Something scuttles across the ground in the dark.",
+        description [;
+#Iftrue (#version_number == 6);
+            ShowPicture(PIC_HUT);
+#Endif;
+            "You stand in a small, overgrown clearing dominated by a dilapidated hut resting immediately to the south. 
+            Looming on all other sides is a dense, ancient forest whose twisted boughs form an utterly impenetrable
+            wall of shadow. A faint dirt path cuts through the weeds, winding away north into the dark tree line.";
+        ],
+        cheap_scenery
+            'damp' 'grass'
+            "The grass is thick, wild, and heavy with a cold, clinging dew that quickly soaks through the
+            hems of your travelling robes."
+            CS_NO_ADJ 'sky'
+            "Overhead, the sky is a bruised, oppressive grey, visible only through a jagged tear in the
+            dense forest canopy.",
         before [;
-            Listen: "The scuttling sounds surround you.";
-            Touch, Taste: "You really do not want to do that. Trust me.";
-            Smell: "Fear has a scent of its own, and you can smell it now.";
-            Attack: "They dodge your blows easily in the dark.";
-            default: "The creatures shy away in the dark.";
+        Listen:
+            "The wind rustles softly through the high grass and the heavy canopy overhead. Farther in the trees, a lone bird calls out, but otherwise the forest remains unsettlingly still.";
+        Smell:
+            "The air smells of wet earth, crushed weeds, and the sharp, resinous scent of pine needles drifting from the
+            dark forest. From the south, a faint whiff of woodsmoke hangs near the hut.";
         ],
-        each_turn [; StartDaemon(self); ],
-        number 0,
-        daemon [;
-            if(location~=thedark) { self.number=0; StopDaemon(self); rtrue; }
-            self.number=self.number+1;
-            switch(self.number) {
-            1: "^The scuttling comes a little closer, and your heart beats faster.";
-            2: "^Cold sweat starts to drip from your brow. The creatures are almost here!";
-            3: "^Something brushes against your foot and you kick out. Something is flung
-                    off into the dark.";
-            4: deadflag=1;
-                 "^Something lands on your hand and bites you. Almost at once your arm begins
-                    to shake. The pain spreads, your knees give way, your tongue swells up...";
-            }
+        in_to RemoteHut, s_to RemoteHut,
+        n_to [;
+            if(TeleportSpell in SpellBook)
+                "That winding dirt track is the way you arrived on foot. Trudging all the way back would take weeks
+                you simply don't have. Istar gave you the teleportation spell for a reason!";
+            "That dirt track is the way you arrived, and there is nothing back down it but weeks of hard walking.
+            You did not come all this distance to turn around on the doorstep.";
         ],
-    has neuter;
+        u_to "You jump up, but reach nothing but open air. Flying is beyond your current magical abilities!",
+        d_to "You inspect the grass and weeds beneath your boots, but there is nowhere to go down.",
+        cant_go "You push into the tree line, but the dense brambles and twisted boughs form an utterly impenetrable wall of shadow. The forest will not let you pass.";
+
+Object -> HutDoor "door"
+    with
+        name 'door' 'planks',
+        description [;
+            "The hut's door is made of thick, weather-beaten planks of dark pine, bound by rusting iron bands.";
+        ],
+        before [;
+        Knock:
+            "You rap your knuckles against the planks. From inside comes a shuffle of feet
+            and the scrape of a stool being pushed back, but nobody comes to answer.";
+        Open, Close:
+            "The door already hangs ajar in its warped frame; it has not shut properly in
+            years. You need only push it aside and step through.";
+        ],
+    has scenery;
+
+Object -> Path "path"
+    with
+        name 'dirt' 'path',
+        description
+            "It's little more than a strip of packed, muddy earth cutting through the overgrown grass.
+            Looking north, you can see how quickly the path is swallowed up by the encroaching shadows
+             of the forest canopy.",
+        before [;
+        Enter, Follow:
+            "The path only leads north, back the way you came. Whatever your old teacher
+            wants of you is waiting inside the hut to the south.";
+        ],
+    has scenery;
+
+Object -> Hut "hut"
+    with
+        name 'hut' 'dilapidated',
+        description
+            "The structure is a sorry sight. Built from rough-hewn logs that have rotted and warped over the years,
+            it leans heavily to one side as if weary from the elements. Thick, dark moss carpets the sagging
+            thatch roof, and a thin wisp of acrid smoke curls sleepily from a crude stone chimney.",
+        before [;
+            Enter: <<Go FAKE_S_OBJ>>;
+        ],
+    has scenery concealed;
+
+CScroll -> DirtyScroll "weathered scroll"
+    with
+        name 'weathered' 'discarded' 'dirty' 'scroll' 'parchment',
+        initial
+            "Nestled deep in the damp grass, a flash of parchment catches your eye.
+            It appears to be a discarded scroll.",
+        description [;
+            if(self has general)
+                "The parchment is unrolled now, its surface stained by the acrid fumes of Istar's mixture. Inscribed
+                across the centre in sharp, shimmering ink are the ancient runes of an animation spell (used to bring
+                inanimate objects to life).";
+           "It is a tightly rolled cylinder of heavy parchment, tied with a frayed piece of twine. The 
+           surface is weathered, as if it has been exposed to the damp meadow air for some time.";
+        ]
+    ;
 
 Room RemoteHut "Hut"
     with
@@ -634,7 +699,7 @@ Room RemoteHut "Hut"
             "Atop the roaring logs, a collection of stained iron cauldrons and glass retorts hiss and sputter. 
             The liquids inside range from a viscous, glowing emerald to an oily indigo, giving off a scent 
             that prickles the back of your throat.",
-        n_to Glen, out_to Glen,
+        n_to Meadow, out_to Meadow,
         u_to "The low, thatched ceiling offers no way upward, unless you fancy poking your head through the dried reed roof.",
         d_to "The floorboards are solid, worn oak. There are no trapdoors or cellars beneath your feet.",
         cant_go "You bump straight into the hut's sturdy timber walls, cluttered with dusty shelves of strange ingredients.
@@ -881,100 +946,6 @@ Object -> Istar "Istar"
         ],
     has animate proper;
 
-Room Glen "Meadow"
-    with
-        description [;
-#Iftrue (#version_number == 6);
-            ShowPicture(PIC_HUT);
-#Endif;
-            "You stand in a small, overgrown clearing dominated by a dilapidated hut resting immediately to the south. 
-            Looming on all other sides is a dense, ancient forest whose twisted boughs form an utterly impenetrable
-            wall of shadow. A faint dirt path cuts through the weeds, winding away north into the dark tree line.";
-        ],
-        cheap_scenery
-            'damp' 'grass'
-            "The grass is thick, wild, and heavy with a cold, clinging dew that quickly soaks through the
-            hems of your travelling robes."
-            CS_NO_ADJ 'sky'
-            "Overhead, the sky is a bruised, oppressive grey, visible only through a jagged tear in the
-            dense forest canopy.",
-        before [;
-        Listen:
-            "The wind rustles softly through the high grass and the heavy canopy overhead. Farther in the trees, a lone bird calls out, but otherwise the forest remains unsettlingly still.";
-        Smell:
-            "The air smells of wet earth, crushed weeds, and the sharp, resinous scent of pine needles drifting from the
-            dark forest. From the south, a faint whiff of woodsmoke hangs near the hut.";
-        ],
-        in_to RemoteHut, s_to RemoteHut,
-        n_to [;
-            if(TeleportSpell in SpellBook)
-                "That winding dirt track is the way you arrived on foot. Trudging all the way back would take weeks
-                you simply don't have. Istar gave you the teleportation spell for a reason!";
-            "That dirt track is the way you arrived, and there is nothing back down it but weeks of hard walking.
-            You did not come all this distance to turn around on the doorstep.";
-        ],
-        u_to "You jump up, but reach nothing but open air. Flying is beyond your current magical abilities!",
-        d_to "You inspect the grass and weeds beneath your boots, but there is nowhere to go down.",
-        cant_go "You push into the tree line, but the dense brambles and twisted boughs form an utterly impenetrable wall of shadow. The forest will not let you pass.";
-
-Object -> HutDoor "door"
-    with
-        name 'door' 'planks',
-        description [;
-            "The hut's door is made of thick, weather-beaten planks of dark pine, bound by rusting iron bands.";
-        ],
-        before [;
-        Knock:
-            "You rap your knuckles against the planks. From inside comes a shuffle of feet
-            and the scrape of a stool being pushed back, but nobody comes to answer.";
-        Open, Close:
-            "The door already hangs ajar in its warped frame; it has not shut properly in
-            years. You need only push it aside and step through.";
-        ],
-    has scenery;
-
-Object -> Path "path"
-    with
-        name 'dirt' 'path',
-        description
-            "It's little more than a strip of packed, muddy earth cutting through the overgrown grass.
-            Looking north, you can see how quickly the path is swallowed up by the encroaching shadows
-             of the forest canopy.",
-        before [;
-        Enter, Follow:
-            "The path only leads north, back the way you came. Whatever your old teacher
-            wants of you is waiting inside the hut to the south.";
-        ],
-    has scenery;
-
-Object -> Hut "hut"
-    with
-        name 'hut' 'dilapidated',
-        description
-            "The structure is a sorry sight. Built from rough-hewn logs that have rotted and warped over the years,
-            it leans heavily to one side as if weary from the elements. Thick, dark moss carpets the sagging
-            thatch roof, and a thin wisp of acrid smoke curls sleepily from a crude stone chimney.",
-        before [;
-            Enter: <<Go FAKE_S_OBJ>>;
-        ],
-    has scenery concealed;
-
-CScroll -> DirtyScroll "weathered scroll"
-    with
-        name 'weathered' 'discarded' 'dirty' 'scroll' 'parchment',
-        initial
-            "Nestled deep in the damp grass, a flash of parchment catches your eye.
-            It appears to be a discarded scroll.",
-        description [;
-            if(self has general)
-                "The parchment is unrolled now, its surface stained by the acrid fumes of Istar's mixture. Inscribed
-                across the centre in sharp, shimmering ink are the ancient runes of an animation spell (used to bring
-                inanimate objects to life).";
-           "It is a tightly rolled cylinder of heavy parchment, tied with a frayed piece of twine. The 
-           surface is weathered, as if it has been exposed to the damp meadow air for some time.";
-        ]
-    ;
-
 Object f_f "forest"
     with
         name 'dark' 'mature' 'darkness' 'impenetrable' 'forest' 'trees' 'tree' 'woods',
@@ -990,7 +961,7 @@ Object f_f "forest"
                       is staying exactly where it is.";
         Enter: "Trying to force your way through would only result in torn robes and broken branches.";
         ],
-        found_in Glen Forest ForestPath Mountain,
+        found_in Meadow Forest ForestPath Mountain,
     has scenery ;
 
 Room Forest "Forest"
@@ -1518,7 +1489,7 @@ Room DragonHall "The Dragon Hall"
             muddy incline leading back up.";
         ],
         cheap_scenery
-        CS_NO_ADJ 'sulfur'
+        'sulfur' 'sulphur'
             "Thick, yellowish fumes drift near the vaulted ceiling, stinging your nostrils
             with the sharp stench of brimstone."
         'slope' 'incline'
@@ -1799,7 +1770,7 @@ Room TeleportRoom "On the Steppe"
         n_to [; print "A yellow cloud surrounds you, and as it clears you find yourself in...^^";
                 PlayerTo(Forest); rtrue; ],
         s_to [; print "A yellow cloud surrounds you, and as it clears you find yourself at...^^";
-                PlayerTo(Glen); rtrue; ],
+                PlayerTo(Meadow); rtrue; ],
         e_to [; print "Step by step, you pass beneath the eastern arch. A swirl of yellow mist envelops you once more,
                     and as it clears, the wide steppe vanishes...^^";
                 PlayerTo(VillageRoad); rtrue; ],
@@ -2680,7 +2651,7 @@ CSpell TeleportSpell "teleportation spell" SilverScroll
         name 'teleportation' 'teleport' 'spell',
         comment "move yourself to a new place",
         domagic [;
-            if(location == Glen) {
+            if(location == Meadow) {
                 print "A swirling yellow mist springs up from the ground, enveloping you completely. As the fog dissipates,
                     the meadow vanishes, and you find yourself standing in a vast new landscape...^^";
             } else {
@@ -3100,11 +3071,11 @@ Object Introduction "folio" Istar
     score=0;
     lookmode=2;                        ! always show long room descriptions (verbose)
 
-    location=Glen;
+    location=Meadow;
     move SpellBook to player;
     move BackPack    to player;
 
-    move DirtyScroll to Glen;
+    move DirtyScroll to Meadow;
     move FreezeSpell to SpellBook;
     move HealSpell     to SpellBook;
 

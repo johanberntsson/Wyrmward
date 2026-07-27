@@ -146,6 +146,10 @@ save
 
 w
 give coin to beggar
+x beggar,
+beggar, hello
+wake beggar
+move beggar
 e
 give coin to hawker
 z
