@@ -178,10 +178,10 @@ Extend 'give' last
 Verb 'memorize' 'memorise' 'learn' * noun -> Memorize;
 [ MemorizeSub; "You should get yourself a notebook instead."; ];
 
+Verb 'copy' * noun -> Copy;
 Verb 'illuminate' * noun -> Illuminate;
-Verb 'copy'             * noun -> Copy;
-[ IlluminateSub; IlluminateSpell.activate(noun); ];
-[ CopySub;             CopySpell.activate(noun); ];
+[ CopySub; <<CastSpellObj CopySpell noun>>; ];
+[ IlluminateSub; <<CastSpellObj IlluminateSpell noun>>; ];
 
 Verb 'talk' 'report'
     * 'to' noun -> TalkTo;
@@ -300,12 +300,12 @@ Class CSpell
                     print "You cannot find ", (the) self, " in ", (the) SpellBook, ".^";
                     rfalse;
                 }
-                switch(self) {
-                CopySpell:
-                TeleportSpell:
+!print (the) self, " ", (the) second, "^";
+                if(self == CopySpell) {
+                } else if(self == TeleportSpell) {
                     print "Your spellbook snaps open to the correct page, and you speak the complex, resonant
                         incantation of the teleportation spell.^^";
-                default:
+                } else {
                     print (The) SpellBook, " opens itself to the right page, and you read
                             aloud the complicated words of ", (the) self, ".^^";
                 }
@@ -675,7 +675,7 @@ Object -> -> hut_doc "books"
             !their magic, but they are strictly theoretical and of little use to you.",
         before [;
             Transfer, Take, Remove:
-                if(TestScope(Master)) "~Don't touch the books. I need them,~ says Istar.";
+                if(TestScope(Istar)) "~Don't touch the books. I need them,~ says Istar.";
         ],
         after [; Take, Remove: give self ~concealed; ],
     has concealed pluralname;
@@ -700,7 +700,7 @@ Object -> GoldBox "gilded box"
                 "The box doesn't have a conventional lock, but it is sealed by a potent ward. Only its true
                 owner, Istar, can safely manipulate it.";
             Transfer, Take, Remove, LetGo:
-                if(TestScope(Master))
+                if(TestScope(Istar))
                     "You reach for it, but a sharp, static shock bites at your fingers, forcing you to pull back.
                    The box is anchored to the alcove by powerful protective spells designed to prevent theft
                    and ward off damage.";
@@ -712,7 +712,7 @@ Object -> GoldBox "gilded box"
         ],
         after [;
             Receive:
-                if(children(self)==WantedStones-->0 && TestScope(Master)) {
+                if(children(self)==WantedStones-->0 && TestScope(Istar)) {
                     print "Your mentor sees you place the last stone in the box and cries,
                      ~The last stone! Now I can open the gate!~^^\
                     He takes the stones from the box and says, ~Come with me, great tasks
@@ -725,9 +725,9 @@ Object -> GoldBox "gilded box"
         ],
     has container open;
 
-Object -> Master "Istar"
+Object -> Istar "Istar"
     with
-        name 'mentor' 'teacher' 'old' 'wizard' 'istar',
+        name 'master' 'mentor' 'teacher' 'old' 'wizard' 'istar',
         domagic [spell;
             if(spell==KillSpell) rfalse;
             print (The) self, " stops the spell with a wave of his hand.
@@ -875,7 +875,7 @@ Object -> Master "Istar"
                 }
                 if(IsCarried(Introduction) && TestScope(Introduction)) {
                     move Introduction to RemoteHut;
-                    print "^~It is safest that this stays here,~ says ", (the) Master,
+                    print "^~It is safest that this stays here,~ says ", (the) Istar,
                           ", taking ", (the) Introduction, " from your hands before you step outside.^^";
                 }
         ],
@@ -1148,18 +1148,18 @@ Object -> CaveMud "mud"
         ],
     has scenery;
 
-[ UpSlope normalroom;
-    if(MountainSlope has general) {
-        print (string) random(
-            "The ground is frozen and hard to climb.",
-            "With some effort you manage to climb the frozen slope."), "^^";
-    } else {
-        print (string) random(
-            "The slope is steep, and you are left breathless.",
-            "With some effort you climb the steep slope."), "^^";
-    }
-    return normalroom;
-];
+![ UpSlope normalroom;
+!    if(MountainSlope has general) {
+!        print (string) random(
+!            "The ground is frozen and hard to climb.",
+!            "With some effort you manage to climb the frozen slope."), "^^";
+!    } else {
+!        print (string) random(
+!            "The slope is steep, and you are left breathless.",
+!            "With some effort you climb the steep slope."), "^^";
+!    }
+!    return normalroom;
+!];
 
 [ DownSlope normalroom otherroom;
     if(MountainSlope has general) {
@@ -2542,7 +2542,7 @@ Object -> EvilMaster "demon"
             1:
                 self.initial=0;
                 print
-    "Istar's familiar, kindly features suddenly warp and contort. His skin blackens and splits,
+    "^Istar's familiar, kindly features suddenly warp and contort. His skin blackens and splits,
     his eyes igniting with a hellish, crimson fire as his bones snap out of place. Before you stands
     a towering, grotesque demon, its voice echoing like grinding stones:^^
     ~At last, I have you right where I want you! Your precious mentor was a fool... far too curious for his
@@ -2712,7 +2712,11 @@ CSpellWithArgument FreezeSpell "freeze spell"
         name 'freeze' 'spell',
         comment "freeze something",
         domagic [obj;
-            if(obj provides domagic) if(obj.domagic(self)) rtrue;
+            if(obj provides domagic) {
+                print "The spellbook opens itself to the right page, and you read aloud the complicated
+                     words of the freeze spell.^^";
+                if(obj.domagic(self)) rtrue;
+            }
             "A thin layer of ice covers ", (the) obj, ", but soon melts away.";
         ],
     ;
@@ -2774,7 +2778,7 @@ Class CStone
         name 'stone' 'stones//p',
         plural "stones";
 
-CStone BlackStone "black stone" Master
+CStone BlackStone "black stone" Istar
     with
         name 'black',
         description "The stone is a piece of semi-transparent quartz, with a black spot in
@@ -2819,7 +2823,7 @@ CStone RedStone "red stone" Village
 
 Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
 
-Object Introduction "folio" Master
+Object Introduction "folio" Istar
     with
         name 'folio' 'notes' 'report',
         description [;
@@ -3065,11 +3069,13 @@ Object Introduction "folio" Master
 !     Initialisation
 ! ==========================================================================
 
-[ Initialise key;
 #Iftrue (#version_number == 6);
+[ Initialise key;
     ShowPicture(PIC_INTRO);
     @read_char key;
     @erase_window 0;
+#IfNot;
+[ Initialise ;
 #Endif;
 
     print 

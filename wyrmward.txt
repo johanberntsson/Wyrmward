@@ -1388,6 +1388,9 @@ The warrior and the barbarian fight each other. The swords clash, but both are
 still unharmed.
 
 > cast freeze on mud
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the freeze spell.
+
 The temperature drops at once. The water and mud freeze, and you stumble on the
 ice. You fall a couple of metres before regaining your footing.
 
@@ -1899,6 +1902,7 @@ stained dark from unholy rituals, and four glowing pedestals surround it. There
 are no exits.
 
 Your mentor stands before you.
+
 Istar's familiar, kindly features suddenly warp and contort. His skin blackens
 and splits, his eyes igniting with a hellish, crimson fire as his bones snap out
 of place. Before you stands a towering, grotesque demon, its voice echoing like
@@ -2023,7 +2027,6 @@ carved with blasphemous runes that seem to shift when you aren't looking
 directly at them. A great stone altar stands in the centre of the chamber,
 stained dark from unholy rituals, and four glowing pedestals surround it. There
 are no exits.
-
 
 The well now glows with a red light from below. The demon looks very expectant.
 
