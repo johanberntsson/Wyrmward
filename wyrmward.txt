@@ -2,7 +2,7 @@ Start of a transcript of
 
 Wyrmward
 (c) 1996-2005, 2026 Johan Berntsson. Type "help" or "h" for instructions.
-Release 1 / Serial number 260726 / Inform v6.44 PunyInform v6.6dev DR
+Release 1 / Serial number 260727 / Inform v6.44 PunyInform v6.6dev DR
 
 > restart
 Are you sure you want to restart? yes
@@ -14,12 +14,13 @@ reduced to a forbidden whisper.
 
 Yet, without his patient guidance, you would never have survived your
 apprenticeship. Now, he desperately needs your help. Throwing caution to the
-wind, you followed the cryptic instructions in his letter, and weeks of grueling
-travel, you finally stand before your mentor's secluded, humble dwelling.
+wind, you followed the cryptic instructions in his letter, and after weeks of
+gruelling travel you finally stand before your mentor's secluded, humble
+dwelling.
 
 Wyrmward
 (c) 1996-2005, 2026 Johan Berntsson. Type "help" or "h" for instructions.
-Release 1 / Serial number 260726 / Inform v6.44 PunyInform v6.6dev DR
+Release 1 / Serial number 260727 / Inform v6.44 PunyInform v6.6dev DR
 
 Meadow
 You stand in a small, overgrown clearing dominated by a dilapidated hut resting
@@ -43,8 +44,19 @@ unsettlingly still.
 
 > smell
 The air smells of wet earth, crushed weeds, and the sharp, resinous scent of
-pine needles drifting from the ark forest. From the south, a faint whiff of
+pine needles drifting from the dark forest. From the south, a faint whiff of
 woodsmoke hangs near the hut.
+
+> x me
+As good-looking as ever, though weeks on the road have left your travelling
+robes mud-spattered and your boots very nearly walked through.
+
+> score
+You have so far scored 0 out of a possible 50, in 4 turns.
+
+> xyzzy
+You pronounce the ancient word with great care. Somewhere very far away a door
+seems to swing open. Nothing whatsoever happens here.
 
 > e
 You push into the tree line, but the dense brambles and twisted boughs form an
@@ -85,12 +97,18 @@ The freeze spell: (freeze something).
 The illumination spell: (make something glow).
 The copying spell: (copy a spell into the spellbook).
 
+> memorize freeze spell
+You concentrate and memorize the freeze spell.
+
+> memorize freeze spell
+You concentrate and memorize the freeze spell once more.
+
 > x grass
 The grass is thick, wild, and heavy with a cold, clinging dew that quickly soaks
 through the hems of your travelling robes.
 
 > x sky
-Overhead, the sky is a bruised, oppressive gray, visible only through a jagged
+Overhead, the sky is a bruised, oppressive grey, visible only through a jagged
 tear in the dense forest canopy.
 
 > x door
@@ -98,7 +116,12 @@ The hut's door is made of thick, weather-beaten planks of dark pine, bound by
 rusting iron bands.
 
 > open door
-No need to concern yourself with that.
+The door already hangs ajar in its warped frame; it has not shut properly in
+years. You need only push it aside and step through.
+
+> knock on door
+You rap your knuckles against the planks. From inside comes a shuffle of feet
+and the scrape of a stool being pushed back, but nobody comes to answer.
 
 > x hut
 The structure is a sorry sight. Built from rough-hewn logs that have rotted and
@@ -117,10 +140,17 @@ overgrown grass. Looking north, you can see how quickly the path is swallowed up
 by the encroaching shadows of the forest canopy.
 
 > enter path
-No need to concern yourself with that.
+The path only leads north, back the way you came. Whatever your old teacher
+wants of you is waiting inside the hut to the south.
 
 > follow path
-No need to concern yourself with that.
+The path only leads north, back the way you came. Whatever your old teacher
+wants of you is waiting inside the hut to the south.
+
+> n
+That dirt track is the way you arrived, and there is nothing back down it but
+weeks of hard walking. You did not come all this distance to turn around on the
+doorstep.
 
 > enter forest
 Trying to force your way through would only result in torn robes and broken
@@ -135,8 +165,8 @@ Hut
 The interior of the hut is cramped and gloomy. Thick soot cakes the solitary
 window, leaving the flickering flames of a stone hearth as the room's sole
 source of light. Atop the fire, rusted iron vessels bubble quietly, venting
-strange, multi-coloured vapors. A massive, cluttered workbench is buried under a
-chaotic heap of heavy grimoires, brittle parchments, and exotic alchemical
+strange, multi-coloured vapours. A massive, cluttered workbench is buried under
+a chaotic heap of heavy grimoires, brittle parchments, and exotic alchemical
 ingredients. A heavy wooden door leads north, back out to the forest path.
 
 Resting within a small alcove in the stone wall is a beautifully carved, gilded
@@ -155,11 +185,11 @@ page.
 
 > smell
 The room is thick with the sharp tang of sulfur, burnt wood smoke, and the
-pungent, bitter aroma of strange alchemical vapors mingling with aged leather
+pungent, bitter aroma of strange alchemical vapours mingling with aged leather
 and dry parchment.
 
 > u
-The low, thatched ceiling offers no way upwardâ??unless you fancy poking your
+The low, thatched ceiling offers no way upward, unless you fancy poking your
 head through the dried reed roof.
 
 > d
@@ -175,6 +205,10 @@ the north.
 It's a massive slab of scarred oak that has witnessed countless experiments.
 Books and parchments lie on the bench.
 
+> x books
+Warped grimoires and loose sheaves of parchment, most of them older than the hut
+itself. Every margin is crowded with your mentor's cramped, urgent handwriting.
+
 > x window
 Thick layers of black grease and soot coat the glass, completely choking out the
 daylight from the meadow outside.
@@ -188,10 +222,19 @@ Atop the roaring logs, a collection of stained iron cauldrons and glass retorts
 hiss and sputter. The liquids inside range from a viscous, glowing emerald to an
 oily indigo, giving off a scent that prickles the back of your throat.
 
+> taste vessels
+You lean over the nearest cauldron and think better of it at once. Whatever is
+bubbling in there was never meant to go anywhere near a mouth.
+
 > x box
 The box is crafted from a rare, dark wood, seamlessly overlaid with an
 intricate, swirling filigree of pure gold. Professional wizards use enchanted
 repositories like this to store highly volatile magical items.
+
+> x alcove
+A shallow niche cut into the stone of the chimney breast, just deep enough to
+take the gilded box. The rock around it is scorched black, as though the ward on
+the box has had to defend itself more than once.
 
 > open box
 The box doesn't have a conventional lock, but it is sealed by a potent ward.
@@ -203,15 +246,45 @@ to pull back. The box is anchored to the alcove by powerful protective spells
 designed to prevent theft and ward off damage.
 
 > put backpack in box
-The golden filigree glows faintly as you approach. While the box is technically
-open to receive the specific artifacts Istar is searching for, the protective
-ward firmly repels the backpack refusing to let you store ordinary items inside.
+The golden filigree brightens as you reach inside, and the ward pushes your hand
+gently but very firmly out again. The box stands open for the artefacts Istar is
+hunting, and for nothing else. It has no interest in your luggage.
 
 > x istar
 Time has not been kind to your old teacher. His once-proud silver beard is
 tangled and stained with potion ingredients, and deep lines of exhaustion are
 etched into his face. Yet, as he looks up at you, the familiar, brilliant spark
 of intellect still dances in his eyes.
+
+> istar, hello
+"Later, my boy, later," says Istar, waving the greeting away. "Read the folio
+first. Everything I could say to you is already written in it, and written
+better."
+
+> ask istar about stones
+He taps the folio in your hands. "Elemental stones. Four of them, cut long
+before the first cities were built. I have one. The others lie scattered across
+half the world, and I am too old and too closely watched to go after them
+myself."
+
+> ask istar about academy
+His face darkens. "The Arch-Mages felt something stirring in the dark and
+decided it must be me. I do not blame them for being frightened, my boy. I blame
+them for being lazy about it."
+
+> ask istar about box
+"A wizard's strongbox," he says. "Nothing goes into it that I have not made room
+for, and nothing comes out that I have not called for. The stones will be safe
+in there until the hour I need them."
+
+> ask istar about demon
+Istar looks up, honestly puzzled. "A demon? My boy, if there were a demon within
+a hundred leagues of this hut, I should certainly have noticed."
+
+> show spellbook to istar
+He leafs through a few pages and hands it back with a fond, slightly wistful
+smile. "The same book. You have kept it well. Whatever else the Academy did to
+you, it taught you to look after your tools."
 
 > read folio
 Inscribed in your mentor's familiar, frantic handwriting is a harrowing log of
@@ -237,7 +310,7 @@ many decades ago. Let us try a simple revealing trick."
 With practiced hands, he pours a measure of emerald fluid into a ceramic dish
 and stirs in a viscous yellow tincture. The mixture hisses violently, filling
 the cramped room with a thick, acrid smoke. Undeterred by the fumes, Istar holds
-your scroll over the rising vapors. After a tense minute, he passes it back to
+your scroll over the rising vapours. After a tense minute, he passes it back to
 you with a knowing smile. Invisible ink has bloomed across the surface in sharp,
 glowing runes. It is a spell!
 
@@ -262,7 +335,7 @@ ash that vanishes into thin air.
 > n
 
 As you turn toward the door to leave, Istar calls out, "Before you go, I should
-show you my stone," He picks up a black stone and places it in the gilded box.
+show you my stone." He picks up a black stone and places it in the gilded box.
 "If you find more stones, I want you to put them in the box. Take this too," he
 says, handing you a silvery scroll. "The stones are far too distant for you to
 reach on foot. Copy this teleportation spell into your spellbook and you can
@@ -341,6 +414,22 @@ There isn't a physical compass here; rather, the four archways are precisely
 oriented to the north, south, east, and west, carving the vast horizon into four
 distinct paths.
 
+> x runes
+Deep-cut characters march across each keystone in a script far older than
+anything you were taught to read. They pulse slowly, in a rhythm uncomfortably
+like breathing.
+
+> touch archway
+The stone is oddly warm under your palm, and the runes brighten at the contact,
+as though they can tell a wizard by feel.
+
+> u
+The sky over the steppe is enormous, cloudless and entirely out of reach.
+
+> d
+Dry turf and hard-packed earth, bound together by the roots of a thousand years
+of grass.
+
 > x yellow cloud
 The magical mist has already thinned and vanished into the brisk steppe air,
 leaving behind only the faint, ozone scent of teleportation magic.
@@ -364,11 +453,19 @@ from the village.
 
 > smell
 The warm air carries the rich scent of sun-baked dirt, ripe corn, and dry oak
-bark, undercut by the faint, stale odor of unwashed rags from the beggar.
+bark, undercut by the faint, stale odour of unwashed rags from the beggar.
 
 > x beggar
 He is a gaunt, frail man clad in threadbare rags. His eyes are sunken with
 exhaustion, and he holds out a palm in mute appeal for charity.
+
+> x rags
+Layer upon layer of colourless cloth, worn so thin in places that the road wind
+goes straight through it. Something small and hard hangs beneath, out of sight.
+
+> x hand
+His palm is upturned and quite empty, the fingers trembling slightly with the
+effort of holding it out.
 
 > x cornfields
 Tall stalks of corn sway gently in the breeze, forming a rustling wall on either
@@ -392,11 +489,26 @@ soul, sir?" he rasps, shuffling his palm forward. "A bite of bread or a coin to
 warm my bones, and I'd be eternally grateful." He seems too weak and distracted
 by hunger to offer much conversation.
 
+> beggar, hello
+"Good day to you, master wizard," he rasps, and the effort of it seems to cost
+him something. "You'll forgive me if I don't get up."
+
 > ask beggar about stones
-The beggar looks up at you with weary, cloudy eyes. "Spare a copper for a poor
-soul, sir?" he rasps, shuffling his palm forward. "A bite of bread or a coin to
-warm my bones, and I'd be eternally grateful." He seems too weak and distracted
-by hunger to offer much conversation.
+"Stones I have plenty of, master. They're free, and they don't fill a belly." He
+gestures vaguely at the roadside gravel and lets his hand fall back into its
+begging posture.
+
+> ask beggar about amulet
+His hand moves to his chest, just for an instant, before he catches himself.
+"Nothing there worth your trouble, master. Only rags and ribs."
+
+> ask beggar about village
+"Market day," he says without enthusiasm. "Good day for a man with coins. I go
+in sometimes, but the traders move me along quick enough."
+
+> ask beggar about hawker
+The beggar's mouth twists. "Him with the cups? He's been taking silver off
+honest folk since the spring. Nobody has ever seen him lose, master. Nobody."
 
 > give spellbook to beggar
 The beggar squints at the spellbook, then shakes his head dolefully. "Keep that
@@ -410,17 +522,29 @@ his clothes would be needlessly cruel.
 You could easily overpower the frail old man, but what kind of hero attacks a
 helpless beggar on the roadside?
 
+> take corn
+It is not your corn to take, and there are hungrier people than you on this
+road.
+
 > n
-Don't disturb the cornfields.
+The corn grows right up to the edge of the road, a dense wall of stalks taller
+than a man. Trampling through a farmer's crop is no way to repay his country's
+hospitality.
+
+> s
+The cornfields close the road in on that side as well. The track itself runs
+only east and west.
 
 > w
-The road winds on into the wilderness, where you have no business.
+The road winds on westward into open country, where you have no business and no
+time to spare.
 
 > u
-You don't possess a levitation spell.
+The oak's lower branches are the only way up from here, and you have already
+tried those.
 
 > d
-Only the hard ground in that direction.
+Nothing beneath your boots but the dry, rutted earth of the road.
 
 > e
 The beggar watches you with a mournful sigh as you step past him, continuing
@@ -439,7 +563,7 @@ Catching your eye, he grins wide. "Ah, my good wizard! How about trying your
 luck? Stake a single silver coin and win ten times your wager!"
 
 > listen
-The square is alive with a cheerful dinâ??hawkers barking their wares, townsfolk
+The square is alive with a cheerful din: hawkers barking their wares, townsfolk
 haggling boisterously over prices, livestock lowing in the distance, and the
 sharp clink of wooden cups scraping across the hawker's bench.
 
@@ -486,13 +610,38 @@ tunic. He grins at you like a cat that just found the cream.
 
 "Point to the cup you think the stone is under," says the man.
 
+> x cups
+Three identical cups of turned beechwood, upturned in a neat row, their rims
+worn smooth by years of exactly this. Not one of them gives anything away.
+
+"Point to the cup you think the stone is under," says the man.
+
+> x bench
+A sturdy trestle of planed pine, scarred by long use and set at just the height
+to keep the cups level with a bystander's eye.
+
+"Point to the cup you think the stone is under," says the man.
+
+> x crowd
+Farmhands, traders and small children press in on every side, cheerfully waiting
+to watch a wizard lose his money like everybody else.
+
+"Point to the cup you think the stone is under," says the man.
+
+> x stalls
+Trestles heaped with cabbages, salt fish, rough cloth and cheap tin charms.
+Business is brisk, and nobody is paying you the slightest attention.
+
+"Point to the cup you think the stone is under," says the man.
+
 > n
-The road leads east and west.
+The village road runs east and west, and the houses stand shoulder to shoulder
+in between.
 
 "Point to the cup you think the stone is under," says the man.
 
 > u
-The road leads east and west.
+Nothing above you but thatch, chimney smoke and a hard blue sky.
 
 "Point to the cup you think the stone is under," says the man.
 
@@ -513,8 +662,8 @@ the soft rustle of cornstalks in the wind and the dry scuttle of insects in the
 roadside dust.
 
 > smell
-The sweet, savory scents of the market stalls fade into the clean smells of open
-fields, sun- baked earth, and fresh straw.
+The sweet, savoury scents of the market stalls fade into the clean smells of
+open fields, sun-baked earth, and fresh straw.
 
 > x coin
 The silver coin is of low value, but enough to buy a few beers at the village
@@ -534,17 +683,24 @@ the road.
 > e
 The road winds on into the wilderness, where you have no business.
 
+> s
+The corn stands too thick to push through, and there is nothing beyond it but
+more corn.
+
 > u
-Nothing but sky.
+Nothing above but a wide, empty sky and a hawk turning slow circles over the
+fields.
 
 > d
 Only the dusty dirt road beneath your boots.
 
 > x village
-The village lies to the west of here.
+Rooftops and market banners show above the corn a little way west, and the noise
+of the crowd carries faintly on the wind.
 
 > x houses
-The village lies to the west of here.
+Rooftops and market banners show above the corn a little way west, and the noise
+of the crowd carries faintly on the wind.
 
 > x corn
 Tall stalks of corn sway gently in the breeze, forming a rustling wall on either
@@ -598,7 +754,8 @@ mentor's black stone perfectly.
 "Won't you try again? Just one silver coin," says the hawker.
 
 > take stone
-The hawker has the stone.
+The hawker's hand closes over it before yours is halfway across the bench.
+"Under the cups or not at all, master wizard."
 
 "Won't you try again? Just one silver coin," says the hawker.
 
@@ -614,8 +771,22 @@ The impatient hawker motions to the cups in front of him.
 
 "Won't you try again? Just one silver coin," says the hawker.
 
+> ask hawker about game
+"Simplest game in the world," he says happily. "I put the stone under a cup, I
+move the cups about, you tell me where the stone has got to. A child could do
+it." He does not mention that no child ever has.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> look under left cup
+The hawker's palm settles flat on top of it. "Now, now, master. You point and I
+lift. That is the whole of the game."
+
+"Won't you try again? Just one silver coin," says the hawker.
+
 > hawker, give me stone
-The hawker has better things to do.
+"Give?" The hawker laughs, thoroughly delighted. "Master wizard, if I gave
+things away I should be the one sitting under that oak tree with my hand out."
 
 "Won't you try again? Just one silver coin," says the hawker.
 
@@ -672,7 +843,8 @@ You wait, observing the hawker.
 You are unsure, but you think it is the right cup.
 
 > x middle cup
-There is nothing special about the middle cup.
+A plain beechwood cup, upturned and giving nothing away. Staring at it will not
+make it transparent.
 
 "Point to the cup you think the stone is under," says the man.
 
@@ -683,10 +855,10 @@ produces the stone, then sets the cups back in a neat row.
 
 "Won't you try again? Just one silver coin," says the hawker.
 
-Disappointed and with little hope of success, you rummage through your pockets,
-and imagine your surprise when you feel something hard in the lining of your
-coat. You unpick the seam and find another silver coin. You won't be that lucky
-twice, so use the coin well.
+Disappointed, and with little hope, you rummage through your pockets one more
+time. Something hard shifts in the lining of your coat. You unpick the seam and
+a second silver coin drops into your palm, forgotten there for who knows how
+long. You will not be lucky twice, so spend this one well.
 
 > give coin to hawker
 The hawker pockets the silver coin. He places the stone under one of the cups
@@ -720,7 +892,10 @@ produces the stone, then sets the cups back in a neat row.
 "Won't you try again? Just one silver coin," says the hawker.
 
 > give coin to hawker
-You can't see any such thing.
+You turn out your pockets and find them as empty as the beggar's palm. Whatever
+else you win from this man today, it will not be with silver.
+
+"Won't you try again? Just one silver coin," says the hawker.
 
 > restore
 Enter a file name.
@@ -825,9 +1000,25 @@ The trees are massive, ancient oaks and pines, their roots writhing through the
 earth like frozen serpents. Their dense canopy blocks out most of the daylight,
 plunging the depths of the woods into absolute, suffocating darkness.
 
+> x roots
+Great knotted roots break the surface everywhere, humped across the path like
+the backs of half-buried animals.
+
+> x canopy
+Branch upon branch, layered so densely that the sky is only a rumour of grey
+somewhere far above.
+
 > n
 The trees grow far too close together here, their thick brambles and tangled
 roots forming an impassable wooden wall. The path only runs east.
+
+> s
+The forest closes in just as solidly on that side. The path runs east and
+nowhere else.
+
+> w
+Behind you the trunks crowd right up to the path's edge. You did not walk into
+this forest, and you will not be walking out of it either.
 
 > listen
 Ancient branches creak softly high above, and the wind whispers through a thick
@@ -858,7 +1049,7 @@ earth like frozen serpents. Their dense canopy blocks out most of the daylight,
 plunging the depths of the woods into absolute, suffocating darkness.
 
 > x mountain
-Ahead to the east, the sheer gray rock face of a tall mountain looms above the
+Ahead to the east, the sheer grey rock face of a tall mountain looms above the
 treeline, its peak jagged against the overcast sky.
 
 > x path
@@ -871,7 +1062,8 @@ earth like frozen serpents. Their dense canopy blocks out most of the daylight,
 plunging the depths of the woods into absolute, suffocating darkness.
 
 > climb tree
-You would achieve nothing by this.
+The lowest branches are twenty feet up a trunk with nothing to grip, and the
+canopy above them is thicker than the one you would be climbing out of.
 
 > n
 The dark woods are far too thick to navigate.
@@ -921,11 +1113,12 @@ plunging the depths of the woods into absolute, suffocating darkness.
 A narrow track leads back west into the shadows of the dense forest.
 
 > climb mountain
-No need to concern yourself with that.
+The rock rises smooth and sheer for hundreds of feet. Without ropes, irons and a
+great deal more youth than you have left, it is out of the question.
 
 > x cave mouth
 A dark, jagged opening yawning in the side of the cliff face. A faint cool draft
-whistles outward from the shadows within..
+whistles outward from the shadows within.
 
 > s
 The sheer mountain wall curves around you, blocking further passage.
@@ -969,6 +1162,18 @@ its full size without a light source.
 > x tunnel
 A dark, rough-hewn passage leads further north into the heart of the mountain.
 
+> x mud
+Cold grey silt, washed down from somewhere deeper in the mountain and thick
+enough to take the print of your boot.
+
+> search mud
+You sift through the cold silt with your fingers and turn up nothing but grit
+and a few small, clean bones.
+
+> x stalactites
+Long teeth of wet limestone hang from the dark overhead, each with a bead of
+water gathering slowly at its tip.
+
 > x green stone
 Roughly carved and glowing with a faint, inner emerald light, this stone matches
 the shape and ancient markings of your mentor's black stone.
@@ -1009,7 +1214,7 @@ around the wooden crates, carrying an eerie, hollow echo from the depths below.
 
 > smell
 The room smells heavily of dry dust, old timber, and age. Beneath the stale air
-lingers a faint, bitter odor of mildew from the decaying packages.
+lingers a faint, bitter odour of mildew from the decaying packages.
 
 > x scroll
 It reads "resurrection spell: raise the dead." The spell is long and
@@ -1025,17 +1230,29 @@ grand banquets once held here.
 
 > x storeroom
 Rows of dusty wooden crates and heavy wrapped packages are stacked high against
-the stone walls
+the stone walls.
 
 > x slope
 Through the north doorway, a gentle stone incline leads down into pitch-black
 depths.
 
+> x sconces
+Iron torch brackets are set into the walls at regular intervals, each one
+crusted with the cold, black remains of a fire that went out centuries ago.
+
+> x carvings
+Faded reliefs of feasting figures ring the hall at shoulder height, their faces
+worn away to smooth ovals by damp and time.
+
+> x doorway
+A broad opening cut square into the north wall. Beyond it the floor falls away
+into a dark, downward slope.
+
 > e
 Rough-hewn rock walls form a solid barrier.
 
 > u
-Rough-hewn rock walls form a solid barrier.
+The vaulted rock ceiling is lost in the dark, far beyond your reach.
 
 > x crates
 Rough wooden boxes of various sizes, nailed shut and coated in a thick layer of
@@ -1049,6 +1266,10 @@ the crates.
 You rummage through the gaps between the dusty containers, but find nothing else
 of interest.
 
+> open crate
+The lids are nailed down hard and the wood has swollen tight with damp. You
+would need a crowbar and a very good reason.
+
 > take package
 The packages are far too heavy and cumbersome to carry around.
 
@@ -1058,6 +1279,15 @@ Taken.
 > read it
 It reads "resurrection spell: raise the dead." The spell is long and
 complicated.
+
+> memorize resurrection spell
+You can only memorize spells written in the spellbook.
+
+> cast copy on scroll
+The spellbook begins to glow. Summoning all the power it has, the copying spell
+tries to copy the resurrection spell into your book, but the spell is far too
+long, complicated and powerful. The glow dies away, but luckily the resurrection
+spell is unharmed.
 
 > n
 The slope is so steep that you half-run down it.
@@ -1074,7 +1304,7 @@ The continuous trickling and splashing of water flowing down the slick stone
 floor echoes wetly off the narrow tunnel walls.
 
 > smell
-A cool, heavy dampness fills the air, saturated with the strong, metallic odor
+A cool, heavy dampness fills the air, saturated with the strong, metallic odour
 of wet subterranean rock and stagnant mud.
 
 > x water
@@ -1082,7 +1312,8 @@ A thin trickle of cold spring water runs constantly down the stone incline,
 turning the cavern floor into a slippery mire.
 
 > x floor
-A look in that direction reveals nothing new.
+What was once dressed stone is buried under a sliding layer of wet mud. There is
+not a square foot of it you could stand on with any confidence.
 
 > x mud
 A thin trickle of cold spring water runs constantly down the stone incline,
@@ -1095,11 +1326,32 @@ Rough cavern walls block that way, dripping with moisture.
 Do you mean the warrior statue or the barbarian statue?
 
 > x left
-It is a statue of a large warrior, carrying a broadsword.
+Cut from the same grey rock as the tunnel itself, a broad-shouldered warrior
+stands with a broadsword held point-down before him. The work is crude, but the
+face is startlingly alive, caught somewhere between boredom and bad temper.
 
 > x right
-It is a statue of a barbarian who looks very fierce. He carries a sword in his
-right hand and a dagger in his left.
+The barbarian is all snarl and sinew, a sword in his right hand and a long
+dagger in his left. Whoever carved him appears to have been working from an
+unpleasantly clear memory.
+
+> x broadsword
+A slab of stone sword, chipped along one edge. Carved or not, you would not care
+to be standing in front of it.
+
+> x dagger
+Short, curved and held low and close, in the grip of a man who has used one
+before.
+
+> touch left
+The stone is cold, wet and utterly inert under your fingers.
+
+> push left
+It does not shift so much as a hair. The statue and the mountain appear to be
+the same piece of rock.
+
+> s
+The slope behind you is far too steep and far too slippery to climb back up.
 
 > left, hello
 The stone warrior stands motionless, its cold gaze staring blankly into the
@@ -1136,9 +1388,6 @@ The warrior and the barbarian fight each other. The swords clash, but both are
 still unharmed.
 
 > cast freeze on mud
-The spellbook opens itself to the right page, and you read aloud the complicated
-words of the freeze spell.
-
 The temperature drops at once. The water and mud freeze, and you stumble on the
 ice. You fall a couple of metres before regaining your footing.
 
@@ -1164,12 +1413,13 @@ with sheer curiosity.
 You can also see a barbarian and a warrior here.
 
 > z
-Nothing happens.
+You keep very still and wait.
 
 The warrior and the barbarian see the dragon and rush forward with weapons
-drawn. The dragon quickly burns up the warrior but does not manage to kill the
-barbarian before he drives his sword deep into her throat. Beside herself with
-rage and pain, the dragon cremates the bodies.
+drawn. She takes the warrior first and he goes up like dry kindling, but the
+barbarian is inside her guard before she can turn, and drives his sword deep
+into her throat. Beside herself with rage and pain, she burns what is left of
+the pair of them to ash.
 
 > x ash
 A deep layer of fine grey ash coats the chamber floor, drifting like snow under
@@ -1184,7 +1434,7 @@ ash.
 The dragon's breathing grows more ragged.
 
 > listen
-A deep, rhythmic rumble reverberates through the stone floorâ??the heavy,
+A deep, rhythmic rumble reverberates through the stone floor: the heavy,
 subterranean breathing of the massive beast. Every so often, the soft, metallic
 clink of shifting coins echoes as its gargantuan chest rises and falls against
 the treasure hoard.
@@ -1195,7 +1445,7 @@ The dragon's breathing grows more ragged.
 Thick, yellowish fumes drift near the vaulted ceiling, stinging your nostrils
 with the sharp stench of brimstone.
 
-The dragon falls silent. Only faint breathing revels that she's still alive.
+The dragon falls silent. Only faint breathing reveals that she's still alive.
 
 > x incline
 A steep, slick chute of frozen mud leading back up into the dark tunnel. It
@@ -1205,8 +1455,32 @@ looks far too slippery to climb without help.
 A steep, slick chute of frozen mud leading back up into the dark tunnel. It
 looks far too slippery to climb without help.
 
+> x treasure
+Coins, plate, cups and crowns lie heaped in drifts across the floor, most of it
+tarnished black with age. A fortune, and not one piece of it worth your life.
+
+> take treasure
+Even now, with her blood soaking into the ash, you find you cannot quite bring
+yourself to put a hand into a dragon's hoard.
+
+> x wound
+The barbarian's sword went in deep at the base of her throat. Blood wells out of
+it in a slow, steady pulse, and the pulse is getting weaker.
+
+> dragon, hello
+The great eye tracks you across the ash, but she has no breath to spare for an
+answer.
+
+> attack dragon
+She is dying where she lies, and you did not come all this way down to finish
+her off.
+
+> u
+The frozen mud is a sheet of glass tilted uphill. You would be back at the
+bottom before you had climbed ten feet.
+
 > z
-Nothing happens.
+You wait. The great ragged breaths are coming slower each time.
 
 > x dragon
 The dragon's blood pours out through the wound in her throat, and you watch her
@@ -1222,12 +1496,13 @@ words of the healing spell.
 The blood stops flowing and the wound in her throat closes. The dragon is still
 in shock, but you have saved her life.
 
-The dragon still looks shaken.
+The dragon lies where she fell, flanks heaving, and does not seem to have taken
+you in yet.
 
 [The score has just gone up by 10 points.]
 
 > ask dragon about me
-The dragon look at you and seems surprised. Then she says, "A wizard? Yes, of
+The dragon looks at you and seems surprised. Then she says, "A wizard? Yes, of
 course. It was your spell that saved me." She raises her head and looks you in
 the eye. "Wizard, you saved my life. I shall give you the most precious
 knowledge I possess."
@@ -1235,27 +1510,30 @@ knowledge I possess."
 Your spellbook suddenly floats before you and opens itself. A new spell is
 written on a blank page: the Death Spell.
 
-The dragon still looks shaken.
+The dragon shifts among the coins and tests her throat with one slow, careful
+swallow.
 
 [The score has just gone up by 10 points.]
 
 > show spellbook to dragon
-The dragon doesn't seem interested.
+She glances at the open page and away again, unimpressed. "Books," she says
+thickly. "You people always did put a great deal of faith in books."
 
-The dragon still looks shaken.
+The dragon's breathing is steadier now, but her eyes are still glassy.
 
 > ask dragon about magic
 The dragon mutters something like "A human who saves my life... helps a
 dragon... never heard of such a thing...". She still seems to be in shock.
 
-The dragon still looks shaken.
+Some colour is returning to the great scaled throat.
 
 > x spellbook
 It is your well-thumbed spellbook, which you bought when you started at the
 wizards' school many years ago. The spells in it are the fruit of many years of
 study.
 
-The dragon still looks shaken.
+The dragon draws one long, deep breath and holds it, as though testing whether
+it hurts.
 
 > read spellbook
 ARCANE MAGIC FOR COMPLETE NOVICES:
@@ -1267,8 +1545,42 @@ The healing spell: (heal someone).
 The freeze spell: (freeze something).
 The illumination spell: (make something glow).
 The copying spell: (copy a spell into the spellbook).
+
 The dragon pulls herself together and looks as strong and calm as before the
 attack.
+
+> x dragon
+Whole again, she is magnificent and frankly terrifying: a long, deep-chested
+body of overlapping bronze scales, and a pair of eyes that consider you with
+perfect, unhurried intelligence.
+
+> ask dragon about stones
+"Stones." She turns the word over. "Cut stones, of four colours, that call to
+one another across a great distance. Yes. They were made to open something, and
+whatever they open was shut for a reason. I would think very hard about who is
+asking you to collect them."
+
+> ask dragon about old gods
+The dragon is quiet for a long moment. "We are old," she says at last. "They are
+older. My grandmothers went down into the deep rock to be out of their way, and
+my grandmothers did not frighten easily."
+
+> ask dragon about istar
+"I do not know your teacher. But I have lived a long time, wizard, and I will
+tell you this for nothing: when an old man asks a young one to fetch what he
+will not fetch himself, it is worth asking why."
+
+> ask dragon about treasure
+"Take some, if it pleases you." She does not move. "It is only metal. I lie on
+it because it is the one thing down here that does not rot."
+
+> ask dragon about death spell
+"It is a cruel gift, and I have given it to you anyway," she says. "You will
+know the moment it is needed. If you are fortunate, you never will."
+
+> thank dragon
+The dragon inclines her enormous head. "We are square, wizard. Do not make a
+habit of saving dragons. It gives us expectations."
 
 > cast teleport
 Your spellbook snaps open to the correct page, and you speak the complex,
@@ -1300,12 +1612,16 @@ The distant, rhythmic crashing of waves against the rocks below mingles with the
 gentle rustle of sea grass in the coastal breeze.
 
 > x temple
-The temple looks rather run-down, but is still an impressive building built from
+The temple is run-down but still imposing, raised from great blocks of
 weathered, ancient stone.
 
 > x sea
 To the south, waves lap against the shore under a bright sky. The ocean breeze
 carries a fresh, salty scent.
+
+> x path
+A narrow ribbon of trodden earth running from the treeline in the north down
+towards the shore in the south, with the temple standing off to the east.
 
 > x mountain
 You can't see any such thing.
@@ -1368,8 +1684,22 @@ The scaled stone deity stares blankly past you into the empty sanctuary.
 > take statue
 The heavy stone statue is firmly anchored to the sanctuary floor.
 
+> x remains
+Brittle stalks that were once flowers, and a few blackened scraps that were once
+food, laid out in a careful row at the statue's feet. Nobody has renewed them in
+a very long time.
+
+> touch statue
+The stone is cool and faintly damp, and far smoother than any chisel could have
+left it, as though a great many hands had gone over it before yours.
+
+> search statue
+You find nothing hidden about the statue, only the old offerings mouldering at
+its feet.
+
 > kill statue
-The statue is already dead.
+You raise a hand and then feel extremely foolish. It is a block of carved stone,
+and the only thing you would break is your knuckles.
 
 > pray
 You say a quick prayer for success in your quest, as so many times before, but
@@ -1410,6 +1740,18 @@ Jagged sea rocks and deep tide pools prevent travel along the beach.
 Towering, foamy waves surge onto the dark sand with a rhythmic roar, spraying
 cold saltwater into the air.
 
+> x rocks
+Black, weed-slicked rocks break the line of the beach to either side, with deep
+tide pools standing between them.
+
+> x birds
+Gulls hang almost motionless on the onshore wind, sliding sideways now and then
+to keep their station above the surf.
+
+> taste water
+You wet a finger in the surf. Salt, cold, and a faint mineral bite underneath
+it, like the water has come a very long way.
+
 > smell
 The air is heavy with the pungent, bracing scent of ocean spray, wet kelp, and
 damp, sun-baked sand.
@@ -1424,8 +1766,8 @@ You throw yourself into the sea, and with your fins you swim easily down towards
 the bottom...
 
 The Sea Floor
-The sea floor is covered in ripple-marked sand, colorful shells, and swaying sea
-plants. You can swim back up towards the shore.
+The sea floor is covered in ripple-marked sand, colourful shells, and swaying
+sea plants. You can swim back up towards the shore.
 
 You can see a blue stone here.
 
@@ -1445,6 +1787,18 @@ tide.
 A scattering of sea snail shells, spiral nautiluses, and polished clam shells
 coat the seabed, their iridescent mother-of-pearl catching the filtered sunlight
 from above.
+
+> take shells
+You gather a handful, admire them, and let them fall again. You did not come
+down here for souvenirs.
+
+> x plants
+Long ribbons of weed sway in slow unison with the swell, rooted among the
+stones, their fronds catching what little light reaches this far down.
+
+> d
+The sand is packed hard beneath you, and whatever lies under it means to stay
+there.
 
 > x blue stone
 Roughly carved and pulsing with a deep, inner azure glow, this stone matches the
@@ -1512,8 +1866,8 @@ Hut
 The interior of the hut is cramped and gloomy. Thick soot cakes the solitary
 window, leaving the flickering flames of a stone hearth as the room's sole
 source of light. Atop the fire, rusted iron vessels bubble quietly, venting
-strange, multi-coloured vapors. A massive, cluttered workbench is buried under a
-chaotic heap of heavy grimoires, brittle parchments, and exotic alchemical
+strange, multi-coloured vapours. A massive, cluttered workbench is buried under
+a chaotic heap of heavy grimoires, brittle parchments, and exotic alchemical
 ingredients. A heavy wooden door leads north, back out to the forest path.
 
 Resting within a small alcove in the stone wall is a beautifully carved, gilded
@@ -1540,7 +1894,7 @@ carried away to another place.
 The Crypt
 This room is like a heathen temple. Obsidian pillars rise into the darkness,
 carved with blasphemous runes that seem to shift when you aren't looking
-directly at them. A great stone altar stands in the center of the chamber,
+directly at them. A great stone altar stands in the centre of the chamber,
 stained dark from unholy rituals, and four glowing pedestals surround it. There
 are no exits.
 
@@ -1556,11 +1910,12 @@ he practically invited me in. Snaring his soul was trivial. His snobbish
 colleagues at the Academy were sharper than you; they sensed my presence,
 forcing me to flee to this wretched wilderness. Because their inquisitors hunted
 me, I could not gather the stones myself. I needed a naive pawn to fetch the
-keys to open the gateway... not to white magic, you fool, but to unleash the Old
-Gods whom I serve!"
+keys to open the gateway... not to white magic, you poor blind thing, but to
+unleash the Old Gods whom I serve!
 
-I searched your mentor's memories and found you. I knew you would help him, and
-now you have given me the key to your own doom. Was it not a fine plan?"
+I searched your mentor's memories and found you. I knew you would come when he
+called, and now you have carried me the key to your own doom. Was it not a fine
+plan?"
 
 "Now to work. First a small precaution," says the demon, and you are trapped in
 a red force field.
@@ -1607,7 +1962,9 @@ The well now glows with a red light from below. The demon looks very expectant.
 The amulet pulls strongly in the direction of the red field.
 
 > x pedestals
-Four stone pillars surrounding the altar.
+Four squat plinths of the same black stone stand at the compass points around
+the altar. Each is cut with a shallow depression, and each depression is exactly
+the size of a man's fist.
 
 The glow grows brighter and a dull rumble is heard. The demon turns to you and
 says, "The gate is open. A new age has begun."
@@ -1621,7 +1978,7 @@ the first to be torn to pieces is you.
 
   *** You have died ***
 
-In that game you scored 30 out of a possible 50, in 263 turns.
+In that game you scored 30 out of a possible 50, in 338 turns.
 
 Would you like to RESTART, RESTORE or QUIT? 
 
@@ -1650,8 +2007,8 @@ The amulet vibrates violently.
 
 > listen
 An unsettling, low frequency hum vibrates in your bones rather than your ears,
-accompanied by the faintest sound of whispers echoing from the darkness
-aboveâ??though you can never quite make out the words.
+accompanied by the faintest sound of whispers echoing from the darkness above,
+though you can never quite make out the words.
 
 The demon drops the stones one by one into the well, and the liquid sinks away.
 
@@ -1663,14 +2020,14 @@ As the amulet touches the force field, it vanishes!
 The Crypt
 This room is like a heathen temple. Obsidian pillars rise into the darkness,
 carved with blasphemous runes that seem to shift when you aren't looking
-directly at them. A great stone altar stands in the center of the chamber,
+directly at them. A great stone altar stands in the centre of the chamber,
 stained dark from unholy rituals, and four glowing pedestals surround it. There
 are no exits.
 
 
 The well now glows with a red light from below. The demon looks very expectant.
 
-> cast death spell on  demon
+> cast death spell on demon
 The spellbook opens itself to the right page, and you read aloud the complicated
 words of the death spell.
 
@@ -1678,8 +2035,9 @@ A red glow surrounds the demon. For a moment the demon seems to glow with an
 inner light, and you can see the bones through the skin. Then the body melts
 together and goes up in smoke.
 
-Where the evil demon stood, your mentor suddenly stands. He falls dead to the
-floor.
+Where the demon stood, your mentor stands in its place, blinking, himself again
+for the space of a single breath. Then his knees give way and he falls dead to
+the floor.
 
 The room changes. All your senses are distorted and strange visions come and go.
 It is as if the place is vanishing before your eyes.
@@ -1698,12 +2056,12 @@ The room is changing and vanishing.
 [The score has just gone up by 10 points.]
 
 > z
-Nothing happens.
+You wait, and the crypt goes on coming apart around you.
 
 The room is changing and vanishing.
 
 > z
-Nothing happens.
+You kneel beside your mentor and wait, and the walls thin away to nothing.
 
 The last distorted vision gives way to another scene. You now stand on a
 beautiful meadow in a lovely deciduous forest. The sun is warm, and it is a
@@ -1718,7 +2076,7 @@ well.
 
   *** You have won ***
 
-In that game you scored 50 out of a possible 50, in 266 turns.
+In that game you scored 50 out of a possible 50, in 341 turns.
 
 Would you like to RESTART, RESTORE or QUIT? 
 

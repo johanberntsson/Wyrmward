@@ -36,7 +36,7 @@ Constant STATUSLINE_SCORE; Statusline score;
 !Constant DEBUG;
 !Constant DIALECT_US; ! Affects OPTIONAL_LANGUAGE_NUMBER
 !Constant CUSTOM_ABBREVIATIONS;
-Constant OPTIONAL_NO_ADD_TO_SCOPE;
+!Constant OPTIONAL_NO_ADD_TO_SCOPE;
 !Constant CUSTOM_PLAYER_OBJECT = myPlayerObj;
 !Constant OPTIONAL_NO_DARKNESS;
 !Constant OPTIONAL_NON_FLASHING_STATUSLINE;
@@ -85,11 +85,6 @@ Global     no_memorized_spells = 0;
         rfalse;
 ];
 
-[ ParseNameArchways;
-    if(NextWord() == 'archway' or 'archways' or 'arch' or 'arches' or 'portal' or 'portals' or 'gate' or 'gates') return 1;
-    rfalse;
-];
-
 [ ParseNameYellowCloud _w _n;
     _w = NextWord();
     if(_w == 'yellow') { _n++; _w = NextWord(); }
@@ -120,12 +115,12 @@ Include "ext_cheap_scenery.h";
 
 ! Setup custom library messages
 !Constant MSG_LOOK_BEFORE_ROOMNAME 1003;
-[LibraryMessages p_msg p_arg_1 p_arg_2;
+![LibraryMessages p_msg p_arg_1 p_arg_2;
 !        switch(p_msg) {
 !        MSG_LOOK_BEFORE_ROOMNAME:
 !        }
-        p_arg_1 = 0; p_arg_2 = 0; ! To avoid warnings
-];
+!        p_arg_1 = 0; p_arg_2 = 0; ! To avoid warnings
+!];
 
 Include "puny.h";
 
@@ -171,8 +166,14 @@ Verb 'cast'
 [ CastSpellSub;        if(noun ofclass CSpell) noun.activate(); else <<Drop noun>>; ];
 [ CastSpellObjSub; if(noun ofclass CSpell) noun.activate(second); else <<ThrowAt noun second>>; ];
 
-Extend only 'read' replace * noun -> Read;
+!Extend only 'read' replace * noun -> Read;
+Extend 'read' first * noun -> Read;
 [ ReadSub; <<Examine noun>>; ];
+
+! special for hawker
+Extend 'give' last
+    * 'coin' 'to' creature -> GiveNoCoin;
+[ GiveNoCoinSub; "You can't see any coin here,"; ];
 
 Verb 'memorize' 'memorise' 'learn' * noun -> Memorize;
 [ MemorizeSub; "You should get yourself a notebook instead."; ];
@@ -423,6 +424,8 @@ Extend 'give'
     * 'life' 'to' noun                                    -> MagicResurrect;
 
 !Extend 'kill' first * creature -> MagicKill;
+Extend 'look'
+    * 'under' noun                    -> Search;
 Extend 'touch'
     * noun 'with' noun -> Touch
     * noun -> Touch;
@@ -431,6 +434,13 @@ Extend only 'hit' 'break' 'smash' replace
     * noun -> Attack;
 
 Verb 'time' 'date' * -> Time;
+
+Verb 'thank' 'thanks'
+    * creature -> Thanks
+    * 'you' creature -> Thanks
+    * -> Thanks
+    * 'you' -> Thanks;
+[ ThanksSub; "You offer a polite word of thanks, though it vanishes quietly into the surrounding silence."; ];
 
 ![ MagicAnimateSub;     AnimateSpell.activate(noun); ];
 ![ MagicFreezeSub;        FreezeSpell.activate(noun); ];
@@ -451,6 +461,17 @@ Verb 'time' 'date' * -> Time;
         12, 13, 14, 15, 16, 17:    "It is afternoon.";
         18, 19, 20, 21:                    "It is evening.";
     }
+];
+
+Verb 'xyzzy' * -> Xyzzy;
+[ XyzzySub;
+    "You pronounce the ancient word with great care. Somewhere very far away a door
+    seems to swing open. Nothing whatsoever happens here.";
+];
+
+Verb 'knock' * 'on' noun -> Knock;
+[ KnockSub;
+    "There is no response.";
 ];
 
 #IfDef DEBUG;
@@ -476,7 +497,8 @@ Object PlayerObject "yourself"
             if(self has general)
                 "You look down at your hands which are now pale, scaled, and webbed. A sharp, dorsal fin has
                 ripped through the back of your robe. Strangely, your lungs feel eager for the sea air.";
-            "As good-looking as ever.";
+            "As good-looking as ever, though weeks on the road have left your travelling
+            robes mud-spattered and your boots very nearly walked through.";
         ],
         domagic [spell;
             switch(spell) {
@@ -587,7 +609,7 @@ Room RemoteHut "Hut"
         description [;
             "The interior of the hut is cramped and gloomy. Thick soot cakes the solitary window,
             leaving the flickering flames of a stone hearth as the room's sole source of light. Atop
-            the fire, rusted iron vessels bubble quietly, venting strange, multi-coloured vapors. A
+            the fire, rusted iron vessels bubble quietly, venting strange, multi-coloured vapours. A
             massive, cluttered workbench is buried under a chaotic heap of heavy grimoires, brittle
             parchments, and exotic alchemical ingredients. A heavy wooden door leads north, back out
             to the forest path.";
@@ -598,24 +620,38 @@ Room RemoteHut "Hut"
             and the crisp rustle of parchment as Istar turns a page.";
         Smell:
             "The room is thick with the sharp tang of sulfur, burnt wood smoke, and the pungent, bitter aroma of
-            strange alchemical vapors mingling with aged leather and dry parchment.";
+            strange alchemical vapours mingling with aged leather and dry parchment.";
         ],
         cheap_scenery
             'solidary' 'window'
             "Thick layers of black grease and soot coat the glass, completely choking out the daylight
             from the meadow outside."
-            'iron' 'vessels'
-            "The liquids inside the vessels range from a viscous, glowing emerald to an oily indigo,
-            giving off a scent that prickles the back of your throat."
+            CS_NO_ADJ 'alcove'
+            "A shallow niche cut into the stone of the chimney breast, just deep enough to
+            take the gilded box. The rock around it is scorched black, as though the ward on
+            the box has had to defend itself more than once."
             'hearth' 'fireplace'
             "Atop the roaring logs, a collection of stained iron cauldrons and glass retorts hiss and sputter. 
             The liquids inside range from a viscous, glowing emerald to an oily indigo, giving off a scent 
             that prickles the back of your throat.",
         n_to Glen, out_to Glen,
-        u_to "The low, thatched ceiling offers no way upward—unless you fancy poking your head through the dried reed roof.",
+        u_to "The low, thatched ceiling offers no way upward, unless you fancy poking your head through the dried reed roof.",
         d_to "The floorboards are solid, worn oak. There are no trapdoors or cellars beneath your feet.",
         cant_go "You bump straight into the hut's sturdy timber walls, cluttered with dusty shelves of strange ingredients.
             The only way out is back through the doorway to the north.";
+
+Object -> hut_vessel "vessels"
+    with
+        name 'iron' 'vessels' 'vessel',
+        description
+            "The liquids inside the vessels range from a viscous, glowing emerald to an oily indigo,
+            giving off a scent that prickles the back of your throat.",
+        before [;
+        Eat, Drink, Taste:
+            "You lean over the nearest cauldron and think better of it at once. Whatever is
+            bubbling in there was never meant to go anywhere near a mouth.";
+        ],
+    has scenery pluralname;
 
 Object -> hut_bench "work bench"
     with
@@ -633,8 +669,10 @@ Object -> -> hut_doc "books"
     with
         name 'books' 'book' 'parchment' 'parchments',
         description
-            "All the books are about magic. The most interesting ones are about dragons and
-             their magic, but they are strictly theoretical and of little use to you.",
+            "Warped grimoires and loose sheaves of parchment, most of them older than the hut
+            itself. Every margin is crowded with your mentor's cramped, urgent handwriting.",
+            !The most interesting ones are about dragons and
+            !their magic, but they are strictly theoretical and of little use to you.",
         before [;
             Transfer, Take, Remove:
                 if(TestScope(Master)) "~Don't touch the books. I need them,~ says Istar.";
@@ -668,9 +706,9 @@ Object -> GoldBox "gilded box"
                    and ward off damage.";
             Receive:
                 if((noun ofclass CStone)==false)
-                    "The golden filigree glows faintly as you approach. While the box is technically open to receive
-                    the specific artifacts Istar is searching for, the protective ward firmly repels ",
-                    (the) noun, " refusing to let you store ordinary items inside.";
+                    "The golden filigree brightens as you reach inside, and the ward pushes your hand
+                    gently but very firmly out again. The box stands open for the artefacts Istar is
+                    hunting, and for nothing else. It has no interest in your luggage.";
         ],
         after [;
             Receive:
@@ -732,11 +770,18 @@ Object -> Master "Istar"
             Ask:
                 if(second ofclass CStone) second='stone';
                 switch(second) {
+                'academy':
+                    "His face darkens. ~The Arch-Mages felt something stirring in the dark and
+                    decided it must be me. I do not blame them for being frightened, my boy. I blame
+                    them for being lazy about it.~";
                 'summary', 'paper', 'report', Introduction:
                     "~It is a long story and I have no time to tell it again. Read what I
                     wrote instead.~";
                 'stone', 'stones':
-                    "~Put the stones in the box.~";
+                    "He taps the folio in your hands. ~Elemental stones. Four of them, cut long
+                    before the first cities were built. I have one. The others lie scattered across
+                    half the world, and I am too old and too closely watched to go after them
+                    myself.~";
                 'magic', 'spell', 'spells':
                     "~You ought to know what magic is by now. But remember that there are
                     several kinds of magic. Lately I have tried to explore the mighty magic
@@ -755,8 +800,8 @@ Object -> Master "Istar"
                 'potions', 'liquids', 'ingredients':
                      "~Touch nothing. I am in the middle of an experiment.~";
                 'demon', 'demons':
-                     "~I never managed to make any progress in demon magic. Their way of thinking
-                     is all but impossible for humans to understand.~";
+                    "Istar looks up, honestly puzzled. ~A demon? My boy, if there were a demon within
+                    a hundred leagues of this hut, I should certainly have noticed.~";
                 'dragons', 'dragon', Dragon:
                     "~Yes, dragons truly are fascinating. They are greedy and follow their own
                     moral code, but I would not call them evil. They do value their possessions
@@ -770,8 +815,9 @@ Object -> Master "Istar"
                 'hut', 'forest':
                      "~I may live a little far out in the wilderness, but no one disturbs me here.~";
                 'box':
-                     "~I brought it from the school. Very handy, isn't it? I never have to worry
-                     about anyone stealing my most valuable things.~";
+                    "~A wizard's strongbox,~ he says. ~Nothing goes into it that I have not made room
+                    for, and nothing comes out that I have not called for. The stones will be safe
+                    in there until the hour I need them.~";
                 'silver', 'teleportation', SilverScroll, TeleportSpell:
                     "~I made this spell to ease your search. It will carry you close to the
                     stones.~";
@@ -787,7 +833,7 @@ Object -> Master "Istar"
     revealing trick.~^^
     With practiced hands, he pours a measure of emerald fluid into a ceramic dish and stirs in a viscous
     yellow tincture. The mixture hisses violently, filling the cramped room with a thick, acrid smoke. Undeterred
-    by the fumes, Istar holds your scroll over the rising vapors. After a tense minute, he passes it back to you with
+    by the fumes, Istar holds your scroll over the rising vapours. After a tense minute, he passes it back to you with
     a knowing smile. Invisible ink has bloomed across the surface in sharp, glowing runes. It is a spell!^^
     Istar smiles. He seems insufferably pleased with himself.";
                             move AnimateSpell to DirtyScroll;
@@ -801,8 +847,13 @@ Object -> Master "Istar"
                 default: "~I'm afraid I know nothing about that.~";
                 }
             Answer:
-                "He does not seem to care what you say.";
+                "~Later, my boy, later,~ says Istar, waving the greeting away. ~Read the folio
+                first. Everything I could say to you is already written in it, and written better.~";
             Show, Give:
+                if(noun == SpellBook)
+                    "He leafs through a few pages and hands it back with a fond, slightly wistful
+                    smile. ~The same book. You have kept it well. Whatever else the Academy did to
+                    you, it taught you to look after your tools.~";
                 if(noun ofclass CStone) <<Ask self noun>>;
                 if(noun==PlayerObject || noun==DirtyScroll || noun==Introduction)
                     <<Ask self noun>>;
@@ -814,7 +865,7 @@ Object -> Master "Istar"
                     move BlackStone to GoldBox;
                     move SilverScroll to player;
                     print "^As you turn toward the door to leave, Istar calls out,
-                          ~Before you go, I should show you my stone,~ He picks up
+                          ~Before you go, I should show you my stone.~ He picks up
                           a black stone and places it in ", (the) GoldBox,
                           ". ~If you find more stones, I want you to put them in the box. Take
                           this too,~ he says, handing you a silvery scroll. ~The stones are far
@@ -845,32 +896,56 @@ Room Glen "Meadow"
             "The grass is thick, wild, and heavy with a cold, clinging dew that quickly soaks through the
             hems of your travelling robes."
             CS_NO_ADJ 'sky'
-            "Overhead, the sky is a bruised, oppressive gray, visible only through a jagged tear in the
-            dense forest canopy."
-            'planks' 'door'
-            "The hut's door is made of thick, weather-beaten planks of dark pine, bound by rusting iron bands."
-            'dirt' 'path'
-            "It's little more than a strip of packed, muddy earth cutting through the overgrown grass.
-            Looking north, you can see how quickly the path is swallowed up by the encroaching shadows
-             of the forest canopy.",
+            "Overhead, the sky is a bruised, oppressive grey, visible only through a jagged tear in the
+            dense forest canopy.",
         before [;
         Listen:
             "The wind rustles softly through the high grass and the heavy canopy overhead. Farther in the trees, a lone bird calls out, but otherwise the forest remains unsettlingly still.";
         Smell:
             "The air smells of wet earth, crushed weeds, and the sharp, resinous scent of pine needles drifting from the
-            ark forest. From the south, a faint whiff of woodsmoke hangs near the hut.";
+            dark forest. From the south, a faint whiff of woodsmoke hangs near the hut.";
         ],
         in_to RemoteHut, s_to RemoteHut,
         n_to [;
             if(TeleportSpell in SpellBook)
                 "That winding dirt track is the way you arrived on foot. Trudging all the way back would take weeks
                 you simply don't have. Istar gave you the teleportation spell for a reason!";
-            "That is the long, weary road you just spent days travelling to get here. Are you really going to turn back
-            before you've even greeted your old Master?";
+            "That dirt track is the way you arrived, and there is nothing back down it but weeks of hard walking.
+            You did not come all this distance to turn around on the doorstep.";
         ],
         u_to "You jump up, but reach nothing but open air. Flying is beyond your current magical abilities!",
         d_to "You inspect the grass and weeds beneath your boots, but there is nowhere to go down.",
         cant_go "You push into the tree line, but the dense brambles and twisted boughs form an utterly impenetrable wall of shadow. The forest will not let you pass.";
+
+Object -> HutDoor "door"
+    with
+        name 'door' 'planks',
+        description [;
+            "The hut's door is made of thick, weather-beaten planks of dark pine, bound by rusting iron bands.";
+        ],
+        before [;
+        Knock:
+            "You rap your knuckles against the planks. From inside comes a shuffle of feet
+            and the scrape of a stool being pushed back, but nobody comes to answer.";
+        Open, Close:
+            "The door already hangs ajar in its warped frame; it has not shut properly in
+            years. You need only push it aside and step through.";
+        ],
+    has scenery;
+
+Object -> Path "path"
+    with
+        name 'dirt' 'path',
+        description
+            "It's little more than a strip of packed, muddy earth cutting through the overgrown grass.
+            Looking north, you can see how quickly the path is swallowed up by the encroaching shadows
+             of the forest canopy.",
+        before [;
+        Enter, Follow:
+            "The path only leads north, back the way you came. Whatever your old teacher
+            wants of you is waiting inside the hut to the south.";
+        ],
+    has scenery;
 
 Object -> Hut "hut"
     with
@@ -908,9 +983,12 @@ Object f_f "forest"
            serpents. Their dense canopy blocks out most of the daylight, plunging the depths of the woods
            into absolute, suffocating darkness.",
 	before [;
+        Climb:
+            "The lowest branches are twenty feet up a trunk with nothing to grip, and the
+            canopy above them is thicker than the one you would be climbing out of.";
         Take, Remove: "Unless you have a remarkably large sack and the strength of a titan, the forest
                       is staying exactly where it is.";
-	Enter: "Trying to force your way through would only result in torn robes and broken branches.";
+        Enter: "Trying to force your way through would only result in torn robes and broken branches.";
         ],
         found_in Glen Forest ForestPath Mountain,
     has scenery ;
@@ -921,6 +999,13 @@ Room Forest "Forest"
             "You stand on a path in a mature forest. The path leads on eastward between the
              trees.",
         cheap_scenery
+        'canopy' 'sky'
+            "Branch upon branch, layered so densely that the sky is only a rumour of grey
+            somewhere far above."
+        'root' 'roots'
+            "Great knotted roots break the surface everywhere, humped across the path like
+            the backs of half-buried animals."
+
         CS_NO_ADJ 'mountain'
             "Through the thick canopy to the east, you catch glimpses of a jagged,
             towering mountain peak rising against the sky."
@@ -936,6 +1021,9 @@ Room Forest "Forest"
             earthy fragrance of wild mushrooms sprouting along the shaded path.";
         ],
         e_to ForestPath,
+        s_to "The forest closes in just as solidly on that side. The path runs east and nowhere else.",
+        w_to "Behind you the trunks crowd right up to the path's edge. You did not walk into
+            this forest, and you will not be walking out of it either.",
         u_to "The lowest branches are far out of reach, high above in the suffocating canopy.",
         d_to "The damp forest floor is covered in thick moss and fallen pine needles, but there is nowhere down to go.",
         cant_go
@@ -953,7 +1041,7 @@ Room ForestPath "Forest Path"
         ],
         cheap_scenery
         CS_NO_ADJ 'mountain'
-            "Ahead to the east, the sheer gray rock face of a tall mountain looms above the
+            "Ahead to the east, the sheer grey rock face of a tall mountain looms above the
             treeline, its peak jagged against the overcast sky."
         CS_NO_ADJ 'path'
             "The narrow dirt path continues east toward the base of the mountain,
@@ -980,12 +1068,9 @@ Room Mountain "The Mountain"
              steep to climb. To the west you can see a path leading into the forest. Not far
              from here is a cave mouth leading into the mountain.",
         cheap_scenery
-        'great' 'mountain'
-            "A colossal wall of jagged grey stone towers far above you into the sky, its
-            sheer faces slick and completely vertical."
         'cave' 'mouth'
             "A dark, jagged opening yawning in the side of the cliff face. A faint cool draft
-            whistles outward from the shadows within.."
+            whistles outward from the shadows within."
         CS_NO_ADJ 'cave'
             "The cave lies to the north."
         CS_NO_ADJ 'path'
@@ -1003,6 +1088,19 @@ Room Mountain "The Mountain"
         d_to "The rocky ground offers no way downward.",
         cant_go "The sheer mountain wall curves around you, blocking further passage.";
 
+Object -> GreatMountain "great mountain"
+    with
+        name 'great' 'mountain',
+        description
+            "A colossal wall of jagged grey stone towers far above you into the sky, its
+            sheer faces slick and completely vertical.",
+        before [;
+        Climb:
+            "The rock rises smooth and sheer for hundreds of feet. Without ropes, irons and a
+            great deal more youth than you have left, it is out of the question.";
+        ],
+    has scenery;
+
 Room Cave "Cave"
     with
         description
@@ -1018,10 +1116,11 @@ Room Cave "Cave"
         'shadow' 'shadows'
         "Deep shadows obscure the far corners of the cave, making it impossible to gauge
         its full size without a light source."
+        'stalactite' 'stalactites'
+            "Long teeth of wet limestone hang from the dark overhead, each with a bead of
+            water gathering slowly at its tip."
         CS_NO_ADJ 'tunnel'
-        "A dark, rough-hewn passage leads further north into the heart of the mountain."
-        CS_NO_ADJ 'mud'
-        "Thick, dark mud coats the ground near the cave entrance, wet from moisture seeping through the rock walls.",
+        "A dark, rough-hewn passage leads further north into the heart of the mountain.",
         before [;
         Listen:
             "Drips of water fall rhythmically from unseen stalactites in the high, shadowy ceiling, splashing
@@ -1035,6 +1134,19 @@ Room Cave "Cave"
         u_to "The jagged ceiling of the cave offers no way upward.",
         d_to "The muddy cavern floor is solid stone beneath the silt.",
         cant_go "Rough stone walls lie that way, solid and impassable.";
+
+Object -> CaveMud "mud"
+    with
+        name 'mud',
+        description
+            "Cold grey silt, washed down from somewhere deeper in the mountain and thick
+            enough to take the print of your boot.",
+        before [;
+        Search:
+            "You sift through the cold silt with your fingers and turn up nothing but grit
+            and a few small, clean bones.";
+        ],
+    has scenery;
 
 [ UpSlope normalroom;
     if(MountainSlope has general) {
@@ -1083,22 +1195,29 @@ Object MountainHall "The Rock Hall"
         'store' 'room'
             "Rows of dusty wooden crates and heavy wrapped packages are stacked high against
             the stone walls."
+        'carving' 'carvings'
+            "Faded reliefs of feasting figures ring the hall at shoulder height, their faces
+            worn away to smooth ovals by damp and time."
         'large' 'doorway'
-            "A massive arched doorway set into the stone of the north wall, opening onto a
-            steep descent into total darkness."
+            "A broad opening cut square into the north wall. Beyond it the floor falls away
+            into a dark, downward slope."
+        'torch' 'sconces'
+            "Iron torch brackets are set into the walls at regular intervals, each one
+            crusted with the cold, black remains of a fire that went out centuries ago."
         CS_NO_ADJ 'slope'
             "Through the north doorway, a gentle stone incline leads down into pitch-black depths."
         CS_NO_ADJ 'storeroom'
             "Rows of dusty wooden crates and heavy wrapped packages are stacked high
-            against the stone walls",
+            against the stone walls.",
         before [;
         Listen:
             "The hall is unnaturally still. Drafts from the northern slope whisper softly around the
             wooden crates, carrying an eerie, hollow echo from the depths below.";
         Smell:
             "The room smells heavily of dry dust, old timber, and age. Beneath the stale air lingers a faint,
-            bitter odor of mildew from the decaying packages.";
+            bitter odour of mildew from the decaying packages.";
         ],
+        u_to "The vaulted rock ceiling is lost in the dark, far beyond your reach.",
         n_to [; return DownSlope(MountainSlope, DragonHall); ],
         d_to [; return DownSlope(MountainSlope, DragonHall); ],
         s_to Cave,
@@ -1109,6 +1228,9 @@ Object -> mh_box "crates"
         name 'crates' 'crate',
         description "Rough wooden boxes of various sizes, nailed shut and coated in a thick layer of dust.",
         before [;
+        Open:
+            "The lids are nailed down hard and the wood has swollen tight with damp. You
+            would need a crowbar and a very good reason.";
         Take, Remove:
             "The crates are far too heavy and cumbersome to carry around.";
         Search:
@@ -1175,22 +1297,34 @@ Object MountainSlope "Tunnel"
             }
         ],
         cheap_scenery
-        CS_NO_ADJ 'floor'
-            "The floor is a slippery mix of damp stone and slick, thick mud.",
+        'broadsword' 'sword'
+            "A slab of stone sword, chipped along one edge. Carved or not, you would not care
+            to be standing in front of it."
+        CS_NO_ADJ 'dagger'
+            "Short, curved and held low and close, in the grip of a man who has used one before.",
         before [;
         Listen:
             "The continuous trickling and splashing of water flowing down the slick stone floor echoes
             wetly off the narrow tunnel walls.";
         Smell:
-            "A cool, heavy dampness fills the air, saturated with the strong, metallic odor of wet
+            "A cool, heavy dampness fills the air, saturated with the strong, metallic odour of wet
             subterranean rock and stagnant mud.";
         ],
-        u_to [; return UpSlope(MountainHall); ],
-        s_to [; return UpSlope(MountainHall); ],
+        !u_to [; return UpSlope(MountainHall); ],
+        !s_to [; return UpSlope(MountainHall); ],
+        s_to "The slope behind you is far too steep and far too slippery to climb back up.",
         d_to [; return DownSlope(DragonHall); ],
         n_to [; return DownSlope(DragonHall); ],
         cant_go "Rough cavern walls block that way, dripping with moisture.",
     ;
+
+Object -> ms_floor "floor"
+    with
+        name 'floor',
+        description
+            "What was once dressed stone is buried under a sliding layer of wet mud. There is
+            not a square foot of it you could stand on with any confidence.",
+   has scenery;
 
 Object -> ms_water "mud"
     with
@@ -1227,7 +1361,10 @@ Object -> ms_water "mud"
 Object -> LeftStatue "warrior statue"
     with
         name 'warrior' 'left' 'statue' 'statues',
-        description "It is a statue of a large warrior, carrying a broadsword.",
+        description
+            "Cut from the same grey rock as the tunnel itself, a broad-shouldered warrior
+            stands with a broadsword held point-down before him. The work is crude, but the
+            face is startlingly alive, caught somewhere between boredom and bad temper.",
         domagic [spell;
             if(spell==AnimateSpell) {
                 print "The statue comes to life!^";
@@ -1238,9 +1375,13 @@ Object -> LeftStatue "warrior statue"
             rfalse;
         ],
         life [;
-            "The stone warrior stands motionless, its cold gaze staring blankly into the dark.";
+        default: "The stone warrior stands motionless, its cold gaze staring blankly into the dark.";
         ],
         before [;
+        Touch: "The stone is cold, wet and utterly inert under your fingers.";
+        Push, PushDir:
+            "It does not shift so much as a hair. The statue and the mountain appear to be
+            the same piece of rock.";
         TalkTo: return self.life();
         ],
         initial [;
@@ -1252,12 +1393,18 @@ Object -> LeftStatue "warrior statue"
 Object -> RightStatue "barbarian statue"
     with
         name 'barbarian' 'right' 'statue' 'statues',
-        description "It is a statue of a barbarian who looks very fierce. He carries a
-                                sword in his right hand and a dagger in his left.",
+        description
+            "The barbarian is all snarl and sinew, a sword in his right hand and a long
+            dagger in his left. Whoever carved him appears to have been working from an
+            unpleasantly clear memory.",
         life [;
-            "The barbarian statue remains silent and stone-still.";
+        default: "The barbarian statue remains silent and stone-still.";
         ],
         before [;
+        Touch: "The stone is cold, wet and utterly inert under your fingers.";
+        Push, PushDir:
+            "It does not shift so much as a hair. The statue and the mountain appear to be
+            the same piece of rock.";
         TalkTo: return self.life();
         ],
         domagic [spell;
@@ -1381,13 +1528,20 @@ Room DragonHall "The Dragon Hall"
             "A deep layer of fine grey ash coats the chamber floor, drifting like snow under
             your boots and smelling faintly of ancient fires.",
         before [;
+        Wait:
+            if(Dragon.number>0)
+                "You wait. The great ragged breaths are coming slower each time.";
+            "You keep very still and wait.";
         Smell: "The air is thick and suffocating, reeking of sulfur, singed stone, and bitter ash.";
-        Listen: "A deep, rhythmic rumble reverberates through the stone floor—the heavy, subterranean breathing of the massive beast.
+        Listen: "A deep, rhythmic rumble reverberates through the stone floor: the heavy, subterranean breathing of the massive beast.
             Every so often, the soft, metallic clink of shifting coins echoes as its gargantuan chest rises and falls
             against the treasure hoard.";
         ],
-        u_to [; return UpSlope(MountainSlope); ],
-        s_to [; return UpSlope(MountainSlope); ],
+        u_to
+            "The frozen mud is a sheet of glass tilted uphill. You would be back at the
+            bottom before you had climbed ten feet.",
+        !u_to [; return UpSlope(MountainSlope); ],
+        !s_to [; return UpSlope(MountainSlope); ],
         cant_go "Solid rock walls block your path.";
 
 Object -> Treasure "treasure"
@@ -1396,10 +1550,13 @@ Object -> Treasure "treasure"
         initial "Sprawled across a staggering hoard of shimmering gold and priceless relics
                 is a magnificent, colossal dragon.",
         description
-            "Countless thousands of glinting gold coins, jewel-encrusted goblets, and ancient
-            crowns lie piled beneath the dragon's massive coils.",
+            "Coins, plate, cups and crowns lie heaped in drifts across the floor, most of it
+            tarnished black with age. A fortune, and not one piece of it worth your life.",
         before [;
             Take, Remove, Transfer:
+                if(Dragon.number>0)
+                    "Even now, with her blood soaking into the ash, you find you cannot
+                    quite bring yourself to put a hand into a dragon's hoard.";
                 if(TestScope(Dragon)) "You dare not even glance at the treasure while the
                                                             dragon guards it.";
                 "Dragon gold brings no good.";
@@ -1410,6 +1567,17 @@ Object -> Treasure "treasure"
                 rfalse;
         ],
     has static;
+
+Object -> Wound "wound"
+    with
+        name 'wound',
+        description [;
+            if(Dragon.number>0)
+                "The barbarian's sword went in deep at the base of her throat. Blood wells out of
+                it in a slow, steady pulse, and the pulse is getting weaker.";
+            "The dragon's wound is healed.";
+        ],
+    has scenery;
 
 Object -> Dragon "dragon"
     with
@@ -1440,41 +1608,67 @@ Object -> Dragon "dragon"
                 "The dragon's blood pours out through the wound in her throat, and you watch
                 her grow weaker and weaker.";
             }
-            "The dragon is enormous. Even a fully armed knight would think twice before
-            attacking. She does not seem too upset by your presence, but looks at you
-            curiously.";
+            "Whole again, she is magnificent and frankly terrifying: a long, deep-chested
+            body of overlapping bronze scales, and a pair of eyes that consider you with
+            perfect, unhurried intelligence.";
         ],
         before [;
+            Thanks:
+                "The dragon inclines her enormous head. ~We are square, wizard. Do not make a
+                habit of saving dragons. It gives us expectations.~";
             Attack:
                 if(self.number>0)
-                    "Even though the dragon is wounded, she is strong enough to bite your head
-                    off before you can blink.";
+                    "She is dying where she lies, and you did not come all this way down to finish her off.";
                 "This is a dragon we are talking about. Magic might work, but force... forget it!";
         ],
         life [;
+            Show:
+                if(noun == SpellBook)
+                    "She glances at the open page and away again, unimpressed. ~Books,~ she says
+                    thickly. ~You people always did put a great deal of faith in books.~";
             Ask, Answer, Order:
-                if(self.number>0)
-                    if(self hasnt general)
-                        "~Help me! Have mercy, I am dying. I feel my life draining away,~ whispers
-                        the dragon.";
-                    else
-!                        if(second=='magic' && (KillSpell in SpellBook)==false) {
-                        if(KillSpell notin SpellBook) {
-                            print "The dragon look at you and seems surprised. Then she says,
-                                    ~A wizard? Yes, of course. It was your spell that saved me.~ She raises
-                                    her head and looks you in the eye. ~Wizard, you saved my life. I shall give
-                                    you the most precious knowledge I possess.~^^
-                                    Your spellbook suddenly floats before you and opens itself.
-                                    A new spell is written on a blank page: the Death Spell.^";
-                            move KillSpell to SpellBook;
-                            score=score+10;
-                            rtrue;
-                        } else {
-                            "The dragon mutters something like ~A human who saves my life... helps a
-                            dragon... never heard of such a thing...~. She still seems to be in shock.";
-                        }
-                else
+                if(self has general && KillSpell notin SpellBook) {
+                    print "The dragon looks at you and seems surprised. Then she says,
+                            ~A wizard? Yes, of course. It was your spell that saved me.~ She raises
+                            her head and looks you in the eye. ~Wizard, you saved my life. I shall give
+                            you the most precious knowledge I possess.~^^
+                            Your spellbook suddenly floats before you and opens itself.
+                            A new spell is written on a blank page: the Death Spell.^";
+                    move KillSpell to SpellBook;
+                    score=score+10;
+                    rtrue;
+                }
+                if(self.number>0) {
+                    ! dragon is wounded
+                    if(self hasnt general) {
+                        "The great eye tracks you across the ash, but she has no breath to spare for an answer.";
+                    } else {
+                        "The dragon mutters something like ~A human who saves my life... helps a
+                        dragon... never heard of such a thing...~. She still seems to be in shock.";
+                    }
+                } else {
+                    ! dragon is healed
+                    if(second == 'stone' or 'stones')
+                        "~Stones.~ She turns the word over. ~Cut stones, of four colours, that call to
+                        one another across a great distance. Yes. They were made to open something, and
+                        whatever they open was shut for a reason. I would think very hard about who is
+                        asking you to collect them.~";
+                    if(second == 'death' or 'spell')
+                        "~It is a cruel gift, and I have given it to you anyway,~ she says. ~You will
+                        know the moment it is needed. If you are fortunate, you never will.~";
+                    if(second == 'istar')
+                        "~I do not know your teacher. But I have lived a long time, wizard, and I will
+                        tell you this for nothing: when an old man asks a young one to fetch what he
+                        will not fetch himself, it is worth asking why.~";
+                    if(second == 'treasure' or 'gold')
+                        "~Take some, if it pleases you.~ She does not move. ~It is only metal. I lie on
+                        it because it is the one thing down here that does not rot.~";
+                    if(second == 'old' or 'gods')
+                        "The dragon is quiet for a long moment. ~We are old,~ she says at last. ~They are
+                        older. My grandmothers went down into the deep rock to be out of their way, and
+                        my grandmothers did not frighten easily.~";
                     "The dragon looks at you but says nothing.";
+                }
             default: rfalse;
         ],
         daemon [l r p;
@@ -1482,12 +1676,12 @@ Object -> Dragon "dragon"
             if(self.number>0) {
                 --self.number;
                 if(self.number == 1 && self hasnt general) {
-                    print "^The dragon falls silent. Only faint breathing revels that she's still alive.^";
+                    print "^The dragon falls silent. Only faint breathing reveals that she's still alive.^";
                 }
                 if(self.number==0) {
                     if(self has general) {
                         if(TestScope(self)) {
-                            print (The) self, " pulls herself together and looks as strong and calm
+                            print "^", (The) self, " pulls herself together and looks as strong and calm
                                         as before the attack.^";
                             give self ~general;
                             self.number=-1;
@@ -1503,16 +1697,25 @@ Object -> Dragon "dragon"
                         rtrue;
                     }
                 } else if(TestScope(self)) {
-                    if(self has general)
-                        print "^", (string) random(
-                            "The dragon still looks shaken.",
-                            "The dragon seems to be recovering.",
-                            "The dragon looks more composed."), "^";
-                    else if(self.number > 1)
+                    if(self has general) {
+                        switch(self.number) {
+                        5:
+                            "^The dragon lies where she fell, flanks heaving, and does not seem to have taken you in yet.";
+                        4:
+                            "^The dragon shifts among the coins and tests her throat with one slow, careful swallow.";
+                        3:
+                            "^The dragon's breathing is steadier now, but her eyes are still glassy.";
+                        2:
+                            "^Some colour is returning to the great scaled throat.";
+                        1:
+                            "^The dragon draws one long, deep breath and holds it, as though testing whether it hurts.";
+                        }
+                    } else if(self.number > 1) {
                         print "^", (string) random(
                             "The dragon's breathing grows more ragged.",
                             "The dragon looks weaker.",
                             "The dragon is almost dead."), "^";
+                    }
                 }
             }
             ! Kill the animated statues
@@ -1523,10 +1726,11 @@ Object -> Dragon "dragon"
             if(l==true && r==true) self.number=5; ! the dragon is wounded
             if(l==true && r==true && p==true) {
                 print "^", (The) LeftWarrior, " and ", (the) RightWarrior,
-                            " see the dragon and rush forward with weapons drawn. The dragon quickly
-                            burns up ", (the) LeftWarrior, " but does not manage to kill ",
-                            (the) RightWarrior, " before he drives his sword deep into her throat.
-                            Beside herself with rage and pain, the dragon cremates the bodies.^";
+                    " see the dragon and rush forward with weapons
+                    drawn. She takes the warrior first and he goes up like dry kindling, but the
+                    barbarian is inside her guard before she can turn, and drives his sword deep
+                    into her throat. Beside herself with rage and pain, she burns what is left of
+                    the pair of them to ash.^";
             } else if((l==true || r==true) && p==true) {
                     if(l) print "^", (The) LeftWarrior;
                     else print "^", (The) RightWarrior;
@@ -1572,13 +1776,12 @@ Room TeleportRoom "On the Steppe"
              ornate archways, each facing one of the cardinal directions of the compass.";
         ],
         cheap_scenery
-            CS_PARSE_NAME ParseNameArchways
-                "Four massive, freestanding stone arches stand in a grand circle around you, each perfectly aligned
-                with one of the cardinal compass directions. Ancient, glowing runes are carved into the keystone of
-                each arch, humming with latent dimensional energy."
             CS_PARSE_NAME ParseNameSteppe
                 "The steppe stretches as far as the eye can see under a pale, vast sky. The dry grass whispers softly
                 in the cold wind, broken only by the eerie presence of the four archways."
+            'rune' 'runes'
+                "Deep-cut characters march across each keystone in a script far older than anything you were taught
+                to read. They pulse slowly, in a rhythm uncomfortably like breathing."
             'compass' 'directions'
                 "There isn't a physical compass here; rather, the four archways are precisely oriented to the
                 north, south, east, and west, carving the vast horizon into four distinct paths."
@@ -1602,12 +1805,22 @@ Room TeleportRoom "On the Steppe"
                 PlayerTo(VillageRoad); rtrue; ],
         w_to [; print "A yellow cloud surrounds you, and as it clears you find yourself...^^";
                 PlayerTo(ChurchYard); rtrue; ],
+        u_to "The sky over the steppe is enormous, cloudless and entirely out of reach.",
+        d_to "Dry turf and hard-packed earth, bound together by the roots of a thousand years of grass.",
         cant_go "You can only leave through the archways.";
 
-Object -> TeleportDoor "doors"
+Object -> TeleportDoor "archways"
     with
-        name 'door' 'doors' 'doorway' 'doorways',
-        description "The doors are identical.",
+        name 'archway' 'archways' 'arch' 'arches' 'portal' 'portals' 'gate' 'gates' 'door' 'doors' 'doorway' 'doorways',
+        description
+            "Four massive, freestanding stone arches stand in a grand circle around you, each perfectly aligned
+            with one of the cardinal compass directions. Ancient, glowing runes are carved into the keystone of
+            each arch, humming with latent dimensional energy.",
+        before [;
+        Touch:
+            "The stone is oddly warm under your palm, and the runes brighten at the contact,
+            as though they can tell a wizard by feel.";
+        ],
     has scenery pluralname;
 
 Room ChurchYard "Before a Temple"
@@ -1627,8 +1840,8 @@ Room ChurchYard "Before a Temple"
             "To the south, waves lap against the shore under a bright sky. The ocean
             breeze carries a fresh, salty scent."
         'narrow' 'path'
-            "A well-trodden dirt trail leading north toward a dense line of trees and
-            south toward the roaring sea.",
+            "A narrow ribbon of trodden earth running from the treeline in the north down
+            towards the shore in the south, with the temple standing off to the east.",
         before [;
         Listen:
             "The distant, rhythmic crashing of waves against the rocks below mingles with the gentle rustle of
@@ -1648,8 +1861,7 @@ Object -> DummyChurch "temple"
     with
         name 'church' 'temple',
         description
-            "The temple looks rather run-down, but is still an impressive building built from
-            weathered, ancient stone.",
+            "The temple is run-down but still imposing, raised from great blocks of weathered, ancient stone.",
     has scenery;
 
 Room Church "The Temple"
@@ -1669,6 +1881,10 @@ Room Church "The Temple"
             "Desiccated crumbs and ancient bones, left long ago as offerings to the strange deity."
         CS_NO_ADJ 'furnishings'
             "Only broken scraps of wood and overturned stone bases remain where altars and pews once stood."
+        CS_NO_ADJ 'remains'
+            "Brittle stalks that were once flowers, and a few blackened scraps that were once
+            food, laid out in a careful row at the statue's feet. Nobody has renewed them in
+            a very long time."
         'vault' 'vaults'
             "High above, high arched stone vaults span the ceiling, dark with age and cobwebs.",
         before [;
@@ -1712,7 +1928,11 @@ Object -> Statue "statue"
                     and food, and it seems likely that someone worshipped it long ago.",
         life [; "The scaled stone deity stares blankly past you into the empty sanctuary."; ],
         before [;
-        Attack: "The statue is already dead.";
+        Touch: "The stone is cool and faintly damp, and far smoother than any chisel could have
+                left it, as though a great many hands had gone over it before yours.";
+        Attack: "You raise a hand and then feel extremely foolish. It is a block of carved stone,
+                and the only thing you would break is your knuckles.";
+        Search: "You find nothing hidden about the statue, only the old offerings mouldering at its feet.";
         Take, Remove: "The heavy stone statue is firmly anchored to the sanctuary floor.";
         TalkTo: return self.life();
         ],
@@ -1747,22 +1967,40 @@ Room Beach "The Beach"
         'ocean' 'sea'
             "The vast, open sea stretches endlessly to the horizon, dark blue and churning under the open sky."
         'shore' 'beach'
-            "A narrow strip of wet, pebbled sand where the surging ocean meets the rocky coast.",
+            "A narrow strip of wet, pebbled sand where the surging ocean meets the rocky coast."
+        'rock' 'rocks'
+            "Black, weed-slicked rocks break the line of the beach to either side, with deep
+            tide pools standing between them."
+        'bird' 'birds'
+            "Gulls hang almost motionless on the onshore wind, sliding sideways now and then
+            to keep their station above the surf.",
         n_to ChurchYard,
         d_to "The wet sand gives way to surging surf.",
         s_to "If you want to swim, you can just say so.",
         u_to "There is nothing above you but the open sky and soaring sea birds.",
         cant_go "Jagged sea rocks and deep tide pools prevent travel along the beach.";
 
+Object SeaWater "sea water"
+    with
+        name 'water',
+        found_in Beach OceanFloor,
+        description "It's just salty sea water.",
+        before [;
+        Taste, Drink:
+            "You wet a finger in the surf. Salt, cold, and a faint mineral bite underneath
+            it, like the water has come a very long way.";
+        ],
+    has scenery;
+
 Room OceanFloor "The Sea Floor"
     with
         description
-            "The sea floor is covered in ripple-marked sand, colorful shells, and swaying sea plants.
-            You can swim back up towards the shore.",
+            "The sea floor is covered in ripple-marked sand, colourful shells, and swaying
+            sea plants. You can swim back up towards the shore.",
         cheap_scenery
-        'shells' 'shell'
-            "A scattering of sea snail shells, spiral nautiluses, and polished clam shells coat the seabed,
-            their iridescent mother-of-pearl catching the filtered sunlight from above."
+        'plant' 'plants'
+            "Long ribbons of weed sway in slow unison with the swell, rooted among the
+            stones, their fronds catching what little light reaches this far down."
         CS_NO_ADJ 'sand'
             "Fine white sand covers the seabed, disturbed only by the soft rhythm of the tide.",
         before [;
@@ -1774,8 +2012,21 @@ Room OceanFloor "The Sea Floor"
         ],
         u_to Beach,
         n_to Beach,
-        d_to "The seabed here is solid sand and rock with nowhere deeper to descend.",
+        d_to "The sand is packed hard beneath you, and whatever lies under it means to stay there.",
         cant_go "Forests of dense kelp and sharp coral reefs block any progress west..";
+
+Object -> Shells "sea shells"
+    with
+        name 'shells' 'shell',
+        description
+            "A scattering of sea snail shells, spiral nautiluses, and polished clam shells coat the seabed,
+            their iridescent mother-of-pearl catching the filtered sunlight from above.",
+        before [;
+        Take:
+            "You gather a handful, admire them, and let them fall again. You did not come
+            down here for souvenirs.";
+        ],
+    has scenery;
 
 Room VillageRoad "The Country Road"
     with
@@ -1787,8 +2038,6 @@ Room VillageRoad "The Country Road"
             you can see the thatched rooftops of a small village. A solitary oak tree casts its shadow over the wayside.";
         ],
         cheap_scenery
-            CS_NO_ADJ 'corn'
-                "Tall stalks of corn sway gently in the breeze, forming a rustling wall on either side of the road."
             CS_PARSE_NAME ParseNameCornFields
                 "Tall stalks of corn sway gently in the breeze, forming a rustling wall on either side of the road."
             'village' 'rooftops'
@@ -1807,26 +2056,37 @@ Room VillageRoad "The Country Road"
             of birds in the oak tree and distant murmurs carried from the village.";
         Smell:
             "The warm air carries the rich scent of sun-baked dirt, ripe corn, and dry oak bark, undercut by the faint,
-            stale odor of unwashed rags from the beggar.";
+            stale odour of unwashed rags from the beggar.";
         ],
-        w_to "The road winds on into the wilderness, where you have no business.",
-        u_to "You don't possess a levitation spell.",
-        d_to "Only the hard ground in that direction.",
-        cant_go "Don't disturb the cornfields.";
+        n_to
+            "The corn grows right up to the edge of the road, a dense wall of stalks taller
+            than a man. Trampling through a farmer's crop is no way to repay his country's
+            hospitality.",
+        s_to "The cornfields close the road in on that side as well. The track itself runs only east and west.",
+        w_to "The road winds on westward into open country, where you have no business and no time to spare.",
+        u_to [;
+            if(OakTree has general)
+                "The oak's lower branches are the only way up from here, and you have already tried those.";
+            "You don't possess a levitation spell.";
+        ],
+        d_to "Nothing beneath your boots but the dry, rutted earth of the road.",
+        cant_go "Trampling through a farmer's crop is no way to repay his country's hospitality.";
 
 Object -> OakTree "oak tree"
     with
         name 'oak' 'tree',
         description "An ancient, sprawling oak tree providing a welcome patch of deep shade beside the dusty road.",
         before [;
-        Climb: "You get no higher than the lower branches before realizing the view is completely blocked by dense
+        Climb:
+            give self general;
+            "You get no higher than the lower branches before realizing the view is completely blocked by dense
             summer leaves. You hop back down to the dusty road.";
         ],
     has scenery;
 
 Object -> Beggar "beggar"
     with
-        name 'beggar',
+        name 'ragged' 'beggar',
         initial [;
             if(self has general)
                 "The beggar has slouched against the oak tree, fast asleep and muttering softly in his dreams. You try
@@ -1838,7 +2098,23 @@ Object -> Beggar "beggar"
             out a palm in mute appeal for charity.",
         life [;
             if(self has general) "The beggar is fast asleep.";
-            Ask, Tell, Show: <<TalkTo self>>;
+            Ask, Tell, Show:
+                if(second == 'stone' or 'stones')
+                    "~Stones I have plenty of, master. They're free, and they don't fill a belly.~ He gestures
+                    vaguely at the roadside gravel and lets his hand fall back into its begging posture.";
+                if(second == 'amulet')
+                    "His hand moves to his chest, just for an instant, before he catches himself.
+                    ~Nothing there worth your trouble, master. Only rags and ribs.~";
+                if(second == 'village' or 'market' or 'markets')
+                    "~Market day,~ he says without enthusiasm. ~Good day for a man with coins. I go
+                    in sometimes, but the traders move me along quick enough.~";
+                if(second == 'hawker' or 'busker')
+                    "The beggar's mouth twists. ~Him with the cups? He's been taking silver off honest
+                    folk since the spring. Nobody has ever seen him lose, master. Nobody.~";
+                <<TalkTo self>>;
+            Answer, Order:
+                "~Good day to you, master wizard,~ he rasps, and the effort of it seems to cost
+                him something. ~You'll forgive me if I don't get up.~";
             Give:
                 if(noun==SilverCoin) {
                     remove noun;
@@ -1863,7 +2139,37 @@ Object -> Beggar "beggar"
             Attack:
                 "You could easily overpower the frail old man, but what kind of hero attacks a helpless beggar on the roadside?";
         ],
+        add_to_scope BeggarHands BeggarRags,
     has animate;
+
+Object BeggarHands "hands"
+    with
+        name 'weathered' 'hand' 'hands',
+        description [;
+            if(Beggar has general) "Even in sleep, his hands remained curled like dried leaves beneath his chin.";
+            "His palm is upturned and quite empty, the fingers trembling slightly with the effort of holding it out.";
+        ],
+    has scenery pluralname;
+
+Object BeggarRags "rags"
+    with
+        name 'rag' 'rags' 'clothes',
+        description
+            "Layer upon layer of colourless cloth, worn so thin in places that the road wind goes straight through it.
+            Something small and hard hangs beneath, out of sight.",
+    has scenery pluralname;
+
+Object Corn "corn"
+    with
+        name 'corn',
+        description
+            "Tall stalks of corn sway gently in the breeze, forming a rustling wall on either side of the road.",
+        found_in VillageRoad EndOfVillage,
+        before [;
+        Take:
+            "It is not your corn to take, and there are hungrier people than you on this road.";
+        ]
+    has scenery;
 
 Room Village "The Village"
     with
@@ -1871,6 +2177,12 @@ Room Village "The Village"
             "The village consists of a dozen timber-framed houses lining either side of the road. Despite its modest size,
             the area is full of life and bustle. It is market day.",
         cheap_scenery
+            'stall' 'stalls'
+                "Trestles heaped with cabbages, salt fish, rough cloth and cheap tin charms.
+                Business is brisk, and nobody is paying you the slightest attention."
+            'crowd' 'people'
+                "Farmhands, traders and small children press in on every side, cheerfully waiting
+                to watch a wizard lose his money like everybody else."
             CS_NO_ADJ 'village'
                 "A charming, bustling settlement filled with timber-framed cottages, colourful banners, and the lively chatter
                 of market day."
@@ -1883,12 +2195,14 @@ Room Village "The Village"
             if(Busker in self) "You wait, observing the hawker.";
             rfalse;
         Listen:
-            "The square is alive with a cheerful din—hawkers barking their wares, townsfolk haggling boisterously
+            "The square is alive with a cheerful din: hawkers barking their wares, townsfolk haggling boisterously
             over prices, livestock lowing in the distance, and the sharp clink of wooden cups scraping across the hawker's bench.";
         Smell:
             "A rich tapestry of market smells fills the air: fresh-baked bread, roasted meats, and sweet berries from
             the stalls, mingled with the earthy scents of livestock, timber, and chimney smoke.";
         ],
+        u_to "Nothing above you but thatch, chimney smoke and a hard blue sky.",
+        n_to "The village road runs east and west, and the houses stand shoulder to shoulder in between.",
         w_to VillageRoad,
         e_to EndOfVillage,
         cant_go "The road leads east and west.";
@@ -1922,6 +2236,11 @@ Object -> Busker "hawker"
                     }
                 }
         ],
+        before [;
+        GiveNoCoin:
+            "You turn out your pockets and find them as empty as the beggar's palm. Whatever
+            else you win from this man today, it will not be with silver.";
+        ],
         each_turn [;
             switch(self.number) {
             0: self.number=1;
@@ -1944,10 +2263,10 @@ Object -> Busker "hawker"
                  if(SilverCoin in Busker && SilverCoin hasnt general) {
                      give SilverCoin general;
                      move SilverCoin to player;
-                     print ".^^Disappointed and with little hope of success, you rummage through
-                     your pockets, and imagine your surprise when you feel something hard in the
-                     lining of your coat. You unpick the seam and find another silver coin. You
-                     won't be that lucky twice, so use the coin well";
+                     print ".^^Disappointed, and with little hope, you rummage through your pockets one more
+                        time. Something hard shifts in the lining of your coat. You unpick the seam and
+                        a second silver coin drops into your palm, forgotten there for who knows how
+                        long. You will not be lucky twice, so spend this one well";
                  }
                  ".";
             7: self.number=8;
@@ -1964,7 +2283,14 @@ Object -> Busker "hawker"
             };
         ],
         life [;
+            Order:
+                "~Give?~ The hawker laughs, thoroughly delighted. ~Master wizard, if I gave
+                things away I should be the one sitting under that oak tree with my hand out.~";
             Ask, Tell, Show, TalkTo:
+                if(second == 'game')
+                    "~Simplest game in the world,~ he says happily. ~I put the stone under a cup, I
+                    move the cups about, you tell me where the stone has got to. A child could do
+                    it.~ He does not mention that no child ever has.";
                 "The impatient hawker motions to the cups in front of him.";
             Give:
                 if(self.number~=6) "~Wait until we have finished this round,~ says the hawker.";
@@ -1981,8 +2307,9 @@ Object -> Busker "hawker"
 Object -> Bench "bench"
     with
         name 'bench',
-        decription
-            "Three wooden cups rest upside down on a plain wooden bench. They look completely identical.",
+        description
+            "A sturdy trestle of planed pine, scarred by long use and set at just the height
+            to keep the cups level with a bystander's eye.",
         before [;
             Receive: "The hawker needs the bench for his game.";
         ],
@@ -2022,7 +2349,13 @@ Object -> Bench "bench"
 Class BuskerCup
     with
         name 'cup',
+        description
+            "A plain beechwood cup, upturned and giving nothing away. Staring at it will not
+            make it transparent.",
         before [x;
+            Search: ! also "look under cup"
+                "The hawker's palm settles flat on top of it. ~Now, now, master. You point and I
+                lift. That is the whole of the game.~";
             Take, Remove, Transfer, PointAt:
                 if(Busker.number==4 or 5) {
                     Busker.number=6;
@@ -2083,27 +2416,38 @@ BuskerCup -> -> Cup2 "middle cup"
 BuskerCup -> -> Cup3 "right cup"
     with name 'right', ;
 
+Object -> -> AllTheCups "cups"
+    with
+        name 'cups',
+        before [;
+        Examine:
+            "Three identical cups of turned beechwood, upturned in a neat row, their rims
+            worn smooth by years of exactly this. Not one of them gives anything away.";
+        default: "You have to say if you mean the left, middle or right cup.";
+        ],
+    has scenery pluralname;
+
 Room EndOfVillage "The Edge of the Village"
     with
         description "Just a few steps east of the village's centre the houses give way to
                                 cornfields again.",
         cheap_scenery
-            CS_NO_ADJ 'corn'
-                "Tall stalks of corn sway gently in the breeze, forming a rustling wall on either side of the road."
             CS_PARSE_NAME ParseNameCornFields
                 "Tall stalks of corn sway gently in the breeze, forming a rustling wall on either side of the road."
             'village' 'houses'
-                "The village lies to the west of here.",
+                "Rooftops and market banners show above the corn a little way west, and the noise
+                of the crowd carries faintly on the wind.",
         before [;
         Listen:
             "The lively chatter and haggling of the market grow fainter here, giving way to the soft rustle
             of cornstalks in the wind and the dry scuttle of insects in the roadside dust.";
         Smell:
-            "The sweet, savory scents of the market stalls fade into the clean smells of open fields, sun-
-            baked earth, and fresh straw.";
+            "The sweet, savoury scents of the market stalls fade into the clean smells of
+            open fields, sun-baked earth, and fresh straw.";
         ],
         w_to Village,
-        u_to "Nothing but sky.",
+        s_to "The corn stands too thick to push through, and there is nothing beyond it but more corn.",
+        u_to "Nothing above but a wide, empty sky and a hawk turning slow circles over the fields.",
         d_to "Only the dusty dirt road beneath your boots.",
         e_to "The road winds on into the wilderness, where you have no business.",
         cant_go "The dense cornfields form an unbroken wall of rustling stalks on either side of the road.";
@@ -2125,14 +2469,15 @@ Room GateRoom "The Crypt"
 #Endif;
             "This room is like a heathen temple. Obsidian pillars rise into the darkness,
             carved with blasphemous runes that seem to shift when you aren't looking directly
-            at them. A great stone altar stands in the center of the chamber, stained dark from
+            at them. A great stone altar stands in the centre of the chamber, stained dark from
             unholy rituals, and four glowing pedestals surround it. There are no exits.";
 	],
         cheap_scenery
         CS_NO_ADJ 'altar'
             "A massive block of dark, unpolished granite, carved with jagged channels that drain toward a central vortex."
         'pedestal' 'pedestals'
-            "Four stone pillars surrounding the altar."
+            "Four squat plinths of the same black stone stand at the compass points around the altar.
+            Each is cut with a shallow depression, and each depression is exactly the size of a man's fist."
         'pillar' 'pillars'
             "Monolithic shafts of black stone that support the vaulted ceiling far above. They are etched with writhing, glowing runes.",
         each_turn [;
@@ -2141,8 +2486,8 @@ Room GateRoom "The Crypt"
             switch(self.number) {
             1:
                 move DeadMaster to self;
-                "^Where the evil demon stood, your mentor suddenly stands. He falls dead to the
-                floor.^^\
+                "^Where the demon stood, your mentor stands in its place, blinking, himself again for
+                the space of a single breath. Then his knees give way and he falls dead to the floor.^^\
                 The room changes. All your senses are distorted and strange visions come and go.
                 It is as if the place is vanishing before your eyes.";
             4:
@@ -2158,9 +2503,15 @@ Room GateRoom "The Crypt"
         Go: if(RedField in location) "First, you'd have to leave the red force field.";
         ],
         before [;
+        Wait:
+            if(self.number == 2)
+                "You wait, and the crypt goes on coming apart around you.";
+            if(self.number == 3)
+                "You kneel beside your mentor and wait, and the walls thin away to nothing.";
+            rfalse;
         Listen:
-            "An unsettling, low frequency hum vibrates in your bones rather than your ears, accompanied by the faintest
-            sound of whispers echoing from the darkness above—though you can never quite make out the words.";
+            "An unsettling, low frequency hum vibrates in your bones rather than your ears, accompanied by the
+            faintest sound of whispers echoing from the darkness above, though you can never quite make out the words.";
         Smell:
             "The air is stagnant and ice-cold, suffocatingly heavy with the iron stench of dried blood, ancient ozone,
             and the faint, coppery tang of unholy power humming from the pedestals.";
@@ -2199,9 +2550,9 @@ Object -> EvilMaster "demon"
     soul was trivial. His snobbish colleagues at the Academy were sharper than you; they sensed my presence,
     forcing me to flee to this wretched wilderness. Because their inquisitors hunted me, I could not gather
     the stones myself. I needed a naive pawn to fetch the keys to open the gateway... not to white magic,
-    you fool, but to unleash the Old Gods whom I serve!~^^
-    I searched your mentor's memories and found you. I knew you would help him, and now
-    you have given me the key to your own doom. Was it not a fine plan?~^^";
+    you poor blind thing, but to unleash the Old Gods whom I serve!^^
+    I searched your mentor's memories and found you. I knew you would come when he
+    called, and now you have carried me the key to your own doom. Was it not a fine plan?~^^";
                 move player to RedField;
                 print "~Now to work. First a small precaution,~ says the demon, and you are
                             trapped in a red force field.^";
@@ -2459,7 +2810,9 @@ CStone RedStone "red stone" Village
                     ~If you want it, you'll have to win it fair and square under the cups.~";
                 rfalse;
             default:
-                if(self has scenery) "The hawker has the stone.";
+                if(self has scenery)
+                    "The hawker's hand closes over it before yours is halfway across the bench.
+                    ~Under the cups or not at all, master wizard.~";
                 rfalse;
         ]
     has scenery;
@@ -2712,9 +3065,6 @@ Object Introduction "folio" Master
 !     Initialisation
 ! ==========================================================================
 
-[ pause _key;
-];
-
 [ Initialise key;
 #Iftrue (#version_number == 6);
     ShowPicture(PIC_INTRO);
@@ -2726,9 +3076,11 @@ Object Introduction "folio" Master
         "The letter from your old mentor arrived entirely out of the blue. You still vividly remember the day
         the Arch-Mages at the Academy accused him of dabbling in the dark arts. Shortly after, he vanished without
         a trace, and his name was reduced to a forbidden whisper.^^
-        Yet, without his patient guidance, you would never have survived your apprenticeship. Now, he desperately
-        needs your help. Throwing caution to the wind, you followed the cryptic instructions in his letter, and
-        weeks of grueling travel, you finally stand before your mentor's secluded, humble dwelling.^";
+	Yet, without his patient guidance, you would never have survived your
+	apprenticeship. Now, he desperately needs your help. Throwing caution to the
+	wind, you followed the cryptic instructions in his letter, and after weeks of
+	gruelling travel you finally stand before your mentor's secluded, humble
+	dwelling.^";
 
     banner();
     @new_line;
