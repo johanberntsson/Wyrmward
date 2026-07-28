@@ -67,3 +67,17 @@ pictures:
     name: village
     height: 128
     location: Country Road
+
+# Sound effects. sfrotz plays these out of the Blorb (Ozmoo's MEGA65 build takes
+# the same wavs straight off this folder with make.rb's -asw instead). They are
+# converted to AIFF on the way in: Blorb has no WAV chunk type.
+sounds:
+  - id: 3
+    file: 003.wav
+    name: intro
+    location: Initialise, and again before play starts
+
+  - id: 4
+    file: 004.wav
+    name: hell
+    location: Initialise, under the letter

@@ -2436,6 +2436,7 @@ Room GateRoom "The Crypt"
         number 0,
         description [;
 #Iftrue (#version_number == 6);
+            @sound_effect 3 2 255 0;
             ShowPicture(PIC_DEMON);
 #Endif;
             "This room is like a heathen temple. Obsidian pillars rise into the darkness,
@@ -3043,11 +3044,14 @@ Object Introduction "folio" Istar
 #Iftrue (#version_number == 6);
 [ Initialise key;
     ShowPicture(PIC_INTRO);
+    @sound_effect 3 2 255 0;
     @read_char key;
     @erase_window 0;
 #IfNot;
 [ Initialise ;
 #Endif;
+
+    @sound_effect 4 2 255 0;
 
     print 
         "The letter from your old mentor arrived entirely out of the blue. You still vividly remember the day
@@ -3066,6 +3070,8 @@ Object Introduction "folio" Istar
     print "^Press any key to start the game^";
     @read_char key;
     @erase_window 0;
+
+    @sound_effect 3 2 255 0;
 #Endif;
 
     score=0;
