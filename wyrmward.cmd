@@ -13,6 +13,8 @@ e
 u
 d
 x scroll
+x twine
+read scroll
 i
 x bag
 x spellbook
@@ -25,6 +27,10 @@ x door
 open door
 knock on door
 x hut
+x chimney
+x smoke
+x roof
+x weeds
 x forest
 x path
 enter path
@@ -43,6 +49,7 @@ x books
 x window
 x vessels
 x hearth
+x ingredients
 taste vessels
 x box
 x alcove
@@ -55,6 +62,9 @@ ask istar about stones
 ask istar about academy
 ask istar about box
 ask istar about demon
+ask istar about gate
+ask istar about himself
+istar, follow me
 show spellbook to istar
 read folio
 give scroll to istar
@@ -62,6 +72,7 @@ x scroll
 cast copy on animation spell
 n
 copy teleportation spell
+x black stone
 follow istar
 n
 n
@@ -76,6 +87,8 @@ x runes
 touch archway
 u
 d
+x grass
+cast teleport
 x yellow cloud
 e
 listen

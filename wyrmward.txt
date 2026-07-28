@@ -2,7 +2,6 @@ Start of a transcript of
 
 Wyrmward
 (c) 1996-2005, 2026 Johan Berntsson. Type "help" or "h" for instructions.
-Release 1 / Serial number 260727 / Inform v6.44 PunyInform v6.6dev DR
 
 > restart
 Are you sure you want to restart? yes
@@ -19,7 +18,6 @@ gruelling travel you now stand before your mentor's secluded, humble dwelling.
 
 Wyrmward
 (c) 1996-2005, 2026 Johan Berntsson. Type "help" or "h" for instructions.
-Release 1 / Serial number 260727 / Inform v6.44 PunyInform v6.6dev DR
 
 Meadow
 You stand in a small, overgrown clearing dominated by a dilapidated hut hunched
@@ -358,6 +356,7 @@ a spell!
 
 Istar strokes his beard flat and says nothing at all, which is his way of being
 insufferably pleased with himself.
+
 [The score has just gone up by 10 points.]
 
 > x scroll

@@ -195,9 +195,8 @@ Object SpellBook "spellbook"
         article "your",
         name 'your' 'spellbook' 'spell' 'book',
         description
-            "It is your well-thumbed spellbook, which you bought when you started at the
-             wizards' school many years ago. The spells in it are the fruit of many years
-             of study.",
+            "It is your well-thumbed spellbook, bought on the day you started at the wizards'
+            school. The spells written in it are the fruit of a great many years of study.",
         before [ a;
             Open, Close:
                 "The book can read the thoughts of its owner, and so it will always show you
@@ -581,23 +580,39 @@ Room Meadow "Meadow"
 #Iftrue (#version_number == 6);
             ShowPicture(PIC_HUT);
 #Endif;
-            "You stand in a small, overgrown clearing dominated by a dilapidated hut resting immediately to the south. 
-            Looming on all other sides is a dense, ancient forest whose twisted boughs form an utterly impenetrable
-            wall of shadow. A faint dirt path cuts through the weeds, winding away north into the dark tree line.";
+            "You stand in a small, overgrown clearing dominated by a dilapidated hut hunched
+            immediately to the south. Looming on all other sides is a dense, ancient forest
+            whose twisted boughs form an impenetrable wall of shadow. A faint dirt path cuts
+            through the weeds, winding away north into the dark tree line.";
         ],
         cheap_scenery
             'damp' 'grass'
             "The grass is thick, wild, and heavy with a cold, clinging dew that quickly soaks through the
             hems of your travelling robes."
+            CS_NO_ADJ 'chimney'
+            "A crooked stack of unmortared field stones, leaning with the rest of the hut.
+            Whatever is burning inside sends up a smoke that is not quite the colour of
+            woodsmoke."
+            CS_NO_ADJ 'smoke'
+            "It rises in a thin grey thread, and there is something under the woodsmoke that
+            catches at the back of your throat. Your mentor is clearly still working."
+            'thatched' 'roof'
+            "Sagging thatch under a deep pelt of moss, patched here and there with turf. It
+            has not been rethatched in your lifetime, and probably not in his."
+            'weed' 'weeds'
+            "Nettles, dock and rank meadow grass, grown waist-high right up to the walls of
+            the hut. Nobody has taken a scythe to this clearing in years."
             CS_NO_ADJ 'sky'
             "Overhead, the sky is a bruised, oppressive grey, visible only through a jagged tear in the
             dense forest canopy.",
         before [;
         Listen:
-            "The wind rustles softly through the high grass and the heavy canopy overhead. Farther in the trees, a lone bird calls out, but otherwise the forest remains unsettlingly still.";
+            "The wind rustles softly through the high grass and the heavy canopy overhead.
+            Deeper in the trees a lone bird calls out, and then thinks better of it. The
+            forest is unsettlingly still.";
         Smell:
-            "The air smells of wet earth, crushed weeds, and the sharp, resinous scent of pine needles drifting from the
-            dark forest. From the south, a faint whiff of woodsmoke hangs near the hut.";
+            "Wet earth, crushed weeds, and the sharp resin of pine needles drifting out of
+            the dark forest. From the south, a faint whiff of woodsmoke hangs about the hut.";
         ],
         in_to RemoteHut, s_to RemoteHut,
         n_to [;
@@ -607,9 +622,15 @@ Room Meadow "Meadow"
             "That dirt track is the way you arrived, and there is nothing back down it but weeks of hard walking.
             You did not come all this distance to turn around on the doorstep.";
         ],
-        u_to "You jump up, but reach nothing but open air. Flying is beyond your current magical abilities!",
-        d_to "You inspect the grass and weeds beneath your boots, but there is nowhere to go down.",
-        cant_go "You push into the tree line, but the dense brambles and twisted boughs form an utterly impenetrable wall of shadow. The forest will not let you pass.";
+        u_to
+            "You jump, get a handful of cold air for your trouble, and come down again.
+            Flying is well beyond your current magical abilities!",
+        d_to
+            "You prod at the grass and weeds beneath your boots. There is nothing under them
+            but more meadow.",
+        cant_go
+            "You push into the tree line, but the brambles close ranks and the boughs knit
+            together above them. The forest will not let you pass.";
 
 Object -> HutDoor "door"
     with
@@ -635,9 +656,12 @@ Object -> Path "path"
             Looking north, you can see how quickly the path is swallowed up by the encroaching shadows
              of the forest canopy.",
         before [;
-        Enter, Follow:
+        Enter:
             "The path only leads north, back the way you came. Whatever your old teacher
             wants of you is waiting inside the hut to the south.";
+        Follow:
+            "You have already followed it for three weeks. It goes north, and north is where
+            you came from. Whatever your old teacher wants of you is inside the hut.";
         ],
     has scenery;
 
@@ -664,10 +688,36 @@ CScroll -> DirtyScroll "weathered scroll"
                 "The parchment is unrolled now, its surface stained by the acrid fumes of Istar's mixture. Inscribed
                 across the centre in sharp, shimmering ink are the ancient runes of an animation spell (used to bring
                 inanimate objects to life).";
-           "It is a tightly rolled cylinder of heavy parchment, tied with a frayed piece of twine. The 
-           surface is weathered, as if it has been exposed to the damp meadow air for some time.";
-        ]
-    ;
+            if(self has open)
+                "The scroll is completely blank. Either somebody went to considerable trouble to tie up an empty page,
+                or there is a deeper meaning being hidden away.";
+           "It is a tightly rolled cylinder of heavy parchment, tied with a frayed piece of
+            twine. The surface is weathered, as if it has been lying out in the damp meadow
+            air for some time.";
+        ],
+        before [;
+        Read:
+            if(self has general) <<Examine self>>;
+            give self open;
+            "You unroll the parchment far enough to look. The sheet is blank, top to bottom.
+            Either somebody went to considerable trouble to tie up an empty page, or there
+            is something written here that does not care to be read by just anyone.";
+        ],
+        add_to_scope Twine,
+    has openable;
+
+Object Twine "twine"
+    with
+        name 'frayed' 'piece' 'of' 'twine',
+        description
+            "A few turns of coarse hemp twine, frayed at the ends and stiff with damp. It has
+            been tied and untied a good many times.",
+        before [;
+        Open, Unlock:
+            give DirtyScroll open;
+            "You pull at the twine and open the scroll.";
+        ],
+    has openable scenery;
 
 Room RemoteHut "Hut"
     with
@@ -691,14 +741,18 @@ Room RemoteHut "Hut"
             'solidary' 'window'
             "Thick layers of black grease and soot coat the glass, completely choking out the daylight
             from the meadow outside."
+            CS_NO_ADJ 'ingredients'
+            "Bundled herbs, stoppered jars, a tray of dried beetles and something in brine
+            that you decide not to look at twice. Half the labels are in your mentor's hand
+            and the other half in no alphabet you know."
             CS_NO_ADJ 'alcove'
             "A shallow niche cut into the stone of the chimney breast, just deep enough to
             take the gilded box. The rock around it is scorched black, as though the ward on
             the box has had to defend itself more than once."
             'hearth' 'fireplace'
-            "Atop the roaring logs, a collection of stained iron cauldrons and glass retorts hiss and sputter. 
-            The liquids inside range from a viscous, glowing emerald to an oily indigo, giving off a scent 
-            that prickles the back of your throat.",
+            "A low arch of blackened fieldstone, heaped with logs that burn a great deal
+            hotter than logs ought to. Stained iron cauldrons and glass retorts stand in the
+            flames, hissing and sputtering away.",
         n_to Meadow, out_to Meadow,
         u_to "The low, thatched ceiling offers no way upward, unless you fancy poking your head through the dried reed roof.",
         d_to "The floorboards are solid, worn oak. There are no trapdoors or cellars beneath your feet.",
@@ -722,7 +776,9 @@ Object -> hut_bench "work bench"
     with
         name 'workbench' 'bench',
         description [;
-            print "It's a massive slab of scarred oak that has witnessed countless experiments. ";
+            print
+                "A massive slab of scarred oak that has survived a great many experiments,
+                though not without marks. ";
             if(hut_doc in self && children(self)==1) "Books and parchments lie on the bench.";
             print "On the bench you see ";
             if(PrintContents(0, self)==false) print "nothing";
@@ -762,8 +818,8 @@ Object -> GoldBox "gilded box"
         ],
         before [;
             Open, Close: 
-                "The box doesn't have a conventional lock, but it is sealed by a potent ward. Only its true
-                owner, Istar, can safely manipulate it.";
+                "The box has no lock to speak of, but it is sealed by a potent ward. Only its
+                true owner, Istar, can safely open and close it.";
             Transfer, Take, Remove, LetGo:
                 if(TestScope(Istar))
                     "You reach for it, but a sharp, static shock bites at your fingers, forcing you to pull back.
@@ -825,16 +881,26 @@ Object -> Istar "Istar"
                 rfalse;
         ],
         description [;
-            "Time has not been kind to your old teacher. His once-proud silver beard is tangled and stained with 
-            potion ingredients, and deep lines of exhaustion are etched into his face. Yet, as he looks up at you, 
-            the familiar, brilliant spark of intellect still dances in his eyes.";
+            "Time has not been kind to your old teacher. His once-proud silver beard is
+            tangled and stained with potion ingredients, and deep lines of exhaustion are
+            etched into his face. Yet as he looks up at you, the familiar, brilliant spark
+            of intellect still dances in his eyes.";
         ],
         life [;
             Order:
-                "He ignores you.";
+                "~I would only slow you down, my boy, and there are eyes on this hut that I would
+                rather not lead across half the world. You go. I shall keep the box ready.~";
             Ask:
                 if(second ofclass CStone) second='stone';
                 switch(second) {
+                    'gate':
+                        "~A door,~ he says, ~and on the other side of it, light. Nothing more than that,
+                        and nothing less. Read the folio, my boy, and stop making me say aloud what I
+                        have already written down properly.~";
+                    'himself', 'istar', Istar:
+                        "He waves a hand at the crooked walls, the smoking cauldrons, the mouldering
+                        thatch. ~You see what I have come to. Fifty years at the Academy, and this is
+                        what they let me keep. Still, the roof holds. Mostly.~";
                 'academy':
                     "His face darkens. ~The Arch-Mages felt something stirring in the dark and
                     decided it must be me. I do not blame them for being frightened, my boy. I blame
@@ -893,16 +959,20 @@ Object -> Istar "Istar"
                             can be very useful at times.~";
                         } else {
                             print
-    "Istar strokes his beard, squinting at the parchment. ~Hmm, I suspect this scroll holds secrets
-    meant only for discerning eyes. I encountered a cipher like this many decades ago. Let us try a simple
-    revealing trick.~^^
-    With practiced hands, he pours a measure of emerald fluid into a ceramic dish and stirs in a viscous
-    yellow tincture. The mixture hisses violently, filling the cramped room with a thick, acrid smoke. Undeterred
-    by the fumes, Istar holds your scroll over the rising vapours. After a tense minute, he passes it back to you with
-    a knowing smile. Invisible ink has bloomed across the surface in sharp, glowing runes. It is a spell!^^
-    Istar smiles. He seems insufferably pleased with himself.";
+                                "Istar strokes his beard, squinting at the parchment. ~Hmm, I suspect this scroll holds
+                                secrets meant only for discerning eyes. I encountered a cipher like this many decades ago.
+                                Let us try a simple revealing trick.~^^
+                                With practised hands he pours a measure of emerald fluid into a ceramic dish and
+                                stirs in a viscous yellow tincture. The mixture hisses violently, filling the
+                                cramped room with a thick, acrid smoke. Undeterred by the fumes, Istar holds
+                                your scroll over the rising vapours. After a tense minute he passes it back to
+                                you. Invisible ink has bloomed across the surface in sharp, glowing runes. It is
+                                a spell!^^
+                                Istar strokes his beard flat and says nothing at all, which is his way of being
+                                insufferably pleased with himself.^";
                             move AnimateSpell to DirtyScroll;
                             give DirtyScroll general; ! It's been opened and its contents revealed
+                            give DirtyScroll open;
                             score=score+10;
                             rtrue;
                         }
@@ -929,7 +999,7 @@ Object -> Istar "Istar"
                 if(BlackStone in self) {
                     move BlackStone to GoldBox;
                     move SilverScroll to player;
-                    print "^As you turn toward the door to leave, Istar calls out,
+                    print "^As you turn towards the door to leave, Istar calls out,
                           ~Before you go, I should show you my stone.~ He picks up
                           a black stone and places it in ", (the) GoldBox,
                           ". ~If you find more stones, I want you to put them in the box. Take
@@ -2435,8 +2505,8 @@ Room GateRoom "The Crypt"
     with
         number 0,
         description [;
+            if(self hasnt visited) @sound_effect 4 2 255 0;
 #Iftrue (#version_number == 6);
-            @sound_effect 3 2 255 0;
             ShowPicture(PIC_DEMON);
 #Endif;
             "This room is like a heathen temple. Obsidian pillars rise into the darkness,
@@ -2737,9 +2807,9 @@ Object BackPack "backpack"
         article "your",
         name 'your' 'backpack' 'back' 'pack' 'rucksack' 'bag',
         description
-            "It looks like an ordinary backpack, but it is a little special. No matter how much
-             you stuff into it, it never gets heavier or full. A very handy gift that your first
-             teacher of magic gave you long ago.",
+            "It looks like an ordinary backpack, but it is a little special. No matter how
+            much you stuff into it, it never grows heavier and it never seems to fill up. A
+            very handy gift from your first teacher of magic, given to you long ago.",
         when_closed "Your backpack lies on the floor.",
         when_open "Your open backpack lies on the floor.",
     has container open openable;
@@ -2753,8 +2823,10 @@ Class CStone
 CStone BlackStone "black stone" Istar
     with
         name 'black',
-        description "The stone is a piece of semi-transparent quartz, with a black spot in
-                                the middle.",
+        description
+            "It sits in the gilded box, roughly carved and marked with signs you have never
+            seen in any grimoire. It is not simply black; it is the colour of a hole in the
+            world, and looking at it for long makes your eyes water.",
     ;
 
 CStone GreenStone "green stone" Cave
@@ -2800,10 +2872,11 @@ Object Introduction "folio" Istar
         name 'folio' 'notes' 'report',
         description [;
             "Inscribed in your mentor's familiar, frantic handwriting is a harrowing log of his forbidden studies.^^
-            He writes that our present age will soon give way to an era of unmitigated terror and dread, heralded
-            by the cataclysmic return of the Old Gods to the earth. It would mean nothing less than the absolute
-            annihilation of humanity. Since his forced exile from the Academy, he has desperately sought a way to
-            delay the awakening of these malevolent powers.^^
+            He writes that the present age will soon give way to an era of terror and dread,
+            heralded by the return of the Old Gods to the earth. It would mean nothing less
+            than the annihilation of humanity. Ever since his exile from the Academy he has
+            searched, without rest, for a way to delay the waking of these malevolent
+            powers.^^
             There is but one hope. By opening a gateway to a higher dimension, he can channel a torrent of pure,
             white magic powerful enough to seal the evil gods away. To tear open this gate, however, he requires ",
             (LanguageNumber) WantedStones-->0, " elemental stones. He already possesses the first, a dark, abyssal stone,
@@ -3043,25 +3116,24 @@ Object Introduction "folio" Istar
 
 #Iftrue (#version_number == 6);
 [ Initialise key;
-    ShowPicture(PIC_INTRO);
     @sound_effect 3 2 255 0;
+    ShowPicture(PIC_INTRO);
     @read_char key;
     @erase_window 0;
 #IfNot;
 [ Initialise ;
+    @sound_effect 3 2 255 0;
 #Endif;
 
-    @sound_effect 4 2 255 0;
 
     print 
         "The letter from your old mentor arrived entirely out of the blue. You still vividly remember the day
         the Arch-Mages at the Academy accused him of dabbling in the dark arts. Shortly after, he vanished without
         a trace, and his name was reduced to a forbidden whisper.^^
-	Yet, without his patient guidance, you would never have survived your
-	apprenticeship. Now, he desperately needs your help. Throwing caution to the
-	wind, you followed the cryptic instructions in his letter, and after weeks of
-	gruelling travel you finally stand before your mentor's secluded, humble
-	dwelling.^";
+        Yet without his patient guidance you would never have survived your
+        apprenticeship, and now he desperately needs your help. Throwing caution to the
+        wind, you followed the cryptic instructions in his letter, and after weeks of
+        gruelling travel you now stand before your mentor's secluded, humble dwelling.^";
 
     banner();
     @new_line;
@@ -3070,8 +3142,6 @@ Object Introduction "folio" Istar
     print "^Press any key to start the game^";
     @read_char key;
     @erase_window 0;
-
-    @sound_effect 3 2 255 0;
 #Endif;
 
     score=0;

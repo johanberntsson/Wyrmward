@@ -70,9 +70,11 @@ mega65: mega65_wyrmward.d81
 .PHONY: all z5 sound blorb z6 x16 mega65 test frotz sfrotz release clean
 
 test:z5
-	rm -f wyrmward.scr wyrmward.qzl
+	rm -f wyrmward.scr wyrmward.qzl wyrmward.cur
 	frotz wyrmward.z5 < wyrmward.cmd
-	meld wyrmward.scr wyrmward.txt
+	grep -v "Serial number" wyrmward.scr > wyrmward.cur
+	rm -rf wyrmward.scr
+	meld wyrmward.cur wyrmward.txt
 
 frotz: z5
 	frotz -d wyrmward.z5
@@ -91,4 +93,4 @@ release:
 	frotz -d wyrmward.z5
 
 clean:
-	rm -rf wyrmward.z5 wyrmward.z6 wyrmward.blb wyrmward.scr pics *.d81 x16_wyrmward* *qzl
+	rm -rf wyrmward.z5 wyrmward.z6 wyrmward.blb wyrmward.scr wyrmward.cur pics *.d81 x16_wyrmward* *qzl 
