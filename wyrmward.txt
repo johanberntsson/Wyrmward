@@ -864,6 +864,8 @@ Loud stripes in three colours, cut generously, with sleeves wide enough to be
 fashionable. It is the only garment on this road that was chosen to be looked
 at.
 
+"Won't you try again? Just one silver coin," says the hawker.
+
 > x sleeve
 Wide, deep, and gathered at the cuff. There is a great deal of room in a sleeve
 like that, and the hawker keeps turning that side of himself away from you.
@@ -895,7 +897,7 @@ make it transparent.
 
 "Won't you try again? Just one silver coin," says the hawker.
 
-> take cup
+> take it
 The hawker's hand arrives on the bench a moment before yours does. "The cups
 stay with me, master. You are welcome to point at them all day."
 
@@ -958,7 +960,7 @@ again. He will get up when the heat goes out of the day and not a moment sooner.
 
 > shake beggar
 Rousing a sleeping man out of the shade at midday, so that you can give him
-money, would be a strange sort of kindness. Let him sleep.
+money, would be a strange sort of kindness. Let him sleep and come back later.
 
 > move beggar
 There is no reason to move him. He is not in your way, and he is exactly where
@@ -998,6 +1000,9 @@ Striking a starving man was unworthy of you when he was awake. Asleep, it does
 not bear thinking about.
 
 > cast heal on beggar
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the healing spell.
+
 There is nothing wrong with the man that a spell can mend. He is asleep, not
 ill.
 
@@ -1119,9 +1124,14 @@ Somewhere under the sliding cups a red light kindles. It does not shine out from
 beneath any of the three. It shines, faint and quite unmistakable, through the
 cloth of the hawker's right sleeve, and he has not noticed it yet.
 
+The man speeds up, but you still keep track.
+
 > x sleeve
 The glow moves with his arm, a dull ember travelling up and down inside the
 cloth. The stone has not been on this bench since he picked it up.
+
+The man moves the cups so fast that you almost lose track, but you think you
+still know which cup the stone is under.
 
 > cast freeze on cups
 The spellbook opens itself to the right page, and you read aloud the complicated
@@ -1130,6 +1140,9 @@ words of the freeze spell.
 Frost blooms across all three cups and they seize fast to the bench. The hawker
 prises them up one at a time, blowing on his fingers and grinning at the crowd.
 "A cold trick, master. But there is still nothing under them."
+
+"Well, where is the stone?" asks the man when he has stopped moving the cups.
+You are unsure, but you think it is the right cup.
 
 > cast animate on cups
 The spellbook opens itself to the right page, and you read aloud the complicated
@@ -1140,6 +1153,8 @@ crowd roars. The hawker traps them one by one under his broad hands and sets
 them back in a row, delighted with the free entertainment, and the stone stays
 exactly where it has been all along.
 
+"Point to the cup you think the stone is under," says the man.
+
 > cast animate on stone
 The spellbook opens itself to the right page, and you read aloud the complicated
 words of the animation spell.
@@ -1148,12 +1163,16 @@ The stone squirms once inside his sleeve. The hawker's grin flickers and he
 clamps his arm against his side, and the crowd, watching the cups, sees nothing
 at all. You will have to make them look somewhere else.
 
+"Point to the cup you think the stone is under," says the man.
+
 > cast freeze on hawker
 The spellbook opens itself to the right page, and you read aloud the complicated
 words of the freeze spell.
 
 The spell finds nothing in him to take hold of. He shivers violently, pulls his
 tunic straight and carries on shuffling. "Draughty spot, this," he says.
+
+"Point to the cup you think the stone is under," says the man.
 
 > cast animate on bench
 The spellbook opens itself to the right page, and you read aloud the complicated
@@ -1223,7 +1242,7 @@ The air is cool, crisp, and pure, carrying the clean scent of dry wild grass and
 sun-baked earth, untainted by smoke or civilization.
 
 > n
-A yellow cloud surrounds you, and as it clears you find yourself...
+A yellow cloud surrounds you, and as it clears you find yourself in a...
 
 Forest
 You stand on a path in a mature forest, deep enough that the daylight arrives
@@ -1548,6 +1567,7 @@ down the slope from somewhere above, and the floor beneath it is thick with mud.
 
 Two statues guard the passage.
 
+
 > listen
 The continuous trickling and splashing of water flowing down the slick stone
 floor echoes wetly off the narrow tunnel walls.
@@ -1825,8 +1845,8 @@ thickly. "You people always did put a great deal of faith in books."
 The dragon's breathing is steadier now, but her eyes are still glassy.
 
 > ask dragon about magic
-The dragon mutters to herself: "A human who saves my life. Helps a dragon.
-Never heard of such a thing." She is still very far from herself.
+The dragon mutters to herself: "A human who saves my life. Helps a dragon. Never
+heard of such a thing." She is still very far from herself.
 
 Some colour is returning to the great scaled throat.
 
@@ -2219,7 +2239,7 @@ encircled by four free-standing, ornate archways, each facing one of the
 cardinal directions of the compass.
 
 > s
-A yellow cloud surrounds you, and as it clears you find yourself...
+A yellow cloud surrounds you, and as it clears you find yourself in the...
 
 Meadow
 You stand in a small, overgrown clearing dominated by a dilapidated hut hunched

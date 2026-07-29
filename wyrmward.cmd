@@ -81,7 +81,7 @@ listen
 smell
 x steppe
 x archway
-x archways
+look through archway
 x compass
 x runes
 touch archway
@@ -120,7 +120,7 @@ listen
 smell
 x house
 x road
-x houses
+x banners
 x village
 x hawker
 x cups
@@ -141,7 +141,7 @@ s
 u
 d
 x village
-x houses
+search dust
 x corn
 w
 z
@@ -153,16 +153,42 @@ take stone
 buy stone
 ask hawker about stone
 ask hawker about game
+hawker, hello
+ask hawker about coins
+ask hawker about himself
+ask hawker about beggar
+x tunic
+x sleeve
+search hawker
+accuse hawker
+tell crowd about hawker
+x left cup
+take it
+look under bench
 look under left cup
 hawker, give me stone
 save
 
 w
-give coin to beggar
-x beggar,
+x beggar
+x rags
+x hand
 beggar, hello
+beggar, wake up
 wake beggar
+shake beggar
 move beggar
+listen to beggar
+smell beggar
+search beggar
+take amulet
+give coin to beggar
+show coin to beggar
+put coin in hand
+ask beggar about amulet
+attack beggar
+cast heal on beggar
+z
 e
 give coin to hawker
 z
@@ -179,6 +205,12 @@ give coin to hawker
 restore
 
 give coin to hawker
+cast illuminate on stone
+x sleeve
+cast freeze on cups
+cast animate on cups
+cast animate on stone
+cast freeze on hawker
 cast animate on bench
 i
 w
@@ -291,12 +323,20 @@ smell
 listen
 x sulfur
 x incline
-x slope
+x hall
 x treasure
 take treasure
 x wound
+x sword
+pull sword
+put hand on wound
+cast freeze on wound
+cast animate on dragon
+cast illuminate on dragon
+x barbarian
 dragon, hello
 attack dragon
+pray
 u
 z
 x dragon
@@ -322,6 +362,7 @@ x temple
 x sea
 x path
 x mountain
+x sea grass
 w
 u
 d
@@ -335,6 +376,8 @@ x vaults
 x leaded windows
 x temple
 x statue
+x fin
+x scales
 talk to statue
 take statue
 x remains
@@ -351,6 +394,7 @@ e
 x waves
 x rocks
 x birds
+x tide pools
 taste water
 smell
 listen
@@ -375,7 +419,6 @@ s
 put green stone in box
 put blue stone in box
 put red stone in box
-
 save
 
 y
