@@ -353,6 +353,16 @@ ask dragon about old gods
 ask dragon about istar
 ask dragon about treasure
 ask dragon about death spell
+ask dragon about herself
+ask dragon about name
+ask dragon about way out
+ask dragon about barbarian
+ask dragon about wound
+ask dragon about demon
+dragon, follow me
+ride dragon
+x eyes
+x scales
 thank dragon
 cast teleport
 w

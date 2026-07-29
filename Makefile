@@ -69,7 +69,7 @@ mega65: mega65_wyrmward.d81
 
 .PHONY: all z5 sound blorb z6 x16 mega65 test frotz sfrotz release clean
 
-test:z5
+test: z5
 	rm -f wyrmward.scr wyrmward.qzl wyrmward.cur
 	frotz wyrmward.z5 < wyrmward.cmd
 	grep -v "Serial number" wyrmward.scr > wyrmward.cur

@@ -92,6 +92,13 @@ Global     no_memorized_spells = 0;
     rfalse;
 ];
 
+[ ParseNameSeaGrass _w _n;
+    _w = NextWord();
+    if(_w == 'sea') { _n++; _w = NextWord(); }
+    if(_w == 'grass') return _n + 1;
+    rfalse;
+];
+
 [ ParseNameSteppe _w _n;
     _w = NextWord();
     if(_w == 'boundless' or 'wind-swept') { _n++; _w = NextWord(); }
@@ -419,6 +426,9 @@ Verb 'talk' 'report'
     print_ret (The) noun, " doesn't seem interested.";
 ];
 
+Extend 'put'
+    * 'hand' 'on' noun -> Touch;
+
 !Extend only 'read' replace * noun -> Read;
 Extend 'read' first * noun -> Read;
 [ ReadSub; <<Examine noun>>; ];
@@ -456,6 +466,9 @@ Extend only 'hit' 'break' 'smash' replace
     * noun -> Attack;
 
 Verb 'time' 'date' * -> Time;
+
+Verb 'ride' * creature -> Ride;
+[ RideSub; "You can't ride that."; ];
 
 Verb 'thank' 'thanks'
     * creature -> Thanks
@@ -741,6 +754,39 @@ Object Twine "twine"
             "You pull at the twine and open the scroll.";
         ],
     has openable scenery;
+
+Object f_f "forest"
+    with
+        name 'dark' 'mature' 'darkness' 'impenetrable' 'forest' 'woods',
+        description
+            "The trees are massive, ancient oaks and pines, their roots writhing through the
+            earth like frozen serpents. Their dense canopy blocks out most of the daylight,
+            plunging the depths of the woods into absolute, suffocating darkness.",
+        before [;
+            Climb:
+                "The lowest branches are twenty feet up a trunk with nothing to grip, and the
+                canopy above them is thicker than the one you would be climbing out of.";
+            Take, Remove: "Unless you have a remarkably large sack and the strength of a titan, the forest
+                        is staying exactly where it is.";
+            Enter: "Trying to force your way through would only result in torn robes and broken branches.";
+            ],
+            found_in Meadow Forest ForestPath Mountain,
+    has scenery ;
+
+Object f_tree "tree"
+    with
+        name 'tree' 'trees',
+        description
+           "Oaks and pines of enormous age, so thick through the trunk that three men could
+            not link hands around one. Nothing grows in their shade but moss.",
+        before [;
+            Climb:
+                "The lowest branches are twenty feet up a trunk with nothing to grip, and the
+                canopy above them is thicker than the one you would be climbing out of.";
+            Take, Remove: "You'd need an axe.";
+            ],
+            found_in Meadow Forest ForestPath Mountain,
+    has scenery;
 
 Room RemoteHut "Hut"
     with
@@ -1039,38 +1085,78 @@ Object -> Istar "Istar"
         ],
     has animate proper;
 
-Object f_f "forest"
+Room TeleportRoom "On the Steppe"
     with
-        name 'dark' 'mature' 'darkness' 'impenetrable' 'forest' 'woods',
-        description
-            "The trees are massive, ancient oaks and pines, their roots writhing through the
-            earth like frozen serpents. Their dense canopy blocks out most of the daylight,
-            plunging the depths of the woods into absolute, suffocating darkness.",
+        description [;
+#Iftrue (#version_number == 6);
+            ShowPicture(PIC_TELEPORT);
+#Endif;
+            "The yellow cloud dissipates, leaving you standing in a boundless, wind-swept
+            steppe that rolls onward to the horizon. Strangest of all, you find yourself
+            encircled by four free-standing, ornate archways, each facing one of the
+            cardinal directions of the compass.";
+        ],
+        cheap_scenery
+            CS_NO_ADJ 'grass'
+                "Waist-high steppe grass, bleached the colour of old straw and bending all one
+                way in the wind. There is not a fence, a track or a rooftop anywhere in it."
+            CS_PARSE_NAME ParseNameSteppe
+                "The steppe stretches as far as the eye can see under a pale, vast sky. The dry
+                grass whispers softly in the cold wind, broken only by the eerie presence of the
+                four archways."
+            'rune' 'runes'
+                "Deep-cut characters march across each keystone in a script far older than anything you were taught
+                to read. They pulse slowly, in a rhythm uncomfortably like breathing."
+            'compass' 'directions'
+                "There is no compass here to look at. The archways themselves do the work, standing true to north,
+                south, east and west and cutting the vast horizon into four quarters."
+            CS_PARSE_NAME ParseNameYellowCloud
+                "The magical mist has already thinned and vanished into the brisk steppe air, leaving behind only the faint,
+                ozone scent of teleportation magic.",
+        react_before_magic [spell;
+            if(spell == TeleportSpell)
+                "The spell will not take hold. The archways have a grip on this place, and until
+                you walk under one of them you are staying exactly where you are.";
+        ],
         before [;
-            Climb:
-                "The lowest branches are twenty feet up a trunk with nothing to grip, and the
-                canopy above them is thicker than the one you would be climbing out of.";
-            Take, Remove: "Unless you have a remarkably large sack and the strength of a titan, the forest
-                        is staying exactly where it is.";
-            Enter: "Trying to force your way through would only result in torn robes and broken branches.";
-            ],
-            found_in Meadow Forest ForestPath Mountain,
-    has scenery ;
+        Listen:
+            "A low, persistent wind moans across the open plains, whistling softly as it passes through the ancient stone
+            carvings of the four archways. Beyond the wind, the silence is absolute and immense.";
+        Smell:
+            "The air is cool, crisp, and pure, carrying the clean scent of dry wild grass and sun-baked earth,
+            untainted by smoke or civilization.";
+        ],
+        n_to [; print "A yellow cloud surrounds you, and as it clears you find yourself in a...^^";
+                PlayerTo(Forest); rtrue; ],
+        s_to [; print "A yellow cloud surrounds you, and as it clears you find yourself in the...^^";
+                PlayerTo(Meadow); rtrue; ],
+        e_to [; print "Step by step, you pass beneath the eastern arch. A swirl of yellow mist envelops you once more,
+                    and as it clears, the wide steppe vanishes...^^";
+                PlayerTo(VillageRoad); rtrue; ],
+        w_to [; print "A yellow cloud surrounds you, and as it clears you find yourself...^^";
+                PlayerTo(ChurchYard); rtrue; ],
+        u_to "The sky over the steppe is enormous, cloudless and entirely out of reach.",
+        d_to
+            "Dry turf and hard-packed earth, bound together by the roots of a thousand years
+            of grass. You would need a spade and a fortnight to get anywhere.",
+        cant_go "You can only leave through the archways.";
 
-Object f_tree "tree"
+Object -> Archway "archways"
     with
-        name 'tree' 'trees',
+        name 'archway' 'archways' 'arch' 'arches' 'portal' 'portals' 'gate' 'gates' 'door' 'doors' 'doorway' 'doorways',
         description
-           "Oaks and pines of enormous age, so thick through the trunk that three men could
-            not link hands around one. Nothing grows in their shade but moss.",
+            "Four massive stone arches stand in a wide circle around you, each squarely
+            aligned with one of the cardinal compass directions. Glowing runes are cut into
+            the keystone of every arch, and the air beneath them hums quietly to itself.",
         before [;
-            Climb:
-                "The lowest branches are twenty feet up a trunk with nothing to grip, and the
-                canopy above them is thicker than the one you would be climbing out of.";
-            Take, Remove: "You'd need an axe.";
-            ],
-            found_in Meadow Forest ForestPath Mountain,
-    has scenery;
+        LookThrough:
+            "Through the arch you can see the same grass, the same wind, the same empty horizon.
+            Whatever lies on the other side does not show itself until you walk under the stone.";
+        Touch:
+            "The stone is oddly warm under your palm, and the runes brighten at the contact,
+            as though they can tell a wizard by feel.";
+        ],
+    has scenery pluralname;
 
     Room Forest "Forest"
     with
@@ -1641,12 +1727,22 @@ Room DragonHall "The Dragon Hall"
             "Every surface of it was cut by hand: fluted columns, a vaulted roof lost in the
             dark, a floor of dressed slabs now buried under ash. Whoever built this did not
             build it for a dragon, and the dragon has outlasted them by a very long way."
+        CS_NO_ADJ 'barbarian'
+            "A long smear of ash and a sword hilt, which is all that is left of him. He did
+            what he came down here to do."
         'sulfur' 'sulphur'
             "Thick, yellowish fumes drift near the vaulted ceiling, stinging your nostrils
             with the sharp stench of brimstone."
         'slope' 'incline'
             "A steep, slick chute of frozen mud leading back up into the dark tunnel. It looks
             far too slippery to climb without help."
+        'eye' 'eyes'
+            "Great lidded discs of amber, with a slot of black down the centre of each. They
+            follow you without haste and without any particular effort, the way you might
+            watch a fly cross a room."
+        CS_NO_ADJ 'scales'
+            "Overlapping plates of dark bronze, each the size of a dinner plate, dulled with
+            ash and scarred along her flank where something long ago tried and failed."
         CS_NO_ADJ 'ash'
             "A deep layer of fine grey ash coats the chamber floor, drifting like snow under
             your boots and smelling faintly of ancient fires.",
@@ -1671,6 +1767,14 @@ Room DragonHall "The Dragon Hall"
         !u_to [; return UpSlope(MountainSlope); ],
         !s_to [; return UpSlope(MountainSlope); ],
         cant_go "Solid rock walls block your path.";
+
+Object -> CrematedBarbarian "barbarian's ashes"
+    with
+        name 'barbarian',
+        description
+            "A long smear of ash and a sword hilt, which is all that is left of him. He did
+            what he came down here to do.",
+    has scenery;
 
 Object -> Treasure "treasure"
     with
@@ -1704,6 +1808,35 @@ Object -> Wound "wound"
                 it in a slow, steady pulse, and the pulse is getting weaker.";
             "The dragon's wound is healed.";
         ],
+        before [;
+        Touch:
+            "You press both palms against the hot scales and the blood comes through your
+            fingers as though they were not there. This is far beyond anything you can do
+            with your hands.";
+        ],
+        domagic [spell;
+            if(spell == FreezeSpell)
+                "Frost creeps across the scales around the sword and the flow slackens for a
+                moment, and for that moment you think you have it. Then the cold reaches
+                something deeper, the great body shudders, and you break the spell off yourself
+                before you do her more harm than the barbarian did. Ice is not what she needs.";
+        ],
+    has scenery;
+
+Object -> Sword "sword"
+    with
+        name 'sword',
+        description
+            "The barbarian's blade, buried to half its length under her jaw and moving
+            slightly with each breath she takes. It is the only thing in this hall that is
+            still doing exactly what it was made for.",
+        before [;
+        Pull, Push, PushDir:
+            "You get both hands to the grip before you stop yourself. Draw it out and the
+            bleeding will not slow; it will become a flood, and she will be gone before you
+            have thought of anything better. Whatever you do for her, do it with the sword
+            where it is.";
+        ],
     has scenery;
 
 Object -> Dragon "dragon"
@@ -1715,6 +1848,12 @@ Object -> Dragon "dragon"
             "The dragon tilts her massive head, watching your sudden and undignified entrance with frank curiosity.";
         ],
         domagic [spell;
+            if(spell == AnimateSpell)
+                "Nothing happens, and nothing should. The animation spell is for things that have
+                never lived. She is still very much alive, and that is the whole problem.";
+            if(spell == IlluminateSpell)
+                "A soft light gathers along her flank, and by it you can see exactly how much
+                blood has gone into the ash. It is a great deal. You let the light go out again.";
             if(self.number<=0)
                 print_ret (The) self, " stops you with a short spell, but looks amused.";
             if(spell==HealSpell && self hasnt general) {
@@ -1740,6 +1879,9 @@ Object -> Dragon "dragon"
             perfect, unhurried intelligence.";
         ],
         before [;
+            Ride:
+                "You get as far as thinking about it. She opens one eye, and you find that you
+                have finished thinking about it.";
             Thanks:
                 "The dragon inclines her enormous head. ~We are square, wizard. Do not make a
                 habit of saving dragons. It gives us expectations.~";
@@ -1753,7 +1895,13 @@ Object -> Dragon "dragon"
                 if(noun == SpellBook)
                     "She glances at the open page and away again, unimpressed. ~Books,~ she says
                     thickly. ~You people always did put a great deal of faith in books.~";
-            Ask, Answer, Order:
+            Answer:
+                "The great eye tracks you across the ash, but she has no breath to spare for an answer.";
+            Order:
+                "~I have not left this hall in four hundred years, and I shall not leave it to
+                run an errand.~ She closes her eyes. ~Whatever is coming for you, wizard, you
+                must go and meet it yourself.~";
+            Ask, Tell:
                 if(self has general && KillSpell notin SpellBook) {
                     print
                         "The dragon focuses on you, and something like surprise crosses her face. ~A
@@ -1776,6 +1924,30 @@ Object -> Dragon "dragon"
                     }
                 } else {
                     ! dragon is healed
+                    if(second == 'herself' or 'dragon' or Dragon)
+                        "~I have been here since before the hall was cut, and I shall be here after it
+                        falls in.~ She settles a little deeper into the coins. ~That is the whole of my
+                        history, and I am fond of it.~";
+                    if(second == 'name')
+                        "~You may have the name the miners gave me, which was Trouble, or the one my
+                        mother gave me, which you could not pronounce and would not survive hearing.~
+                        Something moves behind her eyes that might be amusement.";
+                    if(second == 'barbarian' or 'warrior')
+                        "~He was quick, and he was brave, and he was in my hall with a sword.~ The huge
+                        head turns towards the ash. ~I do not hold it against him. I would have done the
+                        same in his place, and I did.~";
+                    if(second == 'wound' or 'throat')
+                        "She tips her head back and lets you see the unmarked scales under her jaw. ~Gone
+                        as though it never happened. I have carried worse for a century because there
+                        was no one to ask.~";
+                    if(second == 'demon' or 'daemon')
+                        "~I know the smell of that kind,~ she says, and her lip draws back off a great
+                        many teeth. ~Nothing of that sort has come down my tunnel, and nothing of that
+                        sort would go back up it. Why do you ask, wizard? What have you been carrying?~";
+                    if(second == 'way' or 'exit')
+                        "~Up the mud, on your own legs? No.~ She does not trouble to look at the incline.
+                        ~You came here by magic, wizard, one way or another. You will leave the same
+                        way, or you will stay and keep me company, and I think you are in a hurry.~";
                     if(second == 'stone' or 'stones')
                         "~Stones.~ She turns the word over. ~Cut stones, of four colours, that call to
                         one another across a great distance. Yes. They were made to open something, and
@@ -1797,7 +1969,6 @@ Object -> Dragon "dragon"
                         my grandmothers did not frighten easily.~";
                     "The dragon looks at you but says nothing.";
                 }
-            default: rfalse;
         ],
         daemon [l r p;
             ! Dragon wounded timer
@@ -1871,100 +2042,29 @@ Object -> Dragon "dragon"
         ],
     has animate female;
 
-Object DeadDragon "dragon"
-    with
-        name 'dragon' 'wyrm' 'serpent' 'body' 'corpse' 'dead' 'she',
-        initial "On the floor lies the dragon's dead body.",
-        description "The dragon's enormous body lies still and cold on the hall floor.",
-        domagic [spell;
-            switch(spell) {
-            ResurrectSpell:
-                ReplaceObj(self, Dragon);
-                give Dragon general;
-                Dragon.number=6;
-                StartDaemon(Dragon);
-                "The dragon's body shudders. The gaping wound in her throat draws together, and
-                she begins to breathe again. She suddenly sits up but falls heavily back. She
-                still seems to be in shock.";
-            HealSpell:
-                "She is dead. The healing spell has no effect.";
-            default: rfalse;
-            };
-        ],
-    has static female;
+!Object DeadDragon "dragon"
+!    with
+!        name 'dragon' 'wyrm' 'serpent' 'body' 'corpse' 'dead' 'she',
+!        initial "On the floor lies the dragon's dead body.",
+!        description "The dragon's enormous body lies still and cold on the hall floor.",
+!        domagic [spell;
+!            switch(spell) {
+!            ResurrectSpell:
+!                ReplaceObj(self, Dragon);
+!                give Dragon general;
+!                Dragon.number=6;
+!                StartDaemon(Dragon);
+!                "The dragon's body shudders. The gaping wound in her throat draws together, and
+!                she begins to breathe again. She suddenly sits up but falls heavily back. She
+!                still seems to be in shock.";
+!            HealSpell:
+!                "She is dead. The healing spell has no effect.";
+!            default: rfalse;
+!            };
+!        ],
+!    has static female;
 
-Room TeleportRoom "On the Steppe"
-    with
-        description [;
-#Iftrue (#version_number == 6);
-            ShowPicture(PIC_TELEPORT);
-#Endif;
-            "The yellow cloud dissipates, leaving you standing in a boundless, wind-swept
-            steppe that rolls onward to the horizon. Strangest of all, you find yourself
-            encircled by four free-standing, ornate archways, each facing one of the
-            cardinal directions of the compass.";
-        ],
-        cheap_scenery
-            CS_NO_ADJ 'grass'
-                "Waist-high steppe grass, bleached the colour of old straw and bending all one
-                way in the wind. There is not a fence, a track or a rooftop anywhere in it."
-            CS_PARSE_NAME ParseNameSteppe
-                "The steppe stretches as far as the eye can see under a pale, vast sky. The dry
-                grass whispers softly in the cold wind, broken only by the eerie presence of the
-                four archways."
-            'rune' 'runes'
-                "Deep-cut characters march across each keystone in a script far older than anything you were taught
-                to read. They pulse slowly, in a rhythm uncomfortably like breathing."
-            'compass' 'directions'
-                "There is no compass here to look at. The archways themselves do the work, standing true to north,
-                south, east and west and cutting the vast horizon into four quarters."
-            CS_PARSE_NAME ParseNameYellowCloud
-                "The magical mist has already thinned and vanished into the brisk steppe air, leaving behind only the faint,
-                ozone scent of teleportation magic.",
-        react_before_magic [spell;
-            if(spell == TeleportSpell)
-                "The spell will not take hold. The archways have a grip on this place, and until
-                you walk under one of them you are staying exactly where you are.";
-        ],
-        before [;
-        Listen:
-            "A low, persistent wind moans across the open plains, whistling softly as it passes through the ancient stone
-            carvings of the four archways. Beyond the wind, the silence is absolute and immense.";
-        Smell:
-            "The air is cool, crisp, and pure, carrying the clean scent of dry wild grass and sun-baked earth,
-            untainted by smoke or civilization.";
-        ],
-        n_to [; print "A yellow cloud surrounds you, and as it clears you find yourself in a...^^";
-                PlayerTo(Forest); rtrue; ],
-        s_to [; print "A yellow cloud surrounds you, and as it clears you find yourself in the...^^";
-                PlayerTo(Meadow); rtrue; ],
-        e_to [; print "Step by step, you pass beneath the eastern arch. A swirl of yellow mist envelops you once more,
-                    and as it clears, the wide steppe vanishes...^^";
-                PlayerTo(VillageRoad); rtrue; ],
-        w_to [; print "A yellow cloud surrounds you, and as it clears you find yourself...^^";
-                PlayerTo(ChurchYard); rtrue; ],
-        u_to "The sky over the steppe is enormous, cloudless and entirely out of reach.",
-        d_to
-            "Dry turf and hard-packed earth, bound together by the roots of a thousand years
-            of grass. You would need a spade and a fortnight to get anywhere.",
-        cant_go "You can only leave through the archways.";
 
-Object -> Archway "archways"
-    with
-        name 'archway' 'archways' 'arch' 'arches' 'portal' 'portals' 'gate' 'gates' 'door' 'doors' 'doorway' 'doorways',
-        description
-            "Four massive stone arches stand in a wide circle around you, each squarely
-            aligned with one of the cardinal compass directions. Glowing runes are cut into
-            the keystone of every arch, and the air beneath them hums quietly to itself.",
-        before [;
-        LookThrough:
-            "Through the arch you can see the same grass, the same wind, the same empty horizon.
-            Whatever lies on the other side does not show itself until you walk under the stone.";
-        Touch:
-            "The stone is oddly warm under your palm, and the runes brighten at the contact,
-            as though they can tell a wizard by feel.";
-        ],
-    has scenery pluralname;
 
 Room ChurchYard "Before a Temple"
     with
@@ -1977,6 +2077,9 @@ Room ChurchYard "Before a Temple"
             great temple, weathered by long centuries of sea wind.";
         ],
         cheap_scenery
+        CS_PARSE_NAME ParseNameSeaGrass
+            "Coarse, blue-grey tussocks clinging to the sandy soil either side of the path,
+            combed flat and all one way by the wind off the water."
         CS_NO_ADJ 'forest'
             "A dense cluster of tall green trees visible along the path to the north."
         CS_NO_ADJ 'sea'
@@ -1994,9 +2097,10 @@ Room ChurchYard "Before a Temple"
             shoreline, subtly laced with the earthy fragrance of pine from the nearby woods.";
         ],
         n_to "The road winds on into the forest, where you have no business.",
+        w_to "A thick wall of brambles and windblown scrub blocks any progress that way.",
         s_to Beach,
         e_to Church,
-        u_to "There is nothing above you but open sky.",
+        u_to "There is nothing above you but open sky and a few high gulls.",
         d_to "The hard dirt path offers nowhere to descend.",
         cant_go "A thick wall of brambles and scrub vegetation blocks any progress.";
 
@@ -3439,7 +3543,6 @@ Object Introduction "folio" Istar
     @erase_window 0;
 #IfNot;
 [ Initialise ;
-    @sound_effect 3 2 255 0;
 #Endif;
 
 
