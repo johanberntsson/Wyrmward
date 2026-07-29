@@ -1,7 +1,7 @@
 Start of a transcript of
 
 Wyrmward
-(c) 1996-2005, 2026 Johan Berntsson. Type "help" or "h" for instructions.
+(c) 1996, 2005, 2026 Johan Berntsson. Type "help" or "h" for instructions.
 
 > restart
 Are you sure you want to restart? yes
@@ -17,7 +17,7 @@ wind, you followed the cryptic instructions in his letter, and after weeks of
 gruelling travel you now stand before your mentor's secluded, humble dwelling.
 
 Wyrmward
-(c) 1996-2005, 2026 Johan Berntsson. Type "help" or "h" for instructions.
+(c) 1996, 2005, 2026 Johan Berntsson. Type "help" or "h" for instructions.
 
 Meadow
 You stand in a small, overgrown clearing dominated by a dilapidated hut hunched
@@ -100,12 +100,6 @@ The healing spell: (heal someone).
 The freeze spell: (freeze something).
 The illumination spell: (make something glow).
 The copying spell: (copy a spell into the spellbook).
-
-> memorize freeze spell
-You concentrate and memorize the freeze spell.
-
-> memorize freeze spell
-You concentrate and memorize the freeze spell once more.
 
 > x grass
 The grass is thick, wild, and heavy with a cold, clinging dew that quickly soaks
@@ -1549,9 +1543,6 @@ Taken.
 It reads: "The resurrection spell -- raise the dead." The spell itself runs on
 for a great many lines, and every one of them is more complicated than the last.
 
-> memorize resurrection spell
-You can only memorize spells written in the spellbook.
-
 > cast copy on scroll
 The spellbook begins to glow. It strains at the task, drawing on every scrap of
 power it has, but the resurrection spell is simply too long, too intricate and
@@ -2340,40 +2331,21 @@ It does not look up from the reading. "Your teacher is in here with me, wizard,
 and he has watched every step of this from behind my eyes. He is watching now. I
 should not like you to think he missed it."
 
-> touch field
-You put a hand out to the red light and snatch it back with your fingers
-smarting. The field does not want you, and it is not subtle about saying so.
-
-> attack demon
-You throw yourself at the red wall. It gives like a drumskin, holds, and sets
-your shoulder ringing. The demon does not even break the rhythm of its reading.
-
-> cast death on demon
-Your spellbook will not open. Whatever the red field is, it lies between you and
-the rest of the room, and no spell of yours is getting through it while it
-stands.
-
-> x altar
-A massive block of dark, unpolished granite, cut with jagged channels that all
-run inwards towards a hollow at its centre. You would rather not think about
-what the channels are for.
-
 The demon drops the stones one by one into the well, and the liquid sinks away.
 
 The amulet begins to move of its own accord towards the red field.
 
-> x pillars
-Monolithic shafts of black stone that support the vaulted ceiling far above.
-They are etched with writhing, glowing runes.
+> touch field
+You put a hand out to the red light and snatch it back with your fingers
+smarting. The field does not want you, and it is not subtle about saying so.
 
 The well now glows with a red light from below. The demon looks very expectant.
 
 The amulet pulls strongly in the direction of the red field.
 
-> x pedestals
-Four squat plinths of the same black stone stand at the compass points around
-the altar. Each is cut with a shallow depression, and each depression is exactly
-the size of a man's fist.
+> attack demon
+You throw yourself at the red wall. It gives like a drumskin, holds, and sets
+your shoulder ringing. The demon does not even break the rhythm of its reading.
 
 The glow grows brighter and a dull rumble builds under the floor. The demon
 turns to you and says, "The gate is open. A new age has begun."
@@ -2387,11 +2359,51 @@ the first to be torn to pieces is you.
 
   *** You have died ***
 
-In that game you scored 30 out of a possible 50, in 356 turns.
-
-Would you like to RESTART, RESTORE or QUIT? 
+In that game you scored 30 out of a possible 50, in 388 turns.
 
 Would you like to RESTART, RESTORE or QUIT? restore
+Enter a file name.
+Default is "wyrmward.qzl": 
+Ok.
+
+> cast death on demon
+Your spellbook will not open. Whatever the red field is, it lies between you and
+the rest of the room, and no spell of yours is getting through it while it
+stands.
+
+The demon reads a spell aloud.
+
+The amulet begins to vibrate.
+
+> x altar
+A massive block of dark, unpolished granite, cut with jagged channels that all
+run inwards towards a hollow at its centre. You would rather not think about
+what the channels are for.
+
+Part of the floor falls away, and a dark opening like a well appears. There is a
+slimy liquid standing in it. Still reading, the demon begins to pace anti-
+clockwise around the well.
+
+The amulet vibrates violently.
+
+> x pillars
+Monolithic shafts of black stone that support the vaulted ceiling far above.
+They are etched with writhing, glowing runes.
+
+The demon drops the stones one by one into the well, and the liquid sinks away.
+
+The amulet begins to move of its own accord towards the red field.
+
+> x pedestals
+Four squat plinths of the same black stone stand at the compass points around
+the altar. Each is cut with a shallow depression, and each depression is exactly
+the size of a man's fist.
+
+The well now glows with a red light from below. The demon looks very expectant.
+
+The amulet pulls strongly in the direction of the red field.
+
+> restore
 Enter a file name.
 Default is "wyrmward.qzl": 
 Ok.
@@ -2419,24 +2431,51 @@ The beggar's little amulet is shaking against your breastbone hard enough to
 hurt, and it has gone hot. It is straining away from you on its cord, towards
 the red light, the way a compass needle strains towards north.
 
+The demon drops the stones one by one into the well, and the liquid sinks away.
+
+The amulet begins to move of its own accord towards the red field.
+
 > x well
 A ragged hole where the flagstones used to be, going down further than the light
 reaches. The slimy liquid in it is settling and smoothing over as the demon
 paces around the rim.
+
+The well now glows with a red light from below. The demon looks very expectant.
+
+The amulet pulls strongly in the direction of the red field.
 
 > x stones
 The four of them ride in the demon's fist, black and red and green and blue, and
 they have begun to shine in a way you have never seen them shine before. You
 fetched three of those yourself.
 
+The glow grows brighter and a dull rumble builds under the floor. The demon
+turns to you and says, "The gate is open. A new age has begun."
+
+Press space to continue.
+
+
+A new age of terror and dread begins. The Old Gods rule the earth once more, and
+the first to be torn to pieces is you.
+
+
+  *** You have died ***
+
+In that game you scored 30 out of a possible 50, in 388 turns.
+
+Would you like to RESTART, RESTORE or QUIT? restore
+Enter a file name.
+Default is "wyrmward.qzl": 
+Ok.
+
 > listen
 A low-frequency hum sounds in your bones rather than your ears, and under it run
 whispers, echoing down out of the darkness above. You can never quite make out
 the words, and you are glad of it.
 
-The demon drops the stones one by one into the well, and the liquid sinks away.
+The demon reads a spell aloud.
 
-The amulet begins to move of its own accord towards the red field.
+The amulet begins to vibrate.
 
 > touch field with amulet
 The amulet meets the red field, and the field goes out like a snuffed candle!
@@ -2447,13 +2486,18 @@ darkness, carved with blasphemous runes that seem to shift whenever you are not
 looking straight at them. A great stone altar stands at the centre, stained dark
 by old rituals, and four glowing pedestals surround it. There are no exits.
 
-The well now glows with a red light from below. The demon looks very expectant.
+
+Part of the floor falls away, and a dark opening like a well appears. There is a
+slimy liquid standing in it. Still reading, the demon begins to pace anti-
+clockwise around the well.
 
 > x amulet
 The beggar's amulet hangs cold and still on its cord, and the ornate work across
 its face has gone dull and grey. Whatever was in it, it spent all of it at once.
 
-> cast freeze on demon
+The demon drops the stones one by one into the well, and the liquid sinks away.
+
+> cast freeze spell on demon
 The spellbook opens itself to the right page, and you read aloud the complicated
 words of the freeze spell.
 
@@ -2461,6 +2505,8 @@ The cold rolls over the demon and does nothing whatever. It turns its head and
 looks at you for the first time since it caged you. "You have one spell that can
 touch me, wizard," it says, almost kindly, "and we both know you were given it
 by something that wished me ill."
+
+The well now glows with a red light from below. The demon looks very expectant.
 
 > cast death spell on demon
 The spellbook opens itself to the right page, and you read aloud the complicated
@@ -2479,6 +2525,12 @@ arrive and go again, and the crypt seems to be draining away before your eyes.
 
 [The score has just gone up by 10 points.]
 
+> save
+Enter a file name.
+Default is "wyrmward.qzl": 
+Overwrite existing file? yes
+Ok.
+
 > x istar
 He lies on his face in the ash with one arm folded under him. There is no wound
 on him anywhere. The thing that was living in him has gone, and it took him with
@@ -2495,6 +2547,11 @@ the living, and it will not cross the line he has just crossed. You will need
 something a great deal longer and more complicated than anything in this book.
 
 The room is changing and vanishing.
+
+> restore
+Enter a file name.
+Default is "wyrmward.qzl": 
+Ok.
 
 > cast resurrect spell on istar
 You read aloud the complicated words of the resurrection spell.
@@ -2530,7 +2587,7 @@ well.
 
   *** You have won ***
 
-In that game you scored 50 out of a possible 50, in 359 turns.
+In that game you scored 50 out of a possible 50, in 391 turns.
 
 Would you like to RESTART, RESTORE or QUIT? 
 

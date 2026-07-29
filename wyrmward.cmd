@@ -19,8 +19,6 @@ i
 x bag
 x spellbook
 read spell book
-memorize freeze spell
-memorize freeze spell
 x grass
 x sky
 x door
@@ -293,7 +291,6 @@ open crate
 take package
 take scroll
 read it
-memorize resurrection spell
 cast copy on scroll
 n
 listen
@@ -434,20 +431,40 @@ save
 y
 x force field
 x demon
+ask demon about istar
+touch field
+attack demon
+
+restore
+
+cast death on demon
 x altar
 x pillars
 x pedestals
-
-
 restore
 
 n
 smell
+x amulet
+x well
+x stones
+
+restore
+
 listen
 touch field with amulet
+x amulet
+cast freeze spell on demon
 cast death spell on demon
+save
+
+yes
+x istar
+cast heal on istar
+restore
+
 cast resurrect spell on istar
-z
+x istar
 z
 z
 z

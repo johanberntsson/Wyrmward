@@ -17,7 +17,12 @@
 ! $ZCODE_COMPACT_GLOBALS=1 avoids reserving dynmem space for unused globals.
 
 Constant Story            "Wyrmward";
-Constant Headline     "^(c) 1996-2005, 2026 Johan Berntsson. Type ~help~ or ~h~ for instructions.^";
+Constant Headline     "^(c) 1996, 2005, 2026 Johan Berntsson. Type ~help~ or ~h~ for instructions.^";
+Release 0;
+Serial "260729";
+
+Array UUID_ARRAY string "UUID://ACEBD7F2-228C-4374-8AC3-BAE4356839A2//";
+#Ifdef UUID_ARRAY;#Endif;
 
 ! Uncomment ONE of the two following lines, to show either time or score/turns
 ! Leaving both commented out makes the library bigger.
@@ -74,8 +79,8 @@ Include "globals.h";
 
 ! Define your attributes, common properties and global variables here, if any
 
-Constant max_no_memorized_spells 5;
-Global     no_memorized_spells = 0;
+!Constant max_no_memorized_spells 5;
+!Global     no_memorized_spells = 0;
 
 ! Define the entry point routines you need here, like Amusing, DarkToDark etc.
 
@@ -173,8 +178,8 @@ Verb 'cast'
 [ CastSpellSub;        if(noun ofclass CSpell) noun.activate(); else <<Drop noun>>; ];
 [ CastSpellObjSub; if(noun ofclass CSpell) noun.activate(second); else <<ThrowAt noun second>>; ];
 
-Verb 'memorize' 'memorise' 'learn' * noun -> Memorize;
-[ MemorizeSub; "You should get yourself a notebook instead."; ];
+!Verb 'memorize' 'memorise' 'learn' * noun -> Memorize;
+![ MemorizeSub; "You should get yourself a notebook instead."; ];
 
 Verb 'copy' * noun -> Copy;
 Verb 'illuminate' * noun -> Illuminate;
@@ -219,8 +224,8 @@ Class CScroll
             rtrue;
         ],
         before [;
-            Memorize:
-                if(child(self) ofclass CSpell) <<Memorize (child(self))>>;
+!            Memorize:
+!                if(child(self) ofclass CSpell) <<Memorize (child(self))>>;
             Read:
                 if(child(self)==nothing) "There is nothing written on the scroll.";
                 if(child(self) ofclass CSpellWithArgument) {
@@ -249,46 +254,46 @@ Class CComplicatedScroll
 Class CSpell
     ! A general spell (no argument).
     with
-        number 0, ! number of memorized copies of this spell
+!        number 0, ! number of memorized copies of this spell
         description [;
             print "The spell reads ~", (name) self, ": ", (string) self.comment, ".~^";
             rtrue;
         ],
-        before [;
-            Memorize:
-                if(parent(self)~=SpellBook) {
-                    print "You can only memorize spells written in ", (the) SpellBook, ".^";
-                    rtrue;
-                }
-                if(GrabObject(SpellBook)) {
-                    print "You must be holding ", (the) SpellBook, " first.^";
-                    rfalse;
-                }
-                if(self.number>no_memorized_spells) self.number=0;
-                if(no_memorized_spells>=max_no_memorized_spells) {
-                    print "You have already studied so much that you cannot learn any more
-                                 spells. The words slip out of your memory as fast as you cram
-                                 them in.^";
-                    rtrue;
-                }
-                print "You concentrate and memorize ", (the) self;
-                if(self.number==0) print ".^";
-                else print " once more.^";
-                ++no_memorized_spells;
-                ++self.number;
-                rtrue;
-        ],
+!        before [;
+!            Memorize:
+!                if(parent(self)~=SpellBook) {
+!                    print "You can only memorize spells written in ", (the) SpellBook, ".^";
+!                    rtrue;
+!                }
+!                if(GrabObject(SpellBook)) {
+!                    print "You must be holding ", (the) SpellBook, " first.^";
+!                    rfalse;
+!                }
+!                if(self.number>no_memorized_spells) self.number=0;
+!                if(no_memorized_spells>=max_no_memorized_spells) {
+!                    print "You have already studied so much that you cannot learn any more
+!                                 spells. The words slip out of your memory as fast as you cram
+!                                 them in.^";
+!                    rtrue;
+!                }
+!                print "You concentrate and memorize ", (the) self;
+!                if(self.number==0) print ".^";
+!                else print " once more.^";
+!                ++no_memorized_spells;
+!                ++self.number;
+!                rtrue;
+!        ],
         activate [obj;
             if(player has general)
                 "Your webbed fingers are far too clumsy to turn the fragile pages of your spellbook,
                 and your altered throat cannot pronounce the precise incantation. You must return
                 to your human form before you can cast magic again.";
-            if(self.number>no_memorized_spells) self.number=0;
+!            if(self.number>no_memorized_spells) self.number=0;
             if(parent(self) ofclass CScroll) {
                 if(TestScope(parent(self))==false) "There is no ", (name) self, " here.";
                 print "You read aloud the complicated words of ", (the) self, ".^^";
-            } else if(self.number>0) {
-                --self.number;
+!            } else if(self.number>0) {
+!                --self.number;
             } else {
                 if(GrabObject(SpellBook)) {
                     print "You must be holding ", (the) SpellBook, " first.^";
@@ -905,9 +910,9 @@ Object -> GoldBox "gilded box"
                 if(children(self)==WantedStones-->0 && TestScope(Istar)) {
                     print "Your mentor sees you place the last stone in the box and cries,
                      ~The last stone! Now I can open the gate!~^^\
-                    He takes the stones from the box and says, ~Come with me, great tasks
-                    await.~ Everything suddenly turns yellow as he reads a teleportation spell,
-                    and you are carried away to another place.^^";
+                     He takes the stones out of the box and says, ~Come with me. Great tasks await.~
+                    Everything turns yellow as he reads a teleportation spell, and you are carried
+                    away to another place.^^";
                     StartDaemon(EvilMaster);
                     PlayerTo(GateRoom);
                     rtrue;
@@ -2121,6 +2126,12 @@ Room Church "The Temple"
         'leaded' 'windows'
             "Multi-paned leaded windows line the high walls, though nearly every pane of
             glass has been smashed, letting in the cool ocean breeze."
+        'fin' 'fins'
+            "A high, ragged crest of stone rising from the shoulders to the base of the
+            spine. The sculptor has cut it thin enough that the light comes through at the edges."
+        CS_NO_ADJ 'scales'
+            "Small, overlapping and beautifully cut, running from the throat down to the
+            ankles. Whoever carved this had seen the real thing."
         CS_NO_ADJ 'temple'
             "You are standing inside the main sanctuary of the ancient, ruined stone temple."
         'flowers' 'plants'
@@ -2170,7 +2181,7 @@ Room Church "The Temple"
 
 Object -> Statue "statue"
     with
-        name 'statue' 'fish' 'scales',
+        name 'statue' 'fish',
         initial "A statue still stands in the middle of the temple.",
         description
             "The statue is like nothing you have seen before. The shape is broadly human, but
@@ -2223,6 +2234,9 @@ Room Beach "The Beach"
         'rock' 'rocks'
             "Black, weed-slicked rocks break the line of the beach to either side, with deep
             tide pools standing between them."
+        'tide' 'pools'
+            "Still, clear basins left behind between the rocks, each one lined with weed and
+            barnacles and busy with small lives that stop dead when your shadow crosses them."
         'bird' 'birds'
             "Gulls hang almost motionless on the onshore wind, sliding sideways now and then
             to keep their station above the surf.",
@@ -2402,10 +2416,18 @@ Object Amulet "amulet"
     with
         article "an",
         name 'magic' 'magical' 'amulet',
-        description
+        description [;
+            if(player in RedField)
+                "The beggar's little amulet is shaking against your breastbone hard enough to
+                hurt, and it has gone hot. It is straining away from you on its cord, towards
+                the red light, the way a compass needle strains towards north.";
+            if(player in GateRoom)
+                "The beggar's amulet hangs cold and still on its cord, and the ornate work across
+                its face has gone dull and grey. Whatever was in it, it spent all of it at once.";
             "A surprisingly ornate amulet, slightly tarnished around the rim, hanging from a
             simple cord. It radiates a faint, comforting warmth. An inscription on the back
-            promises that it will serve as both shield and weapon against black magic.",
+            promises that it will serve as both shield and weapon against black magic.";
+        ],
         before [;
         Take, Remove:
             if(self notin nothing) rfalse;
@@ -2919,23 +2941,29 @@ Room GateRoom "The Crypt"
     with
         number 0,
         description [;
-            if(self hasnt visited) @sound_effect 4 2 255 0;
 #Iftrue (#version_number == 6);
+            if(self hasnt visited) @sound_effect 4 2 255 0;
             ShowPicture(PIC_DEMON);
 #Endif;
-            "This room is like a heathen temple. Obsidian pillars rise into the darkness,
-            carved with blasphemous runes that seem to shift when you aren't looking directly
-            at them. A great stone altar stands in the centre of the chamber, stained dark from
-            unholy rituals, and four glowing pedestals surround it. There are no exits.";
+            "The chamber has the look of a heathen temple. Obsidian pillars rise into the
+            darkness, carved with blasphemous runes that seem to shift whenever you are not
+            looking straight at them. A great stone altar stands at the centre, stained dark
+            by old rituals, and four glowing pedestals surround it. There are no exits.";
 	],
         cheap_scenery
         CS_NO_ADJ 'altar'
-            "A massive block of dark, unpolished granite, carved with jagged channels that drain toward a central vortex."
+            "A massive block of dark, unpolished granite, cut with jagged channels that all run inwards
+            towards a hollow at its centre. You would rather not think about what the channels are for."
         'pedestal' 'pedestals'
             "Four squat plinths of the same black stone stand at the compass points around the altar.
             Each is cut with a shallow depression, and each depression is exactly the size of a man's fist."
+        CS_NO_ADJ 'stones'
+            "The four of them ride in the demon's fist, black and red and green and blue, and
+            they have begun to shine in a way you have never seen them shine before. You
+            fetched three of those yourself."
         'pillar' 'pillars'
-            "Monolithic shafts of black stone that support the vaulted ceiling far above. They are etched with writhing, glowing runes.",
+            "Monolithic shafts of black stone that support the vaulted ceiling far above.
+            They are etched with writhing, glowing runes.",
         each_turn [;
             if(EvilMaster in self) rtrue;
             ++self.number;
@@ -2943,9 +2971,9 @@ Room GateRoom "The Crypt"
             1:
                 move DeadMaster to self;
                 "^Where the demon stood, your mentor stands in its place, blinking, himself again for
-                the space of a single breath. Then his knees give way and he falls dead to the floor.^^\
-                The room changes. All your senses are distorted and strange visions come and go.
-                It is as if the place is vanishing before your eyes.";
+                the space of a single breath. Then his knees give way and he falls dead to the floor.^^
+                The room begins to come apart. Your senses will not hold still, strange visions
+                arrive and go again, and the crypt seems to be draining away before your eyes.";
             4:
                 print
                     "^The last of the visions gives way to a scene that stays where it is put. You are
@@ -2967,8 +2995,9 @@ Room GateRoom "The Crypt"
                 "You kneel beside your mentor and wait, and the walls thin away to nothing.";
             rfalse;
         Listen:
-            "An unsettling, low frequency hum vibrates in your bones rather than your ears, accompanied by the
-            faintest sound of whispers echoing from the darkness above, though you can never quite make out the words.";
+            "A low-frequency hum sounds in your bones rather than your ears, and under it run
+            whispers, echoing down out of the darkness above. You can never quite make out
+            the words, and you are glad of it.";
         Smell:
             "The air is stagnant and ice-cold, suffocatingly heavy with the iron stench of dried blood, ancient ozone,
             and the faint, coppery tang of unholy power humming from the pedestals.";
@@ -2990,58 +3019,70 @@ Object -> EvilMaster "demon"
         ],
         domagic [spell;
             if(spell==KillSpell) { score=score+10; rfalse; }
+            if(spell == FreezeSpell)
+                "The cold rolls over the demon and does nothing whatever. It turns its head and
+                looks at you for the first time since it caged you. ~You have one spell that can
+                touch me, wizard,~ it says, almost kindly, ~and we both know you were given it
+                by something that wished me ill.~";
             print_ret (The) self, " stops you with a short spell, but is too busy opening the
                         gate to kill you.";
+        ],
+        life [;
+        Ask:
+            if(second == 'istar' or 'master')
+                "It does not look up from the reading. ~Your teacher is in here with me, wizard,
+                and he has watched every step of this from behind my eyes. He is watching now. I
+                should not like you to think he missed it.~";
         ],
         daemon [;
             ++self.number;
             switch(self.number) {
-            1:
-                self.initial=0;
+            1:  self.initial=0;
                 print
-    "^Istar's familiar, kindly features suddenly warp and contort. His skin blackens and splits,
-    his eyes igniting with a hellish, crimson fire as his bones snap out of place. Before you stands
-    a towering, grotesque demon, its voice echoing like grinding stones:^^
-    ~At last, I have you right where I want you! Your precious mentor was a fool... far too curious for his
-    own good. The moment he began dabbling in the dark arts, he practically invited me in. Snaring his
-    soul was trivial. His snobbish colleagues at the Academy were sharper than you; they sensed my presence,
-    forcing me to flee to this wretched wilderness. Because their inquisitors hunted me, I could not gather
-    the stones myself. I needed a naive pawn to fetch the keys to open the gateway... not to white magic,
-    you poor blind thing, but to unleash the Old Gods whom I serve!^^
-    I searched your mentor's memories and found you. I knew you would come when he
-    called, and now you have carried me the key to your own doom. Was it not a fine plan?~^^";
+                    "^Istar's familiar, kindly features suddenly warp and contort. His skin blackens and splits,
+                    his eyes igniting with a hellish, crimson fire as his bones snap out of place. Before you stands
+                    a towering, grotesque demon, its voice echoing like grinding stones:^^
+                    ~At last, I have you right where I want you! Your precious mentor was a fool... far too curious for his
+                    own good. The moment he began dabbling in the dark arts, he practically invited me in. Snaring his
+                    soul was trivial. His snobbish colleagues at the Academy were sharper than you; they sensed my presence,
+                    forcing me to flee to this wretched wilderness. Because their inquisitors hunted me, I could not gather
+                    the stones myself. I needed a naive pawn to fetch the keys to open the gateway... not to white magic,
+                    you poor blind thing, but to unleash the Old Gods whom I serve!^^
+                    I searched your mentor's memories and found you. I knew you would come when he
+                    called, and now you have carried me the key to your own doom. Was it not a fine plan?~^^";
                 move player to RedField;
                 print "~Now to work. First a small precaution,~ says the demon, and you are
                             trapped in a red force field.^";
-            2: print "^The demon reads a spell aloud";
-                 if(Amulet in player && RedField in location) print ".^^The amulet begins to
-                                                                                                                         vibrate";
+            2:  print "^The demon reads a spell aloud";
+                if(Amulet in player && RedField in location) print ".^^The amulet begins to vibrate";
                  ".";
-            3: move GateOpening to location;
-                 print "^Part of the floor falls away, and a dark opening, like a well, appears.
-                     In the well is a slimy liquid. As he keeps reading his spell, the demon walks
-                     counter-clockwise around the well";
-                 if(Amulet in player && RedField in location) print ".^^The amulet vibrates
-                                                                                                                         violently";
+            3:  move GateOpening to location;
+                print
+                    "^Part of the floor falls away, and a dark opening like a well appears. There is a
+                    slimy liquid standing in it. Still reading, the demon begins to pace anti-
+                    clockwise around the well";
+                 if(Amulet in player && RedField in location) print ".^^The amulet vibrates violently";
                  ".";
-            4: print "^The demon drops the stones one by one into the well, and the liquid
+            4:  print "^The demon drops the stones one by one into the well, and the liquid
                              sinks away";
-                 if(Amulet in player && RedField in location) print ".^^The amulet begins to move
-                                                                                                                         of its own accord towards the
-                                                                                                                         red field";
-                 ".";
-            5: print "^The well now glows with a red light from below. The demon looks very
-                             expectant";
-                 if(Amulet in player && RedField in location) print ".^^The amulet pulls strongly
-                                                                                                                         in the direction of the red
-                                                                                                                         field";
-                 ".";
-            6: print "^The glow grows brighter and a dull rumble is heard. The demon turns to
-                            you and says, ~The gate is open. A new age has begun.~^";
+                if(Amulet in player && RedField in location)
+                    print ".^^The amulet begins to move of its own accord towards the red field";
+                ".";
+            5:  print "^The well now glows with a red light from below. The demon looks very expectant";
+                if(Amulet in player && RedField in location)
+                    print ".^^The amulet pulls strongly in the direction of the red field";
+                ".";
+            6: print
+                    "^The glow grows brighter and a dull rumble builds under the floor. The demon
+                    turns to you and says, ~The gate is open. A new age has begun.~^";
                 Epilogue(1);
             };
         ],
         before [;
+            Attack:
+                if(player in RedField)
+                    "You throw yourself at the red wall. It gives like a drumskin, holds, and sets
+                    your shoulder ringing. The demon does not even break the rhythm of its reading.";
             ThrownAt:
                 if(noun==Amulet && RedField in location) <<Touch RedField noun>>;
             Touch:
@@ -3059,8 +3100,11 @@ Object -> RedField "red force field"
             ThrownAt:
                 if(noun==Amulet) <<Touch second noun>>;
             Touch:
+                if(second == 0)
+                    "You put a hand out to the red light and snatch it back with your fingers
+                    smarting. The field does not want you, and it is not subtle about saying so.";
                 if(second==Amulet) {
-                    print "As the amulet touches the force field, it vanishes!^^";
+                    print "The amulet meets the red field, and the field goes out like a snuffed candle!^^";
                     RemoveObj(RedField);
                     PlayerTo(GateRoom);
                     rtrue;
@@ -3069,8 +3113,9 @@ Object -> RedField "red force field"
         ],
         react_before_magic [spell obj phase;
             spell = 0; obj = 0; ! avoid compiler warnings
-            if(phase == 1)
-                "Your spell is not powerful enough to break through the force field.";
+            if(phase == 0)
+                "Your spellbook will not open. Whatever the red field is, it lies between you and
+                the rest of the room, and no spell of yours is getting through it while it stands.";
 
         ],
     has static concealed container transparent neuter;
@@ -3078,25 +3123,32 @@ Object -> RedField "red force field"
 Object GateOpening "opening in the floor"
     with
         name 'black' 'opening' 'floor' 'well' 'red' 'glow' 'slimy' 'liquid',
-        description "The opening in the floor seems to be the gate to the Old Gods, which the
-                                demon is in the middle of opening.",
+        description
+            "A ragged hole where the flagstones used to be, going down further than the light
+            reaches. The slimy liquid in it is settling and smoothing over as the demon
+            paces around the rim.",
     has static concealed;
 
 Object DeadMaster "dead body"
     with
         name 'mentor' 'teacher' 'dead' 'body' 'corpse' 'istar',
         initial "Your mentor's dead body lies on the floor.",
-        description "He is white, cold and dead as a doornail.",
+        description
+            "He lies on his face in the ash with one arm folded under him. There is no wound
+            on him anywhere. The thing that was living in him has gone, and it took him with
+            it when it went.",
         domagic [spell;
             switch(spell) {
             ResurrectSpell:
                 ReplaceObj(self, ResurrectedMaster);
                 score=score+10;
-                "At first nothing seems to happen, but then you see a faint colour return to his
-                cheeks. His breathing is barely noticeable at first, but soon grows steady again.
-                He is unconscious, but alive once more!";
+                "For a long moment nothing happens at all. Then a faint colour comes back into
+                his cheeks, and a breath, and then another, until his chest is rising and
+                falling as steadily as your own. He is unconscious, but he is alive!";
             HealSpell:
-                "He is not sick. He is dead.";
+                "The spell goes out of you and finds nothing at all to work on. Healing is for
+                the living, and it will not cross the line he has just crossed. You will need
+                something a great deal longer and more complicated than anything in this book.";
             default: rfalse;
             };
         ],
@@ -3106,7 +3158,9 @@ Object ResurrectedMaster "mentor"
     with
         name 'mentor' 'teacher' 'istar' 'wizard' 'unconscious',
         initial "On the floor lies your mentor. He is unconscious, but breathing again.",
-        description "He is unconscious, but alive. His face has regained its colour and he ooks healthy.",
+        description
+            "He lies on his back in the shifting light, thin and worn out and unmistakably
+            your old teacher again. Whatever wore his face for all these years is not in it now.",
         life [; "He is still unconscious."; ],
     has animate proper;
 
@@ -3183,9 +3237,9 @@ CSpellWithArgument KillSpell "death spell"
             if(obj provides domagic) if(obj.domagic(self)) rtrue;
             if(obj hasnt animate) print_ret (The) obj, " is already dead.";
             RemoveObj(obj);
-            "A red glow surrounds ", (the) obj, ". For a moment ", (the) obj,
-            " seems to glow with an inner light, and you can see the bones through the
-            skin. Then the body melts together and goes up in smoke.";
+            "A red glow gathers around the demon. For a moment it burns from within, so that
+            you can see the bones through the skin, and then the whole shape collapses in on
+            itself and goes up in smoke.";
         ],
     ;
 
@@ -3483,9 +3537,8 @@ Object Introduction "folio" Istar
     1: "This game is much like the adventure games Infocom wrote in the eighties. The
         player types what he or she wants to do, and the game tells what happens.^^\
         You cannot finish the game without using magic. You can read spells from scrolls or
-        your spellbook. You can also memorize a number of spells, but since they are
-        complicated you will forget them when you sleep. As long as you have your spellbook
-        to hand you can read directly from it instead.";
+        your spellbook by typing ~cast SPELL on SOMETHING/SOMEONE~ To see what spells
+        you have you can type ~read spellbook~";
     2: "In this game you control the main character by typing commands that tell him what
         to do. Examples of such commands are:^^\
         > look (look around you)^\

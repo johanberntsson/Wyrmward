@@ -1,12 +1,12 @@
 take scroll
 s
-read summary
+read folio
 give scroll to istar
 x scroll
 copy animation spell
 n
 copy teleportation spell
-teleport
+cast teleport
 e
 e
 e
@@ -17,28 +17,28 @@ z
 z
 point at left cup
 give coin to hawker
-animate bench
+cast animate on bench
 w
 give coin to beggar
 wear amulet
-teleport
+cast teleport
 n
 e
 e
 n
 take stone
-illuminate it
+cast illuminate on it
 n
 take scroll
 read it
 n
-animate left
-animate right
-freeze mud
+cast animate on left
+cast animate on right
+cast freeze on mud
 z
-heal dragon
+cast heali on dragon
 ask dragon about magic
-teleport
+cast teleport
 w
 e
 pray
@@ -50,16 +50,14 @@ u
 n
 e
 pray
-teleport
+cast teleport
 s
 s
 put green stone in box
 put blue stone in box
 put red stone in box
 touch field with amulet
-kill demon
-resurrect mentor
-z
-z
+cast death on demon
+cast resurrecti on istar
 z
 z
