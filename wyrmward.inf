@@ -21,7 +21,7 @@ Constant Headline     "^(c) 1996, 2005, 2026 Johan Berntsson. Type ~help~ or ~h~
 Release 0;
 Serial "260729";
 
-Array UUID_ARRAY string "UUID://ACEBD7F2-228C-4374-8AC3-BAE4356839A2//";
+Array UUID_ARRAY string "UUID://C958551F-A82B-47DD-994B-FFB657010CA4//";
 #Ifdef UUID_ARRAY;#Endif;
 
 ! Uncomment ONE of the two following lines, to show either time or score/turns
