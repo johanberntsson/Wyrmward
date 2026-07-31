@@ -4,9 +4,33 @@ restart
 yes
 random seed 1
 take scroll
+untie scroll
 listen
 smell
+x meadow
+x clearing
+x dew
+x hems
+x travelling robes
+x sky
+take it
+x dense ancient forest
+x oaks
+x pines
+x roots
+x soil
+x canopy
+x daylight
+x trunks
+x moss
+x faint dirt path
+x packed muddy earth
+x shadows
 x me
+copy spell
+healing
+cast healing
+cast healing on me
 score
 xyzzy
 e
@@ -37,6 +61,49 @@ n
 enter forest
 take forest
 enter hut
+x hut
+exit hut
+enter hut
+x soot
+x grease
+x glass
+x flickering flames
+x flames
+x stone hearth
+x logs
+x fieldstone
+x stained iron cauldrons
+x cauldrons
+x cauldron
+x filigree
+x fire
+get papers
+x alchemical
+x exotic
+x heavy wooden door
+close door
+x niche
+x shallow
+x chimney
+enter chimney
+x beautifully carved box
+ask istar about stones
+ask istar about black stone
+ask istar about red stone
+ask istar about blue stone
+ask istar about green stone
+ask istar about brown stone
+ask istar about grey stone
+ask istar about yellow stone
+ask istar about spellbook
+ask istar about parchment
+ask istar about parchment
+ask istar about papers
+ask istar about workbench
+x roof
+x reed
+x floorboard
+x floorboards
 listen
 smell
 u
@@ -56,7 +123,6 @@ take box
 put backpack in box
 x istar
 istar, hello
-ask istar about stones
 ask istar about academy
 ask istar about box
 ask istar about demon
@@ -70,18 +136,38 @@ x scroll
 cast copy on animation spell
 n
 copy teleportation spell
+cast copy on teleportation spell
 x black stone
+x signs
 follow istar
 n
 n
+say teleport
+recite teleport
+teleport
+use teleport
+use spellbook
 cast teleport
+speak teleport
+utter teleport
+chant teleport
+conjure teleport
+invoke teleport
+evoke teleport
 listen
 smell
 x steppe
-x archway
+x archways
 look through archway
 x compass
 x runes
+x glowing runes
+x north arch
+x wild
+x dry wild grass
+x keystones
+x keystone
+x air
 touch archway
 u
 d
@@ -200,6 +286,11 @@ z
 z
 point at right cup
 give coin to hawker
+cast animate on bench
+i
+w
+give coin to beggar
+undo
 restore
 
 give coin to hawker
@@ -220,6 +311,14 @@ cast teleport
 listen
 smell
 n
+x moss
+x trunks
+x roots
+x them
+x wall
+x wooden
+x tangled
+x thick
 x mature forest
 x mountain
 x path
@@ -234,6 +333,10 @@ smell
 u
 d
 e
+x forest path
+x narrow dirt path
+x narrow
+x dirt
 x dark forest
 x mountain
 x path
@@ -247,18 +350,37 @@ d
 e
 listen
 smell
+x wall
+x colossal wall
+x jagged grey stone
+x grey
+x stone
+x rock
 x great mountain
 x forest
 x path
 climb mountain
 x cave mouth
+x opening
+x moss
 s
 u
 d
 n
+s
+enter cave
+exit cave
+n
 listen
 smell
+x cave
 x chamber
+x daylight
+x mouth
+x cave mouth
+x wall
+x walls
+x uneven
 x light
 x shadow
 x tunnel
@@ -267,7 +389,7 @@ search mud
 x stalactites
 x green stone
 take stone
-illuminate it
+cast illuminate on it
 e
 u
 d
@@ -276,6 +398,9 @@ listen
 smell
 x scroll
 x cavity
+x dust
+blow dust
+x walls
 x feast hall
 x storeroom
 x slope
@@ -293,12 +418,25 @@ take scroll
 read it
 cast copy on scroll
 n
+x tunnel
+x steep passage
+x rock hall
+x hall
+x dark
+x slope
+x incline
+x mire
+x paste
+drink water
 listen
 smell
 x water
 x floor
 x mud
 e
+s
+n
+n
 x statues
 x left
 x right
@@ -306,10 +444,28 @@ x broadsword
 x dagger
 touch left
 push left
-s
 left, hello
 talk to right
 ask right about green stone
+save
+
+yes
+cast animate on left
+s
+n
+n
+cast freeze on mud
+cast animate on right
+cast teleport
+n
+e
+e
+n
+n
+n
+z
+restore
+
 cast animate on left
 cast animate on right
 ask right about green stone
@@ -466,8 +622,7 @@ restore
 cast resurrect spell on istar
 x istar
 z
-z
-z
+
 quit
 yes
 

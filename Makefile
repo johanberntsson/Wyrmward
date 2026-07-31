@@ -53,11 +53,11 @@ wyrmward.z6: $(STORYSRC)
 z6: wyrmward.z6
 
 x16_wyrmward.zip: wyrmward.blb wyrmward.z6
-	$(OZMOOBUILD) -t:x16 -pics wyrmward.blb wyrmward.z6
+	$(OZMOOBUILD) -t:x16 -asw resources -pics wyrmward.blb wyrmward.z6
 
 x16: x16_wyrmward.zip
 	# the emulator must run from inside the game directory
-	cd x16_wyrmward && $(X16) -prg WYRMWARD.PRG -run
+	cd x16_wyrmward && SDL_AUDIODRIVER=pulseaudio $(X16) -prg WYRMWARD.PRG -run
 
 mega65_wyrmward.d81: wyrmward.blb wyrmward.z6 $(WAVS)
 	$(OZMOOBUILD) -t:mega65 -asw resources -fcm -pics wyrmward.blb wyrmward.z6

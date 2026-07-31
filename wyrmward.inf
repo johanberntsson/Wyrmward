@@ -19,7 +19,7 @@
 Constant Story            "Wyrmward";
 Constant Headline     "^(c) 1996, 2005, 2026 Johan Berntsson. Type ~help~ or ~h~ for instructions.^";
 Release 0;
-Serial "260729";
+Serial "260731";
 
 Array UUID_ARRAY string "UUID://C958551F-A82B-47DD-994B-FFB657010CA4//";
 #Ifdef UUID_ARRAY;#Endif;
@@ -63,9 +63,11 @@ Constant OPTIONAL_LANGUAGE_NUMBER;
 !Constant OPTIONAL_MANUAL_SCOPE_BOOST;
 !Constant OPTIONAL_MANUAL_REACTIVE;
 !Constant OPTIONAL_ORDERED_TIMERS;
-!Constant OPTIONAL_PROVIDE_UNDO;
 !Constant OPTIONAL_REACTIVE_PARSE_NAME;
 !Constant RUNTIME_ERRORS = 0; ! 0, 1 or 2. 0 = smallest file, 2 = most info
+
+Constant OPTIONAL_PROVIDE_UNDO;
+Constant DEATH_MENTION_UNDO;
 
 ! Define any library constants you need here, like MAX_SCORE, AMUSING_PROVIDED,
 ! MAX_CARRIED, SACK_OBJECT,    etc.
@@ -84,10 +86,60 @@ Include "globals.h";
 
 ! Define the entry point routines you need here, like Amusing, DarkToDark etc.
 
+! --- copied from adjectives.inf: start ---
+
+Property adj_name;
+Property noun_name;
+
+[MatchNameList p_obj p_prop _w _matched _an _count _i;
+    _an = p_obj.&p_prop;
+    if(_an == 0) return 0;
+    _count = p_obj.#p_prop;
+    @log_shift _count (-1) -> _count; ! Divide by 2
+    while(true) {
+        _w = NextWord();
+        @scan_table _w _an _count -> _i ?_MNL_match;
+        return _matched;
+._MNL_match;
+        _matched++;
+   }
+];
+
+Class AdjObject
+    with
+        parse_name [ _adj _noun;
+            _adj = MatchNameList(self, adj_name);
+            wn--;
+            _noun = MatchNameList(self, noun_name);
+            if(_noun) return _noun + _adj;
+        ];
+
+! --- copied from adjectives.inf: end ---
+
+[ ChooseObjects obj;
+    if(verb_word == 'copy') {
+        if(obj ofclass CSpell) {
+            if(obj notin Spellbook) return 3;
+            return 2;
+        }
+    }
+    return 1;
+];
+
 [ SceneryReply word1 word2 routine;
     default:
         routine = word1 = word2; ! getting rid of a compiler warning
         rfalse;
+];
+
+[ ParseNameMeadowGrass _w _n;
+    _w = NextWord();
+    while(_w == 'damp' or 'thick' or 'wild' or 'clinging') {
+        _n++;
+        _w = NextWord();
+    }
+    if(_w == 'grass' or 'dew') return _n + 1;
+    rfalse;
 ];
 
 [ ParseNameYellowCloud _w _n;
@@ -173,34 +225,37 @@ Constant PIC_VILLAGE    = 9;
 [ IsSpell; return (noun ofclass CSpell); ];
 
 Verb 'cast'
-    * noun=IsSpell                                                    -> CastSpell
-    * noun=IsSpell 'at'/'on'/'upon' noun        -> CastSpellObj;
+    * noun=IsSpell                              -> CastSpell
+    * noun=IsSpell 'at'/'on'/'upon' noun        -> CastSpellObj
+    * noun -> MagicHelp
+    * -> MagicHelp;
 [ CastSpellSub;        if(noun ofclass CSpell) noun.activate(); else <<Drop noun>>; ];
 [ CastSpellObjSub; if(noun ofclass CSpell) noun.activate(second); else <<ThrowAt noun second>>; ];
 
 !Verb 'memorize' 'memorise' 'learn' * noun -> Memorize;
 ![ MemorizeSub; "You should get yourself a notebook instead."; ];
-
-Verb 'copy' * noun -> Copy;
-Verb 'illuminate' * noun -> Illuminate;
-[ CopySub; <<CastSpellObj CopySpell noun>>; ];
-[ IlluminateSub; <<CastSpellObj IlluminateSpell noun>>; ];
-
-!Verb 'animate'                                * noun -> MagicAnimate;
-!Verb 'freeze'                                 * noun -> MagicFreeze;
-!Verb 'heal'                                     * noun -> MagicHeal;
-!Verb 'resurrect' 'revive'
-!    * noun                                                         -> MagicResurrect
-!    * noun 'from' 'the' 'dead'                 -> MagicResurrect;
-!Verb 'teleport'                             *             -> MagicTeleport;
+Extend 'speak' first * noun = IsSpell -> MagicHelp;
+Verb 'animate' 'freeze' 'copy' 'resurrect' 'heal' 'teleport' 'illuminate' * -> MagicHelp * noun -> MagicHelp;
+Verb  'utter' 'chant' 'invoke' 'recite' 'evoke' 'conjure' * -> MagicHelp * noun -> MagicHelp;
+[ MagicHelpSub;
+    "To use magic, try CAST spell instead.";
+];
+Verb 'use'
+    * noun=IsSpell -> MagicHelp
+    * noun -> Use;
+[ UseSub; "You'll need to be more specific. Try commands like READ, EXAMINE, OPEN, or CAST instead."; ];
 
 Object SpellBook "spellbook"
     with
         article "your",
         name 'your' 'spellbook' 'spell' 'book',
-        description
-            "It is your well-thumbed spellbook, bought on the day you started at the wizards'
-            school. The spells written in it are the fruit of a great many years of study.",
+        description [;
+            print 
+                "It is your well-thumbed spellbook, bought on the day you started at the wizards'
+                school. The spells written in it are the fruit of a great many years of study
+                and you need to read it to see its contents.^";
+            return self.instructions();
+        ],
         before [ a;
             Open, Close:
                 "The book can read the thoughts of its owner, and so it will always show you
@@ -210,7 +265,11 @@ Object SpellBook "spellbook"
                 print "ARCANE MAGIC FOR COMPLETE NOVICES:^^";
                 for(a=child(self): a~=nothing: a=sibling(a))
                     print (The) a, ": (", (string) a.comment, ").^";
-                rtrue;
+                return self.instructions();
+        ],
+        instructions [;
+            "^[Use ~cast copy on <spell>~ to add new spells to the spellbook, and 
+              ~cast <spell> on <someone or something>~ to use it.]";
         ],
     has transparent;
 
@@ -257,6 +316,14 @@ Class CSpell
 !        number 0, ! number of memorized copies of this spell
         description [;
             print "The spell reads ~", (name) self, ": ", (string) self.comment, ".~^";
+            rtrue;
+        ],
+        before [;
+        Read:
+            if(self notin SpellBook) 
+                "Reading the spell aloud isn't enough to use it. You must CAST the copy spell ON ",
+                (the) self, " to transfer the runes into your spellbook.";
+            MagicHelpSub();
             rtrue;
         ],
 !        before [;
@@ -347,10 +414,9 @@ CSpellWithArgument IlluminateSpell "illumination spell" SpellBook
                 rfalse;
             }
             if(self has light) print_ret (The) obj, " is already shining brightly.";
-            give obj light;
-            "A dazzling light suddenly bursts from ", (the) obj,
-            " and it begins to glow! The light soon dims to a more bearable level,
-            and ", (the) obj, " is now a perfectly good light source.";
+            "A sudden light bursts forth, hovering over ", (the) obj, " before quickly fading
+            back into the dark. It seems the magic requires a better vessel. Only some magic
+            objects can sustain a permanent glow.";
         ]
     ;
 
@@ -366,10 +432,13 @@ CSpellWithArgument CopySpell "copying spell" SpellBook
             } else {
                 x=obj;
             }
+            if(x == player)
+                "If you want a twin, you'll have to go back in time.";
             if(x ofclass CSpell) ; else {
                 print "You cannot copy ", (a) x, " into ", (the) SpellBook, ".^";
                 rfalse;
             }
+            if(x in SpellBook) "The spell is already in your spellbook.";
             ! obj is now the scroll (if any) or the spell; x is always the spell.
             if(obj ofclass CComplicatedScroll) {
                 if(x == ResurrectSpell)
@@ -449,6 +518,8 @@ Extend 'look'
 [ LookUnderSub; "There's nothing special there."; ];
 [ LookThroughSub; "You can't see through that."; ];
 
+Verb 'untie' * noun -> Untie;
+[ UntieSub; "You would achieve nothing by this."; ];
 Verb 'point'                                    * 'at' noun -> PointAt;
 [ PointAtSub; "You point. Nothing happens."; ];
 Verb 'follow' * noun -> Follow;
@@ -560,7 +631,16 @@ Object PlayerObject "yourself"
                 deadflag=1; "Suddenly you cease to exist.";
             }
         ],
+        add_to_scope PlayerClothes,
     has concealed animate proper transparent;     ! 'general' when fish-like
+
+Object PlayerClothes
+    with
+        name 'hems' 'travelling' 'traveling' 'robes' 'boots' 'boot',
+        before [;
+        "There is no need to worry about your clothing.";
+        ],
+    has scenery;
 
 ! ==========================================================================
 !     Useful parser / helper routines
@@ -615,6 +695,8 @@ Object PlayerObject "yourself"
 Class Room
     has light;
 
+Class DarkRoom;
+
 Room Meadow "Meadow"
     with
         description [;
@@ -627,7 +709,10 @@ Room Meadow "Meadow"
             through the weeds, winding away north into the dark tree line.";
         ],
         cheap_scenery
-            'damp' 'grass'
+            'meadow' 'clearing'
+            "Just a small patch of overgrown grass, squeezed between the dark forest to the north
+             and the dilapidated hut to the south."
+            CS_PARSE_NAME ParseNameMeadowGrass
             "The grass is thick, wild, and heavy with a cold, clinging dew that quickly soaks through the
             hems of your travelling robes."
             CS_NO_ADJ 'chimney'
@@ -643,7 +728,7 @@ Room Meadow "Meadow"
             'weed' 'weeds'
             "Nettles, dock and rank meadow grass, grown waist-high right up to the walls of
             the hut. Nobody has taken a scythe to this clearing in years."
-            CS_NO_ADJ 'sky'
+            'daylight' 'sky'
             "Overhead, the sky is a bruised, oppressive grey, visible only through a jagged tear in the
             dense forest canopy.",
         before [;
@@ -673,25 +758,9 @@ Room Meadow "Meadow"
             "You push into the tree line, but the brambles close ranks and the boughs knit
             together above them. The forest will not let you pass.";
 
-Object -> HutDoor "door"
-    with
-        name 'door' 'planks',
-        description [;
-            "The hut's door is made of thick, weather-beaten planks of dark pine, bound by rusting iron bands.";
-        ],
-        before [;
-        Knock:
-            "You rap your knuckles against the planks. From inside comes a shuffle of feet
-            and the scrape of a stool being pushed back, but nobody comes to answer.";
-        Open, Close:
-            "The door already hangs ajar in its warped frame; it has not shut properly in
-            years. You need only push it aside and step through.";
-        ],
-    has scenery;
-
 Object -> Path "path"
     with
-        name 'dirt' 'path',
+        name 'faint' 'dirt' 'path',
         description
             "It's little more than a strip of packed, muddy earth cutting through the overgrown grass.
             Looking north, you can see how quickly the path is swallowed up by the encroaching shadows
@@ -737,6 +806,8 @@ CScroll -> DirtyScroll "weathered scroll"
             air for some time.";
         ],
         before [;
+        Close, Tie: <<Tie Twine>>;
+        Open, Untie: <<Untie Twine>>;
         Read:
             if(self has general) <<Examine self>>;
             give self open;
@@ -754,33 +825,41 @@ Object Twine "twine"
             "A few turns of coarse hemp twine, frayed at the ends and stiff with damp. It has
             been tied and untied a good many times.",
         before [;
-        Open, Unlock:
+        Close, Tie:
+            if(DirtyScroll hasnt open) "It's already bound tightly with the twine.";
+            give DirtyScroll ~open;
+            "You roll the parchment back up tightly and wrap the twine around it.";
+        Open, Untie:
+            if(DirtyScroll has open) "It's already unrolled.";
             give DirtyScroll open;
-            "You pull at the twine and open the scroll.";
+            "You work at the damp knot until the twine slips free, allowing you to unroll the heavy parchment.";
         ],
     has openable scenery;
 
 Object f_f "forest"
+    !class AdjObject
     with
-        name 'dark' 'mature' 'darkness' 'impenetrable' 'forest' 'woods',
+        !adj_name 'dense' 'ancient' 'dark' 'mature' 'impenetrable',
+        !noun_name 'forest' 'woods' 'darkness',
+        name 'dense' 'ancient' 'dark' 'mature' 'impenetrable' 'forest' 'woods' 'darkness' 'canopy' 'shadows',
         description
             "The trees are massive, ancient oaks and pines, their roots writhing through the
             earth like frozen serpents. Their dense canopy blocks out most of the daylight,
             plunging the depths of the woods into absolute, suffocating darkness.",
         before [;
-            Climb:
-                "The lowest branches are twenty feet up a trunk with nothing to grip, and the
-                canopy above them is thicker than the one you would be climbing out of.";
-            Take, Remove: "Unless you have a remarkably large sack and the strength of a titan, the forest
-                        is staying exactly where it is.";
-            Enter: "Trying to force your way through would only result in torn robes and broken branches.";
-            ],
-            found_in Meadow Forest ForestPath Mountain,
+        Climb:
+            "The lowest branches are twenty feet up a trunk with nothing to grip, and the
+            canopy above them is thicker than the one you would be climbing out of.";
+        Take, Remove: "Unless you have a remarkably large sack and the strength of a titan, the forest
+                    is staying exactly where it is.";
+        Enter: "Trying to force your way through would only result in torn robes and broken branches.";
+        ],
+        found_in Meadow Forest ForestPath Mountain,
     has scenery ;
 
 Object f_tree "tree"
     with
-        name 'tree' 'trees',
+        name 'tree' 'trees' 'trunk' 'trunks' 'oaks' 'oak' 'pines' 'pine',
         description
            "Oaks and pines of enormous age, so thick through the trunk that three men could
             not link hands around one. Nothing grows in their shade but moss.",
@@ -793,6 +872,112 @@ Object f_tree "tree"
             found_in Meadow Forest ForestPath Mountain,
     has scenery;
 
+Object f_roots "roots"
+    with
+        name 'roots' 'roots' 'thick' 'gnarled' 'loops' 'tangled',
+        description
+           "The roots break through the damp earth in thick, gnarled loops.",
+        before [;
+        Take, Remove: "They are firmly anchored to the earth by the massive weight of the trees above.";
+        ],
+        found_in Meadow Forest ForestPath Mountain,
+    has scenery pluralname;
+
+Object f_moss "moss"
+    with
+        name 'dark' 'green' 'damp' 'moss',
+        description
+           "A plush, damp carpet of dark green moss coats the base of the massive trees and the exposed roots.",
+        before [;
+        Eat, Taste: "A quick taste reveals it to be cold, wet, and thoroughly foul. That’s enough of that.";
+        Take, Remove: "[200~You have no use for a fistful of wet moss.";
+        ],
+        found_in Meadow Forest ForestPath Mountain,
+    has scenery;
+
+Object f_soil "soil"
+    with
+        name 'packed' 'muddy' 'soil' 'earth',
+        description
+            "The soil is heavy with moisture and thick with moss and rotting leaves.",
+        found_in Meadow Forest ForestPath Mountain,
+    has scenery;
+
+Object HutDoor "door"
+    with
+        name 'heavy' 'wooden' 'door' 'planks' 'iron' 'bands',
+        description [;
+            "The hut's door is made of thick, weather-beaten planks of dark pine, bound by rusting iron bands.";
+        ],
+        before [;
+        Knock:
+            if(location == Meadow)
+                "You rap your knuckles against the planks. From inside comes a shuffle of feet
+                and the scrape of a stool being pushed back, but nobody comes to answer.";
+        Open, Close:
+            "The door already hangs ajar in its warped frame; it has not shut properly in
+            years. You need only push it aside and step through.";
+        ],
+        door_dir (s_to) (n_to),
+        found_in Meadow RemoteHut,
+    has open door scenery;
+
+[ ParseNameHutWindow _w _n;
+    _w = NextWordStopped();
+    while(_w == 'solitary' or 'black') { _w = NextWordStopped(); _n++; }
+    if(_w == 'window' or 'soot' or 'grease' or 'glass') return _n + 1;
+    rfalse;
+];
+
+[ ParseNameHutFire _w _n;
+    _w = NextWordStopped();
+    while(_w == 'flickering' or 'stout') { _w = NextWordStopped(); _n++; }
+    if(_w == 'flames' or 'fire' or 'log' or 'logs') return _n + 1;
+    rfalse;
+];
+
+[ ParseNameHutFireplace _w _n;
+    _w = NextWordStopped();
+    while(_w == 'stone' or 'blackened') { _w = NextWordStopped(); _n++; }
+    if(_w == 'hearth' or 'fireplace' or 'fieldstone') return _n + 1;
+    rfalse;
+];
+
+[ ParseNameHutIngredients _w _n;
+    _w = NextWordStopped();
+    while(_w == 'exotic' or 'alchemical') { _w = NextWordStopped(); _n++; }
+    if(_w == 'ingredient' or 'ingredients') _n++;
+    return _n;
+];
+
+[ ParseNameHutNiche _w _n;
+    _w = NextWordStopped();
+    while(_w == 'small' or 'shallow') { _w = NextWordStopped(); _n++; }
+    if(_w == 'alcove' or 'niche') _n++;
+    return _n;
+];
+
+[ ParseNameHutChimney _w _n;
+    _w = NextWordStopped();
+    while(_w == 'dark' or 'stone') { _w = NextWordStopped(); _n++; }
+    if(_w == 'flue' or 'chimney') _n++;
+    return _n;
+];
+
+[ ParseNameHutRoof _w _n;
+    _w = NextWordStopped();
+    while(_w == 'low' or 'thatched' or 'dried' or 'reed') { _w = NextWordStopped(); _n++; }
+    if(_w == 'roof' or 'ceiling' or 'reeds') _n++;
+    return _n;
+];
+
+[ ParseNameHutFloor _w _n;
+    _w = NextWordStopped();
+    while(_w == 'solid' or 'worn') { _w = NextWordStopped(); _n++; }
+    if(_w == 'floor' or 'floorboard' or 'floorboard') _n++;
+    return _n;
+];
+
 Room RemoteHut "Hut"
     with
         description [;
@@ -800,7 +985,7 @@ Room RemoteHut "Hut"
             leaving the flickering flames of a stone hearth as the room's sole source of light. Atop
             the fire, rusted iron vessels bubble quietly, venting strange, multi-coloured vapours. A
             massive, cluttered workbench is buried under a chaotic heap of heavy grimoires, brittle
-            parchments, and exotic alchemical ingredients. A heavy wooden door leads north, back out
+            sheets of paper, and exotic alchemical ingredients. A heavy wooden door leads north, back out
             to the forest path.";
         ],
         before [;
@@ -812,30 +997,56 @@ Room RemoteHut "Hut"
             strange alchemical vapours mingling with aged leather and dry parchment.";
         ],
         cheap_scenery
-            'solidary' 'window'
+            CS_PARSE_NAME ParseNameHutRoof
+            "A dense layer of exposed, dried reeds, dark with decades of soot from the hearth below."
+            CS_PARSE_NAME ParseNameHutFloor
+            "The floorboards are thick planks worn smooth by years of footsteps."
+            CS_PARSE_NAME ParseNameHutFire
+            "A few stout logs burn steadily in the stone hearth, feeding the flames."
+            CS_PARSE_NAME ParseNameHutWindow
             "Thick layers of black grease and soot coat the glass, completely choking out the daylight
             from the meadow outside."
-            CS_NO_ADJ 'ingredients'
+            CS_PARSE_NAME ParseNameHutIngredients
             "Bundled herbs, stoppered jars, a tray of dried beetles and something in brine
             that you decide not to look at twice. Half the labels are in your mentor's hand
             and the other half in no alphabet you know."
-            CS_NO_ADJ 'alcove'
+            CS_PARSE_NAME ParseNameHutNiche
             "A shallow niche cut into the stone of the chimney breast, just deep enough to
             take the gilded box. The rock around it is scorched black, as though the ward on
             the box has had to defend itself more than once."
-            'hearth' 'fireplace'
+            CS_PARSE_NAME ParseNameHutChimney
+            "A dark stone flue built directly above the hearth, drawing the strange vapours
+             up and out of the cramped room."
+            CS_PARSE_NAME ParseNameHutFireplace
             "A low arch of blackened fieldstone, heaped with logs that burn a great deal
-            hotter than logs ought to. Stained iron cauldrons and glass retorts stand in the
+            hotter than logs ought to. Stained iron cauldrons stand in the
             flames, hissing and sputtering away.",
         n_to Meadow, out_to Meadow,
         u_to "The low, thatched ceiling offers no way upward, unless you fancy poking your head through the dried reed roof.",
-        d_to "The floorboards are solid, worn oak. There are no trapdoors or cellars beneath your feet.",
+        d_to "The floorboards are solid and worn. There are no trapdoors or cellars beneath your feet.",
         cant_go "You bump straight into the hut's sturdy timber walls, cluttered with dusty shelves of strange ingredients.
             The only way out is back through the doorway to the north.";
 
+Object -> hut_hut "hut"
+    with
+        name 'hut',
+        description
+            "You are inside the hut. It is a cramped, gloomy space smelling of old parchment and
+            boiling alchemy, lit only by the flickering stone hearth.",
+        before [;
+        Enter: "You are already inside the hut.";
+        Exit: <<Go FAKE_N_OBJ>>;
+        ],
+    has scenery;
+
 Object -> hut_vessel "vessels"
     with
-        name 'iron' 'vessels' 'vessel',
+        parse_name [_w _n;
+            _w = NextWordStopped();
+            while(_w == 'stained' or 'iron') { _n++; _w = NextWordStopped(); }
+            if(_w == 'vessel' or 'vessels' or 'cauldron' or 'cauldrons') return _n + 1;
+            rfalse;
+        ],
         description
             "The liquids inside the vessels range from a viscous, glowing emerald to an oily indigo,
             giving off a scent that prickles the back of your throat.",
@@ -853,7 +1064,7 @@ Object -> hut_bench "work bench"
             print
                 "A massive slab of scarred oak that has survived a great many experiments,
                 though not without marks. ";
-            if(hut_doc in self && children(self)==1) "Books and parchments lie on the bench.";
+            if(hut_doc in self && children(self)==1) "Books and papers lie on the bench.";
             print "On the bench you see ";
             if(PrintContents(0, self)==false) print "nothing";
             print ".";
@@ -862,22 +1073,24 @@ Object -> hut_bench "work bench"
 
 Object -> -> hut_doc "books"
     with
-        name 'books' 'book' 'parchment' 'parchments',
+        name 'books' 'book'  'sheets' 'of' 'paper' 'papers',
         description
-            "Warped grimoires and loose sheaves of parchment, most of them older than the hut
+            "Warped grimoires and loose sheets of papers, most of them older than the hut
             itself. Every margin is crowded with your mentor's cramped, urgent handwriting.",
             !The most interesting ones are about dragons and
             !their magic, but they are strictly theoretical and of little use to you.",
         before [;
             Transfer, Take, Remove:
-                if(TestScope(Istar)) "~Don't touch the books. I need them,~ says Istar.";
+                if(TestScope(Istar))
+                    "Istar swats your hand away from the desk. ~Leave that alone!
+                    Everything is arranged precisely as I need it.~";
         ],
         after [; Take, Remove: give self ~concealed; ],
     has concealed pluralname;
 
 Object -> GoldBox "gilded box"
     with
-        name 'gilded' 'gold' 'golden' 'box' 'wooden' 'magic' 'magical',
+        name 'beautifully' 'carved' 'filigree' 'gilded' 'gold' 'golden' 'box' 'wooden' 'magic' 'magical',
         initial [;
             print 
                 "Resting within a small alcove in the stone wall is a beautifully carved, gilded wooden box";
@@ -930,8 +1143,8 @@ Object -> Istar "Istar"
             rtrue;
         ],
         initial [;
-            if(Introduction in self) {
-                move Introduction to player;
+            if(Folio in self) {
+                move Folio to player;
                 "Your old mentor, Istar, is hunched over the workbench, intently poring over a faded tome.
                 When he sees you he says, ~My boy, I am so glad to see you again. Great tasks await us, but
                 to begin with, I need you to read this.~ He picks up a slim, leather-bound folio and presses
@@ -960,54 +1173,86 @@ Object -> Istar "Istar"
             etched into his face. Yet as he looks up at you, the familiar, brilliant spark
             of intellect still dances in his eyes.";
         ],
-        life [;
+        life [w1 w2 c;
             Order:
                 "~I would only slow you down, my boy, and there are eyes on this hut that I would
                 rather not lead across half the world. You go. I shall keep the box ready.~";
-            Ask:
-                if(second ofclass CStone) second='stone';
-                switch(second) {
-                    'gate':
-                        "~A door,~ he says, ~and on the other side of it, light. Nothing more than that,
-                        and nothing less. Read the folio, my boy, and stop making me say aloud what I
-                        have already written down properly.~";
-                    'himself', 'istar', Istar:
-                        "He waves a hand at the crooked walls, the smoking cauldrons, the mouldering
-                        thatch. ~You see what I have come to. Fifty years at the Academy, and this is
-                        what they let me keep. Still, the roof holds. Mostly.~";
-                'academy':
+            Ask, Tell:
+                w1 = 0;
+                w2 = 0;
+                wn=consult_from; c=consult_words; if(c>0) w1=NextWord();
+                if(w1=='the') { c=c-1; if(c>0) w1=NextWord(); }
+                if(c>1) w2=NextWord();
+                if(c>2) "What you cannot say in few words, probably isn't worth saying.";
+                if(second == BlackStone) { w1 = 'black'; w2 = 'stone'; }
+                if(second == RedStone) { w1 = 'red'; w2 = 'stone'; }
+                if(second == GreenStone) { w1 = 'green'; w2 = 'stone'; }
+                if(second == BlueStone) { w1 = 'blue'; w2 = 'stone'; }
+                if(w1 == 'gate')
+                    "~A door,~ he says, ~and on the other side of it, light. Nothing more than that,
+                    and nothing less. Read the folio, my boy, and stop making me say aloud what I
+                    have already written down properly.~";
+                if(w1 == 'paper' or 'papers' or 'book' or 'books')
+                    "Istar frowns and waves a hand protectively over the desk. ~Those are decades of
+                    notes, observations, and failed attempts; far too delicate for idle curiosity.
+                    Just concern yourself with what I handed you.~";
+                if(w1=='spellbook' || (w1 == 'spell' && w2 == 'book'))
+                    "~A wizard's most vital tool, my boy. Keep it close, and ensure you copy any magic
+                     you encounter into its pages. You never know when a spell might prove useful.~";
+                if(w1 == 'himself' or 'istar')
+                    "He waves a hand at the crooked walls, the smoking cauldrons, the mouldering
+                    thatch. ~You see what I have come to. Fifty years at the Academy, and this is
+                    what they let me keep. Still, the roof holds. Mostly.~";
+                if(w1 == 'academy')
                     "His face darkens. ~The Arch-Mages felt something stirring in the dark and
                     decided it must be me. I do not blame them for being frightened, my boy. I blame
                     them for being lazy about it.~";
-                'summary', 'paper', 'report', Introduction:
+                if(w1 == 'summary' or 'paper' or 'report' or 'folio')
                     "~It is a long story and I have no time to tell it again. Read what I
                     wrote instead.~";
-                'stone', 'stones':
+                if(w2 == 'stone' or 'stones') {
+                    if(w1 == 'black')
+                        "Istar gestures toward the gilded box. ~The stone of void is resting right here before us.
+                        Its power is potent, volatile, and deeply unsettling..~";
+                    else if(w1 == 'red')
+                        "Istar's eyes glint with memory. ~The Stone of Ember, as the ancients called it. It is
+                        said to burn with an inner fire that never dims.~";
+                    else if(w1 == 'green')
+                        "Istar frowns slightly, lowering his voice. ~The Stone of Verdure. Bound to the root, 
+                        coil, and life force of the wild earth.~";
+                    else if(w1 == 'blue')
+                        "Istar nods slowly. ~The Stone of Tides. Woven with the essence of deep waters and
+                        tempestuous winds.~";
+                    else
+                        "Istar scoffs, shaking his head. ~That is no stone of power, just ordinary rubble.
+                        Do not let your imagination wander.~";
+                }
+                if(w1 == 'stone' or 'stones')
                     "He taps the folio in your hands. ~Elemental stones. Four of them, cut long
                     before the first cities were built. I have one. The others lie scattered across
                     half the world, and I am too old and too closely watched to go after them
                     myself.~";
-                'magic', 'spell', 'spells':
+                if(w1 == 'magic' or 'spell' or 'spells')
                     "~You ought to know what magic is by now. But remember that there are
                     several kinds of magic. Lately I have tried to explore the mighty magic
                     that demons and dragons use. That, of course, is why my colleagues turned
                     against me. They are jealous and afraid.~";
-                'white', 'gate':
+                if(w1 == 'white' or 'gate')
                      "~The only way I know of to stop the return of the Old Gods is to open the
                      gate to another dimension, where we can draw on white magic. I know how to
                      find the gate, but I need the stones to open it. I cannot leave the hut, so
                      it is up to you to save us all.~";
-                'black', 'old', 'gods':
+                if(w1 == 'gods' || (w1 == 'black' or 'old' && w2 == 'gods'))
                      "~I have studied black magic for a long time, and I can tell you that its
                      power is dangerous and mighty. It seems to stem from beings that once lived
                      on earth, commonly called the Old Gods. I fear they will soon return, and
                      that they will crush us like insects unless we manage to stop them.~";
-                'potions', 'liquids', 'ingredients':
+                if(w1 == 'potions' or 'liquids' or 'ingredients')
                      "~Touch nothing. I am in the middle of an experiment.~";
-                'demon', 'demons':
+                if(w1 == 'demon' or 'demons')
                     "Istar looks up, honestly puzzled. ~A demon? My boy, if there were a demon within
                     a hundred leagues of this hut, I should certainly have noticed.~";
-                'dragons', 'dragon', Dragon:
+                if(w1 == 'dragons' or 'dragon')
                     "~Yes, dragons truly are fascinating. They are greedy and follow their own
                     moral code, but I would not call them evil. They do value their possessions
                     highly, and stealing from a dragon is not to be recommended. More interesting
@@ -1015,46 +1260,20 @@ Object -> Istar "Istar"
                     advanced than any of our best wizards can master. But they know the worth of
                     their knowledge. No dragon has ever taught its arts to a human. They would
                     rather die.~";
-                'me', PlayerObject:
+                if(w1 == 'me' or 'myself')
                      "~You were always my favourite pupil, and I knew you would help me.~";
-                'hut', 'forest':
+                if(w1 == 'hut' or 'forest')
                      "~I may live a little far out in the wilderness, but no one disturbs me here.~";
-                'box':
+                if(w1 == 'box')
                     "~A wizard's strongbox,~ he says. ~Nothing goes into it that I have not made room
                     for, and nothing comes out that I have not called for. The stones will be safe
                     in there until the hour I need them.~";
-                'silver', 'teleportation', SilverScroll, TeleportSpell:
-                    "~I made this spell to ease your search. It will carry you close to the
-                    stones.~";
-                'scroll', 'dirty', DirtyScroll, AnimateSpell:
-                    if(TestScope(DirtyScroll)) {
-                        if(parent(AnimateSpell)==DirtyScroll) {
-                            "~It is an interesting spell. Bringing things to life is dangerous, but
-                            can be very useful at times.~";
-                        } else {
-                            print
-                                "Istar strokes his beard, squinting at the parchment. ~Hmm, I suspect this scroll holds
-                                secrets meant only for discerning eyes. I encountered a cipher like this many decades ago.
-                                Let us try a simple revealing trick.~^^
-                                With practised hands he pours a measure of emerald fluid into a ceramic dish and
-                                stirs in a viscous yellow tincture. The mixture hisses violently, filling the
-                                cramped room with a thick, acrid smoke. Undeterred by the fumes, Istar holds
-                                your scroll over the rising vapours. After a tense minute he passes it back to
-                                you. Invisible ink has bloomed across the surface in sharp, glowing runes. It is
-                                a spell!^^
-                                Istar strokes his beard flat and says nothing at all, which is his way of being
-                                insufferably pleased with himself.^";
-                            move AnimateSpell to DirtyScroll;
-                            give DirtyScroll general; ! It's been opened and its contents revealed
-                            give DirtyScroll open;
-                            score=score+10;
-                            rtrue;
-                        }
-                    } else {
-                        "~Scroll, what scroll?~";
-                    }
-                default: "~I'm afraid I know nothing about that.~";
+                if(w1 == 'teleportation')
+                    "~I made this spell to ease your search. It will carry you close to the stones.~";
+                if(w1 == 'scroll' or 'parchment' || w2 == 'scroll' or 'parchment') {
+                    if(GiveOrShowDirtyScroll()) rtrue;
                 }
+                "Istar shakes his head dismissively. ~That matters little right now. Pay attention to what is at hand.~";
             Answer:
                 "~Later, my boy, later,~ says Istar, waving the greeting away. ~Read the folio
                 first. Everything I could say to you is already written in it, and written better.~";
@@ -1064,12 +1283,14 @@ Object -> Istar "Istar"
                     smile. ~The same book. You have kept it well. Whatever else the Academy did to
                     you, it taught you to look after your tools.~";
                 if(noun ofclass CStone) <<Ask self noun>>;
-                if(noun==PlayerObject || noun==DirtyScroll || noun==Introduction)
-                    <<Ask self noun>>;
+                !if(noun==PlayerObject || noun==DirtyScroll || noun==Folio)
+                if(GiveOrShowDirtyScroll()) rtrue;
         ],
         react_before [;
             Go, Exit:
                 if(selected_direction && selected_direction ~= n_to && selected_direction ~= out_to) rfalse;
+                if(Folio hasnt general)
+                    "Istar has only just handed you his folio. You ought to hear what he has to say before leaving.";
                 if(BlackStone in self) {
                     move BlackStone to GoldBox;
                     move SilverScroll to player;
@@ -1082,13 +1303,80 @@ Object -> Istar "Istar"
                           your spellbook and you can travel faster.~^";
                     rtrue;
                 }
-                if(IsCarried(Introduction) && TestScope(Introduction)) {
-                    move Introduction to RemoteHut;
+                if(IsCarried(Folio) && TestScope(Folio)) {
+                    move Folio to RemoteHut;
                     print "^~It is safest that this stays here,~ says ", (the) Istar,
-                          ", taking ", (the) Introduction, " from your hands before you step outside.^^";
+                          ", taking ", (the) Folio, " from your hands before you step outside.^^";
                 }
         ],
     has animate proper;
+
+[ GiveOrShowDirtyScroll;
+    if(TestScope(DirtyScroll)) {
+        if(parent(AnimateSpell)==DirtyScroll) {
+            "Istar arches an eyebrow. ~Awakening the unliving is a perilous path, my boy. See that you
+             exercise proper restraint when casting it.~";
+        } else {
+            print
+                "Istar strokes his beard, squinting at the parchment. ~Hmm, I suspect this scroll holds
+                secrets meant only for discerning eyes. I encountered a cipher like this many decades ago.
+                Let us try a simple revealing trick.~^^
+                With practised hands he pours a measure of emerald fluid into a ceramic dish and
+                stirs in a viscous yellow tincture. The mixture hisses violently, filling the
+                cramped room with a thick, acrid smoke. Undeterred by the fumes, Istar holds
+                your scroll over the rising vapours. After a tense minute he passes it back to
+                you. Invisible ink has bloomed across the surface in sharp, glowing runes. It is
+                a spell!^^
+                Istar strokes his beard flat and says nothing at all, which is his way of being
+                insufferably pleased with himself.^";
+            move AnimateSpell to DirtyScroll;
+            give DirtyScroll general; ! It's been opened and its contents revealed
+            give DirtyScroll open;
+            score=score+10;
+            rtrue;
+        }
+    }
+    rfalse;
+];
+
+Object -> -> Folio "folio"
+    with
+        name 'folio' 'notes' 'report',
+        description [;
+            "Inscribed in your mentor's familiar, frantic handwriting is a harrowing log of his forbidden studies.^^
+            He writes that the present age will soon give way to an era of terror and dread,
+            heralded by the return of the Old Gods to the Earth. It would mean nothing less
+            than the annihilation of humanity. Ever since his exile from the Academy he has
+            searched, without rest, for a way to delay the waking of these malevolent
+            powers.^^
+            There is but one hope. By opening a gateway to a higher dimension, he can channel a torrent of pure,
+            white magic powerful enough to seal the evil gods away. To tear open this gate, however, he requires ",
+            (LanguageNumber) WantedStones-->0, " elemental stones. He already possesses the first, a dark, abyssal stone,
+            and he needs your help to unearth the remaining three.";
+        ],
+        after [;
+        Read, Examine: give self general;
+        ],
+    ; ! general is read
+
+
+[ ParseNameSteppeGrass _w _n;
+    _w = NextWordStopped();
+    if(_w == 'steppe') {
+        _w = NextWordStopped();
+        if(_w == 'grass') return 2;
+    }
+    while(_w == 'wild' or 'dry' or  'waist-height') { _w = NextWordStopped(); _n++; }
+    if(_w == 'grass') _n++;
+    return _n;
+];
+
+[ ParseNameSteppeRunes _w _n;
+    _w = NextWordStopped();
+    while(_w == 'glowing' or 'writhing') { _w = NextWordStopped(); _n++; }
+    if(_w == 'rune' or 'runes') _n++;
+    return _n;
+];
 
 Room TeleportRoom "On the Steppe"
     with
@@ -1102,14 +1390,14 @@ Room TeleportRoom "On the Steppe"
             cardinal directions of the compass.";
         ],
         cheap_scenery
-            CS_NO_ADJ 'grass'
+            CS_PARSE_NAME ParseNameSteppeGrass
                 "Waist-high steppe grass, bleached the colour of old straw and bending all one
                 way in the wind. There is not a fence, a track or a rooftop anywhere in it."
             CS_PARSE_NAME ParseNameSteppe
                 "The steppe stretches as far as the eye can see under a pale, vast sky. The dry
                 grass whispers softly in the cold wind, broken only by the eerie presence of the
                 four archways."
-            'rune' 'runes'
+            CS_PARSE_NAME ParseNameSteppeRunes
                 "Deep-cut characters march across each keystone in a script far older than anything you were taught
                 to read. They pulse slowly, in a rhythm uncomfortably like breathing."
             'compass' 'directions'
@@ -1146,9 +1434,30 @@ Room TeleportRoom "On the Steppe"
             of grass. You would need a spade and a fortnight to get anywhere.",
         cant_go "You can only leave through the archways.";
 
-Object -> Archway "archways"
+Object -> Archway "archway"
     with
-        name 'archway' 'archways' 'arch' 'arches' 'portal' 'portals' 'gate' 'gates' 'door' 'doors' 'doorway' 'doorways',
+        parse_name [w n;
+            w = NextWordStopped();
+            if((w == 'n' or 'north' or 'northern') ||
+               (w == 's' or 'south' or 'southern') 
+               (w == 'e' or 'east' or 'eastern') 
+               (w == 'w' or 'west' or 'western')) {
+                w = NextWordStopped();
+                n++;
+            }
+            if(w == 'archway' or 'arch' or 'portal' or 'gate' or
+                    'door' or 'doorway' or 'keystone') n++;
+            return n;
+        ],
+        description
+            "Apart from their alignment with the compass points, all four arches appear identical.
+            Glowing runes are cut into its keystone, and the air beneath them hums quietly to itself.",
+        before [; return Archways.before(); ],
+    has scenery;
+
+Object -> Archways "archways"
+    with
+        name 'archways' 'archs' 'portals' 'gates' 'doors' 'doorways' 'keystones',
         description
             "Four massive stone arches stand in a wide circle around you, each squarely
             aligned with one of the cardinal compass directions. Glowing runes are cut into
@@ -1170,13 +1479,8 @@ Object -> Archway "archways"
             green and second-hand. The path leads on eastward between the trees, and every
             other direction is trunks.",
         cheap_scenery
-        'canopy' 'sky'
-            "Branch upon branch, layered so densely that the sky is only a rumour of grey
-            somewhere far above."
-        'root' 'roots'
-            "Great knotted roots break the surface everywhere, humped across the path like
-            the backs of half-buried animals."
-
+        'wooden' 'wall'
+           "The dense forest makes easy access impossible." 
         CS_NO_ADJ 'mountain'
             "Through the thick canopy to the east, you catch glimpses of a jagged,
             towering mountain peak rising against the sky."
@@ -1198,8 +1502,15 @@ Object -> Archway "archways"
         u_to "The lowest branches are far out of reach, high above in the suffocating canopy.",
         d_to "The damp forest floor is deep in moss and fallen pine needles, and there is nowhere to go down.",
         cant_go
-            "The trees grow far too close together here, their thick brambles and tangled roots forming an
+            "The trees grow far too close together here, their thick trunks and tangled roots forming an
             impassable wooden wall. The path only runs east.";
+
+[ ParseNameForestPath _w _n;
+    _w = NextWordStopped();
+    while(_w == 'narrow' or 'dirt' or 'forest') { _w = NextWordStopped(); _n++; }
+    if(_w == 'path') _n++;
+    return _n;
+];
 
 Room ForestPath "Forest Path"
     with
@@ -1215,7 +1526,7 @@ Room ForestPath "Forest Path"
         CS_NO_ADJ 'mountain'
             "Ahead to the east, the sheer grey rock face of a tall mountain looms above the
             treeline, its peak jagged against the overcast sky."
-        CS_NO_ADJ 'path'
+        CS_PARSE_NAME ParseNameForestPath
             "The narrow dirt path continues east towards the foot of the mountain, or west
             back into the heart of the forest.",
         before [;
@@ -1243,9 +1554,6 @@ Room Mountain "The Mountain"
             to climb. A path leads back west into the trees, and a short way north of you a
             cave mouth opens in the rock.",
         cheap_scenery
-        'cave' 'mouth'
-            "A dark, jagged opening yawning in the side of the cliff face. A faint cool
-            draught whistles out of the shadows within, and it smells of wet stone."
         CS_NO_ADJ 'path'
             "A narrow track leads back west into the shadows of the dense forest.",
         before [;
@@ -1253,17 +1561,32 @@ Room Mountain "The Mountain"
             "A brisk alpine wind rushes across the sheer stone face of the mountain, whistling through the sparse
             trees. From inside the nearby cave mouth comes a faint, echoing drip of water.";
         Smell:
-            "The air here is thin, crisp, and cold, dominated by the sharp, metallic scent of exposed rock, dry gravel,
-            and pine needles blowing from the treeline to the west.";
+            "The rich, leafy smell of the western forest gives way here to the sharp scent of cold rock.";
         ],
         w_to ForestPath, n_to Cave, in_to Cave,
         u_to "The mountain slope is far too steep to scale without proper gear.",
         d_to "The rocky ground offers no way downward.",
         cant_go "The sheer mountain wall curves around you, blocking further passage.";
 
+Object -> CaveEntrance "cave opening"
+    with
+        parse_name [ _w _n;
+            _w = NextWordStopped();
+            while(_w == 'cave') { _w = NextWordStopped(); _n++; }
+            if(_w == 'mouth' or 'opening' or 'cave' or 'entrance') _n++;
+            return _n;
+        ],
+        description
+            "A dark, jagged opening yawning in the side of the mountain. A faint cool
+            draught whistles out of the shadows within, and it smells of wet stone.",
+        before [;
+        Enter: <<Go FAKE_N_OBJ>>;
+        ],
+    has scenery open;
+
 Object -> GreatMountain "great mountain"
     with
-        name 'great' 'mountain',
+        name 'great' 'mountain' 'wall' 'stone' 'jagged' 'grey' 'colossal' 'rock',
         description
             "A colossal wall of jagged grey stone towers far above you into the sky, its
             sheer faces slick and completely vertical.",
@@ -1274,6 +1597,13 @@ Object -> GreatMountain "great mountain"
         ],
     has scenery;
 
+[ ParseNameCaveWall _w _n;
+    _w = NextWordStopped();
+    while(_w == 'high' or 'uneven') { _w = NextWordStopped(); _n++; }
+    if(_w == 'wall' or 'walls') _n++;
+    return _n;
+];
+
 Room Cave "Cave"
     with
         description
@@ -1282,9 +1612,11 @@ Room Cave "Cave"
             telling how large the place really is. What you can see is a tunnel running on
             northward.",
         cheap_scenery
+        CS_PARSE_NAME ParseNameCaveWall
+        "The stone walls are cold and uneven, glistening with a thin sheen of moisture."
         'irregual' 'chamber'
-        "The high, uneven walls of the cave stretch up into heavy shadows. Damp stone drips quietly in the gloom."
-        CS_NO_ADJ 'light'
+        "The high, uneven walls of the cave stretch up into heavy shadows. Water drips quietly in the gloom."
+        'daylight' 'light'
         "Faint daylight spills in from the south cave mouth, though it barely pierces the
         shadows deeper inside the chamber."
         'shadow' 'shadows'
@@ -1309,6 +1641,22 @@ Room Cave "Cave"
         d_to "The muddy cavern floor is solid stone beneath the silt.",
         cant_go "Rough stone walls lie that way, solid and impassable.";
 
+Object -> CaveOpening "cave opening"
+    with
+        parse_name [ _w _n;
+            _w = NextWordStopped();
+            while(_w == 'cave') { _w = NextWordStopped(); _n++; }
+            if(_w == 'mouth' or 'opening' or 'entrace') _n++;
+            return _n;
+        ],
+        description
+            "The cave opening is letting in a cool draft and the pale,
+             distant light of the mountain outside.",
+        before [;
+        Enter, Exit: <<Go FAKE_S_OBJ>>;
+        ],
+    has scenery open;
+
 Object -> CaveMud "mud"
     with
         name 'mud',
@@ -1322,21 +1670,30 @@ Object -> CaveMud "mud"
         ],
     has scenery;
 
-![ UpSlope normalroom;
-!    if(MountainSlope has general) {
-!        print (string) random(
-!            "The ground is frozen and hard to climb.",
-!            "With some effort you manage to climb the frozen slope."), "^^";
-!    } else {
-!        print (string) random(
-!            "The slope is steep, and you are left breathless.",
-!            "With some effort you climb the steep slope."), "^^";
-!    }
-!    return normalroom;
-!];
+[ UpSlope normalroom;
+    if(Tunnel has general) {
+        print (string) random(
+            "The ground is frozen and hard to climb.",
+            "With some effort you manage to climb the frozen slope."), "^^";
+    } else {
+        print (string) random(
+            "The slope is steep, and you are left breathless.",
+            "With some effort you climb the steep slope."), "^^";
+    }
+    return normalroom;
+];
 
 [ DownSlope normalroom otherroom;
-    if(MountainSlope has general) {
+    if(location == Tunnel && LeftStatue in Tunnel) 
+        "You attempt to march past the sentinels, but as you step between them, an invisible force like
+        compressed air slams against your chest, throwing you back into the tunnel. The statues remain
+        motionless, watching.";
+    if(location == Tunnel && (LeftWarrior in Tunnel || RightWarrior in Tunnel)) 
+        "The living statue is flailing madly across the narrow passage, its strikes ringing against the
+        rock walls. Trying to squeeze past its violent reach would be total suicide.";
+    if(location == thedark)
+        "Venturing into the pitch black is suicide. Head back south to the safety of the cave.";
+    if(Tunnel has general) {
         if(otherroom) {
             print "The ground is frozen, and you slip down the slope.^^";
             return otherroom;
@@ -1351,7 +1708,14 @@ Object -> CaveMud "mud"
     return normalroom;
 ];
 
-Object MountainHall "The Rock Hall"
+[ ParseNameHallWall _w _n;
+    _w = NextWordStopped();
+    while(_w == 'upper' or 'lower' or 'natural' or 'jagged' or 'flat') { _w = NextWordStopped(); _n++; }
+    if(_w == 'wall' or 'walls' or 'rock') _n++;
+    return _n;
+];
+
+DarkRoom MountainHall "The Rock Hall"
     with
         description
             "A great cavity in the mountain, hollowed out by nature and then squared off and
@@ -1360,6 +1724,9 @@ Object MountainHall "The Rock Hall"
             thick coat of dust. A large doorway is set in the north wall, and beyond it a
             slope runs down into the darkness.",
         cheap_scenery
+        CS_PARSE_NAME ParseNameHallWall
+            "The upper walls are natural, jagged rock, while the lower sections have
+             been carved flat by ancient tools."
         'large' 'cavity'
             "The vast chamber opens up overhead, its natural stone walls roughly chiselled
             and squared off to form a cavernous room."
@@ -1378,6 +1745,8 @@ Object MountainHall "The Rock Hall"
         'torch' 'sconces'
             "Iron torch brackets are set into the walls at regular intervals, each one
             crusted with the cold, black remains of a fire that went out centuries ago."
+        CS_NO_ADJ 'dust'
+            "A grey, velvety carpet coats every surface."
         CS_NO_ADJ 'slope'
             "Through the north doorway, a steep stone incline drops away into pitch-black
             depths. It looks a good deal easier to go down than to come back up."
@@ -1393,10 +1762,10 @@ Object MountainHall "The Rock Hall"
             bitter odour of mildew from the decaying packages.";
         ],
         u_to "The vaulted rock ceiling is lost in the dark, far beyond your reach.",
-        n_to [; return DownSlope(MountainSlope, DragonHall); ],
-        d_to [; return DownSlope(MountainSlope, DragonHall); ],
+        n_to [; return DownSlope(Tunnel, DragonHall); ],
+        d_to [; return DownSlope(Tunnel, DragonHall); ],
         s_to Cave,
-        cant_go "Rough-hewn rock walls form a solid barrier."
+        cant_go "Rough-hewn rock walls form a solid barrier.",
     ;
 
 CComplicatedScroll BlackScroll "black scroll" MountainHall
@@ -1437,7 +1806,21 @@ Object -> mh_package "packages"
         ],
         has scenery pluralname;
 
-Object MountainSlope "Tunnel"
+[ ParseNameTunnelSlope  _w _n;
+    _w = NextWordStopped();
+    while(_w == 'steep') { _w = NextWordStopped(); _n++; }
+    if(_w == 'tunnel' or 'slope' or 'passage' or 'incline') _n++;
+    return _n;
+];
+
+[ ParseNameTunnelHall  _w _n;
+    _w = NextWordStopped();
+    while(_w == 'rock') { _w = NextWordStopped(); _n++; }
+    if(_w == 'hall') _n++;
+    return _n;
+];
+
+DarkRoom Tunnel "Tunnel"
     with
         description [;
             print "A steep passage dropping away from the rock hall into the dark. Water trickles
@@ -1447,6 +1830,18 @@ Object MountainSlope "Tunnel"
             else
                 print "mud.^";
         ],
+        cheap_scenery
+        'dark' 'darkness'
+            "You can't make out anything further down the tunnel from here."
+        CS_PARSE_NAME ParseNameTunnelHall
+            "Back up the muddy slope, the entrance opens into the dim outline of the Rock Hall."
+        CS_PARSE_NAME ParseNameTunnelSlope
+            "The passage slopes steeply away, its muddy floor glistening in the dim light."
+        'broadsword' 'sword'
+            "A slab of stone sword, chipped along one edge. Carved or not, you would not care
+            to be standing in front of it."
+        CS_NO_ADJ 'dagger'
+            "Short, curved and held low and close, in the grip of a man who has used one before.",
         time_left 0,
         time_out [;
             if(player in self) print "^The ice melts.^";
@@ -1465,29 +1860,17 @@ Object MountainSlope "Tunnel"
                     }
                 }
                 if(LeftWarrior in self) {
-                    move LeftWarrior to DragonHall;
                     if(player in self) {
-                        print "^", (The) LeftWarrior, " slips on the ice. He grabs your leg and you
-                                    both slide down the slope.^^";
-                        PlayerTo(DragonHall);
+                        print "^", (The) LeftWarrior, " slips on the ice but manages to keep his balance.^";
                     }
                 }
                 if(RightWarrior in self) {
-                    move RightWarrior to DragonHall;
                     if(player in self) {
-                        print "^", (The) RightWarrior, " slips on the ice. He grabs your leg and you
-                                    both slide down the slope.^^";
-                        PlayerTo(DragonHall);
+                        print "^", (The) RightWarrior, " slips on the ice but manages to keep his balance.^";
                     }
                 }
             }
         ],
-        cheap_scenery
-        'broadsword' 'sword'
-            "A slab of stone sword, chipped along one edge. Carved or not, you would not care
-            to be standing in front of it."
-        CS_NO_ADJ 'dagger'
-            "Short, curved and held low and close, in the grip of a man who has used one before.",
         before [;
         Listen:
             "The continuous trickling and splashing of water flowing down the slick stone floor echoes
@@ -1496,13 +1879,13 @@ Object MountainSlope "Tunnel"
             "A cool, heavy dampness fills the air, saturated with the strong, metallic odour of wet
             subterranean rock and stagnant mud.";
         ],
-        !u_to [; return UpSlope(MountainHall); ],
-        !s_to [; return UpSlope(MountainHall); ],
-        s_to "The slope behind you is far too steep and far too slippery to climb back up.",
+        u_to [; return UpSlope(MountainHall); ],
+        s_to [; return UpSlope(MountainHall); ],
+        !s_to "The slope behind you is far too steep and far too slippery to climb back up.",
         d_to [; return DownSlope(DragonHall); ],
         n_to [; return DownSlope(DragonHall); ],
         cant_go "Rough cavern walls block that way, dripping with moisture.",
-    ;
+    ; ! general is mud frozen
 
 Object -> ms_floor "floor"
     with
@@ -1514,22 +1897,21 @@ Object -> ms_floor "floor"
 
 Object -> ms_water "mud"
     with
-        name 'water' 'mud' 'frozen' 'ice' 'ground' 'wet' 'slope',
         short_name [;
-            if(MountainSlope has general) print "frozen mud";
+            if(Tunnel has general) print "frozen mud";
             else print "wet mud";
             rtrue;
         ],
         parse_name [ w n;
-            n = 1;
-            w = NextWordStopped();
             give self ~general; ! general if we parsed water, else mud
-            if(w == 'frozen' or 'wet') { w = NextWordStopped(); n = 2; }
-            if(w == 'water' or 'ice') { give self general; return n; }
-            if(w == 'mud' or 'ground') { return n; }
+            w = NextWordStopped();
+            if(w == 'frozen' or 'wet') { w = NextWordStopped(); n++; }
+            if(w == 'water' or 'ice') { give self general; return n + 1; }
+            if(w == 'mud' or 'ground' or 'mire' or 'paste') return n + 1;
+            return n;
         ],
         description [;
-            if(MountainSlope has general)
+            if(Tunnel has general)
                 "The mud is frozen solid and covered with ice.";
             if(self has general)
                 "A thin trickle of cold spring water runs constantly down the stone incline,
@@ -1537,18 +1919,21 @@ Object -> ms_water "mud"
             "Grey, glutinous and ankle-deep in the hollows, worked to a slick paste by the
             water running through it. Your boots have no purchase in it whatsoever.";
         ],
+        before [;
+        Drink, Taste: "A handful yields nothing but cold, slimy mud. You think better of tasting it.";
+        ],
         domagic [spell;
             if(spell==FreezeSpell) {
-                if(MountainSlope has general) {
+                if(Tunnel has general) {
                     print "Nothing happens. The ground is still frozen.^";
-                    MountainSlope.time_left=10;
+                    Tunnel.time_left=10;
                 } else {
-                    give MountainSlope general;
+                    give Tunnel general; ! frozen mud
                     print
                         "The temperature drops at once. The water and the mud freeze hard, your boots go
                         out from under you, and you slither a couple of metres down the tunnel before
                         you can stop yourself.^";
-                    StartTimer(MountainSlope, 10);
+                    StartTimer(Tunnel, 10);
                 }
                 rtrue;
             }
@@ -1633,7 +2018,7 @@ Object -> RightStatue "barbarian statue"
 ];
 
 [ CommentWarriorAttackingWarrior;
-    if(MountainSlope has general)
+    if(Tunnel has general)
         "^The warrior and the barbarian trade blows across the frozen floor, and neither
         of them has landed one yet.";
     LeftStatue.number = LeftStatue.number + 1;
@@ -1731,7 +2116,7 @@ Room DragonHall "The Dragon Hall"
         CS_NO_ADJ 'hall'
             "Every surface of it was cut by hand: fluted columns, a vaulted roof lost in the
             dark, a floor of dressed slabs now buried under ash. Whoever built this did not
-            build it for a dragon, and the dragon has outlasted them by a very long way."
+            build it for a dragon, and the dragon has outlasted them by a very long time."
         CS_NO_ADJ 'barbarian'
             "A long smear of ash and a sword hilt, which is all that is left of him. He did
             what he came down here to do."
@@ -1895,7 +2280,7 @@ Object -> Dragon "dragon"
                     "She is dying where she lies, and you did not come all this way down to finish her off.";
                 "This is a dragon we are talking about. Magic might work, but force... forget it!";
         ],
-        life [;
+        life [w1 w2 c;
             Show:
                 if(noun == SpellBook)
                     "She glances at the open page and away again, unimpressed. ~Books,~ she says
@@ -1907,6 +2292,13 @@ Object -> Dragon "dragon"
                 run an errand.~ She closes her eyes. ~Whatever is coming for you, wizard, you
                 must go and meet it yourself.~";
             Ask, Tell:
+                w1 = 0;
+                w2 = 0;
+                wn=consult_from; c=consult_words; if(c>0) w1=NextWord();
+                if(w1=='the') { c=c-1; if(c>0) w1=NextWord(); }
+                if(c>1) w2=NextWord();
+                if(c>2) "What you cannot say in few words, probably isn't worth saying.";
+
                 if(self has general && KillSpell notin SpellBook) {
                     print
                         "The dragon focuses on you, and something like surprise crosses her face. ~A
@@ -1929,46 +2321,46 @@ Object -> Dragon "dragon"
                     }
                 } else {
                     ! dragon is healed
-                    if(second == 'herself' or 'dragon' or Dragon)
+                    if(w1 == 'herself' or 'dragon')
                         "~I have been here since before the hall was cut, and I shall be here after it
                         falls in.~ She settles a little deeper into the coins. ~That is the whole of my
                         history, and I am fond of it.~";
-                    if(second == 'name')
+                    if(w1 == 'name')
                         "~You may have the name the miners gave me, which was Trouble, or the one my
                         mother gave me, which you could not pronounce and would not survive hearing.~
                         Something moves behind her eyes that might be amusement.";
-                    if(second == 'barbarian' or 'warrior')
+                    if(w1 == 'barbarian' or 'warrior')
                         "~He was quick, and he was brave, and he was in my hall with a sword.~ The huge
                         head turns towards the ash. ~I do not hold it against him. I would have done the
                         same in his place, and I did.~";
-                    if(second == 'wound' or 'throat')
+                    if(w1 == 'wound' or 'throat')
                         "She tips her head back and lets you see the unmarked scales under her jaw. ~Gone
                         as though it never happened. I have carried worse for a century because there
                         was no one to ask.~";
-                    if(second == 'demon' or 'daemon')
+                    if(w1 == 'demon' or 'daemon')
                         "~I know the smell of that kind,~ she says, and her lip draws back off a great
                         many teeth. ~Nothing of that sort has come down my tunnel, and nothing of that
                         sort would go back up it. Why do you ask, wizard? What have you been carrying?~";
-                    if(second == 'way' or 'exit')
+                    if(w1 == 'way' or 'exit')
                         "~Up the mud, on your own legs? No.~ She does not trouble to look at the incline.
                         ~You came here by magic, wizard, one way or another. You will leave the same
                         way, or you will stay and keep me company, and I think you are in a hurry.~";
-                    if(second == 'stone' or 'stones')
+                    if((w1 == 'stone' or 'stones') || (w2 == 'stone' or 'stones'))
                         "~Stones.~ She turns the word over. ~Cut stones, of four colours, that call to
                         one another across a great distance. Yes. They were made to open something, and
                         whatever they open was shut for a reason. I would think very hard about who is
                         asking you to collect them.~";
-                    if(second == 'death' or 'spell')
+                    if(w1 == 'death' or 'spell')
                         "~It is a cruel gift, and I have given it to you anyway,~ she says. ~You will
                         know the moment it is needed. If you are fortunate, you never will.~";
-                    if(second == 'istar')
+                    if(w1 == 'istar')
                         "~I do not know your teacher. But I have lived a long time, wizard, and I will
                         tell you this for nothing: when an old man asks a young one to fetch what he
                         will not fetch himself, it is worth asking why.~";
-                    if(second == 'treasure' or 'gold')
+                    if(w1 == 'treasure' or 'gold')
                         "~Take some, if it pleases you.~ She does not move. ~It is only metal. I lie on
                         it because it is the one thing down here that does not rot.~";
-                    if(second == 'old' or 'gods')
+                    if((w1 == 'god' or 'gods') || (w1 == 'old' && w2 == 'god' or 'gods'))
                         "The dragon is quiet for a long moment. ~We are old,~ she says at last. ~They are
                         older. My grandmothers went down into the deep rock to be out of their way, and
                         my grandmothers did not frighten easily.~";
@@ -2364,18 +2756,25 @@ Object -> Beggar "beggar"
         description
             "He is a gaunt, frail man clad in threadbare rags. His eyes are sunken with exhaustion, and he holds
             out a palm in mute appeal for charity.",
-        life [;
+        life [w1 w2 c;
             Ask, Tell, Show:
-                if(second == 'stone' or 'stones')
+                w1 = 0;
+                w2 = 0;
+                wn=consult_from; c=consult_words; if(c>0) w1=NextWord();
+                if(w1=='the') { c=c-1; if(c>0) w1=NextWord(); }
+                if(c>1) w2=NextWord();
+                if(c>2) "What you cannot say in few words, probably isn't worth saying.";
+
+                if(w1 == 'stone' or 'stones')
                     "~Stones I have plenty of, master. They're free, and they don't fill a belly.~ He gestures
                     vaguely at the roadside gravel and lets his hand fall back into its begging posture.";
-                if(second == 'amulet')
+                if(w1 == 'amulet')
                     "His hand moves to his chest, just for an instant, before he catches himself.
                     ~Nothing there worth your trouble, master. Only rags and ribs.~";
-                if(second == 'village' or 'market' or 'markets')
+                if(w1 == 'village' or 'market' or 'markets')
                     "~Market day,~ he says without enthusiasm. ~Good day for a man with coins. I go
                     in sometimes, but the traders move me along quick enough.~";
-                if(second == 'hawker' or 'busker')
+                if(w1 == 'hawker' or 'busker')
                     "The beggar's mouth twists. ~Him with the cups? He's been taking silver off honest
                     folk since the spring. Nobody has ever seen him lose, master. Nobody.~";
                 <<TalkTo self>>;
@@ -2589,7 +2988,8 @@ Object -> Bench "bench"
         ],
         domagic [spell;
             if(spell==AnimateSpell) {
-                if(busker.number==7 or 8 or 9 or 10 or 11) {
+                if((busker.number==7 or 8 or 9 or 10 or 11) || 
+                   (SilverCoin in Busker && SilverCoin has general)) {
                     move SilverCoin to player;
                     give RedStone ~general; ! no more hawker puzzles
                     move RedStone to player;
@@ -2717,6 +3117,7 @@ Object -> -> AllTheCups "cups"
                 exactly where it has been all along.";
         ],
     has scenery pluralname;
+
 Object -> Crowd "crowd"
     with
         name 'crowd' 'people' 'farmhands' 'traders' 'children',
@@ -2817,7 +3218,7 @@ Object -> Busker "hawker"
             11: "^~Point to the cup you think the stone is under,~ says the man.";
             };
         ],
-        life [;
+        life [w1 w2 c;
             Order:
                 "~Give?~ The hawker laughs, thoroughly delighted. ~Master wizard, if I gave
                 things away I should be the one sitting under that oak tree with my hand out.~";
@@ -2825,19 +3226,28 @@ Object -> Busker "hawker"
                 "~Well met, master wizard!~ He says it to the whole street rather than to you,
                 and two more people drift over to watch. ~Step up, step up. The learned
                 gentleman is going to show us how it is done.~";
-            Ask, Tell, Show, TalkTo:
-                if(second == 'game')
+            Show, TalkTo:
+                "The impatient hawker motions to the cups in front of him.";
+            Ask, Tell:
+                w1 = 0;
+                w2 = 0;
+                wn=consult_from; c=consult_words; if(c>0) w1=NextWord();
+                if(w1=='the') { c=c-1; if(c>0) w1=NextWord(); }
+                if(c>1) w2=NextWord();
+                if(c>2) "What you cannot say in few words, probably isn't worth saying.";
+
+                if(w1 == 'game')
                     "~Simplest game in the world,~ he says happily. ~I put the stone under a cup, I
                     move the cups about, you tell me where the stone has got to. A child could do
                     it.~ He does not mention that no child ever has.";
-                if(second == 'coin' or 'coins')
+                if(w1 == 'coin' or 'coins')
                     "~Twenty of them, master, counted out into your hand the moment you win.~ He pats
                     a pouch at his belt, which does not make anything like the noise twenty silver
                     coins would make.";
-                if(second == 'hawker' or 'himself')
+                if(w1 == 'hawker' or 'himself')
                     "~An honest tradesman,~ he says, spreading his hands, ~in an honest trade. I go
                     where the market days are, and the market days have been good to me.~";
-                if(second == 'beggar')
+                if(w1 == 'beggar')
                     "~That old fellow under the oak?~ He shrugs, not unkindly. ~He has never staked a
                     coin with me and he never will. I have nothing against him.~";
                 "The impatient hawker motions to the cups in front of him.";
@@ -3027,9 +3437,16 @@ Object -> EvilMaster "demon"
             print_ret (The) self, " stops you with a short spell, but is too busy opening the
                         gate to kill you.";
         ],
-        life [;
+        life [w1 w2 c;
         Ask:
-            if(second == 'istar' or 'master')
+            w1 = 0;
+            w2 = 0;
+            wn=consult_from; c=consult_words; if(c>0) w1=NextWord();
+            if(w1=='the') { c=c-1; if(c>0) w1=NextWord(); }
+            if(c>1) w2=NextWord();
+            if(c>2) "What you cannot say in few words, probably isn't worth saying.";
+
+            if(w1 == 'istar' or 'master')
                 "It does not look up from the reading. ~Your teacher is in here with me, wizard,
                 and he has watched every step of this from behind my eyes. He is watching now. I
                 should not like you to think he missed it.~";
@@ -3179,7 +3596,7 @@ CSpell TeleportSpell "teleportation spell" SilverScroll
         comment "move yourself to a new place",
         domagic [;
             if(location == Meadow) {
-                print "A swirling yellow mist springs up from the ground, enveloping you completely. As the fog dissipates,
+                print "A swirling yellow mist springs up from the ground, engulfing you completely. As the fog dissipates,
                     the meadow vanishes, and you find yourself standing in a vast new landscape...^^";
             } else {
                 print "A yellow cloud swirls around you, and as it clears you find yourself...^^";
@@ -3282,15 +3699,31 @@ CStone BlackStone "black stone" Istar
             "It sits in the gilded box, roughly carved and marked with signs you have never
             seen in any grimoire. It is not simply black; it is the colour of a hole in the
             world, and looking at it for long makes your eyes water.",
+        add_to_scope StoneMarkings
     ;
+
+Object StoneMarkings
+    with
+        parse_name [_w _n;
+            _w = NextWordStopped();
+            if(_w == 'ancient' or 'strange') { _n++; _w = NextWordStopped(); }
+            if(_w == 'signs' or 'markings' or 'glyphs' or 'shape') return _n + 1;
+            rfalse;
+        ],
+        description
+            "The markings are strange, unknown glyphs carved into the surface of the stone.",
+    has scenery;
 
 CStone GreenStone "green stone" Cave
     with
         name 'green',
         initial "Something glitters in the mud by the entrance. It is a green stone!",
-        description
-            "Roughly carved and glowing with a faint, inner emerald light, this stone matches
-            the shape and ancient markings of your mentor's black stone.",
+        description [;
+            print "Roughly carved and glowing with a ";
+            if(self has light) print "bright"; else print "faint, inner";
+            " emerald light, this stone matches the shape and ancient markings
+            of your mentor's black stone.";
+        ],
         domagic [spell;
             if(spell == IlluminateSpell && self hasnt light) {
                 give self light;
@@ -3299,6 +3732,7 @@ CStone GreenStone "green stone" Cave
                 serve very well as a lamp.";
             }
         ],
+        add_to_scope StoneMarkings
     ;
 
 CStone BlueStone "blue stone" OceanFloor
@@ -3307,6 +3741,7 @@ CStone BlueStone "blue stone" OceanFloor
         description
             "Roughly carved and pulsing with a deep, inner azure glow, this stone matches the
             shape and ancient markings of your mentor's black stone.",
+        add_to_scope StoneMarkings
     ;
 
 CStone RedStone "red stone" Village
@@ -3337,27 +3772,11 @@ CStone RedStone "red stone" Village
                     "The hawker's hand closes over it before yours is halfway across the bench.
                     ~Under the cups or not at all, master wizard.~";
                 rfalse;
-        ]
+        ],
+        add_to_scope StoneMarkings
     has scenery; ! general if player noticed that the hawker is cheating
 
 Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
-
-Object Introduction "folio" Istar
-    with
-        name 'folio' 'notes' 'report',
-        description [;
-            "Inscribed in your mentor's familiar, frantic handwriting is a harrowing log of his forbidden studies.^^
-            He writes that the present age will soon give way to an era of terror and dread,
-            heralded by the return of the Old Gods to the earth. It would mean nothing less
-            than the annihilation of humanity. Ever since his exile from the Academy he has
-            searched, without rest, for a way to delay the waking of these malevolent
-            powers.^^
-            There is but one hope. By opening a gateway to a higher dimension, he can channel a torrent of pure,
-            white magic powerful enough to seal the evil gods away. To tear open this gate, however, he requires ",
-            (LanguageNumber) WantedStones-->0, " elemental stones. He already possesses the first, a dark, abyssal stone,
-            and he needs your help to unearth the remaining three.";
-        ],
-    ;
 
 ! ==========================================================================
 !     Menu-driven help
@@ -3537,8 +3956,9 @@ Object Introduction "folio" Istar
     1: "This game is much like the adventure games Infocom wrote in the eighties. The
         player types what he or she wants to do, and the game tells what happens.^^\
         You cannot finish the game without using magic. You can read spells from scrolls or
-        your spellbook by typing ~cast SPELL on SOMETHING/SOMEONE~ To see what spells
-        you have you can type ~read spellbook~";
+        your spellbook by typing ~cast SPELL on SOMETHING/SOMEONE~ You copy a spell into
+        your spellbook with ~cast copy on SPELL~ To see what spells you have you can
+        type ~read spellbook~";
     2: "In this game you control the main character by typing commands that tell him what
         to do. Examples of such commands are:^^\
         > look (look around you)^\

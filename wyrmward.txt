@@ -34,6 +34,10 @@ The random seed is set to 1.
 > take scroll
 Taken.
 
+> untie scroll
+You work at the damp knot until the twine slips free, allowing you to unroll the
+heavy parchment.
+
 > listen
 The wind rustles softly through the high grass and the heavy canopy overhead.
 Deeper in the trees a lone bird calls out, and then thinks better of it. The
@@ -43,12 +47,102 @@ forest is unsettlingly still.
 Wet earth, crushed weeds, and the sharp resin of pine needles drifting out of
 the dark forest. From the south, a faint whiff of woodsmoke hangs about the hut.
 
+> x meadow
+Just a small patch of overgrown grass, squeezed between the dark forest to the
+north and the dilapidated hut to the south.
+
+> x clearing
+Just a small patch of overgrown grass, squeezed between the dark forest to the
+north and the dilapidated hut to the south.
+
+> x dew
+The grass is thick, wild, and heavy with a cold, clinging dew that quickly soaks
+through the hems of your travelling robes.
+
+> x hems
+There is no need to worry about your clothing.
+
+> x travelling robes
+There is no need to worry about your clothing.
+
+> x sky
+Overhead, the sky is a bruised, oppressive grey, visible only through a jagged
+tear in the dense forest canopy.
+
+> take it
+No need to concern yourself with that.
+
+> x dense ancient forest
+The trees are massive, ancient oaks and pines, their roots writhing through the
+earth like frozen serpents. Their dense canopy blocks out most of the daylight,
+plunging the depths of the woods into absolute, suffocating darkness.
+
+> x oaks
+Oaks and pines of enormous age, so thick through the trunk that three men could
+not link hands around one. Nothing grows in their shade but moss.
+
+> x pines
+Oaks and pines of enormous age, so thick through the trunk that three men could
+not link hands around one. Nothing grows in their shade but moss.
+
+> x roots
+The roots break through the damp earth in thick, gnarled loops.
+
+> x soil
+The soil is heavy with moisture and thick with moss and rotting leaves.
+
+> x canopy
+The trees are massive, ancient oaks and pines, their roots writhing through the
+earth like frozen serpents. Their dense canopy blocks out most of the daylight,
+plunging the depths of the woods into absolute, suffocating darkness.
+
+> x daylight
+Overhead, the sky is a bruised, oppressive grey, visible only through a jagged
+tear in the dense forest canopy.
+
+> x trunks
+Oaks and pines of enormous age, so thick through the trunk that three men could
+not link hands around one. Nothing grows in their shade but moss.
+
+> x moss
+A plush, damp carpet of dark green moss coats the base of the massive trees and
+the exposed roots.
+
+> x faint dirt path
+It's little more than a strip of packed, muddy earth cutting through the
+overgrown grass. Looking north, you can see how quickly the path is swallowed up
+by the encroaching shadows of the forest canopy.
+
+> x packed muddy earth
+The soil is heavy with moisture and thick with moss and rotting leaves.
+
+> x shadows
+The trees are massive, ancient oaks and pines, their roots writhing through the
+earth like frozen serpents. Their dense canopy blocks out most of the daylight,
+plunging the depths of the woods into absolute, suffocating darkness.
+
 > x me
 As good-looking as ever, though weeks on the road have left your travelling
 robes mud-spattered and your boots very nearly walked through.
 
+> copy spell
+Do you mean the healing spell, the freeze spell, the illumination spell or the
+copying spell?
+
+> healing
+To use magic, try CAST spell instead.
+
+> cast healing
+You must say what you want to cast the spell on.
+
+> cast healing on me
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the healing spell.
+
+You feel healthier and stronger than before.
+
 > score
-You have so far scored 0 out of a possible 50, in 4 turns.
+You have so far scored 0 out of a possible 50, in 27 turns.
 
 > xyzzy
 You pronounce the ancient word with great care. Somewhere very far away a door
@@ -67,9 +161,8 @@ You prod at the grass and weeds beneath your boots. There is nothing under them
 but more meadow.
 
 > x scroll
-It is a tightly rolled cylinder of heavy parchment, tied with a frayed piece of
-twine. The surface is weathered, as if it has been lying out in the damp meadow
-air for some time.
+The scroll is completely blank. Either somebody went to considerable trouble to
+tie up an empty page, or there is a deeper meaning being hidden away.
 
 > x twine
 A few turns of coarse hemp twine, frayed at the ends and stiff with damp. It has
@@ -91,7 +184,11 @@ very handy gift from your first teacher of magic, given to you long ago.
 
 > x spellbook
 It is your well-thumbed spellbook, bought on the day you started at the wizards'
-school. The spells written in it are the fruit of a great many years of study.
+school. The spells written in it are the fruit of a great many years of study
+and you need to read it to see its contents.
+
+[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
+<spell> on <someone or something>" to use it.]
 
 > read spell book
 ARCANE MAGIC FOR COMPLETE NOVICES:
@@ -100,6 +197,9 @@ The healing spell: (heal someone).
 The freeze spell: (freeze something).
 The illumination spell: (make something glow).
 The copying spell: (copy a spell into the spellbook).
+
+[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
+<spell> on <someone or something>" to use it.]
 
 > x grass
 The grass is thick, wild, and heavy with a cold, clinging dew that quickly soaks
@@ -181,8 +281,9 @@ The interior of the hut is cramped and gloomy. Thick soot cakes the solitary
 window, leaving the flickering flames of a stone hearth as the room's sole
 source of light. Atop the fire, rusted iron vessels bubble quietly, venting
 strange, multi-coloured vapours. A massive, cluttered workbench is buried under
-a chaotic heap of heavy grimoires, brittle parchments, and exotic alchemical
-ingredients. A heavy wooden door leads north, back out to the forest path.
+a chaotic heap of heavy grimoires, brittle sheets of paper, and exotic
+alchemical ingredients. A heavy wooden door leads north, back out to the forest
+path.
 
 Resting within a small alcove in the stone wall is a beautifully carved, gilded
 wooden box.
@@ -192,6 +293,195 @@ faded tome. When he sees you he says, "My boy, I am so glad to see you again.
 Great tasks await us, but to begin with, I need you to read this." He picks up a
 slim, leather-bound folio and presses it into your hands. "It is the culmination
 of everything I have uncovered since my exile."
+
+> x hut
+You are inside the hut. It is a cramped, gloomy space smelling of old parchment
+and boiling alchemy, lit only by the flickering stone hearth.
+
+> exit hut
+Istar has only just handed you his folio. You ought to hear what he has to say
+before leaving.
+
+> enter hut
+You are already inside the hut.
+
+> x soot
+Thick layers of black grease and soot coat the glass, completely choking out the
+daylight from the meadow outside.
+
+> x grease
+Thick layers of black grease and soot coat the glass, completely choking out the
+daylight from the meadow outside.
+
+> x glass
+Thick layers of black grease and soot coat the glass, completely choking out the
+daylight from the meadow outside.
+
+> x flickering flames
+A few stout logs burn steadily in the stone hearth, feeding the flames.
+
+> x flames
+A few stout logs burn steadily in the stone hearth, feeding the flames.
+
+> x stone hearth
+A low arch of blackened fieldstone, heaped with logs that burn a great deal
+hotter than logs ought to. Stained iron cauldrons stand in the flames, hissing
+and sputtering away.
+
+> x logs
+A few stout logs burn steadily in the stone hearth, feeding the flames.
+
+> x fieldstone
+A low arch of blackened fieldstone, heaped with logs that burn a great deal
+hotter than logs ought to. Stained iron cauldrons stand in the flames, hissing
+and sputtering away.
+
+> x stained iron cauldrons
+The liquids inside the vessels range from a viscous, glowing emerald to an oily
+indigo, giving off a scent that prickles the back of your throat.
+
+> x cauldrons
+The liquids inside the vessels range from a viscous, glowing emerald to an oily
+indigo, giving off a scent that prickles the back of your throat.
+
+> x cauldron
+The liquids inside the vessels range from a viscous, glowing emerald to an oily
+indigo, giving off a scent that prickles the back of your throat.
+
+> x filigree
+The box is crafted from a rare, dark wood, seamlessly overlaid with an
+intricate, swirling filigree of pure gold. Professional wizards use enchanted
+repositories like this to store highly volatile magical items.
+
+> x fire
+A few stout logs burn steadily in the stone hearth, feeding the flames.
+
+> get papers
+Istar swats your hand away from the desk. "Leave that alone! Everything is
+arranged precisely as I need it."
+
+> x alchemical
+Bundled herbs, stoppered jars, a tray of dried beetles and something in brine
+that you decide not to look at twice. Half the labels are in your mentor's hand
+and the other half in no alphabet you know.
+
+> x exotic
+Bundled herbs, stoppered jars, a tray of dried beetles and something in brine
+that you decide not to look at twice. Half the labels are in your mentor's hand
+and the other half in no alphabet you know.
+
+> x heavy wooden door
+The hut's door is made of thick, weather-beaten planks of dark pine, bound by
+rusting iron bands.
+
+> close door
+The door already hangs ajar in its warped frame; it has not shut properly in
+years. You need only push it aside and step through.
+
+> x niche
+A shallow niche cut into the stone of the chimney breast, just deep enough to
+take the gilded box. The rock around it is scorched black, as though the ward on
+the box has had to defend itself more than once.
+
+> x shallow
+A shallow niche cut into the stone of the chimney breast, just deep enough to
+take the gilded box. The rock around it is scorched black, as though the ward on
+the box has had to defend itself more than once.
+
+> x chimney
+A dark stone flue built directly above the hearth, drawing the strange vapours
+up and out of the cramped room.
+
+> enter chimney
+No need to concern yourself with that.
+
+> x beautifully carved box
+The box is crafted from a rare, dark wood, seamlessly overlaid with an
+intricate, swirling filigree of pure gold. Professional wizards use enchanted
+repositories like this to store highly volatile magical items.
+
+> ask istar about stones
+He taps the folio in your hands. "Elemental stones. Four of them, cut long
+before the first cities were built. I have one. The others lie scattered across
+half the world, and I am too old and too closely watched to go after them
+myself."
+
+> ask istar about black stone
+Istar gestures toward the gilded box. "The stone of void is resting right here
+before us. Its power is potent, volatile, and deeply unsettling.."
+
+> ask istar about red stone
+Istar's eyes glint with memory. "The Stone of Ember, as the ancients called it.
+It is said to burn with an inner fire that never dims."
+
+> ask istar about blue stone
+Istar nods slowly. "The Stone of Tides. Woven with the essence of deep waters
+and tempestuous winds."
+
+> ask istar about green stone
+Istar frowns slightly, lowering his voice. "The Stone of Verdure. Bound to the
+root, coil, and life force of the wild earth."
+
+> ask istar about brown stone
+Istar scoffs, shaking his head. "That is no stone of power, just ordinary
+rubble. Do not let your imagination wander."
+
+> ask istar about grey stone
+Istar scoffs, shaking his head. "That is no stone of power, just ordinary
+rubble. Do not let your imagination wander."
+
+> ask istar about yellow stone
+Istar scoffs, shaking his head. "That is no stone of power, just ordinary
+rubble. Do not let your imagination wander."
+
+> ask istar about spellbook
+"A wizard's most vital tool, my boy. Keep it close, and ensure you copy any
+magic you encounter into its pages. You never know when a spell might prove
+useful."
+
+> ask istar about parchment
+Istar strokes his beard, squinting at the parchment. "Hmm, I suspect this scroll
+holds secrets meant only for discerning eyes. I encountered a cipher like this
+many decades ago. Let us try a simple revealing trick."
+
+With practised hands he pours a measure of emerald fluid into a ceramic dish and
+stirs in a viscous yellow tincture. The mixture hisses violently, filling the
+cramped room with a thick, acrid smoke. Undeterred by the fumes, Istar holds
+your scroll over the rising vapours. After a tense minute he passes it back to
+you. Invisible ink has bloomed across the surface in sharp, glowing runes. It is
+a spell!
+
+Istar strokes his beard flat and says nothing at all, which is his way of being
+insufferably pleased with himself.
+
+[The score has just gone up by 10 points.]
+
+> ask istar about parchment
+Istar arches an eyebrow. "Awakening the unliving is a perilous path, my boy. See
+that you exercise proper restraint when casting it."
+
+> ask istar about papers
+Istar frowns and waves a hand protectively over the desk. "Those are decades of
+notes, observations, and failed attempts; far too delicate for idle curiosity.
+Just concern yourself with what I handed you."
+
+> ask istar about workbench
+Istar shakes his head dismissively. "That matters little right now. Pay
+attention to what is at hand."
+
+> x roof
+A dense layer of exposed, dried reeds, dark with decades of soot from the hearth
+below.
+
+> x reed
+A dense layer of exposed, dried reeds, dark with decades of soot from the hearth
+below.
+
+> x floorboard
+The floorboards are thick planks worn smooth by years of footsteps.
+
+> x floorboards
+The floorboards are thick planks worn smooth by years of footsteps.
 
 > listen
 The fire in the hearth crackles softly, accompanied by the gentle, steady
@@ -208,7 +498,7 @@ The low, thatched ceiling offers no way upward, unless you fancy poking your
 head through the dried reed roof.
 
 > d
-The floorboards are solid, worn oak. There are no trapdoors or cellars beneath
+The floorboards are solid and worn. There are no trapdoors or cellars beneath
 your feet.
 
 > w
@@ -218,10 +508,10 @@ the north.
 
 > x bench
 A massive slab of scarred oak that has survived a great many experiments, though
-not without marks. Books and parchments lie on the bench.
+not without marks. Books and papers lie on the bench.
 
 > x books
-Warped grimoires and loose sheaves of parchment, most of them older than the hut
+Warped grimoires and loose sheets of papers, most of them older than the hut
 itself. Every margin is crowded with your mentor's cramped, urgent handwriting.
 
 > x window
@@ -234,8 +524,8 @@ indigo, giving off a scent that prickles the back of your throat.
 
 > x hearth
 A low arch of blackened fieldstone, heaped with logs that burn a great deal
-hotter than logs ought to. Stained iron cauldrons and glass retorts stand in the
-flames, hissing and sputtering away.
+hotter than logs ought to. Stained iron cauldrons stand in the flames, hissing
+and sputtering away.
 
 > x ingredients
 Bundled herbs, stoppered jars, a tray of dried beetles and something in brine
@@ -281,12 +571,6 @@ of intellect still dances in his eyes.
 first. Everything I could say to you is already written in it, and written
 better."
 
-> ask istar about stones
-He taps the folio in your hands. "Elemental stones. Four of them, cut long
-before the first cities were built. I have one. The others lie scattered across
-half the world, and I am too old and too closely watched to go after them
-myself."
-
 > ask istar about academy
 His face darkens. "The Arch-Mages felt something stirring in the dark and
 decided it must be me. I do not blame them for being frightened, my boy. I blame
@@ -325,7 +609,7 @@ Inscribed in your mentor's familiar, frantic handwriting is a harrowing log of
 his forbidden studies.
 
 He writes that the present age will soon give way to an era of terror and dread,
-heralded by the return of the Old Gods to the earth. It would mean nothing less
+heralded by the return of the Old Gods to the Earth. It would mean nothing less
 than the annihilation of humanity. Ever since his exile from the Academy he has
 searched, without rest, for a way to delay the waking of these malevolent
 powers.
@@ -337,21 +621,8 @@ already possesses the first, a dark, abyssal stone, and he needs your help to
 unearth the remaining three.
 
 > give scroll to istar
-Istar strokes his beard, squinting at the parchment. "Hmm, I suspect this scroll
-holds secrets meant only for discerning eyes. I encountered a cipher like this
-many decades ago. Let us try a simple revealing trick."
-
-With practised hands he pours a measure of emerald fluid into a ceramic dish and
-stirs in a viscous yellow tincture. The mixture hisses violently, filling the
-cramped room with a thick, acrid smoke. Undeterred by the fumes, Istar holds
-your scroll over the rising vapours. After a tense minute he passes it back to
-you. Invisible ink has bloomed across the surface in sharp, glowing runes. It is
-a spell!
-
-Istar strokes his beard flat and says nothing at all, which is his way of being
-insufferably pleased with himself.
-
-[The score has just gone up by 10 points.]
+Istar arches an eyebrow. "Awakening the unliving is a perilous path, my boy. See
+that you exercise proper restraint when casting it."
 
 > x scroll
 The parchment is unrolled now, its surface stained by the acrid fumes of Istar's
@@ -378,6 +649,9 @@ reach on foot. Copy this teleportation spell into your spellbook and you can
 travel faster."
 
 > copy teleportation spell
+To use magic, try CAST spell instead.
+
+> cast copy on teleportation spell
 The spellbook opens once more, and you recite the copying spell over the silvery
 scroll.
 
@@ -390,6 +664,9 @@ silvery parchment dissolves into wisps of shimmering smoke.
 It sits in the gilded box, roughly carved and marked with signs you have never
 seen in any grimoire. It is not simply black; it is the colour of a hole in the
 world, and looking at it for long makes your eyes water.
+
+> x signs
+The markings are strange, unknown glyphs carved into the surface of the stone.
 
 > follow istar
 That isn't something you can follow. Try choosing a direction to move instead.
@@ -410,11 +687,27 @@ That winding dirt track is the way you arrived on foot. Trudging all the way
 back would take weeks you simply don't have. Istar gave you the teleportation
 spell for a reason!
 
+> say teleport
+To use magic, try CAST spell instead.
+
+> recite teleport
+To use magic, try CAST spell instead.
+
+> teleport
+To use magic, try CAST spell instead.
+
+> use teleport
+To use magic, try CAST spell instead.
+
+> use spellbook
+You'll need to be more specific. Try commands like READ, EXAMINE, OPEN, or CAST
+instead.
+
 > cast teleport
 Your spellbook snaps open to the correct page, and you speak the complex,
 resonant incantation of the teleportation spell.
 
-A swirling yellow mist springs up from the ground, enveloping you completely. As
+A swirling yellow mist springs up from the ground, engulfing you completely. As
 the fog dissipates, the meadow vanishes, and you find yourself standing in a
 vast new landscape...
 
@@ -423,6 +716,24 @@ The yellow cloud dissipates, leaving you standing in a boundless, wind-swept
 steppe that rolls onward to the horizon. Strangest of all, you find yourself
 encircled by four free-standing, ornate archways, each facing one of the
 cardinal directions of the compass.
+
+> speak teleport
+To use magic, try CAST spell instead.
+
+> utter teleport
+To use magic, try CAST spell instead.
+
+> chant teleport
+To use magic, try CAST spell instead.
+
+> conjure teleport
+To use magic, try CAST spell instead.
+
+> invoke teleport
+To use magic, try CAST spell instead.
+
+> evoke teleport
+To use magic, try CAST spell instead.
 
 > listen
 A low, persistent wind moans across the open plains, whistling softly as it
@@ -438,7 +749,7 @@ The steppe stretches as far as the eye can see under a pale, vast sky. The dry
 grass whispers softly in the cold wind, broken only by the eerie presence of the
 four archways.
 
-> x archway
+> x archways
 Four massive stone arches stand in a wide circle around you, each squarely
 aligned with one of the cardinal compass directions. Glowing runes are cut into
 the keystone of every arch, and the air beneath them hums quietly to itself.
@@ -457,6 +768,37 @@ four quarters.
 Deep-cut characters march across each keystone in a script far older than
 anything you were taught to read. They pulse slowly, in a rhythm uncomfortably
 like breathing.
+
+> x glowing runes
+Deep-cut characters march across each keystone in a script far older than
+anything you were taught to read. They pulse slowly, in a rhythm uncomfortably
+like breathing.
+
+> x north arch
+Apart from their alignment with the compass points, all four arches appear
+identical. Glowing runes are cut into its keystone, and the air beneath them
+hums quietly to itself.
+
+> x wild
+Waist-high steppe grass, bleached the colour of old straw and bending all one
+way in the wind. There is not a fence, a track or a rooftop anywhere in it.
+
+> x dry wild grass
+Waist-high steppe grass, bleached the colour of old straw and bending all one
+way in the wind. There is not a fence, a track or a rooftop anywhere in it.
+
+> x keystones
+Four massive stone arches stand in a wide circle around you, each squarely
+aligned with one of the cardinal compass directions. Glowing runes are cut into
+the keystone of every arch, and the air beneath them hums quietly to itself.
+
+> x keystone
+Apart from their alignment with the compass points, all four arches appear
+identical. Glowing runes are cut into its keystone, and the air beneath them
+hums quietly to itself.
+
+> x air
+Sorry, I don't understand what "air" means.
 
 > touch archway
 The stone is oddly warm under your palm, and the runes brighten at the contact,
@@ -1098,6 +1440,43 @@ else you win from this man today, it will not be with silver.
 
 "Won't you try again? Just one silver coin," says the hawker.
 
+> cast animate on bench
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the animation spell.
+
+The bench comes to life, bucks violently for a moment and then stiffens again.
+The cups roll off onto the ground, and there is no sign of the stone under any
+of them. The hawker bends quickly to gather them up, and as he does so the stone
+drops out of his sleeve and into the dust. The man goes scarlet. "Please, sir,
+do not be angry. I have seven children at home to feed, and I never cheat
+against the poor. You can have your stake back, and this fine gem with it, if
+you will promise not to mention this to the watch." He presses the silver coin
+and the stone into your hand, gathers up his things and is gone down the road
+before you can think of a reply.
+
+> i
+You're carrying a red stone, a silver coin, your backpack (which is open but
+empty) and your spellbook.
+
+> w
+The Country Road
+You stand on a narrow dirt road winding between vast, rustling cornfields. To
+the east, past the golden stalks, you can see the thatched rooftops of a small
+village. A solitary oak tree casts its shadow over the wayside.
+
+A ragged beggar leans against the trunk of the tree, holding out a weathered
+hand.
+
+> give coin to beggar
+The beggar is overwhelmed by your generosity. It has clearly been a long time
+since he last held a silver coin. From under his rags he pulls out an amulet on
+a cord and presses it on you, and will not hear of your refusing it.
+
+Content with the day's work, the beggar wanders off to the west.
+
+> undo
+Previous turn undone.
+
 > restore
 Enter a file name.
 Default is "wyrmward.qzl": 
@@ -1243,6 +1622,32 @@ You stand on a path in a mature forest, deep enough that the daylight arrives
 green and second-hand. The path leads on eastward between the trees, and every
 other direction is trunks.
 
+> x moss
+A plush, damp carpet of dark green moss coats the base of the massive trees and
+the exposed roots.
+
+> x trunks
+Oaks and pines of enormous age, so thick through the trunk that three men could
+not link hands around one. Nothing grows in their shade but moss.
+
+> x roots
+The roots break through the damp earth in thick, gnarled loops.
+
+> x them
+The roots break through the damp earth in thick, gnarled loops.
+
+> x wall
+The dense forest makes easy access impossible.
+
+> x wooden
+The dense forest makes easy access impossible.
+
+> x tangled
+The roots break through the damp earth in thick, gnarled loops.
+
+> x thick
+The roots break through the damp earth in thick, gnarled loops.
+
 > x mature forest
 The trees are massive, ancient oaks and pines, their roots writhing through the
 earth like frozen serpents. Their dense canopy blocks out most of the daylight,
@@ -1261,16 +1666,16 @@ Oaks and pines of enormous age, so thick through the trunk that three men could
 not link hands around one. Nothing grows in their shade but moss.
 
 > x roots
-Great knotted roots break the surface everywhere, humped across the path like
-the backs of half-buried animals.
+The roots break through the damp earth in thick, gnarled loops.
 
 > x canopy
-Branch upon branch, layered so densely that the sky is only a rumour of grey
-somewhere far above.
+The trees are massive, ancient oaks and pines, their roots writhing through the
+earth like frozen serpents. Their dense canopy blocks out most of the daylight,
+plunging the depths of the woods into absolute, suffocating darkness.
 
 > n
-The trees grow far too close together here, their thick brambles and tangled
-roots forming an impassable wooden wall. The path only runs east.
+The trees grow far too close together here, their thick trunks and tangled roots
+forming an impassable wooden wall. The path only runs east.
 
 > s
 The forest closes in just as solidly on that side. The path runs east and
@@ -1303,6 +1708,22 @@ Forest Path
 You stand on a narrow path in a dark forest. Ahead to the east the trees thin
 out against the grey flank of a tall mountain; behind you the path runs west,
 back into the gloom.
+
+> x forest path
+The narrow dirt path continues east towards the foot of the mountain, or west
+back into the heart of the forest.
+
+> x narrow dirt path
+The narrow dirt path continues east towards the foot of the mountain, or west
+back into the heart of the forest.
+
+> x narrow
+The narrow dirt path continues east towards the foot of the mountain, or west
+back into the heart of the forest.
+
+> x dirt
+The narrow dirt path continues east towards the foot of the mountain, or west
+back into the heart of the forest.
 
 > x dark forest
 The trees are massive, ancient oaks and pines, their roots writhing through the
@@ -1358,9 +1779,33 @@ whistling through the sparse trees. From inside the nearby cave mouth comes a
 faint, echoing drip of water.
 
 > smell
-The air here is thin, crisp, and cold, dominated by the sharp, metallic scent of
-exposed rock, dry gravel, and pine needles blowing from the treeline to the
-west.
+The rich, leafy smell of the western forest gives way here to the sharp scent of
+cold rock.
+
+> x wall
+A colossal wall of jagged grey stone towers far above you into the sky, its
+sheer faces slick and completely vertical.
+
+> x colossal wall
+A colossal wall of jagged grey stone towers far above you into the sky, its
+sheer faces slick and completely vertical.
+
+> x jagged grey stone
+A colossal wall of jagged grey stone towers far above you into the sky, its
+sheer faces slick and completely vertical.
+
+> x grey
+A colossal wall of jagged grey stone towers far above you into the sky, its
+sheer faces slick and completely vertical.
+
+> x stone
+The stone is roughly carved, glowing with a faint, inner crimson warmth. Aside
+from its deep red colour, its strange shape and ancient markings match your
+mentor's black stone perfectly.
+
+> x rock
+A colossal wall of jagged grey stone towers far above you into the sky, its
+sheer faces slick and completely vertical.
 
 > x great mountain
 A colossal wall of jagged grey stone towers far above you into the sky, its
@@ -1379,8 +1824,16 @@ The rock rises smooth and sheer for hundreds of feet. Without ropes, irons and a
 great deal more youth than you have left, it is out of the question.
 
 > x cave mouth
-A dark, jagged opening yawning in the side of the cliff face. A faint cool
-draught whistles out of the shadows within, and it smells of wet stone.
+A dark, jagged opening yawning in the side of the mountain. A faint cool draught
+whistles out of the shadows within, and it smells of wet stone.
+
+> x opening
+A dark, jagged opening yawning in the side of the mountain. A faint cool draught
+whistles out of the shadows within, and it smells of wet stone.
+
+> x moss
+A plush, damp carpet of dark green moss coats the base of the massive trees and
+the exposed roots.
 
 > s
 The sheer mountain wall curves around you, blocking further passage.
@@ -1390,6 +1843,36 @@ The mountain slope is far too steep to scale without proper gear.
 
 > d
 The rocky ground offers no way downward.
+
+> n
+Cave
+The cave is a single irregular chamber. Daylight reaches in through the mouth in
+the south wall, but it gives out well before the far corners do, so there is no
+telling how large the place really is. What you can see is a tunnel running on
+northward.
+
+Something glitters in the mud by the entrance. It is a green stone!
+
+> s
+The Mountain
+The forest gives out here against the flank of a great mountain, far too steep
+to climb. A path leads back west into the trees, and a short way north of you a
+cave mouth opens in the rock.
+
+> enter cave
+Cave
+The cave is a single irregular chamber. Daylight reaches in through the mouth in
+the south wall, but it gives out well before the far corners do, so there is no
+telling how large the place really is. What you can see is a tunnel running on
+northward.
+
+Something glitters in the mud by the entrance. It is a green stone!
+
+> exit cave
+The Mountain
+The forest gives out here against the flank of a great mountain, far too steep
+to climb. A path leads back west into the trees, and a short way north of you a
+cave mouth opens in the rock.
 
 > n
 Cave
@@ -1410,9 +1893,34 @@ The room is cool and moist, filled with the heavy scent of thick mud, damp rock,
 and stagnant water, with just a hint of fresh air wafting in from the south
 entrance.
 
+> x cave
+The cave opening is letting in a cool draft and the pale, distant light of the
+mountain outside.
+
 > x chamber
-The high, uneven walls of the cave stretch up into heavy shadows. Damp stone
-drips quietly in the gloom.
+The high, uneven walls of the cave stretch up into heavy shadows. Water drips
+quietly in the gloom.
+
+> x daylight
+Faint daylight spills in from the south cave mouth, though it barely pierces the
+shadows deeper inside the chamber.
+
+> x mouth
+The cave opening is letting in a cool draft and the pale, distant light of the
+mountain outside.
+
+> x cave mouth
+The cave opening is letting in a cool draft and the pale, distant light of the
+mountain outside.
+
+> x wall
+The stone walls are cold and uneven, glistening with a thin sheen of moisture.
+
+> x walls
+The stone walls are cold and uneven, glistening with a thin sheen of moisture.
+
+> x uneven
+The stone walls are cold and uneven, glistening with a thin sheen of moisture.
 
 > x light
 Faint daylight spills in from the south cave mouth, though it barely pierces the
@@ -1444,7 +1952,7 @@ the shape and ancient markings of your mentor's black stone.
 > take stone
 Taken.
 
-> illuminate it
+> cast illuminate on it
 The spellbook opens itself to the right page, and you read aloud the complicated
 words of the illumination spell.
 
@@ -1486,6 +1994,16 @@ for a great many lines, and every one of them is more complicated than the last.
 > x cavity
 The vast chamber opens up overhead, its natural stone walls roughly chiselled
 and squared off to form a cavernous room.
+
+> x dust
+A grey, velvety carpet coats every surface.
+
+> blow dust
+No need to concern yourself with that.
+
+> x walls
+The upper walls are natural, jagged rock, while the lower sections have been
+carved flat by ancient tools.
 
 > x feast hall
 Though dusty and bare now, ancient torch sconces and faded carvings hint at the
@@ -1559,6 +2077,40 @@ down the slope from somewhere above, and the floor beneath it is thick with mud.
 Two statues guard the passage.
 
 
+> x tunnel
+The passage slopes steeply away, its muddy floor glistening in the dim light.
+
+> x steep passage
+The passage slopes steeply away, its muddy floor glistening in the dim light.
+
+> x rock hall
+Back up the muddy slope, the entrance opens into the dim outline of the Rock
+Hall.
+
+> x hall
+Back up the muddy slope, the entrance opens into the dim outline of the Rock
+Hall.
+
+> x dark
+You can't make out anything further down the tunnel from here.
+
+> x slope
+The passage slopes steeply away, its muddy floor glistening in the dim light.
+
+> x incline
+The passage slopes steeply away, its muddy floor glistening in the dim light.
+
+> x mire
+Grey, glutinous and ankle-deep in the hollows, worked to a slick paste by the
+water running through it. Your boots have no purchase in it whatsoever.
+
+> x paste
+Grey, glutinous and ankle-deep in the hollows, worked to a slick paste by the
+water running through it. Your boots have no purchase in it whatsoever.
+
+> drink water
+A handful yields nothing but cold, slimy mud. You think better of tasting it.
+
 > listen
 The continuous trickling and splashing of water flowing down the slick stone
 floor echoes wetly off the narrow tunnel walls.
@@ -1581,6 +2133,31 @@ water running through it. Your boots have no purchase in it whatsoever.
 
 > e
 Rough cavern walls block that way, dripping with moisture.
+
+> s
+The slope is steep, and you are left breathless.
+
+The Rock Hall
+A great cavity in the mountain, hollowed out by nature and then squared off and
+widened by human hands. It was a grand feast hall once; now somebody keeps it as
+a storeroom, and rows of crates and packages stand against the walls under a
+thick coat of dust. A large doorway is set in the north wall, and beyond it a
+slope runs down into the darkness.
+
+> n
+The slope is so steep that you half-run down it.
+
+Tunnel
+A steep passage dropping away from the rock hall into the dark. Water trickles
+down the slope from somewhere above, and the floor beneath it is thick with mud.
+
+Two statues guard the passage.
+
+
+> n
+You attempt to march past the sentinels, but as you step between them, an
+invisible force like compressed air slams against your chest, throwing you back
+into the tunnel. The statues remain motionless, watching.
 
 > x statues
 Do you mean the warrior statue or the barbarian statue?
@@ -1610,9 +2187,6 @@ The stone is cold, wet and utterly inert under your fingers.
 It does not shift so much as a hair. The statue and the mountain appear to be
 the same piece of rock.
 
-> s
-The slope behind you is far too steep and far too slippery to climb back up.
-
 > left, hello
 The stone warrior stands motionless, its cold gaze staring blankly into the
 dark.
@@ -1623,6 +2197,167 @@ The barbarian statue remains silent and stone-still.
 > ask right about green stone
 You put the question to a lump of carved rock, and a lump of carved rock is what
 answers you.
+
+> save
+Enter a file name.
+Default is "wyrmward.qzl": 
+Overwrite existing file? yes
+Ok.
+
+> cast animate on left
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the animation spell.
+
+The statue comes to life!
+
+The warrior attacks you, and only your quick reflexes save you from an early
+death.
+
+> s
+The slope is steep, and you are left breathless.
+
+The Rock Hall
+A great cavity in the mountain, hollowed out by nature and then squared off and
+widened by human hands. It was a grand feast hall once; now somebody keeps it as
+a storeroom, and rows of crates and packages stand against the walls under a
+thick coat of dust. A large doorway is set in the north wall, and beyond it a
+slope runs down into the darkness.
+
+The warrior charges at you with his sword raised.
+
+> n
+The slope is so steep that you half-run down it.
+
+Tunnel
+A steep passage dropping away from the rock hall into the dark. Water trickles
+down the slope from somewhere above, and the floor beneath it is thick with mud.
+
+A statue stands at the right wall, guarding the passage.
+
+The warrior charges at you with his sword raised.
+
+> n
+The living statue is flailing madly across the narrow passage, its strikes
+ringing against the rock walls. Trying to squeeze past its violent reach would
+be total suicide.
+
+The warrior attacks you, and only your quick reflexes save you from an early
+death.
+
+> cast freeze on mud
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the freeze spell.
+
+The temperature drops at once. The water and the mud freeze hard, your boots go
+out from under you, and you slither a couple of metres down the tunnel before
+you can stop yourself.
+
+The warrior attacks you, and only your quick reflexes save you from an early
+death.
+
+The warrior slips on the ice but manages to keep his balance.
+
+> cast animate on right
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the animation spell.
+
+The statue comes to life!
+
+The warrior and the barbarian trade blows across the frozen floor, and neither
+of them has landed one yet.
+
+The warrior and the barbarian slip on the ice at the same moment and go down the
+slope together. The barbarian grabs at your leg on the way past, and takes you
+with him.
+
+The Dragon Hall
+You slide to a stop in a vast hall cut straight out of the heart of the
+mountain. The stench of sulfur is oppressive, and the floor lies under a layer
+of ash deep enough to say that no mortal has set foot here for centuries. The
+only way out is the treacherous, muddy incline behind you.
+
+Sprawled across a staggering hoard of gold and priceless relics is a colossal
+dragon.
+
+The dragon tilts her massive head, watching your sudden and undignified entrance
+with frank curiosity.
+
+You can also see a barbarian and a warrior here.
+
+> cast teleport
+Your spellbook snaps open to the correct page, and you speak the complex,
+resonant incantation of the teleportation spell.
+
+A yellow cloud swirls around you, and as it clears you find yourself...
+
+On the Steppe
+The yellow cloud dissipates, leaving you standing in a boundless, wind-swept
+steppe that rolls onward to the horizon. Strangest of all, you find yourself
+encircled by four free-standing, ornate archways, each facing one of the
+cardinal directions of the compass.
+
+You hear screams and the clash of weapons nearby. Then a warm gust of air comes,
+and the screams suddenly fall silent.
+
+> n
+A yellow cloud surrounds you, and as it clears you find yourself in a...
+
+Forest
+You stand on a path in a mature forest, deep enough that the daylight arrives
+green and second-hand. The path leads on eastward between the trees, and every
+other direction is trunks.
+
+> e
+Forest Path
+You stand on a narrow path in a dark forest. Ahead to the east the trees thin
+out against the grey flank of a tall mountain; behind you the path runs west,
+back into the gloom.
+
+> e
+The Mountain
+The forest gives out here against the flank of a great mountain, far too steep
+to climb. A path leads back west into the trees, and a short way north of you a
+cave mouth opens in the rock.
+
+> n
+Cave
+The cave is a single irregular chamber. Daylight reaches in through the mouth in
+the south wall, but it gives out well before the far corners do, so there is no
+telling how large the place really is. What you can see is a tunnel running on
+northward.
+
+The dragon falls silent. Only the faintest movement of her flank shows that she
+is still alive.
+
+> n
+The Rock Hall
+A great cavity in the mountain, hollowed out by nature and then squared off and
+widened by human hands. It was a grand feast hall once; now somebody keeps it as
+a storeroom, and rows of crates and packages stand against the walls under a
+thick coat of dust. A large doorway is set in the north wall, and beyond it a
+slope runs down into the darkness.
+
+> n
+The ground is frozen, and you slip down the slope.
+
+The Dragon Hall
+You are in a vast hall cut straight out of the heart of the mountain. The stench
+of sulfur is oppressive, and the floor lies under a layer of ash deep enough to
+say that no mortal has set foot here for centuries. The only way out is the
+treacherous, muddy incline behind you.
+
+Sprawled across a staggering hoard of gold and priceless relics is a colossal
+dragon.
+
+There is a wounded dragon here.
+
+> z
+You wait. The great ragged breaths are coming slower each time.
+
+> restore
+Enter a file name.
+Default is "wyrmward.qzl": 
+Ok.
 
 > cast animate on left
 The spellbook opens itself to the right page, and you read aloud the complicated
@@ -1719,7 +2454,7 @@ looks far too slippery to climb without help.
 > x hall
 Every surface of it was cut by hand: fluted columns, a vaulted roof lost in the
 dark, a floor of dressed slabs now buried under ash. Whoever built this did not
-build it for a dragon, and the dragon has outlasted them by a very long way.
+build it for a dragon, and the dragon has outlasted them by a very long time.
 
 > x treasure
 Coins, plate, cups and crowns lie heaped in drifts across the floor, most of it
@@ -1843,7 +2578,11 @@ Some colour is returning to the great scaled throat.
 
 > x spellbook
 It is your well-thumbed spellbook, bought on the day you started at the wizards'
-school. The spells written in it are the fruit of a great many years of study.
+school. The spells written in it are the fruit of a great many years of study
+and you need to read it to see its contents.
+
+[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
+<spell> on <someone or something>" to use it.]
 
 The dragon draws one long, deep breath and holds it, as though testing whether
 it hurts.
@@ -1858,6 +2597,9 @@ The healing spell: (heal someone).
 The freeze spell: (freeze something).
 The illumination spell: (make something glow).
 The copying spell: (copy a spell into the spellbook).
+
+[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
+<spell> on <someone or something>" to use it.]
 
 The dragon pulls herself together and looks as strong and calm as before the
 attack.
@@ -2248,8 +2990,9 @@ The interior of the hut is cramped and gloomy. Thick soot cakes the solitary
 window, leaving the flickering flames of a stone hearth as the room's sole
 source of light. Atop the fire, rusted iron vessels bubble quietly, venting
 strange, multi-coloured vapours. A massive, cluttered workbench is buried under
-a chaotic heap of heavy grimoires, brittle parchments, and exotic alchemical
-ingredients. A heavy wooden door leads north, back out to the forest path.
+a chaotic heap of heavy grimoires, brittle sheets of paper, and exotic
+alchemical ingredients. A heavy wooden door leads north, back out to the forest
+path.
 
 Resting within a small alcove in the stone wall is a beautifully carved, gilded
 wooden box. It contains a black stone.
@@ -2359,9 +3102,9 @@ the first to be torn to pieces is you.
 
   *** You have died ***
 
-In that game you scored 30 out of a possible 50, in 388 turns.
+In that game you scored 30 out of a possible 50, in 518 turns.
 
-Would you like to RESTART, RESTORE or QUIT? restore
+Would you like to RESTART, RESTORE, UNDO the last move or QUIT? restore
 Enter a file name.
 Default is "wyrmward.qzl": 
 Ok.
@@ -2461,9 +3204,9 @@ the first to be torn to pieces is you.
 
   *** You have died ***
 
-In that game you scored 30 out of a possible 50, in 388 turns.
+In that game you scored 30 out of a possible 50, in 518 turns.
 
-Would you like to RESTART, RESTORE or QUIT? restore
+Would you like to RESTART, RESTORE, UNDO the last move or QUIT? restore
 Enter a file name.
 Default is "wyrmward.qzl": 
 Ok.
@@ -2587,11 +3330,7 @@ well.
 
   *** You have won ***
 
-In that game you scored 50 out of a possible 50, in 391 turns.
+In that game you scored 50 out of a possible 50, in 521 turns.
 
-Would you like to RESTART, RESTORE or QUIT? 
-
-Would you like to RESTART, RESTORE or QUIT? z
-
-Would you like to RESTART, RESTORE or QUIT? quit
+Would you like to RESTART, RESTORE, UNDO the last move or QUIT? quit
 
