@@ -88,31 +88,31 @@ Include "globals.h";
 
 ! --- copied from adjectives.inf: start ---
 
-Property adj_name;
-Property noun_name;
+!Property adj_name;
+!Property noun_name;
 
-[MatchNameList p_obj p_prop _w _matched _an _count _i;
-    _an = p_obj.&p_prop;
-    if(_an == 0) return 0;
-    _count = p_obj.#p_prop;
-    @log_shift _count (-1) -> _count; ! Divide by 2
-    while(true) {
-        _w = NextWord();
-        @scan_table _w _an _count -> _i ?_MNL_match;
-        return _matched;
-._MNL_match;
-        _matched++;
-   }
-];
+![MatchNameList p_obj p_prop _w _matched _an _count _i;
+!    _an = p_obj.&p_prop;
+!    if(_an == 0) return 0;
+!    _count = p_obj.#p_prop;
+!    @log_shift _count (-1) -> _count; ! Divide by 2
+!    while(true) {
+!        _w = NextWord();
+!        @scan_table _w _an _count -> _i ?_MNL_match;
+!        return _matched;
+!._MNL_match;
+!        _matched++;
+!   }
+!];
 
-Class AdjObject
-    with
-        parse_name [ _adj _noun;
-            _adj = MatchNameList(self, adj_name);
-            wn--;
-            _noun = MatchNameList(self, noun_name);
-            if(_noun) return _noun + _adj;
-        ];
+!Class AdjObject
+!    with
+!        parse_name [ _adj _noun;
+!            _adj = MatchNameList(self, adj_name);
+!            wn--;
+!            _noun = MatchNameList(self, noun_name);
+!            if(_noun) return _noun + _adj;
+!        ];
 
 ! --- copied from adjectives.inf: end ---
 
@@ -196,12 +196,14 @@ Include ">ext_z6graphics.h";
 Constant PIC_INTRO      = 1;
 Constant PIC_DEMON      = 2;
 Constant PIC_DRAGON     = 3;
-Constant PIC_HUT        = 4;
+Constant PIC_MEADOW     = 4;
 Constant PIC_TELEPORT   = 5;
 Constant PIC_CHURCH     = 6;
 Constant PIC_WAVE       = 7;
 Constant PIC_WOOD       = 8;
 Constant PIC_VILLAGE    = 9;
+Constant PIC_HUT        = 10;
+Constant PIC_SPELLBOOK  = 11;
 
 [ ShowPicture p_num _rows _i _row;
     _rows = Z6PictureRows(p_num);
@@ -250,6 +252,9 @@ Object SpellBook "spellbook"
         article "your",
         name 'your' 'spellbook' 'spell' 'book',
         description [;
+#Iftrue (#version_number == 6);
+            ShowPicture(PIC_SPELLBOOK);
+#Endif;
             print 
                 "It is your well-thumbed spellbook, bought on the day you started at the wizards'
                 school. The spells written in it are the fruit of a great many years of study
@@ -486,6 +491,18 @@ CSpellWithArgument CopySpell "copying spell" SpellBook
 !     Custom verbs / grammar for the game
 ! ==========================================================================
 
+#Iftrue (#version_number == 6);
+Verb 'picture' * -> Picture;
+[ PictureSub; "There is no picture for this location."; ];
+Verb 'sound' * -> Sound;
+[ SoundSub; "There is no sound effect for this location."; ];
+#IfNot;
+Verb 'picture' * -> Picture;
+[ PictureSub; "This version of the game doesn't have any pictures."; ];
+Verb 'sound' * -> Sound;
+[ SoundSub; "This version of the game doesn't have any sounds."; ];
+#Endif;
+
 Verb 'accuse'
     * creature -> Accuse;
 [ AccuseSub; "Accusations achieve nothing without evidence."; ];
@@ -701,7 +718,7 @@ Room Meadow "Meadow"
     with
         description [;
 #Iftrue (#version_number == 6);
-            ShowPicture(PIC_HUT);
+            ShowPicture(PIC_MEADOW);
 #Endif;
             "You stand in a small, overgrown clearing dominated by a dilapidated hut hunched
             immediately to the south. Looming on all other sides is a dense, ancient forest
@@ -732,6 +749,11 @@ Room Meadow "Meadow"
             "Overhead, the sky is a bruised, oppressive grey, visible only through a jagged tear in the
             dense forest canopy.",
         before [;
+#Iftrue (#version_number == 6);
+        Picture:
+            ShowPicture(PIC_MEADOW);
+            rtrue;
+#Endif;
         Listen:
             "The wind rustles softly through the high grass and the heavy canopy overhead.
             Deeper in the trees a lone bird calls out, and then thinks better of it. The
@@ -981,6 +1003,9 @@ Object HutDoor "door"
 Room RemoteHut "Hut"
     with
         description [;
+#Iftrue (#version_number == 6);
+            ShowPicture(PIC_HUT);
+#Endif;
             "The interior of the hut is cramped and gloomy. Thick soot cakes the solitary window,
             leaving the flickering flames of a stone hearth as the room's sole source of light. Atop
             the fire, rusted iron vessels bubble quietly, venting strange, multi-coloured vapours. A
@@ -989,6 +1014,11 @@ Room RemoteHut "Hut"
             to the forest path.";
         ],
         before [;
+#Iftrue (#version_number == 6);
+        Picture:
+            ShowPicture(PIC_HUT);
+            rtrue;
+#Endif;
         Listen:
             "The fire in the hearth crackles softly, accompanied by the gentle, steady bubbling of the iron vessels
             and the crisp rustle of parchment as Istar turns a page.";
@@ -1412,6 +1442,11 @@ Room TeleportRoom "On the Steppe"
                 you walk under one of them you are staying exactly where you are.";
         ],
         before [;
+#Iftrue (#version_number == 6);
+        Picture:
+            ShowPicture(PIC_TELEPORT);
+            rtrue;
+#Endif;
         Listen:
             "A low, persistent wind moans across the open plains, whistling softly as it passes through the ancient stone
             carvings of the four archways. Beyond the wind, the silence is absolute and immense.";
@@ -1530,6 +1565,11 @@ Room ForestPath "Forest Path"
             "The narrow dirt path continues east towards the foot of the mountain, or west
             back into the heart of the forest.",
         before [;
+#Iftrue (#version_number == 6);
+        Picture:
+            ShowPicture(PIC_WOOD);
+            rtrue;
+#Endif;
         Listen:
             "The dense forest canopy muffles most sound, creating a heavy, expectant silence. Only a faint, distant
             howling of mountain wind and the unsettling crackle of a dry twig somewhere in the shadow-draped
@@ -2137,6 +2177,11 @@ Room DragonHall "The Dragon Hall"
             "A deep layer of fine grey ash coats the chamber floor, drifting like snow under
             your boots and smelling faintly of ancient fires.",
         before [;
+#Iftrue (#version_number == 6);
+        Picture:
+            ShowPicture(PIC_DRAGON);
+            rtrue;
+#Endif;
         Wait:
             if(Dragon.number>0)
                 "You wait. The great ragged breaths are coming slower each time.";
@@ -2486,6 +2531,11 @@ Room ChurchYard "Before a Temple"
             "A narrow ribbon of trodden earth running from the treeline in the north down
             towards the shore in the south, with the temple standing off to the east.",
         before [;
+#Iftrue (#version_number == 6);
+        Picture:
+            ShowPicture(PIC_CHURCH);
+            rtrue;
+#Endif;
         Listen:
             "The distant, rhythmic crashing of waves against the rocks below mingles with the gentle rustle of
             sea grass in the coastal breeze.";
@@ -2602,6 +2652,11 @@ Room Beach "The Beach"
             dark sand. A path leads back north towards the temple.";
         ],
         before [;
+#Iftrue (#version_number == 6);
+        Picture:
+            ShowPicture(PIC_WAVE);
+            rtrue;
+#Endif;
         Swim:
             if(player hasnt general)
                 "You are no great swimmer, and the waves are too high today.";
@@ -2716,6 +2771,11 @@ Room VillageRoad "The Country Road"
             return Village;
         ],
         before [;
+#Iftrue (#version_number == 6);
+        Picture:
+            ShowPicture(PIC_VILLAGE);
+            rtrue;
+#Endif;
         Listen:
             "Dry corn leaves rustle pleasantly in the warm breeze, occasionally accompanied by the faint chattering
             of birds in the oak tree and distant murmurs carried from the village.";
@@ -3359,7 +3419,7 @@ Room GateRoom "The Crypt"
             darkness, carved with blasphemous runes that seem to shift whenever you are not
             looking straight at them. A great stone altar stands at the centre, stained dark
             by old rituals, and four glowing pedestals surround it. There are no exits.";
-	],
+	    ],
         cheap_scenery
         CS_NO_ADJ 'altar'
             "A massive block of dark, unpolished granite, cut with jagged channels that all run inwards
@@ -3398,6 +3458,16 @@ Room GateRoom "The Crypt"
         Go: if(RedField in location) "First, you'd have to leave the red force field.";
         ],
         before [;
+#Iftrue (#version_number == 6);
+        Picture:
+            ShowPicture(PIC_DEMON);
+            rtrue;
+#Endif;
+#Iftrue (#version_number == 6);
+        Sound:
+            @sound_effect 4 2 255 0;
+            "Playing the sound effect again.";
+#Endif;
         Wait:
             if(self.number == 2)
                 "You wait, and the crypt goes on coming apart around you.";
@@ -3953,12 +4023,20 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
 
 [ HelpInfo;
     switch(menu_item) {
-    1: "This game is much like the adventure games Infocom wrote in the eighties. The
-        player types what he or she wants to do, and the game tells what happens.^^\
-        You cannot finish the game without using magic. You can read spells from scrolls or
-        your spellbook by typing ~cast SPELL on SOMETHING/SOMEONE~ You copy a spell into
-        your spellbook with ~cast copy on SPELL~ To see what spells you have you can
-        type ~read spellbook~";
+    1:  print 
+            "This game is much like the adventure games Infocom wrote in the eighties. The
+            player types what they want to do, and the game describes what happens.^";
+#Iftrue (#version_number == 6);
+        print
+            "^This version of the game includes pictures and sound for interpreters
+            that support that. Rooms with illustrations show their pictures the
+            first time the room is visited. To see the picture again, type ~picture~.
+            To hear the sound effect again, type ~sound~.^";
+#Endif;
+        "^You cannot finish the game without using magic. You can read spells from scrolls or
+        your spellbook by typing ~cast SPELL on SOMETHING/SOMEONE~. You copy a spell into
+        your spellbook with ~cast copy on SPELL~. To see what spells you have, you can
+        type ~read spellbook~.";
     2: "In this game you control the main character by typing commands that tell him what
         to do. Examples of such commands are:^^\
         > look (look around you)^\
@@ -3981,10 +4059,10 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
         A game can be saved with ~save~ and a saved game restored with ~restore~. You can
         start over with ~restart~ and quit with ~quit~. ~score~ shows how many points you
         have. If you make a mistake you can undo one step with ~undo~.";
-    3: "This English translation was written by Johan Berntsson in 2026 as a showcase for
-        Z6 support in PunyInform and Ozmoo. The original Swedish version, called Drakmagi,
-        had Swedish language support written by Fredrik Ramsberg. Staffan Friberg and
-        Fredrik Ramsberg helped me find bugs.";
+    3: "The original Swedish version, called Drakmagi, was written in 1996, and then re-released
+       with Glulx graphics in 2005. This extended English version was written by Johan Berntsson
+       in 2026 as a showcase for Z6 support in PunyInform and Ozmoo.^^
+       Thank you Garry Francis, Stefan Vogt, Gianluca, and Fredrik Ramsberg for testing and advice.";
     4: DoMenu(HintItems, HintMenu, HintInfo);
        return 2;
     5: "* Kill your mentor with a spell?^";

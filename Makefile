@@ -1,8 +1,18 @@
 INFORM = inform
 OZMOO = /home/johan/commodore/ozmoo-z6
 PUNY = /home/johan/commodore/punyinform
-X16 = /home/johan/commodore/ozmoo/x16-emulator46/x16emu
+
 XMEGA65 = xemu-xmega65
+X16 = /home/johan/commodore/ozmoo/x16-emulator46/x16emu
+# SDL_AUDIODRIVER is not optional: SDL does not get on with pipewire on
+# Fedora/KDE, and xemu then comes up silent with no error at all.
+#XMEGA65 = SDL_AUDIODRIVER=pulseaudio xemu-xmega65
+#X16 = SDL_AUDIODRIVER=pulseaudio /home/johan/commodore/ozmoo/x16-emulator46/x16emu
+
+# --xscale 2 --yscale 2 is not optional here: sfrotz's screen is
+# always 640x400 and it draws pictures at 1:1 unless it detects
+# that the game is one of ARTHUR/JOURNEY/SHOGUN/ZORK_ZERO
+SFROTZ = sfrotz --xscale 2 --yscale 2 
 
 # make.rb anchors everything it reads to its own directory (asm/, tools/, temp/,
 # exomizer) and writes the finished disk image into the CURRENT directory, so it
@@ -57,15 +67,13 @@ x16_wyrmward.zip: wyrmward.blb wyrmward.z6
 
 x16: x16_wyrmward.zip
 	# the emulator must run from inside the game directory
-	cd x16_wyrmward && SDL_AUDIODRIVER=pulseaudio $(X16) -prg WYRMWARD.PRG -run
+	cd x16_wyrmward && $(X16) -prg WYRMWARD.PRG -run
 
 mega65_wyrmward.d81: wyrmward.blb wyrmward.z6 $(WAVS)
 	$(OZMOOBUILD) -t:mega65 -asw resources -fcm -pics wyrmward.blb wyrmward.z6
 
-# SDL_AUDIODRIVER is not optional: SDL does not get on with pipewire on
-# Fedora/KDE, and xemu then comes up silent with no error at all.
 mega65: mega65_wyrmward.d81
-	SDL_AUDIODRIVER=pulseaudio $(XMEGA65) -8 mega65_wyrmward.d81
+	$(XMEGA65) -8 mega65_wyrmward.d81
 
 .PHONY: all z5 sound blorb z6 x16 mega65 test frotz sfrotz release clean
 
@@ -79,14 +87,8 @@ test: z5
 frotz: z5
 	frotz -d wyrmward.z5
 
-# --xscale 2 --yscale 2 is not optional here: sfrotz's screen is
-# always 640x400 and it draws pictures at 1:1 unless it detects
-# that the game is one of ARTHUR/JOURNEY/SHOGUN/ZORK_ZERO
-#
-# SDL_AUDIODRIVER for the same reason as the MEGA65 target: sfrotz plays the
-# Blorb's sound effects, and without this it comes up silent on Fedora/KDE.
 sfrotz: wyrmward.z6 wyrmward.blb
-	SDL_AUDIODRIVER=pulseaudio sfrotz --xscale 2 --yscale 2 wyrmward.z6
+	$(SFROTZ) wyrmward.z6
 
 release:
 	$(INFORM) +$(PUNY)/lib -v5 -es wyrmward.inf

@@ -24,49 +24,61 @@ pictures:
   - id: 2
     file: demon.png
     name: demon
+    height: 120
     location: The Crypt
 
   - id: 3
     file: dragon.png
     name: dragon
-    height: 128
+    height: 120
     location: Dragon Hall
 
   - id: 4
     file: pic5a.png
     name: hut
-    height: 128
+    height: 120
     location: Meadow (the hut)
 
   - id: 5
     file: teleport.png
     name: teleport
-    height: 128
+    height: 120
     location: On the Steppe
 
   - id: 6
     file: pic1a.png
     name: church
-    height: 128
+    height: 120
     location: Before a Temple
 
   - id: 7
     file: pic2a.png
     name: wave
-    height: 128
+    height: 120
     location: Beach
 
   - id: 8
     file: pic4a.png
     name: wood
-    height: 128
+    height: 120
     location: Forest Path
 
   - id: 9
     file: pic3a.png
     name: village
-    height: 128
+    height: 120
     location: Country Road
+
+  - id: 10
+    file: insidehut.png
+    name: hut
+    height: 120
+    location: Remote Hut
+
+  - id: 11
+    file: spellbook.png
+    name: spellbook
+    height: 80
 
 # Sound effects. sfrotz plays these out of the Blorb (Ozmoo's MEGA65 build takes
 # the same wavs straight off this folder with make.rb's -asw instead). They are
