@@ -4,8 +4,11 @@ PUNY = /home/johan/commodore/punyinform
 
 XMEGA65 = xemu-xmega65
 X16 = /home/johan/commodore/ozmoo/x16-emulator46/x16emu
-# SDL_AUDIODRIVER is not optional: SDL does not get on with pipewire on
-# Fedora/KDE, and xemu then comes up silent with no error at all.
+# The lines above are the ones in use. SDL_AUDIODRIVER=pulseaudio used to be
+# mandatory -- SDL did not get on with pipewire on Fedora 44/KDE and both
+# emulators came up silent with no error at all -- and a Fedora update fixed it
+# in August 2026. Swap in the lines below if an emulator is ever silent again:
+# that is still the first thing to try, since the failure has no diagnostic.
 #XMEGA65 = SDL_AUDIODRIVER=pulseaudio xemu-xmega65
 #X16 = SDL_AUDIODRIVER=pulseaudio /home/johan/commodore/ozmoo/x16-emulator46/x16emu
 
@@ -26,7 +29,7 @@ OZMOOBUILD = ruby $(OZMOO)/make.rb
 # so the wavs are a prerequisite of the MEGA65 image, not of the blorb, and the
 # X16 build (no sound) needs neither.
 PICSRC   = resources/contents.yaml $(wildcard resources/*.png)
-STORYSRC = wyrmward.inf ext_z6graphics.h $(wildcard $(PUNY)/lib/*.h)
+STORYSRC = wyrmward.inf ../lib/ext_z6graphics.h $(wildcard $(PUNY)/lib/*.h)
 WAVS     = resources/003.wav resources/004.wav
 
 all: test
@@ -83,6 +86,10 @@ test: z5
 	grep -v "Serial number" wyrmward.scr > wyrmward.cur
 	rm -rf wyrmward.scr
 	meld wyrmward.cur wyrmward.txt
+
+z6test:
+	$(INFORM) -v6 --define Z6_TESTPROGRAM  $(PUNY)/lib/ext_z6graphics.h
+	sfrotz ext_z6graphics.z6
 
 frotz: z5
 	frotz -d wyrmward.z5

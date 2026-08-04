@@ -582,6 +582,7 @@ s
 put green stone in box
 put blue stone in box
 put red stone in box
+
 save
 
 y

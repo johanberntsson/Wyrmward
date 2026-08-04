@@ -186,13 +186,12 @@ Include "ext_cheap_scenery.h";
 !        p_arg_1 = 0; p_arg_2 = 0; ! To avoid warnings
 !];
 
-Include "puny.h";
 
 ! Uncomment to add PunyInform extensions
 !Include "ext_waittime.h";
 
 #Iftrue (#version_number == 6);
-Include ">ext_z6graphics.h";
+Include "ext_z6graphics.h";
 Constant PIC_INTRO      = 1;
 Constant PIC_DEMON      = 2;
 Constant PIC_DRAGON     = 3;
@@ -206,19 +205,19 @@ Constant PIC_HUT        = 10;
 Constant PIC_SPELLBOOK  = 11;
 
 [ ShowPicture p_num _rows _i _row;
-    _rows = Z6PictureRows(p_num);
-    if(_rows == 0) return;          ! no such picture: draw nothing, print nothing
+    _rows = Z6PictureRows_Chars(p_num);
+    if(_rows == 0) return;
      ! first scroll down so we're sure that the picture will fit without [MORE]
      for(_i=0: _i<_rows: _i++) new_line;  
-     ! get the cursor row as a text row (NB: the raw Z6CursorRow is in units --
-     ! pixels on sfrotz and Ozmoo - so use the Cell version here)
-     _row = Z6CursorRowCell();
-     Z6MoveCursorCell(_row - _rows, 1);
+     _row = Z6CursorRow_Chars();
+     Z6MoveCursor_Chars(1, _row - _rows);
      Z6DrawPictureHere(p_num);
-     Z6MoveCursorCell(_row, 1);
+     Z6MoveCursor_Chars(1, _row);
 ];
 
 #Endif;
+
+Include "puny.h";
 
 ! ==========================================================================
 !     The magic system: Enchanter/Sorcerer-style spells and scrolls.
