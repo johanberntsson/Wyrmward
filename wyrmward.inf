@@ -3120,12 +3120,17 @@ Room Village "The Village"
             "A rich tapestry of market smells fills the air: fresh-baked bread, roasted meats, and sweet berries from
             the stalls, mingled with the earthy scents of livestock, timber, and chimney smoke.";
         ],
-        react_before_magic [spell obj phase;
+        react_before_magic [spell obj;
             if(Hawker notin location) rfalse;
             if(obj == RedStone) {
                 meta = 1;
                 "Not while the hawker is watching it so closely. Drawing magic to the stone now
                 would cause a scene, and send the hawker running.";
+            }
+            if(obj == AllTheCups or Cup1 or Cup2 or Cup3 or Bench && spell ~= AnimateSpell) {
+                meta = 1;
+                "That will just make the hawker suspicious. If you're going to use magic here, 
+                it will have to be subtle enough to outsmart the game itself.";
             }
         ],
         react_after_magic [spell obj;

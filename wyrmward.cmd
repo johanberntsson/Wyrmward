@@ -250,6 +250,9 @@ x stone
 cast freeze on stone
 cast freeze on bench
 cast freeze on hawker
+cast heal on crowd
+cast heal on hawker
+cast heal on bench
 take stone
 buy stone
 ask hawker about stone

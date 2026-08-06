@@ -1211,13 +1211,8 @@ Not while the hawker is watching it so closely. Drawing magic to the stone now
 would cause a scene, and send the hawker running.
 
 > cast freeze on bench
-The spellbook opens itself to the right page, and you read aloud the complicated
-words of the freeze spell.
-
-A thin layer of ice covers the bench, but soon melts away.
-
-The hawker glances around nervously, tapping his foot. "Careful now. You'll draw
-a crowd with fancy stuff like that, and I like to keep my business quiet."
+That will just make the hawker suspicious. If you're going to use magic here, it
+will have to be subtle enough to outsmart the game itself.
 
 > cast freeze on hawker
 The spellbook opens itself to the right page, and you read aloud the complicated
@@ -1225,6 +1220,25 @@ words of the freeze spell.
 
 The spell finds nothing in him to take hold of. He shivers violently, pulls his
 tunic straight and carries on shuffling. "Draughty spot, this," he says.
+
+> cast heal on crowd
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the healing spell.
+
+The crowd looks healthier than ever.
+
+The hawker glances around nervously, tapping his foot. "Careful now. You'll draw
+a crowd with fancy stuff like that, and I like to keep my business quiet."
+
+> cast heal on hawker
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the healing spell.
+
+The hawker looks healthier than ever.
+
+> cast heal on bench
+That will just make the hawker suspicious. If you're going to use magic here, it
+will have to be subtle enough to outsmart the game itself.
 
 > take stone
 The hawker's hand closes over it before yours is halfway across the bench.
@@ -1582,15 +1596,8 @@ like that, and the hawker keeps turning that side of himself away from you.
 The man speeds up, but you still keep track.
 
 > cast freeze on cups
-The spellbook opens itself to the right page, and you read aloud the complicated
-words of the freeze spell.
-
-Frost blooms across all three cups and they seize fast to the bench. The hawker
-prises them up one at a time, blowing on his fingers and grinning at the crowd.
-"A cold trick, master. But there is still nothing under them."
-
-The hawker glances around nervously, tapping his foot. "Careful now. You'll draw
-a crowd with fancy stuff like that, and I like to keep my business quiet."
+That will just make the hawker suspicious. If you're going to use magic here, it
+will have to be subtle enough to outsmart the game itself.
 
 > cast animate on cups
 The spellbook opens itself to the right page, and you read aloud the complicated
