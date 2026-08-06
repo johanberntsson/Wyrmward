@@ -510,9 +510,31 @@ the north.
 A massive slab of scarred oak that has survived a great many experiments, though
 not without marks. Books and papers lie on the bench.
 
+> search workbench
+A massive slab of scarred oak that has survived a great many experiments, though
+not without marks. Books and papers lie on the bench.
+
 > x books
 Warped grimoires and loose sheets of papers, most of them older than the hut
 itself. Every margin is crowded with your mentor's cramped, urgent handwriting.
+
+> take books
+Istar swats your hand away from the desk. "Leave that alone! Everything is
+arranged precisely as I need it."
+
+> take all
+There are no things available that match "take all".
+
+> drop book
+Dropped.
+
+> take all
+spellbook: Taken.
+
+> take box
+You reach for it, but a sharp, static shock bites at your fingers, forcing you
+to pull back. The box is anchored to the alcove by powerful protective spells
+designed to prevent theft and ward off damage.
 
 > x window
 Thick layers of black grease and soot coat the glass, completely choking out the
@@ -566,10 +588,18 @@ tangled and stained with potion ingredients, and deep lines of exhaustion are
 etched into his face. Yet as he looks up at you, the familiar, brilliant spark
 of intellect still dances in his eyes.
 
+> x wall
+Most of the hut is built from rough planks, except for a section of stacked
+stone behind the hearth.
+
 > istar, hello
 "Later, my boy, later," says Istar, waving the greeting away. "Read the folio
 first. Everything I could say to you is already written in it, and written
 better."
+
+> x stone wall
+Most of the hut is built from rough planks, except for a section of stacked
+stone behind the hearth.
 
 > ask istar about academy
 His face darkens. "The Arch-Mages felt something stirring in the dark and
@@ -637,6 +667,7 @@ A warm, golden radiance bursts from the pages. Slowly and majestically, the
 glowing runes of the Animation Spell etch themselves onto a blank leaf of
 parchment. As the light fades, the original scroll crumbles into a fine silver
 ash that vanishes into thin air.
+
 [You have learned the animation spell]
 
 > n
@@ -658,6 +689,7 @@ scroll.
 The pages flare with a blinding light. The intricate symbols of the
 Teleportation Spell bind themselves permanently into your grimoire, while the
 silvery parchment dissolves into wisps of shimmering smoke.
+
 [You have learned the teleportation spell]
 
 > x black stone
@@ -855,6 +887,18 @@ goes straight through it. Something small and hard hangs beneath, out of sight.
 > x hand
 His palm is upturned and quite empty, the fingers trembling slightly with the
 effort of holding it out.
+
+> x dirty road
+Dusty and uneven, the road cuts through the tall corn, leading east toward the
+village roofs.
+
+> x small village
+A little way east, past the corn, the village looks peaceful enough, its smoke
+curling lazily into the sky.
+
+> x dusty dirt road
+Dusty and uneven, the road cuts through the tall corn, leading east toward the
+village roofs.
 
 > x cornfields
 Tall stalks of corn sway gently in the breeze, forming a rustling wall on either
@@ -1062,8 +1106,8 @@ tavern, or one turn at a certain gentleman's cups.
 Taken.
 
 > i
-You're carrying a silver coin, your backpack (which is open but empty) and your
-spellbook.
+You're carrying a silver coin, your spellbook and your backpack (which is open
+but empty).
 
 > n
 The dense cornfields form an unbroken wall of rustling stalks on either side of
@@ -1126,6 +1170,24 @@ You wait, observing the hawker.
 "Well, where is the stone?" asks the man when he has stopped moving the cups.
 You are unsure, but you think it is the left cup.
 
+> say left
+"Come on now, give the crowd a show! Point, don't just talk," says the hawker,
+motioning at the cups.
+
+"Point to the cup you think the stone is under," says the man.
+
+> say left cup
+"Come on now, give the crowd a show! Point, don't just talk," says the hawker,
+motioning at the cups.
+
+"Point to the cup you think the stone is under," says the man.
+
+> say left cup to hawker
+"Come on now, give the crowd a show! Point, don't just talk," says the hawker,
+motioning at the cups.
+
+"Point to the cup you think the stone is under," says the man.
+
 > point at left cup
 The hawker lifts the cup, and sure enough, the stone is there. "Beginner's
 luck," he mutters. "Since that one was free, you win nothing. But win the next
@@ -1143,6 +1205,26 @@ from its deep red colour, its strange shape and ancient markings match your
 mentor's black stone perfectly.
 
 "Won't you try again? Just one silver coin," says the hawker.
+
+> cast freeze on stone
+Not while the hawker is watching it so closely. Drawing magic to the stone now
+would cause a scene, and send the hawker running.
+
+> cast freeze on bench
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the freeze spell.
+
+A thin layer of ice covers the bench, but soon melts away.
+
+The hawker glances around nervously, tapping his foot. "Careful now. You'll draw
+a crowd with fancy stuff like that, and I like to keep my business quiet."
+
+> cast freeze on hawker
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the freeze spell.
+
+The spell finds nothing in him to take hold of. He shivers violently, pulls his
+tunic straight and carries on shuffling. "Draughty spot, this," he says.
 
 > take stone
 The hawker's hand closes over it before yours is halfway across the bench.
@@ -1455,8 +1537,8 @@ and the stone into your hand, gathers up his things and is gone down the road
 before you can think of a reply.
 
 > i
-You're carrying a red stone, a silver coin, your backpack (which is open but
-empty) and your spellbook.
+You're carrying a red stone, a silver coin, your spellbook and your backpack
+(which is open but empty).
 
 > w
 The Country Road
@@ -1490,21 +1572,14 @@ yours."
 The man starts moving the cups this way and that.
 
 > cast illuminate on stone
-The spellbook opens itself to the right page, and you read aloud the complicated
-words of the illumination spell.
-
-Somewhere under the sliding cups a red light kindles. It does not shine out from
-beneath any of the three. It shines, faint and quite unmistakable, through the
-cloth of the hawker's right sleeve, and he has not noticed it yet.
-
-The man speeds up, but you still keep track.
+Not while the hawker is watching it so closely. Drawing magic to the stone now
+would cause a scene, and send the hawker running.
 
 > x sleeve
-The glow moves with his arm, a dull ember travelling up and down inside the
-cloth. The stone has not been on this bench since he picked it up.
+Wide, deep, and gathered at the cuff. There is a great deal of room in a sleeve
+like that, and the hawker keeps turning that side of himself away from you.
 
-The man moves the cups so fast that you almost lose track, but you think you
-still know which cup the stone is under.
+The man speeds up, but you still keep track.
 
 > cast freeze on cups
 The spellbook opens itself to the right page, and you read aloud the complicated
@@ -1514,8 +1589,8 @@ Frost blooms across all three cups and they seize fast to the bench. The hawker
 prises them up one at a time, blowing on his fingers and grinning at the crowd.
 "A cold trick, master. But there is still nothing under them."
 
-"Well, where is the stone?" asks the man when he has stopped moving the cups.
-You are unsure, but you think it is the right cup.
+The hawker glances around nervously, tapping his foot. "Careful now. You'll draw
+a crowd with fancy stuff like that, and I like to keep my business quiet."
 
 > cast animate on cups
 The spellbook opens itself to the right page, and you read aloud the complicated
@@ -1526,17 +1601,12 @@ crowd roars. The hawker traps them one by one under his broad hands and sets
 them back in a row, delighted with the free entertainment, and the stone stays
 exactly where it has been all along.
 
-"Point to the cup you think the stone is under," says the man.
+The hawker glances around nervously, tapping his foot. "Careful now. You'll draw
+a crowd with fancy stuff like that, and I like to keep my business quiet."
 
 > cast animate on stone
-The spellbook opens itself to the right page, and you read aloud the complicated
-words of the animation spell.
-
-The stone squirms once inside his sleeve. The hawker's grin flickers and he
-clamps his arm against his side, and the crowd, watching the cups, sees nothing
-at all. You will have to make them look somewhere else.
-
-"Point to the cup you think the stone is under," says the man.
+Not while the hawker is watching it so closely. Drawing magic to the stone now
+would cause a scene, and send the hawker running.
 
 > cast freeze on hawker
 The spellbook opens itself to the right page, and you read aloud the complicated
@@ -1544,8 +1614,6 @@ words of the freeze spell.
 
 The spell finds nothing in him to take hold of. He shivers violently, pulls his
 tunic straight and carries on shuffling. "Draughty spot, this," he says.
-
-"Point to the cup you think the stone is under," says the man.
 
 > cast animate on bench
 The spellbook opens itself to the right page, and you read aloud the complicated
@@ -1562,8 +1630,8 @@ and the stone into your hand, gathers up his things and is gone down the road
 before you can think of a reply.
 
 > i
-You're carrying a red stone, a silver coin, your backpack (which is open but
-empty) and your spellbook.
+You're carrying a red stone, a silver coin, your spellbook and your backpack
+(which is open but empty).
 
 > w
 The Country Road
@@ -1585,8 +1653,8 @@ Content with the day's work, the beggar wanders off to the west.
 You are now wearing the amulet.
 
 > i
-You're carrying an amulet (worn), a red stone, your backpack (which is open but
-empty) and your spellbook.
+You're carrying an amulet (worn), a red stone, your spellbook and your backpack
+(which is open but empty).
 
 > x amulet
 A surprisingly ornate amulet, slightly tarnished around the rim, hanging from a
@@ -1952,7 +2020,25 @@ the shape and ancient markings of your mentor's black stone.
 > take stone
 Taken.
 
+> take all
+There are no things available that match "take all".
+
+> n
+Darkness
+It is pitch dark here!
+
 > cast illuminate on it
+Fumbling through a spellbook in complete darkness is a great way to accidentally
+turn yourself into a toad.
+
+> s
+Cave
+The cave is a single irregular chamber. Daylight reaches in through the mouth in
+the south wall, but it gives out well before the far corners do, so there is no
+telling how large the place really is. What you can see is a tunnel running on
+northward.
+
+> cast illuminate on green
 The spellbook opens itself to the right page, and you read aloud the complicated
 words of the illumination spell.
 
@@ -2167,10 +2253,19 @@ Cut from the same grey rock as the tunnel itself, a broad-shouldered warrior
 stands with a broadsword held point-down before him. The work is crude, but the
 face is startlingly alive, caught somewhere between boredom and bad temper.
 
+> cast resurrection spell on left
+You read aloud the complicated words of the resurrection spell.
+
+The magic stirs, but finds no lingering spark of life to pull back.
+
 > x right
-The barbarian is all snarl and sinew, a sword in his right hand and a long
+The barbarian is all snarl and sinew, a battleaxe in his right hand and a long
 dagger in his left. Whoever carved him appears to have been working from an
 unpleasantly clear memory.
+
+> x axe
+The axe is blunt and notched, but its sheer weight  makes it look no less
+lethal.
 
 > x broadsword
 A slab of stone sword, chipped along one edge. Carved or not, you would not care
@@ -2374,8 +2469,8 @@ words of the animation spell.
 
 The statue comes to life!
 
-The warrior and the barbarian fight each other. The swords clash, but both are
-still unharmed.
+The warrior and the barbarian fight each other. Their weapons clash, but both
+are still unharmed.
 
 > ask right about green stone
 The barbarian is far too busy dodging broadsword swings to answer you.
@@ -2417,9 +2512,9 @@ You keep very still and wait.
 
 The warrior and the barbarian see the dragon and rush forward with weapons
 drawn. She takes the warrior first and he goes up like dry kindling, but the
-barbarian is inside her guard before she can turn, and drives his sword deep
-into her throat. Beside herself with rage and pain, she burns what is left of
-the pair of them to ash.
+barbarian is inside her guard before she can turn, and drives his axe deep into
+her throat. Beside herself with rage and pain, she burns what is left of the
+pair of them to ash.
 
 > x ash
 A deep layer of fine grey ash coats the chamber floor, drifting like snow under
@@ -2465,18 +2560,21 @@ Even now, with her blood soaking into the ash, you find you cannot quite bring
 yourself to put a hand into a dragon's hoard.
 
 > x wound
-The barbarian's sword went in deep at the base of her throat. Blood wells out of
+The barbarian's axe went in deep at the base of her throat. Blood wells out of
 it in a slow, steady pulse, and the pulse is getting weaker.
 
 > x sword
-The barbarian's blade, buried to half its length under her jaw and moving
-slightly with each breath she takes. It is the only thing in this hall that is
-still doing exactly what it was made for.
+The only thing that remains of the warrior is a smear of ash and a sword hilt.
 
-> pull sword
+> x axe
+The barbarian's axe, buried to half its length under her jaw and moving slightly
+with each breath she takes. It is the only thing in this hall that is still
+doing exactly what it was made for.
+
+> pull axe
 You get both hands to the grip before you stop yourself. Draw it out and the
 bleeding will not slow; it will become a flood, and she will be gone before you
-have thought of anything better. Whatever you do for her, do it with the sword
+have thought of anything better. Whatever you do for her, do it with the axe
 where it is.
 
 > put hand on wound
@@ -2488,7 +2586,7 @@ with your hands.
 The spellbook opens itself to the right page, and you read aloud the complicated
 words of the freeze spell.
 
-Frost creeps across the scales around the sword and the flow slackens for a
+Frost creeps across the scales around the axe and the flow slackens for a
 moment, and for that moment you think you have it. Then the cold reaches
 something deeper, the great body shudders, and you break the spell off yourself
 before you do her more harm than the barbarian did. Ice is not what she needs.
@@ -2508,8 +2606,8 @@ A soft light gathers along her flank, and by it you can see exactly how much
 blood has gone into the ash. It is a great deal. You let the light go out again.
 
 > x barbarian
-A long smear of ash and a sword hilt, which is all that is left of him. He did
-what he came down here to do.
+A long smear of ash is all that is left of him. He did what he came down here to
+do.
 
 > dragon, hello
 The great eye tracks you across the ash, but she has no breath to spare for an
@@ -2550,6 +2648,18 @@ noticed you at all yet.
 
 [The score has just gone up by 10 points.]
 
+> talk to book
+You feel silly trying to talk to the spellbook.
+
+The dragon shifts among the coins and tests her throat with one slow, careful
+swallow.
+
+> talk to dragon
+The dragon demands concise questions, not pleasantries. Try asking it about a
+particular subject.
+
+The dragon's breathing is steadier now, but her eyes are still glassy.
+
 > ask dragon about me
 The dragon focuses on you, and something like surprise crosses her face. "A
 wizard," she says. "Yes, of course. It was your spell that closed my throat."
@@ -2559,8 +2669,7 @@ return I shall give you the most precious thing I know."
 Your spellbook suddenly floats before you and opens itself. A new spell is
 written on a blank page: the Death Spell.
 
-The dragon shifts among the coins and tests her throat with one slow, careful
-swallow.
+Some colour is returning to the great scaled throat.
 
 [The score has just gone up by 10 points.]
 
@@ -2568,13 +2677,15 @@ swallow.
 She glances at the open page and away again, unimpressed. "Books," she says
 thickly. "You people always did put a great deal of faith in books."
 
-The dragon's breathing is steadier now, but her eyes are still glassy.
+The dragon draws one long, deep breath and holds it, as though testing whether
+it hurts.
 
 > ask dragon about magic
 The dragon mutters to herself: "A human who saves my life. Helps a dragon. Never
 heard of such a thing." She is still very far from herself.
 
-Some colour is returning to the great scaled throat.
+The dragon pulls herself together and looks as strong and calm as before the
+attack.
 
 > x spellbook
 It is your well-thumbed spellbook, bought on the day you started at the wizards'
@@ -2583,9 +2694,6 @@ and you need to read it to see its contents.
 
 [Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
 <spell> on <someone or something>" to use it.]
-
-The dragon draws one long, deep breath and holds it, as though testing whether
-it hurts.
 
 > read spellbook
 ARCANE MAGIC FOR COMPLETE NOVICES:
@@ -2600,9 +2708,6 @@ The copying spell: (copy a spell into the spellbook).
 
 [Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
 <spell> on <someone or something>" to use it.]
-
-The dragon pulls herself together and looks as strong and calm as before the
-attack.
 
 > x dragon
 Whole again, she is magnificent and frankly terrifying: a long, deep-chested
@@ -2649,7 +2754,7 @@ Something moves behind her eyes that might be amusement.
 way, or you will stay and keep me company, and I think you are in a hurry."
 
 > ask dragon about barbarian
-"He was quick, and he was brave, and he was in my hall with a sword." The huge
+"He was quick, and he was brave, and he was in my hall with an axe." The huge
 head turns towards the ash. "I do not hold it against him. I would have done the
 same in his place, and I did."
 
@@ -2784,6 +2889,19 @@ the scales and the tall fin running down its back are not. At its feet lie the
 withered remains of flowers and food, so somebody worshipped here once, and did
 so for a long while.
 
+> x offerings
+Brittle stalks that were once flowers, and a few blackened scraps that were once
+food, laid out in a careful row at the statue's feet. Nobody has renewed them in
+a very long time.
+
+> x room
+The Temple
+The vaults rise high above your head, and the whole great space stands silent
+and abandoned. The leaded windows have been broken out, and almost all the
+furnishings are gone.
+
+A statue still stands in the middle of the temple.
+
 > x fin
 A high, ragged crest of stone rising from the shoulders to the base of the
 spine. The sculptor has cut it thin enough that the light comes through at the
@@ -2812,9 +2930,33 @@ left it, as though a great many hands had gone over it before yours.
 You find nothing hidden about the statue, only the old offerings mouldering at
 its feet.
 
+> push statue
+You throw your weight against the heavy stone, but the massive figure doesn't
+budge
+
+> pull statue
+You throw your weight against the heavy stone, but the massive figure doesn't
+budge
+
 > kill statue
 You raise a hand and then feel extremely foolish. It is a block of carved stone,
 and the only thing you would break is your knuckles.
+
+> climb statue
+You grab a scale to hoist yourself up, but a nauseating, chill forces you to
+pull back instantly.
+
+> look
+The Temple
+The vaults rise high above your head, and the whole great space stands silent
+and abandoned. The leaded windows have been broken out, and almost all the
+furnishings are gone.
+
+A statue still stands in the middle of the temple.
+
+> x walls
+High stone walls rise into the shadowed vaults above, scarred by time and
+dampness where rain creeps in through the broken windows.
 
 > pray
 You say a quick prayer for success in your quest, as you have so many times
@@ -2881,6 +3023,23 @@ The thunderous roar of crashing waves dominates the shore, followed by the wet,
 rushing hiss of foamy surf receding over pebbles and the sharp cries of gulls
 high above.
 
+> x sand
+The sand is a dark, almost volcanic silt, packed firm where the waves wash over
+it.
+
+> dig sand
+No need to concern yourself with that.
+
+> search sand
+No need to concern yourself with that.
+
+> x path
+The only way out of here is to follow the path back to the temple.
+
+> x soil
+The sand is a dark, almost volcanic silt, packed firm where the waves wash over
+it.
+
 > swim
 You throw yourself into the surf, and your new body knows exactly what to do
 with it. Fins and webbed hands drive you down through the green water towards
@@ -2905,6 +3064,12 @@ rumble far above.
 Fine pale sand, drawn into long even ripples by the tide and marked here and
 there by the trail of something that buried itself as you came down.
 
+> dig sand
+No need to concern yourself with that.
+
+> search sand
+No need to concern yourself with that.
+
 > x shells
 A scattering of sea snail shells, spiral nautiluses, and polished clam shells
 coat the seabed, their iridescent mother-of-pearl catching the filtered sunlight
@@ -2917,6 +3082,10 @@ down here for souvenirs.
 > x plants
 Long ribbons of weed sway in slow unison with the swell, rooted among the
 stones, their fronds catching what little light reaches this far down.
+
+> x sea floor
+Fine pale sand, drawn into long even ripples by the tide and marked here and
+there by the trail of something that buried itself as you came down.
 
 > d
 The sand is packed hard beneath you, and whatever lies under it means to stay
@@ -3102,7 +3271,7 @@ the first to be torn to pieces is you.
 
   *** You have died ***
 
-In that game you scored 30 out of a possible 50, in 518 turns.
+In that game you scored 30 out of a possible 50, in 549 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move or QUIT? restore
 Enter a file name.
@@ -3204,7 +3373,7 @@ the first to be torn to pieces is you.
 
   *** You have died ***
 
-In that game you scored 30 out of a possible 50, in 518 turns.
+In that game you scored 30 out of a possible 50, in 549 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move or QUIT? restore
 Enter a file name.
@@ -3330,7 +3499,7 @@ well.
 
   *** You have won ***
 
-In that game you scored 50 out of a possible 50, in 521 turns.
+In that game you scored 50 out of a possible 50, in 552 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move or QUIT? quit
 

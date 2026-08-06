@@ -116,7 +116,12 @@ Include "globals.h";
 
 ! --- copied from adjectives.inf: end ---
 
-[ ChooseObjects obj;
+[ ChooseObjects obj code;
+    if(code < 2) {
+        ! considering including obj in "all"
+        rfalse; ! go with std parser decision
+    }
+
     if(verb_word == 'copy') {
         if(obj ofclass CSpell) {
             if(obj notin Spellbook) return 3;
@@ -126,49 +131,11 @@ Include "globals.h";
     return 1;
 ];
 
-[ SceneryReply word1 word2 routine;
-    default:
-        routine = word1 = word2; ! getting rid of a compiler warning
-        rfalse;
-];
-
-[ ParseNameMeadowGrass _w _n;
-    _w = NextWord();
-    while(_w == 'damp' or 'thick' or 'wild' or 'clinging') {
-        _n++;
-        _w = NextWord();
-    }
-    if(_w == 'grass' or 'dew') return _n + 1;
-    rfalse;
-];
-
-[ ParseNameYellowCloud _w _n;
-    _w = NextWord();
-    if(_w == 'yellow') { _n++; _w = NextWord(); }
-    if(_w == 'cloud' or 'mist' or 'fog') return _n + 1;
-    rfalse;
-];
-
-[ ParseNameSeaGrass _w _n;
-    _w = NextWord();
-    if(_w == 'sea') { _n++; _w = NextWord(); }
-    if(_w == 'grass') return _n + 1;
-    rfalse;
-];
-
-[ ParseNameSteppe _w _n;
-    _w = NextWord();
-    if(_w == 'boundless' or 'wind-swept') { _n++; _w = NextWord(); }
-    if(_w == 'steppe' or 'landscape' or 'ground' or 'grass') return _n + 1;
-    rfalse;
-];
-
-[ ParseNameCornFields _w _n;
-    _w = NextWord();
-    if(_w == 'corn') { _n++; _w = NextWord(); }
-    if(_w == 'fields' or 'field' or 'cornfields' or 'cornfield') return _n + 1;
-    rfalse;
-];
+![ SceneryReply word1 word2 routine;
+!    default:
+!        routine = word1 = word2; ! getting rid of a compiler warning
+!        rfalse;
+!];
 
 ! Uncomment to add PunyInform extensions
 Include "ext_menu.h";
@@ -354,7 +321,7 @@ Class CSpell
 !                ++self.number;
 !                rtrue;
 !        ],
-        activate [obj;
+        activate [obj retvalue;
             if(player has general)
                 "Your webbed fingers are far too clumsy to turn the fragile pages of your spellbook,
                 and your altered throat cannot pronounce the precise incantation. You must return
@@ -368,6 +335,11 @@ Class CSpell
             } else {
                 if(GrabObject(SpellBook)) {
                     print "You must be holding ", (the) SpellBook, " first.^";
+                    rfalse;
+                }
+                if(location == thedark) {
+                    print "Fumbling through a spellbook in complete darkness is a great way to 
+                        accidentally turn yourself into a toad.^";
                     rfalse;
                 }
                 if(parent(self)~=SpellBook) {
@@ -389,8 +361,18 @@ Class CSpell
                 }
             }
             if(parent(player) provides react_before_magic)
-                if((parent(player)).react_before_magic(self, obj, 1)) rtrue;
-            return self.domagic(obj, 1);
+                if((parent(player)).react_before_magic(self, obj)) rtrue;
+
+            retvalue = self.domagic(obj, 1);
+
+            if(parent(player) provides react_after_magic) {
+                ! domagic can change the scope, so we need to update
+                ! it before  we continue
+                _UpdateScope(player, REACT_AFTER_REASON);
+                if((parent(player)).react_after_magic(self, obj)) rtrue;
+            }
+
+            return retvalue;
         ]
     ;
 
@@ -482,7 +464,7 @@ CSpellWithArgument CopySpell "copying spell" SpellBook
                     remove obj;
                 }
             }
-            "^[You have learned ", (the) x, "]";
+            "^^[You have learned ", (the) x, "]";
         ]
     ;
 
@@ -502,6 +484,15 @@ Verb 'sound' * -> Sound;
 [ SoundSub; "This version of the game doesn't have any sounds."; ];
 #Endif;
 
+Extend 'examine' first
+    * 'room'/'location' -> Look;
+
+Extend 'say' first
+    * -> SayDefault;
+Extend 'say' last
+    * topic -> SayDefault;
+[ SayDefaultSub; "Actions speaks louder than words."; ];
+
 Verb 'accuse'
     * creature -> Accuse;
 [ AccuseSub; "Accusations achieve nothing without evidence."; ];
@@ -513,7 +504,8 @@ Verb 'shake'
 Verb 'talk' 'report'
     * 'to' noun -> TalkTo;
 [ TalkToSub;
-    print_ret (The) noun, " doesn't seem interested.";
+    if(noun has animate) print_ret (The) noun, " doesn't seem interested.";
+    "You feel silly trying to talk to ", (the) noun, ".";
 ];
 
 Extend 'put'
@@ -650,13 +642,13 @@ Object PlayerObject "yourself"
         add_to_scope PlayerClothes,
     has concealed animate proper transparent;     ! 'general' when fish-like
 
-Object PlayerClothes
+Object PlayerClothes "your clothes"
     with
         name 'hems' 'travelling' 'traveling' 'robes' 'boots' 'boot',
         before [;
         "There is no need to worry about your clothing.";
         ],
-    has scenery;
+    has scenery proper;
 
 ! ==========================================================================
 !     Useful parser / helper routines
@@ -712,6 +704,16 @@ Class Room
     has light;
 
 Class DarkRoom;
+
+[ ParseNameMeadowGrass _w _n;
+    _w = NextWord();
+    while(_w == 'damp' or 'thick' or 'wild' or 'clinging') {
+        _n++;
+        _w = NextWord();
+    }
+    if(_w == 'grass' or 'dew') return _n + 1;
+    rfalse;
+];
 
 Room Meadow "Meadow"
     with
@@ -999,6 +1001,13 @@ Object HutDoor "door"
     return _n;
 ];
 
+[ ParseNameHutWalls _w _n;
+    _w = NextWordStopped();
+    while(_w == 'stone' or 'stacked' or 'stones') { _w = NextWordStopped(); _n++; }
+    if(_w == 'wall' or 'walls') _n++;
+    return _n;
+];
+
 Room RemoteHut "Hut"
     with
         description [;
@@ -1026,6 +1035,9 @@ Room RemoteHut "Hut"
             strange alchemical vapours mingling with aged leather and dry parchment.";
         ],
         cheap_scenery
+            CS_PARSE_NAME ParseNameHutWalls
+            "Most of the hut is built from rough planks, except for a section of stacked
+            stone behind the hearth."
             CS_PARSE_NAME ParseNameHutRoof
             "A dense layer of exposed, dried reeds, dark with decades of soot from the hearth below."
             CS_PARSE_NAME ParseNameHutFloor
@@ -1086,9 +1098,9 @@ Object -> hut_vessel "vessels"
         ],
     has scenery pluralname;
 
-Object -> hut_bench "work bench"
+Object -> hut_bench "workbench"
     with
-        name 'workbench' 'bench',
+        name 'work' 'workbench' 'bench',
         description [;
             print
                 "A massive slab of scarred oak that has survived a great many experiments,
@@ -1097,6 +1109,9 @@ Object -> hut_bench "work bench"
             print "On the bench you see ";
             if(PrintContents(0, self)==false) print "nothing";
             print ".";
+        ],
+        before [;
+        Search: <<Examine self>>;
         ],
     has scenery supporter;
 
@@ -1160,7 +1175,7 @@ Object -> GoldBox "gilded box"
                     rtrue;
                 }
         ],
-    has container open;
+    has container open static;
 
 Object -> Istar "Istar"
     with
@@ -1400,11 +1415,25 @@ Object -> -> Folio "folio"
     return _n;
 ];
 
+[ ParseNameSteppe _w _n;
+    _w = NextWord();
+    if(_w == 'boundless' or 'wind-swept') { _n++; _w = NextWord(); }
+    if(_w == 'steppe' or 'landscape' or 'ground' or 'grass') return _n + 1;
+    rfalse;
+];
+
 [ ParseNameSteppeRunes _w _n;
     _w = NextWordStopped();
     while(_w == 'glowing' or 'writhing') { _w = NextWordStopped(); _n++; }
     if(_w == 'rune' or 'runes') _n++;
     return _n;
+];
+
+[ ParseNameYellowCloud _w _n;
+    _w = NextWord();
+    if(_w == 'yellow') { _n++; _w = NextWord(); }
+    if(_w == 'cloud' or 'mist' or 'fog') return _n + 1;
+    rfalse;
 ];
 
 Room TeleportRoom "On the Steppe"
@@ -1876,6 +1905,8 @@ DarkRoom Tunnel "Tunnel"
             "Back up the muddy slope, the entrance opens into the dim outline of the Rock Hall."
         CS_PARSE_NAME ParseNameTunnelSlope
             "The passage slopes steeply away, its muddy floor glistening in the dim light."
+        'battleaxe' 'axe'
+            "The axe is blunt and notched, but its sheer weight  makes it look no less lethal."
         'broadsword' 'sword'
             "A slab of stone sword, chipped along one edge. Carved or not, you would not care
             to be standing in front of it."
@@ -2017,7 +2048,7 @@ Object -> RightStatue "barbarian statue"
     with
         name 'barbarian' 'right' 'statue' 'statues',
         description
-            "The barbarian is all snarl and sinew, a sword in his right hand and a long
+            "The barbarian is all snarl and sinew, a battleaxe in his right hand and a long
             dagger in his left. Whoever carved him appears to have been working from an
             unpleasantly clear memory.",
         life [;
@@ -2051,8 +2082,8 @@ Object -> RightStatue "barbarian statue"
 [ CommentWarriorAttackingMe warrior;
     print "^", (The) warrior, " attacks you", (string) random(
             ", and only your quick reflexes save you from an early death.",
-            ". The sword sweeps at you, but at the last moment you manage to leap aside.",
-            " and aims at your chest. You manage to squirm past him."
+            ". His blade sweeps at you, but at the last moment you manage to leap aside.",
+            " and aims at your chest. You manage to pull back just in time."
         ), "^";
 ];
 
@@ -2066,7 +2097,7 @@ Object -> RightStatue "barbarian statue"
     }
     print "^", (The) LeftWarrior, " and ", (the) RightWarrior,
                 " fight each other", (string) random(
-            ". The swords clash, but both are still unharmed.",
+            ". Their weapons clash, but both are still unharmed.",
             ", and their strength and skill seem evenly matched."
         ), "^";
 ];
@@ -2112,7 +2143,7 @@ Object RightWarrior "barbarian"
         number -1,
         description
             "The statue is alive now. A fierce barbarian stands before you swinging his
-             sword. He seems to be looking for a suitable victim.",
+             axe. He seems to be looking for a suitable victim.",
         life [;
             if(LeftWarrior in location)
                 "The barbarian is far too busy dodging broadsword swings to answer you.";
@@ -2133,7 +2164,7 @@ Object RightWarrior "barbarian"
                     CommentWarriorAttackingMe(self);
                 } else {
                     move self to location;
-                    print "^", (The) self, " charges at you with his sword raised.^";
+                    print "^", (The) self, " charges at you with his axe raised.^";
                 }
             }
         ],
@@ -2156,9 +2187,8 @@ Room DragonHall "The Dragon Hall"
             "Every surface of it was cut by hand: fluted columns, a vaulted roof lost in the
             dark, a floor of dressed slabs now buried under ash. Whoever built this did not
             build it for a dragon, and the dragon has outlasted them by a very long time."
-        CS_NO_ADJ 'barbarian'
-            "A long smear of ash and a sword hilt, which is all that is left of him. He did
-            what he came down here to do."
+        'sword' 'warrior'
+            "The only thing that remains of the warrior is a smear of ash and a sword hilt."
         'sulfur' 'sulphur'
             "Thick, yellowish fumes drift near the vaulted ceiling, stinging your nostrils
             with the sharp stench of brimstone."
@@ -2206,8 +2236,7 @@ Object -> CrematedBarbarian "barbarian's ashes"
     with
         name 'barbarian',
         description
-            "A long smear of ash and a sword hilt, which is all that is left of him. He did
-            what he came down here to do.",
+            "A long smear of ash is all that is left of him. He did what he came down here to do.",
     has scenery;
 
 Object -> Treasure "treasure"
@@ -2238,7 +2267,7 @@ Object -> Wound "wound"
         name 'wound',
         description [;
             if(Dragon.number>0)
-                "The barbarian's sword went in deep at the base of her throat. Blood wells out of
+                "The barbarian's axe went in deep at the base of her throat. Blood wells out of
                 it in a slow, steady pulse, and the pulse is getting weaker.";
             "The dragon's wound is healed.";
         ],
@@ -2250,25 +2279,25 @@ Object -> Wound "wound"
         ],
         domagic [spell;
             if(spell == FreezeSpell)
-                "Frost creeps across the scales around the sword and the flow slackens for a
+                "Frost creeps across the scales around the axe and the flow slackens for a
                 moment, and for that moment you think you have it. Then the cold reaches
                 something deeper, the great body shudders, and you break the spell off yourself
                 before you do her more harm than the barbarian did. Ice is not what she needs.";
         ],
     has scenery;
 
-Object -> Sword "sword"
+Object -> Axe "axe"
     with
-        name 'sword',
+        name 'axe' 'battleaxe',
         description
-            "The barbarian's blade, buried to half its length under her jaw and moving
+            "The barbarian's axe, buried to half its length under her jaw and moving
             slightly with each breath she takes. It is the only thing in this hall that is
             still doing exactly what it was made for.",
         before [;
         Pull, Push, PushDir:
             "You get both hands to the grip before you stop yourself. Draw it out and the
             bleeding will not slow; it will become a flood, and she will be gone before you
-            have thought of anything better. Whatever you do for her, do it with the sword
+            have thought of anything better. Whatever you do for her, do it with the axe
             where it is.";
         ],
     has scenery;
@@ -2313,16 +2342,19 @@ Object -> Dragon "dragon"
             perfect, unhurried intelligence.";
         ],
         before [;
-            Ride:
-                "You get as far as thinking about it. She opens one eye, and you find that you
-                have finished thinking about it.";
-            Thanks:
-                "The dragon inclines her enormous head. ~We are square, wizard. Do not make a
-                habit of saving dragons. It gives us expectations.~";
-            Attack:
-                if(self.number>0)
-                    "She is dying where she lies, and you did not come all this way down to finish her off.";
-                "This is a dragon we are talking about. Magic might work, but force... forget it!";
+        TalkTo: 
+            "The dragon demands concise questions, not pleasantries.
+            Try asking it about a particular subject.";
+        Ride:
+            "You get as far as thinking about it. She opens one eye, and you find that you
+            have finished thinking about it.";
+        Thanks:
+            "The dragon inclines her enormous head. ~We are square, wizard. Do not make a
+            habit of saving dragons. It gives us expectations.~";
+        Attack:
+            if(self.number>0)
+                "She is dying where she lies, and you did not come all this way down to finish her off.";
+            "This is a dragon we are talking about. Magic might work, but force... forget it!";
         ],
         life [w1 w2 c;
             Show:
@@ -2374,7 +2406,7 @@ Object -> Dragon "dragon"
                         mother gave me, which you could not pronounce and would not survive hearing.~
                         Something moves behind her eyes that might be amusement.";
                     if(w1 == 'barbarian' or 'warrior')
-                        "~He was quick, and he was brave, and he was in my hall with a sword.~ The huge
+                        "~He was quick, and he was brave, and he was in my hall with an axe.~ The huge
                         head turns towards the ash. ~I do not hold it against him. I would have done the
                         same in his place, and I did.~";
                     if(w1 == 'wound' or 'throat')
@@ -2468,7 +2500,7 @@ Object -> Dragon "dragon"
                 print "^", (The) LeftWarrior, " and ", (the) RightWarrior,
                     " see the dragon and rush forward with weapons
                     drawn. She takes the warrior first and he goes up like dry kindling, but the
-                    barbarian is inside her guard before she can turn, and drives his sword deep
+                    barbarian is inside her guard before she can turn, and drives his axe deep
                     into her throat. Beside herself with rage and pain, she burns what is left of
                     the pair of them to ash.^";
             } else if((l==true || r==true) && p==true) {
@@ -2506,6 +2538,12 @@ Object -> Dragon "dragon"
 !    has static female;
 
 
+[ ParseNameSeaGrass _w _n;
+    _w = NextWord();
+    if(_w == 'sea') { _n++; _w = NextWord(); }
+    if(_w == 'grass' or 'plant' or 'plants') return _n + 1;
+    rfalse;
+];
 
 Room ChurchYard "Before a Temple"
     with
@@ -2557,6 +2595,13 @@ Object -> DummyChurch "temple"
             "The temple is run-down but still imposing, raised from great blocks of weathered, ancient stone.",
     has scenery;
 
+[ ParseNameLeadedWindows _w _n;
+    _w = NextWord();
+    while(_w == 'broken' or 'leaded') { _n++; _w = NextWord(); }
+    if(_w == 'window' or 'windows') return _n + 1;
+    rfalse;
+];
+
 Room Church "The Temple"
     with
         description
@@ -2564,7 +2609,7 @@ Room Church "The Temple"
             and abandoned. The leaded windows have been broken out, and almost all the
             furnishings are gone.",
         cheap_scenery
-        'leaded' 'windows'
+        CS_PARSE_NAME ParseNameLeadedWindows
             "Multi-paned leaded windows line the high walls, though nearly every pane of
             glass has been smashed, letting in the cool ocean breeze."
         'fin' 'fins'
@@ -2581,10 +2626,13 @@ Room Church "The Temple"
             "Desiccated crumbs and ancient bones, left long ago as offerings to the strange deity."
         CS_NO_ADJ 'furnishings'
             "Only broken scraps of wood and overturned stone bases remain where altars and pews once stood."
-        CS_NO_ADJ 'remains'
+        'offerings' 'remains'
             "Brittle stalks that were once flowers, and a few blackened scraps that were once
             food, laid out in a careful row at the statue's feet. Nobody has renewed them in
             a very long time."
+        'wall' 'walls'
+            "High stone walls rise into the shadowed vaults above, scarred by time and dampness where
+            rain creeps in through the broken windows."
         'vault' 'vaults'
             "Ribbed stone vaults span the ceiling far overhead, dark with age and hung with
             cobwebs the size of bedsheets.",
@@ -2637,9 +2685,20 @@ Object -> Statue "statue"
                 and the only thing you would break is your knuckles.";
         Search: "You find nothing hidden about the statue, only the old offerings mouldering at its feet.";
         Take, Remove: "The heavy stone statue is firmly anchored to the sanctuary floor.";
+        Pull, Push, PushDir:
+            "You throw your weight against the heavy stone, but the massive figure doesn't budge";
+        Climb: 
+            "You grab a scale to hoist yourself up, but a nauseating, chill forces you to pull back instantly.";
         TalkTo: return self.life();
         ],
     has static;
+
+[ ParseNameDarkSand _w _n;
+    _w = NextWord();
+    while(_w == 'dark') { _n++; _w = NextWord(); }
+    if(_w == 'sand' or 'soil') return _n + 1;
+    rfalse;
+];
 
 Room Beach "The Beach"
     with
@@ -2671,8 +2730,12 @@ Room Beach "The Beach"
             "The air is heavy with the pungent, bracing scent of ocean spray, wet kelp, and damp, sun-baked sand.";
         ],
         cheap_scenery
+        CS_NO_ADJ 'path'
+            "The only way out of here is to follow the path back to the temple."
         'wave' 'waves'
             "Towering, foamy waves surge onto the dark sand with a rhythmic roar, spraying cold saltwater into the air."
+        CS_PARSE_NAME ParseNameDarkSand
+            "The sand is a dark, almost volcanic silt, packed firm where the waves wash over it."
         'ocean' 'sea'
             "The vast, open sea stretches endlessly to the horizon, dark blue and churning under the open sky."
         'shore' 'beach'
@@ -2704,6 +2767,13 @@ Object SeaWater "sea water"
         ],
     has scenery;
 
+[ ParseNameSeaFloor _w _n;
+    _w = NextWord();
+    while(_w == 'sea') { _n++; _w = NextWord(); }
+    if(_w == 'floor' or 'seafloor' or 'sand' or 'soil') return _n + 1;
+    rfalse;
+];
+
 Room OceanFloor "The Sea Floor"
     with
         description
@@ -2711,10 +2781,10 @@ Room OceanFloor "The Sea Floor"
             combed by slow, swaying sea plants. Far above, the light comes down in shifting
             bars. You can swim back up towards the shore.",
         cheap_scenery
-        'plant' 'plants'
+        CS_PARSE_NAME ParseNameSeaGrass
             "Long ribbons of weed sway in slow unison with the swell, rooted among the
             stones, their fronds catching what little light reaches this far down."
-        CS_NO_ADJ 'sand'
+        CS_PARSE_NAME ParseNameSeaFloor
             "Fine pale sand, drawn into long even ripples by the tide and marked here and
             there by the trail of something that buried itself as you came down.",
         before [;
@@ -2741,7 +2811,28 @@ Object -> Shells "sea shells"
             "You gather a handful, admire them, and let them fall again. You did not come
             down here for souvenirs.";
         ],
-    has scenery;
+    has scenery pluralname;
+
+[ ParseNameCornFields _w _n;
+    _w = NextWord();
+    while(_w == 'corn') { _n++; _w = NextWord(); }
+    if(_w == 'fields' or 'field' or 'cornfields' or 'cornfield') return _n + 1;
+    rfalse;
+];
+
+[ ParseNameDirtRoad _w _n;
+    _w = NextWord();
+    while(_w == 'dirt' or 'dirty' or 'dusty' or 'uneven') { _n++; _w = NextWord(); }
+    if(_w == 'road') return _n + 1;
+    rfalse;
+];
+
+[ ParseNameVillage _w _n;
+    _w = NextWord();
+    while(_w == 'small') { _n++; _w = NextWord(); }
+    if(_w == 'village' or 'rooftops') return _n + 1;
+    rfalse;
+];
 
 Room VillageRoad "The Country Road"
     with
@@ -2753,9 +2844,11 @@ Room VillageRoad "The Country Road"
             you can see the thatched rooftops of a small village. A solitary oak tree casts its shadow over the wayside.";
         ],
         cheap_scenery
+            CS_PARSE_NAME ParseNameDirtRoad
+                "Dusty and uneven, the road cuts through the tall corn, leading east toward the village roofs."
             CS_PARSE_NAME ParseNameCornFields
                 "Tall stalks of corn sway gently in the breeze, forming a rustling wall on either side of the road."
-            'village' 'rooftops'
+            CS_PARSE_NAME ParseNameVillage
                 "A little way east, past the corn, the village looks peaceful enough, its smoke curling lazily into the sky.",
         e_to [;
             if(Beggar in self && Village hasnt visited) {
@@ -3017,7 +3110,7 @@ Room Village "The Village"
                 "Simple cottages with thatched roofs and whitewashed walls. Banners and market stalls line the space between them.",
         before [;
         Wait:
-            if(Busker in self) "You wait, observing the hawker.";
+            if(Hawker in self) "You wait, observing the hawker.";
             rfalse;
         Listen:
             "The road is alive with a cheerful din: traders bawling their wares, villagers
@@ -3026,6 +3119,22 @@ Room Village "The Village"
         Smell:
             "A rich tapestry of market smells fills the air: fresh-baked bread, roasted meats, and sweet berries from
             the stalls, mingled with the earthy scents of livestock, timber, and chimney smoke.";
+        ],
+        react_before_magic [spell obj phase;
+            if(Hawker notin location) rfalse;
+            if(obj == RedStone) {
+                meta = 1;
+                "Not while the hawker is watching it so closely. Drawing magic to the stone now
+                would cause a scene, and send the hawker running.";
+            }
+        ],
+        react_after_magic [spell obj;
+            if(Hawker notin location) rfalse;
+            meta = 1;
+            if(obj ~= Hawker) {
+                "^The hawker glances around nervously, tapping his foot. ~Careful now. You'll draw a crowd
+                with fancy stuff like that, and I like to keep my business quiet.~";
+            }
         ],
         u_to "Nothing above you but thatch, chimney smoke and a hard blue sky.",
         n_to "The village road runs east and west, and the houses stand shoulder to shoulder in between.",
@@ -3047,15 +3156,15 @@ Object -> Bench "bench"
         ],
         domagic [spell;
             if(spell==AnimateSpell) {
-                if((busker.number==7 or 8 or 9 or 10 or 11) || 
-                   (SilverCoin in Busker && SilverCoin has general)) {
+                if((Hawker.number==7 or 8 or 9 or 10 or 11) || 
+                   (SilverCoin in Hawker && SilverCoin has general)) {
                     move SilverCoin to player;
                     give RedStone ~general; ! no more hawker puzzles
                     move RedStone to player;
                     give RedStone ~scenery;
                     remove SleepingBeggar;
                     move Beggar to VillageRoad;
-                    remove Busker;
+                    remove Hawker;
                     remove self;
                     "The bench comes to life, bucks violently for a moment and then stiffens again.
                     The cups roll off onto the ground, and there is no sign of the stone under any
@@ -3067,12 +3176,12 @@ Object -> Bench "bench"
                     and the stone into your hand, gathers up his things and is gone down the road
                     before you can think of a reply.";
                 } else {
-                    if(Busker.number<6) {
-                        Busker.number=1;
-                    } else if(Busker.number==6) {
-                        Busker.number=6;
+                    if(Hawker.number<6) {
+                        Hawker.number=1;
+                    } else if(Hawker.number==6) {
+                        Hawker.number=6;
                     } else {
-                        Busker.number=7;
+                        Hawker.number=7;
                     }
                     "The bench comes to life, jerks about violently for a while and then stiffens
                     again. The cups fall to the ground. The hawker bends down and picks up the cups
@@ -3082,7 +3191,7 @@ Object -> Bench "bench"
         ],
     has concealed static supporter;
 
-Class BuskerCup
+Class HawkerCup
     with
         name 'cup',
         description
@@ -3093,8 +3202,8 @@ Class BuskerCup
                 "The hawker's palm settles flat on top of it. ~Now, now, master. You point and I
                 lift. That is the whole of the game.~";
             Take, Remove, Transfer, PointAt:
-                if(Busker.number==4 or 5) {
-                    Busker.number=6;
+                if(Hawker.number==4 or 5) {
+                    Hawker.number=6;
                     if(self==Cup1) {
                         print
                             "The hawker lifts the cup, and sure enough, the stone is there. ~Beginner's
@@ -3110,8 +3219,8 @@ Class BuskerCup
                     "^^You recognize the stone! Apart from its red colour, it is identical to your
                     mentor's black stone.";
                 }
-                if(Busker.number==10 or 11) {
-                    Busker.number=6;
+                if(Hawker.number==10 or 11) {
+                    Hawker.number=6;
                     if(self == Cup1) x = Cup2;
                     if(self == Cup2) x = Cup3;
                     if(self == Cup3) x = Cup1;
@@ -3124,11 +3233,11 @@ Class BuskerCup
         ],
         domagic [spell;
             if(spell==AnimateSpell) {
-                if(busker.number==7 or 8 or 9 or 10 or 11) {
+                if(Hawker.number==7 or 8 or 9 or 10 or 11) {
                     move SilverCoin to player;
                     move RedStone to player;
                     give RedStone ~scenery;
-                    remove Busker;
+                    remove Hawker;
                     remove Bench;
                     "The cup comes to life, jerks about violently for a while and knocks the other
                     cups to the ground before it too stiffens and falls. There is no sign of the
@@ -3139,7 +3248,7 @@ Class BuskerCup
                     mention this to the watch.~ He presses the silver coin and the stone into your
                     hand, then gathers his things and runs off before you can react.";
                 } else {
-                    Busker.number=1;
+                    Hawker.number=1;
                     "The cup comes to life, jerks about violently for a while and knocks the other
                     cups to the ground before it too stiffens and falls. The hawker bends down and
                     picks up the cups again. ~Do not do that again,~ he says.";
@@ -3148,11 +3257,11 @@ Class BuskerCup
         ],
     ;
 
-BuskerCup -> -> Cup1 "left cup"
+HawkerCup -> -> Cup1 "left cup"
     with name 'left', ;
-BuskerCup -> -> Cup2 "middle cup"
+HawkerCup -> -> Cup2 "middle cup"
     with name 'middle' 'centre' 'center', ;
-BuskerCup -> -> Cup3 "right cup"
+HawkerCup -> -> Cup3 "right cup"
     with name 'right', ;
 
 Object -> -> AllTheCups "cups"
@@ -3195,7 +3304,7 @@ Object -> Crowd "crowd"
         ]
     has pluralname scenery animate;
 
-Object -> Busker "hawker"
+Object -> Hawker "hawker"
     with
         name 'hawker' 'man' 'busker',
         number 0,
@@ -3209,15 +3318,22 @@ Object -> Busker "hawker"
             "A sly fellow with quick eyes and even quicker hands, dressed in a colourful tunic.
             He grins at you like a cat that just found the cream.",
         react_before [;
+            SayDefault:
+                if(self.number == 5 or 11)
+                    "~Come on now, give the crowd a show! Point, don't just talk,~ says the hawker,
+                     motioning at the cups.";
+                else
+                    "The hawker ignores you, far too busy shuffling cups and watching the crowd
+                    to care about idle chatter.";
             Go:
                 if(selected_direction == w_to or e_to) {
                     if((self.number<6 && self.number>1)) {
                         print "^~But we were in the middle of a game!~ says the hawker despondently as
-                                    you leave.^^";
+                              you leave.^^";
                         self.number=1;
                     } else if(self.number<11 && self.number>7) {
                         print "^~But we were in the middle of a game!~ says the hawker despondently,
-                                    and gives back the silver coin.^^";
+                              and gives back the silver coin.^^";
                         self.number=6;
                         move SilverCoin to player;
                     }
@@ -3254,7 +3370,7 @@ Object -> Busker "hawker"
                  You are unsure, but you think it is the left cup.";
             5: "^~Point to the cup you think the stone is under,~ says the man.";
             6: print "^~Won't you try again? Just one silver coin,~ says the hawker";
-                 if(SilverCoin in Busker && SilverCoin hasnt general) {
+                 if(SilverCoin in Hawker && SilverCoin hasnt general) {
                      give SilverCoin general;
                      move SilverCoin to player;
                      print
@@ -3282,6 +3398,9 @@ Object -> Busker "hawker"
                 "~Give?~ The hawker laughs, thoroughly delighted. ~Master wizard, if I gave
                 things away I should be the one sitting under that oak tree with my hand out.~";
             Answer:
+                if(self.number == 5 or 11)
+                    "~Come on now, give the crowd a show! Point, don't just talk,~ says the hawker,
+                     motioning at the cups.";
                 "~Well met, master wizard!~ He says it to the whole street rather than to you,
                 and two more people drift over to watch. ~Step up, step up. The learned
                 gentleman is going to show us how it is done.~";
@@ -3314,7 +3433,7 @@ Object -> Busker "hawker"
                 if(self.number~=6) "~Wait until we have finished this round,~ says the hawker.";
                 if(noun==SilverCoin) {
                     self.number=7;
-                    move SilverCoin to Busker;
+                    move SilverCoin to Hawker;
                     "The hawker pockets the silver coin. He places the stone under one of the cups
                     and says, ~Let us begin again. Concentrate, and the twenty silver coins are
                     yours.~";
@@ -3735,7 +3854,7 @@ CSpellWithArgument ResurrectSpell "resurrection spell" BlackScroll
         comment "raise the dead",
         domagic [obj;
             if(obj provides domagic) if(obj.domagic(self)) rtrue;
-            "Nothing happens.";
+            "The magic stirs, but finds no lingering spark of life to pull back.";
         ],
     ;
 

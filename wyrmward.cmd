@@ -110,7 +110,13 @@ u
 d
 w
 x bench
+search workbench
 x books
+take books
+take all
+drop book
+take all
+take box
 x window
 x vessels
 x hearth
@@ -122,7 +128,9 @@ open box
 take box
 put backpack in box
 x istar
+x wall
 istar, hello
+x stone wall
 ask istar about academy
 ask istar about box
 ask istar about demon
@@ -180,6 +188,9 @@ smell
 x beggar
 x rags
 x hand
+x dirty road
+x small village
+x dusty dirt road
 x cornfields
 x village
 x tree
@@ -231,8 +242,14 @@ w
 z
 z
 z
+say left
+say left cup
+say left cup to hawker
 point at left cup
 x stone
+cast freeze on stone
+cast freeze on bench
+cast freeze on hawker
 take stone
 buy stone
 ask hawker about stone
@@ -389,7 +406,11 @@ search mud
 x stalactites
 x green stone
 take stone
+take all
+n
 cast illuminate on it
+s
+cast illuminate on green
 e
 u
 d
@@ -439,7 +460,9 @@ n
 n
 x statues
 x left
+cast resurrection spell on left
 x right
+x axe
 x broadsword
 x dagger
 touch left
@@ -481,7 +504,8 @@ x treasure
 take treasure
 x wound
 x sword
-pull sword
+x axe
+pull axe
 put hand on wound
 cast freeze on wound
 cast animate on dragon
@@ -495,6 +519,8 @@ z
 x dragon
 e
 cast heal on dragon
+talk to book
+talk to dragon
 ask dragon about me
 show spellbook to dragon
 ask dragon about magic
@@ -539,6 +565,8 @@ x vaults
 x leaded windows
 x temple
 x statue
+x offerings
+x room
 x fin
 x scales
 talk to statue
@@ -546,7 +574,12 @@ take statue
 x remains
 touch statue
 search statue
+push statue
+pull statue
 kill statue
+climb statue
+look
+x walls
 pray
 x me
 w
@@ -561,13 +594,21 @@ x tide pools
 taste water
 smell
 listen
+x sand
+dig sand
+search sand
+x path
+x soil
 swim
 smell
 listen
 x sand
+dig sand
+search sand
 x shells
 take shells
 x plants
+x sea floor
 d
 x blue stone
 take stone
