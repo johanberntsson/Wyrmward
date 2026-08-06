@@ -76,6 +76,7 @@ This is the core mechanic and the main thing to understand before editing.
 - `CSpell.activate(obj)` is the single funnel for casting. It handles the fish-form block (`player has general`), memorized-copy accounting, holding the spellbook, and the reading-from-scroll path, then calls `self.domagic(obj)`.
 - **Targets react by providing `domagic`**, not by `before` rules: `domagic [spell; switch(spell) { HealSpell: ...; } ]`. Most spells start with `if(obj provides domagic) if(obj.domagic(self)) rtrue;` and fall through to a generic failure message. Returning true from `domagic` means "I handled it".
 - **Rooms may provide `react_before_magic(spell, obj)`** — checked on `parent(player)` before `domagic` runs, to veto or intercept a cast in that location (used by the endgame force field).
+- **Rooms may provide `react_after_magic(spell, obj)`** — checked on `parent(player)` after `domagic` runs, to perhaps add a comment from bystanders and the like (used in the village).
 - Grammar: `cast <spell>` / `cast <spell> on <noun>` is the general form; `illuminate` and `copy` are direct verbs. The commented-out `Verb 'animate'`/`'freeze'`/`'heal'`/`'teleport'` blocks are deliberately disabled — the game now requires `cast`. `walkthrough.txt` still uses the old bare forms, while `wyrmward.cmd` uses `cast`.
 
 ## Dual z5/z6 targets
