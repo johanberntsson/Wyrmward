@@ -86,10 +86,20 @@ pictures:
 sounds:
   - id: 3
     file: 003.wav
-    name: intro
-    location: Initialise, and again before play starts
+    name: intro.wav
 
   - id: 4
     file: 004.wav
-    name: hell
-    location: Initialise, under the letter
+    name: demon.wav
+
+  - id: 5
+    file: 005.wav
+    name: dragon.wav
+
+  - id: 6
+    file: 006.wav
+    name: eerie.wav
+
+  - id: 7
+    file: 007.wav
+    name: snore.wav

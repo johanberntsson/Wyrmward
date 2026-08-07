@@ -30,7 +30,7 @@ OZMOOBUILD = ruby $(OZMOO)/make.rb
 # X16 build (no sound) needs neither.
 PICSRC   = resources/contents.yaml $(wildcard resources/*.png)
 STORYSRC = wyrmward.inf ../lib/ext_z6graphics.h $(wildcard $(PUNY)/lib/*.h)
-WAVS     = resources/003.wav resources/004.wav
+WAVS     = resources/003.wav resources/004.wav resources/005.wav resources/006.wav resources/007.wav
 
 all: test
 
@@ -41,16 +41,35 @@ z5:
 # random seed on every run, so remaking these unconditionally rewrote both wavs
 # bit-for-bit differently each time, and the blorb and the disk image with them,
 # even when nothing had changed. Now sox runs only when the source wav is newer.
-sounds/hell_8k.wav: sounds/hell.wav
+#
+sounds/snore-small.wav: sounds/snore.wav
+	sox $< -r 7000 $@
+
+sounds/eerie-small.wav: sounds/eerie.wav
+	sox $< -r 7000 $@
+
+sounds/dragon-small.wav: sounds/dragon.wav
+	sox $< -r 5800 $@
+
+sounds/hell-small.wav: sounds/hell.wav
 	sox $< -r 8000 $@
 
-sounds/intro_6k.wav: sounds/intro.wav
+sounds/intro-small.wav: sounds/intro.wav
 	sox $< -r 6000 $@
 
-resources/004.wav: sounds/hell_8k.wav
+resources/007.wav: sounds/snore-small.wav
 	cp $< $@
 
-resources/003.wav: sounds/intro_6k.wav
+resources/006.wav: sounds/eerie-small.wav
+	cp $< $@
+
+resources/005.wav: sounds/dragon-small.wav
+	cp $< $@
+
+resources/004.wav: sounds/hell-small.wav
+	cp $< $@
+
+resources/003.wav: sounds/intro-small.wav
 	cp $< $@
 
 sound: $(WAVS)

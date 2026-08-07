@@ -171,6 +171,12 @@ Constant PIC_VILLAGE    = 9;
 Constant PIC_HUT        = 10;
 Constant PIC_SPELLBOOK  = 11;
 
+Constant SND_INTRO = 3;
+Constant SND_DEMON = 4;
+Constant SND_DRAGON = 5;
+Constant SND_EERIE = 6;
+Constant SND_SNORE = 7;
+
 [ ShowPicture p_num _rows _i _row;
     _rows = Z6PictureRows_Chars(p_num);
     if(_rows == 0) return;
@@ -3535,7 +3541,7 @@ Room GateRoom "The Crypt"
         number 0,
         description [;
 #Iftrue (#version_number == 6);
-            if(self hasnt visited) @sound_effect 4 2 255 0;
+            if(self hasnt visited) @sound_effect SND_DEMON 2 255 0;
             ShowPicture(PIC_DEMON);
 #Endif;
             "The chamber has the look of a heathen temple. Obsidian pillars rise into the
@@ -3588,7 +3594,7 @@ Room GateRoom "The Crypt"
 #Endif;
 #Iftrue (#version_number == 6);
         Sound:
-            @sound_effect 4 2 255 0;
+            @sound_effect SND_DEMON 2 255 0;
             "Playing the sound effect again.";
 #Endif;
         Wait:
@@ -4211,7 +4217,7 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
 
 #Iftrue (#version_number == 6);
 [ Initialise key;
-    @sound_effect 3 2 255 0;
+    @sound_effect SND_INTRO 2 255 0;
     ShowPicture(PIC_INTRO);
     @read_char key;
     @erase_window 0;
