@@ -157,8 +157,6 @@ Include "ext_cheap_scenery.h";
 ! Uncomment to add PunyInform extensions
 !Include "ext_waittime.h";
 
-#Iftrue (#version_number == 6);
-Include "ext_z6graphics.h";
 Constant PIC_INTRO      = 1;
 Constant PIC_DEMON      = 2;
 Constant PIC_DRAGON     = 3;
@@ -176,7 +174,14 @@ Constant SND_DEMON = 4;
 Constant SND_DRAGON = 5;
 Constant SND_EERIE = 6;
 Constant SND_SNORE = 7;
+Constant SND_WAVES = 8;
 
+#Iftrue (#version_number == 6);
+Include "ext_z6graphics.h";
+[ PlaySound p_effect p_show_comment;
+    @sound_effect p_effect 2 255 0;
+    if(p_show_comment) "Playing the sound effect again.";
+];
 [ ShowPicture p_num _rows _i _row;
     _rows = Z6PictureRows_Chars(p_num);
     if(_rows == 0) return;
@@ -187,7 +192,9 @@ Constant SND_SNORE = 7;
      Z6DrawPictureHere(p_num);
      Z6MoveCursor_Chars(1, _row);
 ];
-
+#IfNot;
+[ PlaySound; ];
+[ ShowPicture; ];
 #Endif;
 
 Include "puny.h";
@@ -224,9 +231,7 @@ Object SpellBook "spellbook"
         article "your",
         name 'your' 'spellbook' 'spell' 'book',
         description [;
-#Iftrue (#version_number == 6);
             ShowPicture(PIC_SPELLBOOK);
-#Endif;
             print 
                 "It is your well-thumbed spellbook, bought on the day you started at the wizards'
                 school. The spells written in it are the fruit of a great many years of study
@@ -724,9 +729,7 @@ Class DarkRoom;
 Room Meadow "Meadow"
     with
         description [;
-#Iftrue (#version_number == 6);
             ShowPicture(PIC_MEADOW);
-#Endif;
             "You stand in a small, overgrown clearing dominated by a dilapidated hut hunched
             immediately to the south. Looming on all other sides is a dense, ancient forest
             whose twisted boughs form an impenetrable wall of shadow. A faint dirt path cuts
@@ -1017,9 +1020,7 @@ Object HutDoor "door"
 Room RemoteHut "Hut"
     with
         description [;
-#Iftrue (#version_number == 6);
             ShowPicture(PIC_HUT);
-#Endif;
             "The interior of the hut is cramped and gloomy. Thick soot cakes the solitary window,
             leaving the flickering flames of a stone hearth as the room's sole source of light. Atop
             the fire, rusted iron vessels bubble quietly, venting strange, multi-coloured vapours. A
@@ -1445,9 +1446,8 @@ Object -> -> Folio "folio"
 Room TeleportRoom "On the Steppe"
     with
         description [;
-#Iftrue (#version_number == 6);
             ShowPicture(PIC_TELEPORT);
-#Endif;
+            PlaySound(SND_EERIE, 0);
             "The yellow cloud dissipates, leaving you standing in a boundless, wind-swept
             steppe that rolls onward to the horizon. Strangest of all, you find yourself
             encircled by four free-standing, ornate archways, each facing one of the
@@ -1479,6 +1479,9 @@ Room TeleportRoom "On the Steppe"
 #Iftrue (#version_number == 6);
         Picture:
             ShowPicture(PIC_TELEPORT);
+            rtrue;
+        Sound: 
+            PlaySound(SND_EERIE, true);
             rtrue;
 #Endif;
         Listen:
@@ -1584,9 +1587,7 @@ Object -> Archways "archways"
 Room ForestPath "Forest Path"
     with
         description [;
-#Iftrue (#version_number == 6);
             ShowPicture(PIC_WOOD);
-#Endif;
             "You stand on a narrow path in a dark forest. Ahead to the east the trees thin
             out against the grey flank of a tall mountain; behind you the path runs west,
             back into the gloom.";
@@ -2179,9 +2180,8 @@ Object RightWarrior "barbarian"
 Room DragonHall "The Dragon Hall"
     with
         description [;
-#Iftrue (#version_number == 6);
+            if(self hasnt visited) StartDaemon(Dragon);
             ShowPicture(PIC_DRAGON);
-#Endif;
             if(self hasnt visited) print "You slide to a stop"; else print "You are";
             " in a vast hall cut straight out of the heart of the
             mountain. The stench of sulfur is oppressive, and the floor lies under a layer
@@ -2503,6 +2503,7 @@ Object -> Dragon "dragon"
             if(r) RemoveObj(RightWarrior);
             if(l==true && r==true) self.number=5; ! the dragon is wounded
             if(l==true && r==true && p==true) {
+                PlaySound(SND_DRAGON, 0);
                 print "^", (The) LeftWarrior, " and ", (the) RightWarrior,
                     " see the dragon and rush forward with weapons
                     drawn. She takes the warrior first and he goes up like dry kindling, but the
@@ -2512,12 +2513,15 @@ Object -> Dragon "dragon"
             } else if((l==true || r==true) && p==true) {
                     if(l) print "^", (The) LeftWarrior;
                     else print "^", (The) RightWarrior;
+                    PlaySound(SND_DRAGON, 0);
                     print " sees the dragon and rushes at her with weapon raised high. The dragon
                                 quickly burns him to death and cremates the body.";
             }
-            if((l==true || r==true) && p==false)
+            if((l==true || r==true) && p==false) {
+                PlaySound(SND_DRAGON, 0);
                 print "^You hear screams and the clash of weapons nearby. Then a warm gust of
                             air comes, and the screams suddenly fall silent.^";
+            }
         ],
     has animate female;
 
@@ -2554,9 +2558,7 @@ Object -> Dragon "dragon"
 Room ChurchYard "Before a Temple"
     with
         description [;
-#Iftrue (#version_number == 6);
             ShowPicture(PIC_CHURCH);
-#Endif;
             "You stand on a narrow path that runs down to the sea in the south and into the
             forest in the north. The air is salt and fresh. To the east of you stands a
             great temple, weathered by long centuries of sea wind.";
@@ -2709,9 +2711,8 @@ Object -> Statue "statue"
 Room Beach "The Beach"
     with
         description [;
-#Iftrue (#version_number == 6);
             ShowPicture(PIC_WAVE);
-#Endif;
+            if(self hasnt visited) PlaySound(SND_WAVES, 0);
             "Here the land gives out, and great waves come in and break along a strand of
             dark sand. A path leads back north towards the temple.";
         ],
@@ -2719,6 +2720,9 @@ Room Beach "The Beach"
 #Iftrue (#version_number == 6);
         Picture:
             ShowPicture(PIC_WAVE);
+            rtrue;
+        Sound:
+            PlaySound(SND_WAVES, 1);
             rtrue;
 #Endif;
         Swim:
@@ -2843,9 +2847,7 @@ Object -> Shells "sea shells"
 Room VillageRoad "The Country Road"
     with
         description [;
-#Iftrue (#version_number == 6);
             ShowPicture(PIC_VILLAGE);
-#Endif;
             "You stand on a narrow dirt road winding between vast, rustling cornfields. To the east, past the golden stalks,
             you can see the thatched rooftops of a small village. A solitary oak tree casts its shadow over the wayside.";
         ],
@@ -2873,6 +2875,11 @@ Room VillageRoad "The Country Road"
         Picture:
             ShowPicture(PIC_VILLAGE);
             rtrue;
+        Sound:
+            if(SleepingBeggar in VillageRoad) {
+                PlaySound(SND_SNORE, 0);
+                "The beggar keeps snoring.";
+            }
 #Endif;
         Listen:
             "Dry corn leaves rustle pleasantly in the warm breeze, occasionally accompanied by the faint chattering
@@ -3029,10 +3036,15 @@ Object BeggarRags "rags"
 Object SleepingBeggar "sleeping beggar"
     with
         name 'sleeping' 'ragged' 'beggar',
-        initial
+        initial [;
+            if(self hasnt general) {
+                PlaySound(SND_SNORE, 0);
+                give self general;
+            }
             "The beggar has slid down into the shade of the oak and gone to sleep. It is the
             hottest part of the afternoon, and he has clearly decided that the road can do
-            without him for an hour. You will have to come back later.",
+            without him for an hour. You will have to come back later.";
+        ],
         description
             "He is stretched out comfortably in the shade with his hat over his eyes,
             snoring. Whatever else the day has denied him, he has the best spot on this road
@@ -3081,7 +3093,7 @@ Object SleepingBeggar "sleeping beggar"
                 "There is nothing wrong with the man that a spell can mend. He is asleep, not ill.";
         ],
         add_to_scope BeggarHands BeggarRags Amulet,
-    has animate;
+    has animate; ! general once we've seen him
 
 Object Corn "corn"
     with
@@ -3540,10 +3552,8 @@ Room GateRoom "The Crypt"
     with
         number 0,
         description [;
-#Iftrue (#version_number == 6);
-            if(self hasnt visited) @sound_effect SND_DEMON 2 255 0;
+            if(self hasnt visited) PlaySound(SND_DEMON, 0);
             ShowPicture(PIC_DEMON);
-#Endif;
             "The chamber has the look of a heathen temple. Obsidian pillars rise into the
             darkness, carved with blasphemous runes that seem to shift whenever you are not
             looking straight at them. A great stone altar stands at the centre, stained dark
@@ -3591,11 +3601,9 @@ Room GateRoom "The Crypt"
         Picture:
             ShowPicture(PIC_DEMON);
             rtrue;
-#Endif;
-#Iftrue (#version_number == 6);
         Sound:
-            @sound_effect SND_DEMON 2 255 0;
-            "Playing the sound effect again.";
+            PlaySound(SND_DEMON, true);
+            rtrue;
 #Endif;
         Wait:
             if(self.number == 2)
@@ -4217,7 +4225,7 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
 
 #Iftrue (#version_number == 6);
 [ Initialise key;
-    @sound_effect SND_INTRO 2 255 0;
+    PlaySound(SND_INTRO, 0);
     ShowPicture(PIC_INTRO);
     @read_char key;
     @erase_window 0;
@@ -4255,7 +4263,7 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
     move FreezeSpell to SpellBook;
     move HealSpell     to SpellBook;
 
-    StartDaemon(Dragon);
+    !StartDaemon(Dragon);
     return 2; ! don't print banner
 ];
 

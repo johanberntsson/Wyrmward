@@ -30,7 +30,7 @@ OZMOOBUILD = ruby $(OZMOO)/make.rb
 # X16 build (no sound) needs neither.
 PICSRC   = resources/contents.yaml $(wildcard resources/*.png)
 STORYSRC = wyrmward.inf ../lib/ext_z6graphics.h $(wildcard $(PUNY)/lib/*.h)
-WAVS     = resources/003.wav resources/004.wav resources/005.wav resources/006.wav resources/007.wav
+WAVS     = resources/003.wav resources/004.wav resources/005.wav resources/006.wav resources/007.wav resources/008.wav
 
 all: test
 
@@ -42,6 +42,9 @@ z5:
 # bit-for-bit differently each time, and the blorb and the disk image with them,
 # even when nothing had changed. Now sox runs only when the source wav is newer.
 #
+sounds/waves-small.wav: sounds/waves.wav
+	sox $< -r 3000 $@
+
 sounds/snore-small.wav: sounds/snore.wav
 	sox $< -r 7000 $@
 
@@ -56,6 +59,9 @@ sounds/hell-small.wav: sounds/hell.wav
 
 sounds/intro-small.wav: sounds/intro.wav
 	sox $< -r 6000 $@
+
+resources/008.wav: sounds/waves-small.wav
+	cp $< $@
 
 resources/007.wav: sounds/snore-small.wav
 	cp $< $@
@@ -121,4 +127,4 @@ release:
 	frotz -d wyrmward.z5
 
 clean:
-	rm -rf wyrmward.z5 wyrmward.z6 wyrmward.blb wyrmward.scr wyrmward.cur pics *.d81 x16_wyrmward* *qzl 
+	rm -rf wyrmward.z5 wyrmward.z6 wyrmward.blb wyrmward.scr wyrmward.cur pics *.d81 x16_wyrmward* *qzl  sounds/*small.wav

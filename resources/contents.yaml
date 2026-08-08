@@ -103,3 +103,8 @@ sounds:
   - id: 7
     file: 007.wav
     name: snore.wav
+
+  - id: 8
+    file: 008.wav
+    name: waves.wav
+
