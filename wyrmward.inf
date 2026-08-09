@@ -1951,9 +1951,10 @@ DarkRoom Tunnel "Tunnel"
             print "A steep passage dropping away from the rock hall into the dark. Water trickles
                 down the slope from somewhere above, and the floor beneath it is thick with ";
             if(self has general)
-                print "ice and frozen mud, which makes it hard to walk.^";
+                print "ice and frozen mud, which makes it hard to walk";
             else
-                print "mud.^";
+                print "mud";
+            ".";
         ],
         cheap_scenery
         'dark' 'darkness'
@@ -2096,7 +2097,7 @@ Object -> LeftStatue "warrior statue"
         TalkTo: return self.life();
         ],
         initial [;
-            if(TestScope(RightStatue)) "Two statues guard the passage.";
+            if(TestScope(RightStatue)) { print "Two statues guard the passage."; rtrue; }
             "A statue stands at the left wall, guarding the passage.";
         ],
     has static animate;
@@ -2260,7 +2261,7 @@ Room DragonHall "The Dragon Hall"
             ash and scarred along her flank where something long ago tried and failed."
         CS_NO_ADJ 'ash'
             "A deep layer of fine grey ash coats the chamber floor, drifting like snow under
-            your boots and smelling faintly of ancient fires.",
+            your boots and smelling faintly of long-dead fires.",
         before [;
 #Iftrue (#version_number == 6);
         Picture:

@@ -492,6 +492,10 @@ s
 n
 n
 cast freeze on mud
+s
+n
+u
+n
 cast animate on right
 cast teleport
 n

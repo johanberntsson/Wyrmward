@@ -2224,7 +2224,6 @@ down the slope from somewhere above, and the floor beneath it is thick with mud.
 
 Two statues guard the passage.
 
-
 > x tunnel
 The passage slopes steeply away, its muddy floor glistening in the dim light.
 
@@ -2300,7 +2299,6 @@ A steep passage dropping away from the rock hall into the dark. Water trickles
 down the slope from somewhere above, and the floor beneath it is thick with mud.
 
 Two statues guard the passage.
-
 
 > n
 You attempt to march past the sentinels, but as you step between them, an
