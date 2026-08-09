@@ -18,8 +18,8 @@
 
 Constant Story            "Wyrmward";
 Constant Headline     "^(c) 1996, 2005, 2026 Johan Berntsson. Type ~help~ or ~h~ for instructions.^";
-Release 0;
-Serial "260731";
+Release 1;
+Serial "260816";
 
 Array UUID_ARRAY string "UUID://C958551F-A82B-47DD-994B-FFB657010CA4//";
 #Ifdef UUID_ARRAY;#Endif;
@@ -57,7 +57,7 @@ Constant OPTIONAL_LANGUAGE_NUMBER;
 !Constant OPTIONAL_LIST_TOGETHER;
 !Constant OPTIONAL_PRINT_SCENERY_CONTENTS;
 !Constant OPTIONAL_SCORED;
-!Constant OPTIONAL_FULL_SCORE; ! Comment out NO_SCORE when uncommenting this
+Constant OPTIONAL_FULL_SCORE; ! Comment out NO_SCORE when uncommenting this
 !Constant OPTIONAL_SIMPLE_DOORS;
 !Constant OPTIONAL_MANUAL_SCOPE;
 !Constant OPTIONAL_MANUAL_SCOPE_BOOST;
@@ -72,7 +72,37 @@ Constant DEATH_MENTION_UNDO;
 ! Define any library constants you need here, like MAX_SCORE, AMUSING_PROVIDED,
 ! MAX_CARRIED, SACK_OBJECT,    etc.
 
-Constant MAX_SCORE = 50;
+Constant MAX_SCORE = 40;
+Constant TASKS_PROVIDED;
+Constant NUMBER_TASKS 10;
+
+Constant TASK_GETTING_BLUE_STONE = 0;
+Constant TASK_GETTING_RED_STONE = 1;
+Constant TASK_GETTING_GREEN_STONE = 2;
+Constant TASK_PRAYING_TO_STATUE = 3;
+Constant TASK_GIVING_MONEY_TO_BEGGAR = 4;
+Constant TASK_FINDING_ANIMATE_SPELL = 5;
+Constant TASK_HEALING_DRAGON =  6;
+Constant TASK_GETTING_DEATH_SPELL = 7;
+Constant TASK_KILLING_DEMON = 8;
+Constant TASK_RESURRECTING_ISTAR = 9;
+
+Array task_scores -> 4 4 4 3 3 5 3 5 4 5;
+[ PrintTaskName task;
+    switch(task) {
+        TASK_FINDING_ANIMATE_SPELL: "finding the animation spell.";
+        TASK_HEALING_DRAGON: "healing the wounded dragon.";
+        TASK_GETTING_DEATH_SPELL: "getting the death spell.";
+        TASK_KILLING_DEMON: "killing the demon.";
+        TASK_RESURRECTING_ISTAR: "resurrecting Istar.";
+        TASK_GETTING_BLUE_STONE: "getting the blue stone.";
+        TASK_GETTING_RED_STONE: "getting the red stone.";
+        TASK_GETTING_GREEN_STONE: "getting the green stone.";
+        TASK_PRAYING_TO_STATUE: "praying to the statue.";
+        TASK_GIVING_MONEY_TO_BEGGAR: "giving money to the beggar.";
+    }
+];
+
 Constant INITIAL_LOCATION_VALUE = Meadow;
 Constant SACK_OBJECT            = BackPack;
 Constant CUSTOM_PLAYER_OBJECT   = PlayerObject;
@@ -193,6 +223,8 @@ Include "ext_z6graphics.h";
      Z6MoveCursor_Chars(1, _row);
 ];
 #IfNot;
+![ PlaySound snd; print "Sound ", snd, "^"; ];
+![ ShowPicture pic; print "Picture ", pic, "^"; ];
 [ PlaySound; ];
 [ ShowPicture; ];
 #Endif;
@@ -223,6 +255,7 @@ Verb  'utter' 'chant' 'invoke' 'recite' 'evoke' 'conjure' * -> MagicHelp * noun 
 ];
 Verb 'use'
     * noun=IsSpell -> MagicHelp
+    * noun 'on' noun -> MagicHelp
     * noun -> Use;
 [ UseSub; "You'll need to be more specific. Try commands like READ, EXAMINE, OPEN, or CAST instead."; ];
 
@@ -239,19 +272,19 @@ Object SpellBook "spellbook"
             return self.instructions();
         ],
         before [ a;
-            Open, Close:
-                "The book can read the thoughts of its owner, and so it will always show you
-                 the information you need. There is therefore no need to open, close or leaf
-                 through it. Many lives have been saved by this magical property.";
-            Read:
-                print "ARCANE MAGIC FOR COMPLETE NOVICES:^^";
-                for(a=child(self): a~=nothing: a=sibling(a))
-                    print (The) a, ": (", (string) a.comment, ").^";
-                return self.instructions();
+        Open, Close:
+            "The book can read the thoughts of its owner, and so it will always show you
+             the information you need. There is therefore no need to open, close or leaf
+             through it. Many lives have been saved by this magical property.";
+        Read:
+            print "ARCANE MAGIC FOR COMPLETE NOVICES:^^";
+            for(a=child(self): a~=nothing: a=sibling(a))
+                print (The) a, ": (", (string) a.comment, ").^";
+            return self.instructions();
         ],
         instructions [;
-            "^[Use ~cast copy on <spell>~ to add new spells to the spellbook, and 
-              ~cast <spell> on <someone or something>~ to use it.]";
+            "^[Use ~read spellbook~ to see your spells. To add new spells, use ~cast copy on <spell>~,
+            and then ~cast <spell> on <someone or something>~ to use it.]";
         ],
     has transparent;
 
@@ -265,18 +298,18 @@ Class CScroll
             rtrue;
         ],
         before [;
-!            Memorize:
-!                if(child(self) ofclass CSpell) <<Memorize (child(self))>>;
-            Read:
-                if(child(self)==nothing) "There is nothing written on the scroll.";
-                if(child(self) ofclass CSpellWithArgument) {
-                    <Examine self>;
-                } else {
-                    print "Do you want to read out the text on the scroll and cast the spell? ";
-                    if(YesOrNo()) (child(self)).activate();
-                    else <Examine self>;
-                }
-                rtrue;
+        !Memorize:
+        !    if(child(self) ofclass CSpell) <<Memorize (child(self))>>;
+        Read:
+            if(child(self)==nothing) "There is nothing written on the scroll.";
+            if(child(self) ofclass CSpellWithArgument) {
+                <Examine self>;
+            } else {
+                print "Do you want to read out the text on the scroll and cast the spell? ";
+                if(YesOrNo()) (child(self)).activate();
+                else <Examine self>;
+            }
+            rtrue;
         ]
     has transparent;
 
@@ -307,31 +340,29 @@ Class CSpell
                 (the) self, " to transfer the runes into your spellbook.";
             MagicHelpSub();
             rtrue;
+        !Memorize:
+        !    if(parent(self)~=SpellBook) {
+        !        print "You can only memorize spells written in ", (the) SpellBook, ".^";
+        !        rtrue;
+        !    }
+        !    if(GrabObject(SpellBook)) {
+        !        print "You must be holding ", (the) SpellBook, " first.^";
+        !        rfalse;
+        !    }
+        !    if(self.number>no_memorized_spells) self.number=0;
+        !    if(no_memorized_spells>=max_no_memorized_spells) {
+        !        print "You have already studied so much that you cannot learn any more
+        !                     spells. The words slip out of your memory as fast as you cram
+        !                     them in.^";
+        !        rtrue;
+        !    }
+        !    print "You concentrate and memorize ", (the) self;
+        !    if(self.number==0) print ".^";
+        !    else print " once more.^";
+        !    ++no_memorized_spells;
+        !    ++self.number;
+        !    rtrue;
         ],
-!        before [;
-!            Memorize:
-!                if(parent(self)~=SpellBook) {
-!                    print "You can only memorize spells written in ", (the) SpellBook, ".^";
-!                    rtrue;
-!                }
-!                if(GrabObject(SpellBook)) {
-!                    print "You must be holding ", (the) SpellBook, " first.^";
-!                    rfalse;
-!                }
-!                if(self.number>no_memorized_spells) self.number=0;
-!                if(no_memorized_spells>=max_no_memorized_spells) {
-!                    print "You have already studied so much that you cannot learn any more
-!                                 spells. The words slip out of your memory as fast as you cram
-!                                 them in.^";
-!                    rtrue;
-!                }
-!                print "You concentrate and memorize ", (the) self;
-!                if(self.number==0) print ".^";
-!                else print " once more.^";
-!                ++no_memorized_spells;
-!                ++self.number;
-!                rtrue;
-!        ],
         activate [obj retvalue;
             if(player has general)
                 "Your webbed fingers are far too clumsy to turn the fragile pages of your spellbook,
@@ -495,6 +526,19 @@ Verb 'sound' * -> Sound;
 [ SoundSub; "This version of the game doesn't have any sounds."; ];
 #Endif;
 
+Extend 'pray'
+    * 'to' topic -> Pray;
+
+Extend 'smell' replace
+    * -> SmellRoom
+    * noun -> Smell;
+[ SmellRoomSub; print_ret (string) MSG_SMELL_DEFAULT; ];
+
+Extend 'listen' replace
+    * -> ListenRoom
+    * 'to' noun -> Listen;
+[ ListenRoomSub; print_ret (string) MSG_LISTEN_DEFAULT; ];
+
 Extend 'examine' first
     * 'room'/'location' -> Look;
 
@@ -578,7 +622,7 @@ Verb 'thank' 'thanks'
 [ MagicResurrectSub; ResurrectSpell.activate(noun); ];
 ![ MagicTeleportSub;    TeleportSpell.activate(); ];
 ![ MagicKillSub;
-!    if(KillSpell in SpellBook) KillSpell.activate(noun);
+!    if(DeathSpell in SpellBook) DeathSpell.activate(noun);
 !    else <Attack noun>; ];
 [ AttackWithSub;
     if(second==Amulet) <<ThrowAt second noun>>;
@@ -646,7 +690,7 @@ Object PlayerObject "yourself"
             ResurrectSpell:
                 "This is a spell for raising the dead. Since you are not dead (yet), nothing
                 happens.";
-            KillSpell:
+            DeathSpell:
                 deadflag=1; "Suddenly you cease to exist.";
             }
         ],
@@ -764,11 +808,11 @@ Room Meadow "Meadow"
             ShowPicture(PIC_MEADOW);
             rtrue;
 #Endif;
-        Listen:
+        ListenRoom:
             "The wind rustles softly through the high grass and the heavy canopy overhead.
             Deeper in the trees a lone bird calls out, and then thinks better of it. The
             forest is unsettlingly still.";
-        Smell:
+        SmellRoom:
             "Wet earth, crushed weeds, and the sharp resin of pine needles drifting out of
             the dark forest. From the south, a faint whiff of woodsmoke hangs about the hut.";
         ],
@@ -815,7 +859,7 @@ Object -> Hut "hut"
             it leans heavily to one side as if weary from the elements. Thick, dark moss carpets the sagging
             thatch roof, and a thin wisp of acrid smoke curls sleepily from a crude stone chimney.",
         before [;
-            Enter: <<Go FAKE_S_OBJ>>;
+        Enter: <<Go FAKE_S_OBJ>>;
         ],
     has scenery concealed;
 
@@ -838,6 +882,7 @@ CScroll -> DirtyScroll "weathered scroll"
             air for some time.";
         ],
         before [;
+        Smell: "It smells of damp paper and wet grass.";
         Close, Tie: <<Tie Twine>>;
         Open, Untie: <<Untie Twine>>;
         Read:
@@ -896,12 +941,12 @@ Object f_tree "tree"
            "Oaks and pines of enormous age, so thick through the trunk that three men could
             not link hands around one. Nothing grows in their shade but moss.",
         before [;
-            Climb:
-                "The lowest branches are twenty feet up a trunk with nothing to grip, and the
-                canopy above them is thicker than the one you would be climbing out of.";
-            Take, Remove: "You'd need an axe.";
-            ],
-            found_in Meadow Forest ForestPath Mountain,
+        Climb:
+            "The lowest branches are twenty feet up a trunk with nothing to grip, and the
+            canopy above them is thicker than the one you would be climbing out of.";
+        Take, Remove: "You'd need an axe.";
+        ],
+        found_in Meadow Forest ForestPath Mountain,
     has scenery;
 
 Object f_roots "roots"
@@ -992,7 +1037,7 @@ Object HutDoor "door"
 [ ParseNameHutChimney _w _n;
     _w = NextWordStopped();
     while(_w == 'dark' or 'stone') { _w = NextWordStopped(); _n++; }
-    if(_w == 'flue' or 'chimney') _n++;
+    if(_w == 'flue' or 'chimney' or 'vapors' or 'vapours') _n++;
     return _n;
 ];
 
@@ -1034,10 +1079,10 @@ Room RemoteHut "Hut"
             ShowPicture(PIC_HUT);
             rtrue;
 #Endif;
-        Listen:
+        ListenRoom:
             "The fire in the hearth crackles softly, accompanied by the gentle, steady bubbling of the iron vessels
             and the crisp rustle of parchment as Istar turns a page.";
-        Smell:
+        SmellRoom:
             "The room is thick with the sharp tang of sulfur, burnt wood smoke, and the pungent, bitter aroma of
             strange alchemical vapours mingling with aged leather and dry parchment.";
         ],
@@ -1063,8 +1108,8 @@ Room RemoteHut "Hut"
             take the gilded box. The rock around it is scorched black, as though the ward on
             the box has had to defend itself more than once."
             CS_PARSE_NAME ParseNameHutChimney
-            "A dark stone flue built directly above the hearth, drawing the strange vapours
-             up and out of the cramped room."
+            "The chimney is a dark stone flue built directly above the hearth, drawing the
+            strange vapours up and out of the cramped room."
             CS_PARSE_NAME ParseNameHutFireplace
             "A low arch of blackened fieldstone, heaped with logs that burn a great deal
             hotter than logs ought to. Stained iron cauldrons stand in the
@@ -1131,10 +1176,10 @@ Object -> -> hut_doc "books"
             !The most interesting ones are about dragons and
             !their magic, but they are strictly theoretical and of little use to you.",
         before [;
-            Transfer, Take, Remove:
-                if(TestScope(Istar))
-                    "Istar swats your hand away from the desk. ~Leave that alone!
-                    Everything is arranged precisely as I need it.~";
+        Transfer, Take, Remove:
+            if(TestScope(Istar))
+                "Istar swats your hand away from the desk. ~Leave that alone!
+                Everything is arranged precisely as I need it.~";
         ],
         after [; Take, Remove: give self ~concealed; ],
     has concealed pluralname;
@@ -1155,32 +1200,32 @@ Object -> GoldBox "gilded box"
             if(children(self)>0) { print "^In the box is "; PrintContents(0, self); print ".^"; }
         ],
         before [;
-            Open, Close: 
-                "The box has no lock to speak of, but it is sealed by a potent ward. Only its
-                true owner, Istar, can safely open and close it.";
-            Transfer, Take, Remove, LetGo:
-                if(TestScope(Istar))
-                    "You reach for it, but a sharp, static shock bites at your fingers, forcing you to pull back.
-                   The box is anchored to the alcove by powerful protective spells designed to prevent theft
-                   and ward off damage.";
-            Receive:
-                if((noun ofclass CStone)==false)
-                    "The golden filigree brightens as you reach inside, and the ward pushes your hand
-                    gently but very firmly out again. The box stands open for the artefacts Istar is
-                    hunting, and for nothing else. It has no interest in your luggage.";
+        Open, Close: 
+            "The box has no lock to speak of, but it is sealed by a potent ward. Only its
+            true owner, Istar, can safely open and close it.";
+        Transfer, Take, Remove, LetGo:
+            if(TestScope(Istar))
+                "You reach for it, but a sharp, static shock bites at your fingers, forcing you to pull back.
+               The box is anchored to the alcove by powerful protective spells designed to prevent theft
+               and ward off damage.";
+        Receive:
+            if((noun ofclass CStone)==false)
+                "The golden filigree brightens as you reach inside, and the ward pushes your hand
+                gently but very firmly out again. The box stands open for the artefacts Istar is
+                hunting, and for nothing else. It has no interest in your luggage.";
         ],
         after [;
-            Receive:
-                if(children(self)==WantedStones-->0 && TestScope(Istar)) {
-                    print "Your mentor sees you place the last stone in the box and cries,
-                     ~The last stone! Now I can open the gate!~^^\
-                     He takes the stones out of the box and says, ~Come with me. Great tasks await.~
-                    Everything turns yellow as he reads a teleportation spell, and you are carried
-                    away to another place.^^";
-                    StartDaemon(EvilMaster);
-                    PlayerTo(GateRoom);
-                    rtrue;
-                }
+        Receive:
+            if(children(self)==WantedStones-->0 && TestScope(Istar)) {
+                print "Your mentor sees you place the last stone in the box and cries,
+                 ~The last stone! Now I can open the gate!~^^\
+                 He takes the stones out of the box and says, ~Come with me. Great tasks await.~
+                Everything turns yellow as he reads a teleportation spell, and you are carried
+                away to another place.^^";
+                StartDaemon(EvilMaster);
+                PlayerTo(GateRoom);
+                rtrue;
+            }
         ],
     has container open static;
 
@@ -1188,7 +1233,7 @@ Object -> Istar "Istar"
     with
         name 'master' 'mentor' 'teacher' 'old' 'wizard' 'istar',
         domagic [spell;
-            if(spell==KillSpell) rfalse;
+            if(spell==DeathSpell) rfalse;
             print (The) self, " stops the spell with a wave of his hand.
                   ~What foolishness are you up to? Pick on someone your own size.~^";
             rtrue;
@@ -1207,16 +1252,16 @@ Object -> Istar "Istar"
                 "Your mentor ponders something."), "^";
         ],
         react_after [;
-            Go:
-                switch(NumberOfNewStones()) {
-                0: rfalse;
-                1: print "As you enter the hut your old mentor says, ~I see you have found a
-                         new stone. Well done. Put it in the gilded box.~^^";
-                default: print "As you enter the hut your old mentor says, ~I see you have
-                               found more stones. Very good. If you keep up this pace we shall
-                               soon be done. Put the stones in the gilded box.~^^";
-                }
-                rfalse;
+        Go:
+            switch(NumberOfNewStones()) {
+            0: rfalse;
+            1: print "As you enter the hut your old mentor says, ~I see you have found a
+                     new stone. Well done. Put it in the gilded box.~^^";
+            default: print "As you enter the hut your old mentor says, ~I see you have
+                           found more stones. Very good. If you keep up this pace we shall
+                           soon be done. Put the stones in the gilded box.~^^";
+            }
+            rfalse;
         ],
         description [;
             "Time has not been kind to your old teacher. His once-proud silver beard is
@@ -1224,141 +1269,146 @@ Object -> Istar "Istar"
             etched into his face. Yet as he looks up at you, the familiar, brilliant spark
             of intellect still dances in his eyes.";
         ],
+        before [;
+        TalkTo:
+            "Istar adjusts his robes, eyeing you with sharp intensity. ~There is no time
+             for idle chatter. If you have questions, ask them directly.~";
+        ],
         life [w1 w2 c;
-            Order:
-                "~I would only slow you down, my boy, and there are eyes on this hut that I would
-                rather not lead across half the world. You go. I shall keep the box ready.~";
-            Ask, Tell:
-                w1 = 0;
-                w2 = 0;
-                wn=consult_from; c=consult_words; if(c>0) w1=NextWord();
-                if(w1=='the') { c=c-1; if(c>0) w1=NextWord(); }
-                if(c>1) w2=NextWord();
-                if(c>2) "What you cannot say in few words, probably isn't worth saying.";
-                if(second == BlackStone) { w1 = 'black'; w2 = 'stone'; }
-                if(second == RedStone) { w1 = 'red'; w2 = 'stone'; }
-                if(second == GreenStone) { w1 = 'green'; w2 = 'stone'; }
-                if(second == BlueStone) { w1 = 'blue'; w2 = 'stone'; }
-                if(w1 == 'gate')
-                    "~A door,~ he says, ~and on the other side of it, light. Nothing more than that,
-                    and nothing less. Read the folio, my boy, and stop making me say aloud what I
-                    have already written down properly.~";
-                if(w1 == 'paper' or 'papers' or 'book' or 'books')
-                    "Istar frowns and waves a hand protectively over the desk. ~Those are decades of
-                    notes, observations, and failed attempts; far too delicate for idle curiosity.
-                    Just concern yourself with what I handed you.~";
-                if(w1=='spellbook' || (w1 == 'spell' && w2 == 'book'))
-                    "~A wizard's most vital tool, my boy. Keep it close, and ensure you copy any magic
-                     you encounter into its pages. You never know when a spell might prove useful.~";
-                if(w1 == 'himself' or 'istar')
-                    "He waves a hand at the crooked walls, the smoking cauldrons, the mouldering
-                    thatch. ~You see what I have come to. Fifty years at the Academy, and this is
-                    what they let me keep. Still, the roof holds. Mostly.~";
-                if(w1 == 'academy')
-                    "His face darkens. ~The Arch-Mages felt something stirring in the dark and
-                    decided it must be me. I do not blame them for being frightened, my boy. I blame
-                    them for being lazy about it.~";
-                if(w1 == 'summary' or 'paper' or 'report' or 'folio')
-                    "~It is a long story and I have no time to tell it again. Read what I
-                    wrote instead.~";
-                if(w2 == 'stone' or 'stones') {
-                    if(w1 == 'black')
-                        "Istar gestures toward the gilded box. ~The stone of void is resting right here before us.
-                        Its power is potent, volatile, and deeply unsettling..~";
-                    else if(w1 == 'red')
-                        "Istar's eyes glint with memory. ~The Stone of Ember, as the ancients called it. It is
-                        said to burn with an inner fire that never dims.~";
-                    else if(w1 == 'green')
-                        "Istar frowns slightly, lowering his voice. ~The Stone of Verdure. Bound to the root, 
-                        coil, and life force of the wild earth.~";
-                    else if(w1 == 'blue')
-                        "Istar nods slowly. ~The Stone of Tides. Woven with the essence of deep waters and
-                        tempestuous winds.~";
-                    else
-                        "Istar scoffs, shaking his head. ~That is no stone of power, just ordinary rubble.
-                        Do not let your imagination wander.~";
-                }
-                if(w1 == 'stone' or 'stones')
-                    "He taps the folio in your hands. ~Elemental stones. Four of them, cut long
-                    before the first cities were built. I have one. The others lie scattered across
-                    half the world, and I am too old and too closely watched to go after them
-                    myself.~";
-                if(w1 == 'magic' or 'spell' or 'spells')
-                    "~You ought to know what magic is by now. But remember that there are
-                    several kinds of magic. Lately I have tried to explore the mighty magic
-                    that demons and dragons use. That, of course, is why my colleagues turned
-                    against me. They are jealous and afraid.~";
-                if(w1 == 'white' or 'gate')
-                     "~The only way I know of to stop the return of the Old Gods is to open the
-                     gate to another dimension, where we can draw on white magic. I know how to
-                     find the gate, but I need the stones to open it. I cannot leave the hut, so
-                     it is up to you to save us all.~";
-                if(w1 == 'gods' || (w1 == 'black' or 'old' && w2 == 'gods'))
-                     "~I have studied black magic for a long time, and I can tell you that its
-                     power is dangerous and mighty. It seems to stem from beings that once lived
-                     on earth, commonly called the Old Gods. I fear they will soon return, and
-                     that they will crush us like insects unless we manage to stop them.~";
-                if(w1 == 'potions' or 'liquids' or 'ingredients')
-                     "~Touch nothing. I am in the middle of an experiment.~";
-                if(w1 == 'demon' or 'demons')
-                    "Istar looks up, honestly puzzled. ~A demon? My boy, if there were a demon within
-                    a hundred leagues of this hut, I should certainly have noticed.~";
-                if(w1 == 'dragons' or 'dragon')
-                    "~Yes, dragons truly are fascinating. They are greedy and follow their own
-                    moral code, but I would not call them evil. They do value their possessions
-                    highly, and stealing from a dragon is not to be recommended. More interesting
-                    to us is that they have great knowledge of magic. They know spells more
-                    advanced than any of our best wizards can master. But they know the worth of
-                    their knowledge. No dragon has ever taught its arts to a human. They would
-                    rather die.~";
-                if(w1 == 'me' or 'myself')
-                     "~You were always my favourite pupil, and I knew you would help me.~";
-                if(w1 == 'hut' or 'forest')
-                     "~I may live a little far out in the wilderness, but no one disturbs me here.~";
-                if(w1 == 'box')
-                    "~A wizard's strongbox,~ he says. ~Nothing goes into it that I have not made room
-                    for, and nothing comes out that I have not called for. The stones will be safe
-                    in there until the hour I need them.~";
-                if(w1 == 'teleportation')
-                    "~I made this spell to ease your search. It will carry you close to the stones.~";
-                if(w1 == 'scroll' or 'parchment' || w2 == 'scroll' or 'parchment') {
-                    if(GiveOrShowDirtyScroll()) rtrue;
-                }
-                "Istar shakes his head dismissively. ~That matters little right now. Pay attention to what is at hand.~";
-            Answer:
-                "~Later, my boy, later,~ says Istar, waving the greeting away. ~Read the folio
-                first. Everything I could say to you is already written in it, and written better.~";
-            Show, Give:
-                if(noun == SpellBook)
-                    "He leafs through a few pages and hands it back with a fond, slightly wistful
-                    smile. ~The same book. You have kept it well. Whatever else the Academy did to
-                    you, it taught you to look after your tools.~";
-                if(noun ofclass CStone) <<Ask self noun>>;
-                !if(noun==PlayerObject || noun==DirtyScroll || noun==Folio)
+        Order:
+            "~I would only slow you down, my boy, and there are eyes on this hut that I would
+            rather not lead across half the world. You go. I shall keep the box ready.~";
+        Ask, Tell:
+            w1 = 0;
+            w2 = 0;
+            wn=consult_from; c=consult_words; if(c>0) w1=NextWord();
+            if(w1=='the') { c=c-1; if(c>0) w1=NextWord(); }
+            if(c>1) w2=NextWord();
+            if(c>2) "What you cannot say in few words, probably isn't worth saying.";
+            if(second == BlackStone) { w1 = 'black'; w2 = 'stone'; }
+            if(second == RedStone) { w1 = 'red'; w2 = 'stone'; }
+            if(second == GreenStone) { w1 = 'green'; w2 = 'stone'; }
+            if(second == BlueStone) { w1 = 'blue'; w2 = 'stone'; }
+            if(w1 == 'gate')
+                "~A door,~ he says, ~and on the other side of it, light. Nothing more than that,
+                and nothing less. Read the folio, my boy, and stop making me say aloud what I
+                have already written down properly.~";
+            if(w1 == 'paper' or 'papers' or 'book' or 'books')
+                "Istar frowns and waves a hand protectively over the desk. ~Those are decades of
+                notes, observations, and failed attempts; far too delicate for idle curiosity.
+                Just concern yourself with what I handed you.~";
+            if(w1=='spellbook' || (w1 == 'spell' && w2 == 'book'))
+                "~A wizard's most vital tool, my boy. Keep it close, and ensure you copy any magic
+                 you encounter into its pages. You never know when a spell might prove useful.~";
+            if(w1 == 'himself' or 'istar')
+                "He waves a hand at the crooked walls, the smoking cauldrons, the mouldering
+                thatch. ~You see what I have come to. Fifty years at the Academy, and this is
+                what they let me keep. Still, the roof holds. Mostly.~";
+            if(w1 == 'academy')
+                "His face darkens. ~The Arch-Mages felt something stirring in the dark and
+                decided it must be me. I do not blame them for being frightened, my boy. I blame
+                them for being lazy about it.~";
+            if(w1 == 'summary' or 'paper' or 'report' or 'folio')
+                "~It is a long story and I have no time to tell it again. Read what I
+                wrote instead.~";
+            if(w2 == 'stone' or 'stones') {
+                if(w1 == 'black')
+                    "Istar gestures toward the gilded box. ~The stone of void is resting right here before us.
+                    Its power is potent, volatile, and deeply unsettling..~";
+                else if(w1 == 'red')
+                    "Istar's eyes glint with memory. ~The Stone of Ember, as the ancients called it. It is
+                    said to burn with an inner fire that never dims.~";
+                else if(w1 == 'green')
+                    "Istar frowns slightly, lowering his voice. ~The Stone of Verdure. Bound to the root, 
+                    coil, and life force of the wild earth.~";
+                else if(w1 == 'blue')
+                    "Istar nods slowly. ~The Stone of Tides. Woven with the essence of deep waters and
+                    tempestuous winds.~";
+                else
+                    "Istar scoffs, shaking his head. ~That is no stone of power, just ordinary rubble.
+                    Do not let your imagination wander.~";
+            }
+            if(w1 == 'stone' or 'stones')
+                "He taps the folio in your hands. ~Elemental stones. Four of them, cut long
+                before the first cities were built. I have one. The others lie scattered across
+                half the world, and I am too old and too closely watched to go after them
+                myself.~";
+            if(w1 == 'magic' or 'spell' or 'spells')
+                "~You ought to know what magic is by now. But remember that there are
+                several kinds of magic. Lately I have tried to explore the mighty magic
+                that demons and dragons use. That, of course, is why my colleagues turned
+                against me. They are jealous and afraid.~";
+            if(w1 == 'white' or 'gate')
+                 "~The only way I know of to stop the return of the Old Gods is to open the
+                 gate to another dimension, where we can draw on white magic. I know how to
+                 find the gate, but I need the stones to open it. I cannot leave the hut, so
+                 it is up to you to save us all.~";
+            if(w1 == 'gods' || (w1 == 'black' or 'old' && w2 == 'gods'))
+                 "~I have studied black magic for a long time, and I can tell you that its
+                 power is dangerous and mighty. It seems to stem from beings that once lived
+                 on earth, commonly called the Old Gods. I fear they will soon return, and
+                 that they will crush us like insects unless we manage to stop them.~";
+            if(w1 == 'potions' or 'liquids' or 'ingredients')
+                 "~Touch nothing. I am in the middle of an experiment.~";
+            if(w1 == 'demon' or 'demons')
+                "Istar looks up, honestly puzzled. ~A demon? My boy, if there were a demon within
+                a hundred leagues of this hut, I should certainly have noticed.~";
+            if(w1 == 'dragons' or 'dragon')
+                "~Yes, dragons truly are fascinating. They are greedy and follow their own
+                moral code, but I would not call them evil. They do value their possessions
+                highly, and stealing from a dragon is not to be recommended. More interesting
+                to us is that they have great knowledge of magic. They know spells more
+                advanced than any of our best wizards can master. But they know the worth of
+                their knowledge. No dragon has ever taught its arts to a human. They would
+                rather die.~";
+            if(w1 == 'me' or 'myself')
+                 "~You were always my favourite pupil, and I knew you would help me.~";
+            if(w1 == 'hut' or 'forest')
+                 "~I may live a little far out in the wilderness, but no one disturbs me here.~";
+            if(w1 == 'box')
+                "~A wizard's strongbox,~ he says. ~Nothing goes into it that I have not made room
+                for, and nothing comes out that I have not called for. The stones will be safe
+                in there until the hour I need them.~";
+            if(w1 == 'teleportation')
+                "~I made this spell to ease your search. It will carry you close to the stones.~";
+            if(w1 == 'scroll' or 'parchment' || w2 == 'scroll' or 'parchment') {
                 if(GiveOrShowDirtyScroll()) rtrue;
+            }
+            "Istar shakes his head dismissively. ~That matters little right now. Pay attention to what is at hand.~";
+        Answer:
+            "~Later, my boy, later,~ says Istar, waving the greeting away. ~Read the folio
+            first. Everything I could say to you is already written in it, and written better.~";
+        Show, Give:
+            if(noun == SpellBook)
+                "He leafs through a few pages and hands it back with a fond, slightly wistful
+                smile. ~The same book. You have kept it well. Whatever else the Academy did to
+                you, it taught you to look after your tools.~";
+            if(noun ofclass CStone) <<Ask self noun>>;
+            !if(noun==PlayerObject || noun==DirtyScroll || noun==Folio)
+            if(GiveOrShowDirtyScroll()) rtrue;
         ],
         react_before [;
-            Go, Exit:
-                if(selected_direction && selected_direction ~= n_to && selected_direction ~= out_to) rfalse;
-                if(Folio hasnt general)
-                    "Istar has only just handed you his folio. You ought to hear what he has to say before leaving.";
-                if(BlackStone in self) {
-                    move BlackStone to GoldBox;
-                    move SilverScroll to player;
-                    print "^As you turn towards the door to leave, Istar calls out,
-                          ~Before you go, I should show you my stone.~ He picks up
-                          a black stone and places it in ", (the) GoldBox,
-                          ". ~If you find more stones, I want you to put them in the box. Take
-                          this too,~ he says, handing you a silvery scroll. ~The stones are far
-                          too distant for you to reach on foot. Copy this teleportation spell into
-                          your spellbook and you can travel faster.~^";
-                    rtrue;
-                }
-                if(IsCarried(Folio) && TestScope(Folio)) {
-                    move Folio to RemoteHut;
-                    print "^~It is safest that this stays here,~ says ", (the) Istar,
-                          ", taking ", (the) Folio, " from your hands before you step outside.^^";
-                }
+        Go, Exit:
+            if(selected_direction && selected_direction ~= n_to && selected_direction ~= out_to) rfalse;
+            if(Folio hasnt general)
+                "Istar has only just handed you his folio. You ought to hear what he has to say before leaving.";
+            if(BlackStone in self) {
+                move BlackStone to GoldBox;
+                move SilverScroll to player;
+                print "^As you turn towards the door to leave, Istar calls out,
+                      ~Before you go, I should show you my stone.~ He picks up
+                      a black stone and places it in ", (the) GoldBox,
+                      ". ~If you find more stones, I want you to put them in the box. Take
+                      this too,~ he says, handing you a silvery scroll. ~The stones are far
+                      too distant for you to reach on foot. Copy this teleportation spell into
+                      your spellbook and you can travel faster.~^";
+                rtrue;
+            }
+            if(IsCarried(Folio) && TestScope(Folio)) {
+                move Folio to RemoteHut;
+                print "^~It is safest that this stays here,~ says ", (the) Istar,
+                      ", taking ", (the) Folio, " from your hands before you step outside.^^";
+            }
         ],
     has animate proper;
 
@@ -1383,7 +1433,7 @@ Object -> Istar "Istar"
             move AnimateSpell to DirtyScroll;
             give DirtyScroll general; ! It's been opened and its contents revealed
             give DirtyScroll open;
-            score=score+10;
+            Achieved(TASK_FINDING_ANIMATE_SPELL);
             rtrue;
         }
     }
@@ -1484,10 +1534,10 @@ Room TeleportRoom "On the Steppe"
             PlaySound(SND_EERIE, true);
             rtrue;
 #Endif;
-        Listen:
+        ListenRoom:
             "A low, persistent wind moans across the open plains, whistling softly as it passes through the ancient stone
             carvings of the four archways. Beyond the wind, the silence is absolute and immense.";
-        Smell:
+        SmellRoom:
             "The air is cool, crisp, and pure, carrying the clean scent of dry wild grass and sun-baked earth,
             untainted by smoke or civilization.";
         ],
@@ -1559,11 +1609,11 @@ Object -> Archways "archways"
         CS_NO_ADJ 'path'
             "A narrow dirt track, packed flat by years of passage, winding eastward through the trees.",
         before [;
-        Listen:
+        ListenRoom:
             "Ancient branches creak softly high above, and the wind whispers through a thick canopy of leaves.
             Somewhere in the dense foliage, wild birds call back and forth, accompanied by the occasional rustle of
             small forest creatures in the underbrush.";
-        Smell:
+        SmellRoom:
             "The air is cool, damp, and rich with the scents of decaying autumn leaves, wet bark, moss, and the
             earthy fragrance of wild mushrooms sprouting along the shaded path.";
         ],
@@ -1605,11 +1655,11 @@ Room ForestPath "Forest Path"
             ShowPicture(PIC_WOOD);
             rtrue;
 #Endif;
-        Listen:
+        ListenRoom:
             "The dense forest canopy muffles most sound, creating a heavy, expectant silence. Only a faint, distant
             howling of mountain wind and the unsettling crackle of a dry twig somewhere in the shadow-draped
             woods interrupt the stillness.";
-        Smell:
+        SmellRoom:
             "The air turns noticeably cooler, laden with the sharp, resinous smell of pine needles, damp granite dust,
             and a faint chill blowing down off the mountain slopes.";
         ],
@@ -1632,10 +1682,10 @@ Room Mountain "The Mountain"
         CS_NO_ADJ 'path'
             "A narrow track leads back west into the shadows of the dense forest.",
         before [;
-        Listen:
+        ListenRoom:
             "A brisk alpine wind rushes across the sheer stone face of the mountain, whistling through the sparse
             trees. From inside the nearby cave mouth comes a faint, echoing drip of water.";
-        Smell:
+        SmellRoom:
             "The rich, leafy smell of the western forest gives way here to the sharp scent of cold rock.";
         ],
         w_to ForestPath, n_to Cave, in_to Cave,
@@ -1703,10 +1753,10 @@ Room Cave "Cave"
         CS_NO_ADJ 'tunnel'
         "A dark, rough-hewn passage leads further north into the heart of the mountain.",
         before [;
-        Listen:
+        ListenRoom:
             "Drips of water fall rhythmically from unseen stalactites in the high, shadowy ceiling, splashing
             into small pools below. Your own breathing echoes softly off the damp stone walls.";
-        Smell:
+        SmellRoom:
             "The room is cool and moist, filled with the heavy scent of thick mud, damp rock, and stagnant
             water, with just a hint of fresh air wafting in from the south entrance.";
         ],
@@ -1829,10 +1879,10 @@ DarkRoom MountainHall "The Rock Hall"
             "Rows of dusty wooden crates and heavy wrapped packages are stacked high
             against the stone walls.",
         before [;
-        Listen:
+        ListenRoom:
             "The hall is unnaturally still. Draughts off the northern slope whisper around
             the wooden crates, carrying a hollow echo up from the depths below.";
-        Smell:
+        SmellRoom:
             "The room smells heavily of dry dust, old timber, and age. Beneath the stale air lingers a faint,
             bitter odour of mildew from the decaying packages.";
         ],
@@ -1949,10 +1999,10 @@ DarkRoom Tunnel "Tunnel"
             }
         ],
         before [;
-        Listen:
+        ListenRoom:
             "The continuous trickling and splashing of water flowing down the slick stone floor echoes
             wetly off the narrow tunnel walls.";
-        Smell:
+        SmellRoom:
             "A cool, heavy dampness fills the air, saturated with the strong, metallic odour of wet
             subterranean rock and stagnant mud.";
         ],
@@ -2221,11 +2271,11 @@ Room DragonHall "The Dragon Hall"
             if(Dragon.number>0)
                 "You wait. The great ragged breaths are coming slower each time.";
             "You keep very still and wait.";
-        Smell: "The air is thick and suffocating, reeking of sulfur, singed stone, and bitter ash.";
-        Listen:
+        ListenRoom:
             "A deep, rhythmic rumble travels up through the stone floor: the slow breathing
             of the beast. Every so often there is a soft metallic slither of coins as her
             great chest rises and settles again on the hoard.";
+        SmellRoom: "The air is thick and suffocating, reeking of sulfur, singed stone, and bitter ash.";
         Pray:
             "You ask, without much hope, for the life of a creature you have no business
             saving. No answer comes. Whatever was listening in the temple by the sea does
@@ -2253,18 +2303,18 @@ Object -> Treasure "treasure"
             "Coins, plate, cups and crowns lie heaped in drifts across the floor, most of it
             tarnished black with age. A fortune, and not one piece of it worth your life.",
         before [;
-            Take, Remove, Transfer:
-                if(Dragon.number>0)
-                    "Even now, with her blood soaking into the ash, you find you cannot
-                    quite bring yourself to put a hand into a dragon's hoard.";
-                if(TestScope(Dragon)) "You dare not even glance at the treasure while the
-                                                            dragon guards it.";
-                "Dragon gold brings no good.";
-            Examine: rfalse;
-            default:
-                if(TestScope(Dragon)) "You dare not even glance at the treasure while the
-                                                            dragon guards it.";
-                rfalse;
+        Take, Remove, Transfer:
+            if(Dragon.number>0)
+                "Even now, with her blood soaking into the ash, you find you cannot
+                quite bring yourself to put a hand into a dragon's hoard.";
+            if(TestScope(Dragon)) "You dare not even glance at the treasure while the
+                                                        dragon guards it.";
+            "Dragon gold brings no good.";
+        Examine: rfalse;
+        default:
+            if(TestScope(Dragon)) "You dare not even glance at the treasure while the
+                                                        dragon guards it.";
+            rfalse;
         ],
     has static;
 
@@ -2330,7 +2380,7 @@ Object -> Dragon "dragon"
                 print "The blood stops flowing and the wound in her throat closes. The dragon
                             is still in shock, but you have saved her life.^";
                 self.number=6;
-                score=score+10;
+                Achieved(TASK_HEALING_DRAGON);
                 rtrue;
             } else {
                 print_ret (The) self, " stops you with a short spell.";
@@ -2381,7 +2431,7 @@ Object -> Dragon "dragon"
                 if(c>1) w2=NextWord();
                 if(c>2) "What you cannot say in few words, probably isn't worth saying.";
 
-                if(self has general && KillSpell notin SpellBook) {
+                if(self has general && DeathSpell notin SpellBook) {
                     print
                         "The dragon focuses on you, and something like surprise crosses her face. ~A
                         wizard,~ she says. ~Yes, of course. It was your spell that closed my throat.~
@@ -2389,8 +2439,8 @@ Object -> Dragon "dragon"
                         return I shall give you the most precious thing I know.~^^
                         Your spellbook suddenly floats before you and opens itself.
                         A new spell is written on a blank page: the Death Spell.^";
-                    move KillSpell to SpellBook;
-                    score=score+10;
+                    move DeathSpell to SpellBook;
+                    Achieved(TASK_GETTING_DEATH_SPELL);
                     rtrue;
                 }
                 if(self.number>0) {
@@ -2581,10 +2631,10 @@ Room ChurchYard "Before a Temple"
             ShowPicture(PIC_CHURCH);
             rtrue;
 #Endif;
-        Listen:
+        ListenRoom:
             "The distant, rhythmic crashing of waves against the rocks below mingles with the gentle rustle of
             sea grass in the coastal breeze.";
-        Smell:
+        SmellRoom:
             "The crisp air is rich with the sharp, clean scent of brine and damp seaweed carried up from the
             shoreline, subtly laced with the earthy fragrance of pine from the nearby woods.";
         ],
@@ -2645,30 +2695,38 @@ Room Church "The Temple"
             "Ribbed stone vaults span the ceiling far overhead, dark with age and hung with
             cobwebs the size of bedsheets.",
         before [;
-            Pray:
-                if(self has general && player hasnt general) "You have already been answered.";
-                give self general;
-                if(player has general) {
-                    give player ~general;
-                    "You say another prayer, and once more you are answered. The change back is quite
-                    as painful as the change out was: the scales sink away, the webbing parts, and
-                    the fin withdraws along your spine. Your robe is the worse for all of it, but
-                    otherwise you are yourself again.";
-                }
+        Pray:
+            ! we've done it before
+            if(self has general && player hasnt general) {
                 give player general;
-                "You say a quick prayer for success in your quest, as you have so many times
-                before, but this time the answer comes back with alarming speed. Scales push up
-                through the skin of your arms. Your sight goes strange and swimming. Webbing
-                stretches between your fingers, your back begins to ache, and something sharp
-                breaks out along your spine and tears a long hole in your robe.^^
-                The whole business takes only a few minutes. At the end of it you are very
-                nearly a copy of the statue standing before you.";
-            Listen:
-                "The wind whistles hollowly through the broken leaded windows, echoing up into the high,
-                vaulted ceiling like a faint, haunting sigh.";
-            Smell:
-                "The vast space smells of cold stone, of damp moss creeping up between the
-                flagstones, and of the salt breeze blowing in through the broken windows.";
+                "You utter the prayer again, and the magic takes hold instantly. Skin tightens
+                into scales, fins burst through your torn robe, and your vision blurs into the aquatic.
+                In seconds, the fish-form takes you over once more.";
+            }
+            ! first time
+            give self general;
+            if(player has general) {
+                give player ~general;
+                "You say another prayer, and once more you are answered. The change back is quite
+                as painful as the change out was: the scales sink away, the webbing parts, and
+                the fin withdraws along your spine. Your robe is the worse for all of it, but
+                otherwise you are yourself again.";
+            }
+            give player general;
+            Achieved(TASK_PRAYING_TO_STATUE);
+            "You say a quick prayer for success in your quest, as you have so many times
+            before, but this time the answer comes back with alarming speed. Scales push up
+            through the skin of your arms. Your sight goes strange and swimming. Webbing
+            stretches between your fingers, your back begins to ache, and something sharp
+            breaks out along your spine and tears a long hole in your robe.^^
+            The whole business takes only a few minutes. At the end of it you are very
+            nearly a copy of the statue standing before you.";
+        ListenRoom:
+            "The wind whistles hollowly through the broken leaded windows, echoing up into the high,
+            vaulted ceiling like a faint, haunting sigh.";
+        SmellRoom:
+            "The vast space smells of cold stone, of damp moss creeping up between the
+            flagstones, and of the salt breeze blowing in through the broken windows.";
         ],
         w_to ChurchYard,
         out_to ChurchYard,
@@ -2733,10 +2791,10 @@ Room Beach "The Beach"
                 with it. Fins and webbed hands drive you down through the green water towards the bottom...^^";
             PlayerTo(OceanFloor);
             rtrue;
-        Listen:
+        ListenRoom:
             "The thunderous roar of crashing waves dominates the shore, followed by the wet, rushing hiss
             of foamy surf receding over pebbles and the sharp cries of gulls high above.";
-        Smell:
+        SmellRoom:
             "The air is heavy with the pungent, bracing scent of ocean spray, wet kelp, and damp, sun-baked sand.";
         ],
         cheap_scenery
@@ -2798,12 +2856,12 @@ Room OceanFloor "The Sea Floor"
             "Fine pale sand, drawn into long even ripples by the tide and marked here and
             there by the trail of something that buried itself as you came down.",
         before [;
-            Swim: <<Go FAKE_U_OBJ>>;
-            Listen:
-                "Submerged beneath the surface, the noisy surf is reduced to a dull, soothing rumble far above.";
-            Smell:
-                "Whatever the sea has to tell you, it does not tell it through your nose. You try
-                anyway, and get a mouthful of cold salt water for your trouble.";
+        Swim: <<Go FAKE_U_OBJ>>;
+        ListenRoom:
+            "Submerged beneath the surface, the noisy surf is reduced to a dull, soothing rumble far above.";
+        SmellRoom:
+            "Whatever the sea has to tell you, it does not tell it through your nose. You try
+            anyway, and get a mouthful of cold salt water for your trouble.";
         ],
         u_to Beach,
         n_to Beach,
@@ -2881,10 +2939,10 @@ Room VillageRoad "The Country Road"
                 "The beggar keeps snoring.";
             }
 #Endif;
-        Listen:
+        ListenRoom:
             "Dry corn leaves rustle pleasantly in the warm breeze, occasionally accompanied by the faint chattering
             of birds in the oak tree and distant murmurs carried from the village.";
-        Smell:
+        SmellRoom:
             "The warm air carries the rich scent of sun-baked dirt, ripe corn, and dry oak bark, undercut by the faint,
             stale odour of unwashed rags from the beggar.";
         ],
@@ -2950,6 +3008,7 @@ Object -> Beggar "beggar"
                 if(noun==SilverCoin) {
                     remove noun;
                     move Amulet to player;
+                    Achieved(TASK_GIVING_MONEY_TO_BEGGAR);
                     remove self;
                     "The beggar is overwhelmed by your generosity. It has clearly been a long time
                     since he last held a silver coin. From under his rags he pulls out an amulet on
@@ -2960,18 +3019,18 @@ Object -> Beggar "beggar"
                 Plain bread or coin is all I ask.~";
         ],
         before [;
-            TalkTo:
-                "The beggar looks up at you with weary, cloudy eyes. ~Spare a copper for a poor soul, sir?~ he rasps, shuffling
-                his palm forward. ~A bite of bread or a coin to warm my bones, and I'd be eternally grateful.~
-                He seems too weak and distracted by hunger to offer much conversation.";
-            Search:
-                "The poor man has nothing on him save the threadbare rags on his back. Pulling at his clothes would be needlessly cruel.";
-            Attack:
-                "You could easily overpower the frail old man, but what kind of hero attacks a helpless beggar on the roadside?";
-            Smell:
-                "Dust, old sweat and unwashed wool, warmed by the sun.";
-            Push, PushDir, Transfer:
-                "There is no reason to move him. He is not in your way, and he is exactly where he wants to be.";
+        TalkTo:
+            "The beggar looks up at you with weary, cloudy eyes. ~Spare a copper for a poor soul, sir?~ he rasps, shuffling
+            his palm forward. ~A bite of bread or a coin to warm my bones, and I'd be eternally grateful.~
+            He seems too weak and distracted by hunger to offer much conversation.";
+        Search:
+            "The poor man has nothing on him save the threadbare rags on his back. Pulling at his clothes would be needlessly cruel.";
+        Attack:
+            "You could easily overpower the frail old man, but what kind of hero attacks a helpless beggar on the roadside?";
+        SmellRoom:
+            "Dust, old sweat and unwashed wool, warmed by the sun.";
+        Push, PushDir, Transfer:
+            "There is no reason to move him. He is not in your way, and he is exactly where he wants to be.";
         ],
         add_to_scope BeggarHands BeggarRags Amulet,
     has animate;
@@ -3064,29 +3123,29 @@ Object SleepingBeggar "sleeping beggar"
                     "You hold the silver where he would see it if his eyes were open. They are not.";
         ],
         before [;
-            Attack:
-                "Striking a starving man was unworthy of you when he was awake. Asleep, it does
-                not bear thinking about.";
-            Search:
-                "He is asleep and helpless, and you are not going through a sleeping man's
-                clothes on a public road.";
-            Push, PushDir, Transfer:
-                "There is no reason to move him. He is not in your way, and he is exactly where he wants to be.";
-            Shake:
-                "Rousing a sleeping man out of the shade at midday, so that you can give him
-                money, would be a strange sort of kindness. Let him sleep and come back later.";
-            WakeOther:
-                "You shake his shoulder. He grunts, rolls further into the shade and settles down
-                again. He will get up when the heat goes out of the day and not a moment sooner.";
+        Attack:
+            "Striking a starving man was unworthy of you when he was awake. Asleep, it does
+            not bear thinking about.";
+        Search:
+            "He is asleep and helpless, and you are not going through a sleeping man's
+            clothes on a public road.";
+        Push, PushDir, Transfer:
+            "There is no reason to move him. He is not in your way, and he is exactly where he wants to be.";
+        Shake:
+            "Rousing a sleeping man out of the shade at midday, so that you can give him
+            money, would be a strange sort of kindness. Let him sleep and come back later.";
+        WakeOther:
+            "You shake his shoulder. He grunts, rolls further into the shade and settles down
+            again. He will get up when the heat goes out of the day and not a moment sooner.";
         ],
         react_before [;
-            Wait:
-                "Time passes.^^The beggar sleeps on, and the shadow of the oak creeps a little further across the road.";
-            Smell:
-                "Dust, old sweat and unwashed wool, warmed by the sun.";
-            Listen:
-                "He snores with the steady, unhurried conviction of a man who has had a good deal
-                of practice at sleeping outdoors.";
+        Wait:
+            "Time passes.^^The beggar sleeps on, and the shadow of the oak creeps a little further across the road.";
+        Smell:
+            "Dust, old sweat and unwashed wool, warmed by the sun.";
+        Listen:
+            "He snores with the steady, unhurried conviction of a man who has had a good deal
+            of practice at sleeping outdoors.";
         ],
         domagic [spell;
             if(spell == HealSpell)
@@ -3130,11 +3189,11 @@ Room Village "The Village"
         Wait:
             if(Hawker in self) "You wait, observing the hawker.";
             rfalse;
-        Listen:
+        ListenRoom:
             "The road is alive with a cheerful din: traders bawling their wares, villagers
             haggling boisterously over prices, livestock lowing somewhere behind the houses,
             and the dry scrape of wooden cups sliding across the hawker's bench.";
-        Smell:
+        SmellRoom:
             "A rich tapestry of market smells fills the air: fresh-baked bread, roasted meats, and sweet berries from
             the stalls, mingled with the earthy scents of livestock, timber, and chimney smoke.";
         ],
@@ -3158,6 +3217,7 @@ Room Village "The Village"
                 "^The hawker glances around nervously, tapping his foot. ~Careful now. You'll draw a crowd
                 with fancy stuff like that, and I like to keep my business quiet.~";
             }
+            spell = 0; ! avoid compiler warning
         ],
         u_to "Nothing above you but thatch, chimney smoke and a hard blue sky.",
         n_to "The village road runs east and west, and the houses stand shoulder to shoulder in between.",
@@ -3185,6 +3245,7 @@ Object -> Bench "bench"
                     give RedStone ~general; ! no more hawker puzzles
                     move RedStone to player;
                     give RedStone ~scenery;
+                    Achieved(TASK_GETTING_RED_STONE);
                     remove SleepingBeggar;
                     move Beggar to VillageRoad;
                     remove Hawker;
@@ -3221,38 +3282,38 @@ Class HawkerCup
             "A plain beechwood cup, upturned and giving nothing away. Staring at it will not
             make it transparent.",
         before [x;
-            Search, LookUnder:
-                "The hawker's palm settles flat on top of it. ~Now, now, master. You point and I
-                lift. That is the whole of the game.~";
-            Take, Remove, Transfer, PointAt:
-                if(Hawker.number==4 or 5) {
-                    Hawker.number=6;
-                    if(self==Cup1) {
-                        print
-                            "The hawker lifts the cup, and sure enough, the stone is there. ~Beginner's
-                            luck,~ he mutters. ~Since that one was free, you win nothing. But win the next
-                            one and you take twenty silver coins off me.~ He picks up the stone and sets the
-                            cups back in a neat row.";
-                    } else {
-                        print
-                            "The hawker lifts the cup, but there is no stone under it. ~Bad luck,
-                            but it will surely go better next time,~ he says encouragingly. He lifts the
-                            left cup and produces the stone, then sets the cups back in a neat row.";
-                    }
-                    "^^You recognize the stone! Apart from its red colour, it is identical to your
-                    mentor's black stone.";
+        Search, LookUnder:
+            "The hawker's palm settles flat on top of it. ~Now, now, master. You point and I
+            lift. That is the whole of the game.~";
+        Take, Remove, Transfer, PointAt:
+            if(Hawker.number==4 or 5) {
+                Hawker.number=6;
+                if(self==Cup1) {
+                    print
+                        "The hawker lifts the cup, and sure enough, the stone is there. ~Beginner's
+                        luck,~ he mutters. ~Since that one was free, you win nothing. But win the next
+                        one and you take twenty silver coins off me.~ He picks up the stone and sets the
+                        cups back in a neat row.";
+                } else {
+                    print
+                        "The hawker lifts the cup, but there is no stone under it. ~Bad luck,
+                        but it will surely go better next time,~ he says encouragingly. He lifts the
+                        left cup and produces the stone, then sets the cups back in a neat row.";
                 }
-                if(Hawker.number==10 or 11) {
-                    Hawker.number=6;
-                    if(self == Cup1) x = Cup2;
-                    if(self == Cup2) x = Cup3;
-                    if(self == Cup3) x = Cup1;
-                    "The hawker lifts the cup, but there is no stone under it. ~Bad luck,
-                    but it will surely go better next time!~ he says encouragingly. He lifts ",
-                    (the) x, " and produces the stone, then sets the cups back in a neat row.";
-                }
-                "The hawker's hand arrives on the bench a moment before yours does. ~The cups
-                stay with me, master. You are welcome to point at them all day.~";
+                "^^You recognize the stone! Apart from its red colour, it is identical to your
+                mentor's black stone.";
+            }
+            if(Hawker.number==10 or 11) {
+                Hawker.number=6;
+                if(self == Cup1) x = Cup2;
+                if(self == Cup2) x = Cup3;
+                if(self == Cup3) x = Cup1;
+                "The hawker lifts the cup, but there is no stone under it. ~Bad luck,
+                but it will surely go better next time!~ he says encouragingly. He lifts ",
+                (the) x, " and produces the stone, then sets the cups back in a neat row.";
+            }
+            "The hawker's hand arrives on the bench a moment before yours does. ~The cups
+            stay with me, master. You are welcome to point at them all day.~";
         ],
         domagic [spell;
             if(spell==AnimateSpell) {
@@ -3341,28 +3402,32 @@ Object -> Hawker "hawker"
             "A sly fellow with quick eyes and even quicker hands, dressed in a colourful tunic.
             He grins at you like a cat that just found the cream.",
         react_before [;
-            SayDefault:
-                if(self.number == 5 or 11)
-                    "~Come on now, give the crowd a show! Point, don't just talk,~ says the hawker,
-                     motioning at the cups.";
-                else
-                    "The hawker ignores you, far too busy shuffling cups and watching the crowd
-                    to care about idle chatter.";
-            Go:
-                if(selected_direction == w_to or e_to) {
-                    if((self.number<6 && self.number>1)) {
-                        print "^~But we were in the middle of a game!~ says the hawker despondently as
-                              you leave.^^";
-                        self.number=1;
-                    } else if(self.number<11 && self.number>7) {
-                        print "^~But we were in the middle of a game!~ says the hawker despondently,
-                              and gives back the silver coin.^^";
-                        self.number=6;
-                        move SilverCoin to player;
-                    }
+        SayDefault:
+            if(self.number == 5 or 11)
+                "~Come on now, give the crowd a show! Point, don't just talk,~ says the hawker,
+                 motioning at the cups.";
+            else
+                "The hawker ignores you, far too busy shuffling cups and watching the crowd
+                to care about idle chatter.";
+        Go:
+            if(selected_direction == w_to or e_to) {
+                if((self.number<6 && self.number>1)) {
+                    print "^~But we were in the middle of a game!~ says the hawker despondently as
+                          you leave.^^";
+                    self.number=1;
+                } else if(self.number<11 && self.number>7) {
+                    print "^~But we were in the middle of a game!~ says the hawker despondently,
+                          and gives back the silver coin.^^";
+                    self.number=6;
+                    move SilverCoin to player;
                 }
+            }
         ],
         before [;
+        TalkTo:
+            meta = true;
+            "~Talk is free, but the game costs silver,~ the hawker mutters without taking
+            his eyes off the cups. ~Ask your questions, or put your money down.~";
         Accuse:
             "~Cheating?~ He appeals to the crowd with both arms wide, wounded to the soul.
             ~Did you hear that? A wizard cannot win at cups, so the cups must be crooked.~
@@ -3427,8 +3492,13 @@ Object -> Hawker "hawker"
                 "~Well met, master wizard!~ He says it to the whole street rather than to you,
                 and two more people drift over to watch. ~Step up, step up. The learned
                 gentleman is going to show us how it is done.~";
-            Show, TalkTo:
-                "The impatient hawker motions to the cups in front of him.";
+            Show:
+                meta = true;
+                if(noun == SilverCoin)
+                    "The hawker smiles, his eyes lighting up. ~Now that's what I like to see!
+                    Hand it over and let's play.~";
+                "The hawker pushes ", (the) noun, " away and motions impatiently at the cups. 
+                ~I've got no use for that. Put your money on the table!~";
             Ask, Tell:
                 w1 = 0;
                 w2 = 0;
@@ -3507,10 +3577,10 @@ Room EndOfVillage "The Edge of the Village"
                 "Rooftops and market banners show above the corn a little way west, and the noise
                 of the crowd carries faintly on the wind.",
         before [;
-        Listen:
+        ListenRoom:
             "The lively chatter and haggling of the market grow fainter here, giving way to the soft rustle
             of cornstalks in the wind and the dry scuttle of insects in the roadside dust.";
-        Smell:
+        SmellRoom:
             "The sweet, savoury scents of the market stalls fade into the clean smells of
             open fields, sun-baked earth, and fresh straw.";
         ],
@@ -3611,11 +3681,11 @@ Room GateRoom "The Crypt"
             if(self.number == 3)
                 "You kneel beside your mentor and wait, and the walls thin away to nothing.";
             rfalse;
-        Listen:
+        ListenRoom:
             "A low-frequency hum sounds in your bones rather than your ears, and under it run
             whispers, echoing down out of the darkness above. You can never quite make out
             the words, and you are glad of it.";
-        Smell:
+        SmellRoom:
             "The air is stagnant and ice-cold, suffocatingly heavy with the iron stench of dried blood, ancient ozone,
             and the faint, coppery tang of unholy power humming from the pedestals.";
         ],
@@ -3635,7 +3705,10 @@ Object -> EvilMaster "demon"
             "Your mentor seems confused.";
         ],
         domagic [spell;
-            if(spell==KillSpell) { score=score+10; rfalse; }
+            if(spell==DeathSpell) { 
+                Achieved(TASK_KILLING_DEMON);
+                rfalse;
+             }
             if(spell == FreezeSpell)
                 "The cold rolls over the demon and does nothing whatever. It turns its head and
                 looks at you for the first time since it caged you. ~You have one spell that can
@@ -3703,14 +3776,14 @@ Object -> EvilMaster "demon"
             };
         ],
         before [;
-            Attack:
-                if(player in RedField)
-                    "You throw yourself at the red wall. It gives like a drumskin, holds, and sets
-                    your shoulder ringing. The demon does not even break the rhythm of its reading.";
-            ThrownAt:
-                if(noun==Amulet && RedField in location) <<Touch RedField noun>>;
-            Touch:
-                if(second==Amulet && RedField in location) <<Touch RedField second>>;
+        Attack:
+            if(player in RedField)
+                "You throw yourself at the red wall. It gives like a drumskin, holds, and sets
+                your shoulder ringing. The demon does not even break the rhythm of its reading.";
+        ThrownAt:
+            if(noun==Amulet && RedField in location) <<Touch RedField noun>>;
+        Touch:
+            if(second==Amulet && RedField in location) <<Touch RedField second>>;
         ],
     has animate;
 
@@ -3721,19 +3794,19 @@ Object -> RedField "red force field"
             "A shimmering sphere of translucent red energy surrounds you completely, crackling with
             raw, dark magic. Touching it causes a sharp, burning shock.",
         before [;
-            ThrownAt:
-                if(noun==Amulet) <<Touch second noun>>;
-            Touch:
-                if(second == 0)
-                    "You put a hand out to the red light and snatch it back with your fingers
-                    smarting. The field does not want you, and it is not subtle about saying so.";
-                if(second==Amulet) {
-                    print "The amulet meets the red field, and the field goes out like a snuffed candle!^^";
-                    RemoveObj(RedField);
-                    PlayerTo(GateRoom);
-                    rtrue;
-                }
-                rfalse;
+        ThrownAt:
+            if(noun==Amulet) <<Touch second noun>>;
+        Touch:
+            if(second == 0)
+                "You put a hand out to the red light and snatch it back with your fingers
+                smarting. The field does not want you, and it is not subtle about saying so.";
+            if(second==Amulet) {
+                print "The amulet meets the red field, and the field goes out like a snuffed candle!^^";
+                RemoveObj(RedField);
+                PlayerTo(GateRoom);
+                rtrue;
+            }
+            rfalse;
         ],
         react_before_magic [spell obj phase;
             spell = 0; obj = 0; ! avoid compiler warnings
@@ -3765,7 +3838,7 @@ Object DeadMaster "dead body"
             switch(spell) {
             ResurrectSpell:
                 ReplaceObj(self, ResurrectedMaster);
-                score=score+10;
+                Achieved(TASK_RESURRECTING_ISTAR);
                 "For a long moment nothing happens at all. Then a faint colour comes back into
                 his cheeks, and a breath, and then another, until his chest is rising and
                 falling as steadily as your own. He is unconscious, but he is alive!";
@@ -3853,7 +3926,7 @@ CSpellWithArgument HealSpell "healing spell"
         ],
     ;
 
-CSpellWithArgument KillSpell "death spell"
+CSpellWithArgument DeathSpell "death spell"
     with
         name 'death' 'kill' 'spell',
         comment "kill someone",
@@ -3931,6 +4004,10 @@ CStone GreenStone "green stone" Cave
             " emerald light, this stone matches the shape and ancient markings
             of your mentor's black stone.";
         ],
+        after [;
+        Take, Remove:
+            Achieved(TASK_GETTING_GREEN_STONE);
+        ],
         domagic [spell;
             if(spell == IlluminateSpell && self hasnt light) {
                 give self light;
@@ -3948,6 +4025,10 @@ CStone BlueStone "blue stone" OceanFloor
         description
             "Roughly carved and pulsing with a deep, inner azure glow, this stone matches the
             shape and ancient markings of your mentor's black stone.",
+        after [;
+        Take, Remove:
+            Achieved(TASK_GETTING_BLUE_STONE);
+        ],
         add_to_scope StoneMarkings
     ;
 
@@ -3969,16 +4050,16 @@ CStone RedStone "red stone" Village
             }
         ],
         before [;
-            Examine: print (string) self.description; @new_line; rtrue;
-            Buy: if(self has scenery)
-                    "~The stone isn't for sale, wizard. It's my lucky charm!~ says the hawker with a sly grin.
-                    ~If you want it, you'll have to win it fair and square under the cups.~";
-                rfalse;
-            default:
-                if(self has scenery)
-                    "The hawker's hand closes over it before yours is halfway across the bench.
-                    ~Under the cups or not at all, master wizard.~";
-                rfalse;
+        Examine: print (string) self.description; @new_line; rtrue;
+        Buy: if(self has scenery)
+                "~The stone isn't for sale, wizard. It's my lucky charm!~ says the hawker with a sly grin.
+                ~If you want it, you'll have to win it fair and square under the cups.~";
+            rfalse;
+        default:
+            if(self has scenery)
+                "The hawker's hand closes over it before yours is halfway across the bench.
+                ~Under the cups or not at all, master wizard.~";
+            rfalse;
         ],
         add_to_scope StoneMarkings
     has scenery; ! general if player noticed that the hawker is cheating
@@ -4027,7 +4108,7 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
     print "I can help you with these items:^^";
     print "     Collecting stones^";
     print "     Getting around^";
-    print "     The blank scroll^";
+    print "     The discarded scroll^";
     print "     How do I beat the hawker?^";
     print "     What do I do with the coin?^";
     print "     What do I do in the temple?^";
@@ -4043,7 +4124,7 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
     0: item_width=3;    item_name="Hints"; return 11;
     1: item_width=8;    item_name="Collecting stones";
     2: item_width=7;    item_name="Getting around";
-    3: item_width=8;    item_name="The blank scroll";
+    3: item_width=8;    item_name="The discarded scroll";
     4: item_width=12; item_name="How do I beat the hawker?";
     5: item_width=13; item_name="What do I do with the coin?";
     6: item_width=12; item_name="What do I do in the temple?";
@@ -4119,7 +4200,7 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
          LastHintPause();
     8: print "Perhaps someone can help you?^";
          if(HintPause()) break;
-         print "Is the blank scroll still blank?^";
+         print "Is the discarded scroll still blank?^";
          if(HintPause()) break;
          print "The ground slopes steeply downward, does it not?^";
          if(HintPause()) break;
@@ -4174,32 +4255,23 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
         your spellbook by typing ~cast SPELL on SOMETHING/SOMEONE~. You copy a spell into
         your spellbook with ~cast copy on SPELL~. To see what spells you have, you can
         type ~read spellbook~.";
-    2: "In this game you control the main character by typing commands that tell him what
-        to do. Examples of such commands are:^^\
-        > look (look around you)^\
-        > north (go north from where you are)^\
-        > inventory (show a list of what you are carrying)^\
-        > take the map^\
-        > examine it (~it~ here refers to the map)^\
-        > give the map to the woman^\
-        > wizard, open the door (ask someone to do something)^\
-        > ask the wizard about the map^\
-        > throw the knife at the black bird^^\
-        There are some common abbreviations:^^\
-        g = again (repeat the last command)^\
-        l = look^\
-        i = inventory^\
-        x = examine^\
-        z = wait (lets the game clock tick one step)^^\
-        The possible directions are all compass directions plus up and down, and can be
-        abbreviated: ~n~ means north, ~u~ means up, ~sw~ means southwest, and so on.^^\
-        A game can be saved with ~save~ and a saved game restored with ~restore~. You can
-        start over with ~restart~ and quit with ~quit~. ~score~ shows how many points you
-        have. If you make a mistake you can undo one step with ~undo~.";
-    3: "The original Swedish version, called Drakmagi, was written in 1996, and then re-released
-       with Glulx graphics in 2005. This extended English version was written by Johan Berntsson
-       in 2026 as a showcase for Z6 support in PunyInform and Ozmoo.^^
-       Thank you Garry Francis, Stefan Vogt, Gianluca, and Fredrik Ramsberg for testing and advice.";
+    2: "Type commands using simple phrases starting with a verb.^^
+        Use LOOK (L) to refresh your view of a location. EXAMINE (X) every object mentioned in
+        descriptions, and pay close attention to subtle clues.^^
+        Move around using compass directions: N, S, E, W, U (up), and D (down).
+        Mapping your surroundings as you go is strongly advised.^^
+        Use TAKE (or GET) to pick up objects, DROP to set them down, WEAR for clothing,
+        and REMOVE to take off worn items. Type INVENTORY (I) to review what you're carrying.^^
+        Useful shortcuts: AGAIN (G) repeats your previous command, UNDO reverses your last turn,
+        SAVE and RESTORE manage your progress, SCORE shows your score, and FULL 
+        lists your full achievements.^^
+        The parser recognizes over 100 verbs. If a command doesn't work, try phrasing it
+        another way. Type HINT at any time if you get stuck.";
+    3: "The original Swedish version, Drakmagi, was released in 1996 and later updated with Glulx
+       graphics in 2005. This expanded English edition was written by Johan Berntsson in 2026 to
+       showcase z6 graphics support in PunyInform and Ozmoo.^^
+       Special thanks to Garry Francis, Stefan Vogt, Gianluca, and Fredrik Ramsberg for testing
+       and valuable feedback.";
     4: DoMenu(HintItems, HintMenu, HintInfo);
        return 2;
     5: "* Kill your mentor with a spell?^";
@@ -4223,14 +4295,14 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
 !     Initialisation
 ! ==========================================================================
 
-#Iftrue (#version_number == 6);
 [ Initialise key;
+#Iftrue (#version_number == 6);
     PlaySound(SND_INTRO, 0);
     ShowPicture(PIC_INTRO);
     @read_char key;
     @erase_window 0;
 #IfNot;
-[ Initialise ;
+    key = SND_INTRO; key = PIC_INTRO; ! avoid compiler warnings
 #Endif;
 
 

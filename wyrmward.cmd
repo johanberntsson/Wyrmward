@@ -4,6 +4,9 @@ restart
 yes
 random seed 1
 take scroll
+x scroll
+smell parchment
+smell
 untie scroll
 listen
 smell
@@ -87,6 +90,9 @@ x shallow
 x chimney
 enter chimney
 x beautifully carved box
+use spellbook on box
+x vapours
+talk to istar
 ask istar about stones
 ask istar about black stone
 ask istar about red stone
@@ -98,6 +104,8 @@ ask istar about yellow stone
 ask istar about spellbook
 ask istar about parchment
 ask istar about parchment
+score
+full
 ask istar about papers
 ask istar about workbench
 x roof
@@ -255,6 +263,9 @@ cast heal on hawker
 cast heal on bench
 take stone
 buy stone
+talk to hawker
+show coin to hawker
+show book to hawker
 ask hawker about stone
 ask hawker about game
 hawker, hello
@@ -526,6 +537,7 @@ talk to book
 talk to dragon
 ask dragon about me
 show spellbook to dragon
+full
 ask dragon about magic
 x spellbook
 read spellbook
@@ -583,6 +595,8 @@ kill statue
 climb statue
 look
 x walls
+pray to statue
+pray
 pray
 x me
 w
@@ -668,6 +682,7 @@ cast resurrect spell on istar
 x istar
 z
 
+full
 quit
 yes
 

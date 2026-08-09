@@ -2,7 +2,7 @@ INFORM = inform
 OZMOO = /home/johan/commodore/ozmoo-z6
 PUNY = /home/johan/commodore/punyinform
 
-XMEGA65 = xemu-xmega65
+XMEGA65 = xemu-xmega65 -besure
 X16 = /home/johan/commodore/ozmoo/x16-emulator46/x16emu
 # The lines above are the ones in use. SDL_AUDIODRIVER=pulseaudio used to be
 # mandatory -- SDL did not get on with pipewire on Fedora 44/KDE and both

@@ -34,6 +34,18 @@ The random seed is set to 1.
 > take scroll
 Taken.
 
+> x scroll
+It is a tightly rolled cylinder of heavy parchment, tied with a frayed piece of
+twine. The surface is weathered, as if it has been lying out in the damp meadow
+air for some time.
+
+> smell parchment
+It smells of damp paper and wet grass.
+
+> smell
+Wet earth, crushed weeds, and the sharp resin of pine needles drifting out of
+the dark forest. From the south, a faint whiff of woodsmoke hangs about the hut.
+
 > untie scroll
 You work at the damp knot until the twine slips free, allowing you to unroll the
 heavy parchment.
@@ -142,7 +154,7 @@ words of the healing spell.
 You feel healthier and stronger than before.
 
 > score
-You have so far scored 0 out of a possible 50, in 27 turns.
+You have so far scored 0 out of a possible 40, in 30 turns.
 
 > xyzzy
 You pronounce the ancient word with great care. Somewhere very far away a door
@@ -187,8 +199,8 @@ It is your well-thumbed spellbook, bought on the day you started at the wizards'
 school. The spells written in it are the fruit of a great many years of study
 and you need to read it to see its contents.
 
-[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
-<spell> on <someone or something>" to use it.]
+[Use "read spellbook" to see your spells. To add new spells, use "cast copy on
+<spell>", and then "cast <spell> on <someone or something>" to use it.]
 
 > read spell book
 ARCANE MAGIC FOR COMPLETE NOVICES:
@@ -198,8 +210,8 @@ The freeze spell: (freeze something).
 The illumination spell: (make something glow).
 The copying spell: (copy a spell into the spellbook).
 
-[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
-<spell> on <someone or something>" to use it.]
+[Use "read spellbook" to see your spells. To add new spells, use "cast copy on
+<spell>", and then "cast <spell> on <someone or something>" to use it.]
 
 > x grass
 The grass is thick, wild, and heavy with a cold, clinging dew that quickly soaks
@@ -389,8 +401,8 @@ take the gilded box. The rock around it is scorched black, as though the ward on
 the box has had to defend itself more than once.
 
 > x chimney
-A dark stone flue built directly above the hearth, drawing the strange vapours
-up and out of the cramped room.
+The chimney is a dark stone flue built directly above the hearth, drawing the
+strange vapours up and out of the cramped room.
 
 > enter chimney
 No need to concern yourself with that.
@@ -399,6 +411,17 @@ No need to concern yourself with that.
 The box is crafted from a rare, dark wood, seamlessly overlaid with an
 intricate, swirling filigree of pure gold. Professional wizards use enchanted
 repositories like this to store highly volatile magical items.
+
+> use spellbook on box
+To use magic, try CAST spell instead.
+
+> x vapours
+The chimney is a dark stone flue built directly above the hearth, drawing the
+strange vapours up and out of the cramped room.
+
+> talk to istar
+Istar adjusts his robes, eyeing you with sharp intensity. "There is no time for
+idle chatter. If you have questions, ask them directly."
 
 > ask istar about stones
 He taps the folio in your hands. "Elemental stones. Four of them, cut long
@@ -454,11 +477,21 @@ a spell!
 Istar strokes his beard flat and says nothing at all, which is his way of being
 insufferably pleased with himself.
 
-[The score has just gone up by 10 points.]
+[The score has just gone up by 5 points.]
 
 > ask istar about parchment
 Istar arches an eyebrow. "Awakening the unliving is a perilous path, my boy. See
 that you exercise proper restraint when casting it."
+
+> score
+You have so far scored 5 out of a possible 40, in 99 turns.
+
+> full
+
+The score is made up as follows:
+     5 finding the animation spell.
+
+     5 total (out of 40)
 
 > ask istar about papers
 Istar frowns and waves a hand protectively over the desk. "Those are decades of
@@ -1253,6 +1286,18 @@ cups."
 
 "Won't you try again? Just one silver coin," says the hawker.
 
+> talk to hawker
+"Talk is free, but the game costs silver," the hawker mutters without taking his
+eyes off the cups. "Ask your questions, or put your money down."
+
+> show coin to hawker
+The hawker smiles, his eyes lighting up. "Now that's what I like to see! Hand it
+over and let's play."
+
+> show book to hawker
+The hawker pushes the spellbook away and motions impatiently at the cups. "I've
+got no use for that. Put your money on the table!"
+
 > ask hawker about stone
 The impatient hawker motions to the cups in front of him.
 
@@ -1550,6 +1595,8 @@ you will promise not to mention this to the watch." He presses the silver coin
 and the stone into your hand, gathers up his things and is gone down the road
 before you can think of a reply.
 
+[The score has just gone up by 4 points.]
+
 > i
 You're carrying a red stone, a silver coin, your spellbook and your backpack
 (which is open but empty).
@@ -1569,6 +1616,8 @@ since he last held a silver coin. From under his rags he pulls out an amulet on
 a cord and presses it on you, and will not hear of your refusing it.
 
 Content with the day's work, the beggar wanders off to the west.
+
+[The score has just gone up by 3 points.]
 
 > undo
 Previous turn undone.
@@ -1636,6 +1685,8 @@ you will promise not to mention this to the watch." He presses the silver coin
 and the stone into your hand, gathers up his things and is gone down the road
 before you can think of a reply.
 
+[The score has just gone up by 4 points.]
+
 > i
 You're carrying a red stone, a silver coin, your spellbook and your backpack
 (which is open but empty).
@@ -1655,6 +1706,8 @@ since he last held a silver coin. From under his rags he pulls out an amulet on
 a cord and presses it on you, and will not hear of your refusing it.
 
 Content with the day's work, the beggar wanders off to the west.
+
+[The score has just gone up by 3 points.]
 
 > wear amulet
 You are now wearing the amulet.
@@ -2026,6 +2079,8 @@ the shape and ancient markings of your mentor's black stone.
 
 > take stone
 Taken.
+
+[The score has just gone up by 4 points.]
 
 > take all
 There are no things available that match "take all".
@@ -2656,7 +2711,7 @@ in shock, but you have saved her life.
 The dragon lies where she fell, flanks heaving, and does not seem to have
 noticed you at all yet.
 
-[The score has just gone up by 10 points.]
+[The score has just gone up by 3 points.]
 
 > talk to book
 You feel silly trying to talk to the spellbook.
@@ -2681,7 +2736,7 @@ written on a blank page: the Death Spell.
 
 Some colour is returning to the great scaled throat.
 
-[The score has just gone up by 10 points.]
+[The score has just gone up by 5 points.]
 
 > show spellbook to dragon
 She glances at the open page and away again, unimpressed. "Books," she says
@@ -2689,6 +2744,18 @@ thickly. "You people always did put a great deal of faith in books."
 
 The dragon draws one long, deep breath and holds it, as though testing whether
 it hurts.
+
+> full
+
+The score is made up as follows:
+     4 getting the red stone.
+     4 getting the green stone.
+     3 giving money to the beggar.
+     5 finding the animation spell.
+     3 healing the wounded dragon.
+     5 getting the death spell.
+
+    24 total (out of 40)
 
 > ask dragon about magic
 The dragon mutters to herself: "A human who saves my life. Helps a dragon. Never
@@ -2702,8 +2769,8 @@ It is your well-thumbed spellbook, bought on the day you started at the wizards'
 school. The spells written in it are the fruit of a great many years of study
 and you need to read it to see its contents.
 
-[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
-<spell> on <someone or something>" to use it.]
+[Use "read spellbook" to see your spells. To add new spells, use "cast copy on
+<spell>", and then "cast <spell> on <someone or something>" to use it.]
 
 > read spellbook
 ARCANE MAGIC FOR COMPLETE NOVICES:
@@ -2716,8 +2783,8 @@ The freeze spell: (freeze something).
 The illumination spell: (make something glow).
 The copying spell: (copy a spell into the spellbook).
 
-[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
-<spell> on <someone or something>" to use it.]
+[Use "read spellbook" to see your spells. To add new spells, use "cast copy on
+<spell>", and then "cast <spell> on <someone or something>" to use it.]
 
 > x dragon
 Whole again, she is magnificent and frankly terrifying: a long, deep-chested
@@ -2968,7 +3035,7 @@ A statue still stands in the middle of the temple.
 High stone walls rise into the shadowed vaults above, scarred by time and
 dampness where rain creeps in through the broken windows.
 
-> pray
+> pray to statue
 You say a quick prayer for success in your quest, as you have so many times
 before, but this time the answer comes back with alarming speed. Scales push up
 through the skin of your arms. Your sight goes strange and swimming. Webbing
@@ -2977,6 +3044,19 @@ breaks out along your spine and tears a long hole in your robe.
 
 The whole business takes only a few minutes. At the end of it you are very
 nearly a copy of the statue standing before you.
+
+[The score has just gone up by 3 points.]
+
+> pray
+You say another prayer, and once more you are answered. The change back is quite
+as painful as the change out was: the scales sink away, the webbing parts, and
+the fin withdraws along your spine. Your robe is the worse for all of it, but
+otherwise you are yourself again.
+
+> pray
+You utter the prayer again, and the magic takes hold instantly. Skin tightens
+into scales, fins burst through your torn robe, and your vision blurs into the
+aquatic. In seconds, the fish-form takes you over once more.
 
 > x me
 You look down at your hands which are now pale, scaled, and webbed. A sharp,
@@ -3107,6 +3187,8 @@ shape and ancient markings of your mentor's black stone.
 
 > take stone
 Taken.
+
+[The score has just gone up by 4 points.]
 
 > u
 The Beach
@@ -3281,9 +3363,10 @@ the first to be torn to pieces is you.
 
   *** You have died ***
 
-In that game you scored 30 out of a possible 50, in 549 turns.
+In that game you scored 31 out of a possible 40, in 557 turns.
 
-Would you like to RESTART, RESTORE, UNDO the last move or QUIT? restore
+Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
+that game or QUIT? restore
 Enter a file name.
 Default is "wyrmward.qzl": 
 Ok.
@@ -3383,9 +3466,10 @@ the first to be torn to pieces is you.
 
   *** You have died ***
 
-In that game you scored 30 out of a possible 50, in 549 turns.
+In that game you scored 31 out of a possible 40, in 557 turns.
 
-Would you like to RESTART, RESTORE, UNDO the last move or QUIT? restore
+Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
+that game or QUIT? restore
 Enter a file name.
 Default is "wyrmward.qzl": 
 Ok.
@@ -3445,7 +3529,7 @@ the floor.
 The room begins to come apart. Your senses will not hold still, strange visions
 arrive and go again, and the crypt seems to be draining away before your eyes.
 
-[The score has just gone up by 10 points.]
+[The score has just gone up by 4 points.]
 
 > save
 Enter a file name.
@@ -3484,7 +3568,7 @@ falling as steadily as your own. He is unconscious, but he is alive!
 
 The room is changing and vanishing.
 
-[The score has just gone up by 10 points.]
+[The score has just gone up by 5 points.]
 
 > x istar
 He lies on his back in the shifting light, thin and worn out and unmistakably
@@ -3509,7 +3593,25 @@ well.
 
   *** You have won ***
 
-In that game you scored 50 out of a possible 50, in 552 turns.
+In that game you scored 40 out of a possible 40, in 560 turns.
 
-Would you like to RESTART, RESTORE, UNDO the last move or QUIT? quit
+Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
+that game or QUIT? full
+
+The score was made up as follows:
+     4 getting the blue stone.
+     4 getting the red stone.
+     4 getting the green stone.
+     3 praying to the statue.
+     3 giving money to the beggar.
+     5 finding the animation spell.
+     3 healing the wounded dragon.
+     5 getting the death spell.
+     4 killing the demon.
+     5 resurrecting Istar.
+
+    40 total (out of 40)
+
+Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
+that game or QUIT? quit
 
