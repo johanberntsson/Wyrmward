@@ -144,7 +144,9 @@ ask istar about box
 ask istar about demon
 ask istar about gate
 ask istar about himself
+istar, hello
 istar, follow me
+istar, open the box
 show spellbook to istar
 read folio
 give scroll to istar
@@ -195,7 +197,10 @@ listen
 smell
 x beggar
 x rags
+look under rags
+take rags
 x hand
+take hand
 x dirty road
 x small village
 x dusty dirt road
@@ -487,20 +492,22 @@ ask right about green stone
 save
 
 yes
+d
 cast animate on left
+d
 s
 n
 n
 cast freeze on mud
+d
 s
-n
-u
 n
 cast animate on right
 cast teleport
 n
 e
 e
+n
 n
 n
 n
@@ -546,6 +553,7 @@ ask dragon about magic
 x spellbook
 read spellbook
 x dragon
+l
 ask dragon about stones
 ask dragon about old gods
 ask dragon about istar
@@ -559,6 +567,9 @@ ask dragon about wound
 ask dragon about demon
 dragon, follow me
 ride dragon
+get on dragon
+mount dragon
+enter dragon
 x eyes
 x scales
 thank dragon
@@ -583,7 +594,27 @@ listen
 x vaults
 x leaded windows
 x temple
+x ancient
+x stone temple
+x vaults
+x cobwebs
+x web
+x webs
+x ceiling
+x cobweb
 x statue
+x glass
+x panes
+x walls
+x flagstones
+x flagstone
+x moss
+x scraps
+x broken
+x wood
+x bases
+x altars
+x pews
 x offerings
 x room
 x fin
@@ -601,6 +632,7 @@ look
 x walls
 pray to statue
 pray
+x me
 pray
 x me
 w
@@ -620,6 +652,9 @@ dig sand
 search sand
 x path
 x soil
+enter sea
+enter water
+enter waves
 swim
 smell
 listen
@@ -632,6 +667,13 @@ x plants
 x sea floor
 d
 x blue stone
+x sea
+x floor
+w
+x kelp
+x coral
+x reef
+x reefs
 take stone
 u
 cast teleport
@@ -641,6 +683,7 @@ pray
 cast teleport
 s
 s
+give green stone to istar
 put green stone in box
 put blue stone in box
 put red stone in box

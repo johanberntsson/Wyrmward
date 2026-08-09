@@ -203,7 +203,7 @@ and you need to read it to see its contents.
 <spell>", and then "cast <spell> on <someone or something>" to use it.]
 
 > read spell book
-ARCANE MAGIC FOR COMPLETE NOVICES:
+A COMPENDIUM OF BASIC SPELLS
 
 The healing spell: (heal someone).
 The freeze spell: (freeze something).
@@ -431,7 +431,7 @@ myself."
 
 > ask istar about black stone
 Istar gestures toward the gilded box. "The stone of void is resting right here
-before us. Its power is potent, volatile, and deeply unsettling.."
+before us. Its power is potent, volatile, and deeply unsettling."
 
 > ask istar about red stone
 Istar's eyes glint with memory. "The Stone of Ember, as the ancients called it.
@@ -658,9 +658,20 @@ He waves a hand at the crooked walls, the smoking cauldrons, the mouldering
 thatch. "You see what I have come to. Fifty years at the Academy, and this is
 what they let me keep. Still, the roof holds. Mostly."
 
+> istar, hello
+"Later, my boy, later," says Istar, waving the greeting away. "Read the folio
+first. Everything I could say to you is already written in it, and written
+better."
+
 > istar, follow me
-"I would only slow you down, my boy, and there are eyes on this hut that I would
-rather not lead across half the world. You go. I shall keep the box ready."
+"There are evil forces lurking, and I dare not perform any magic or action that
+could give me away," Istar whispers. "That is why I called for you. They will
+take no notice of you, leaving you free to do what must be done.
+
+> istar, open the box
+"There are evil forces lurking, and I dare not perform any magic or action that
+could give me away," Istar whispers. "That is why I called for you. They will
+take no notice of you, leaving you free to do what must be done.
 
 > show spellbook to istar
 He leafs through a few pages and hands it back with a fond, slightly wistful
@@ -720,7 +731,7 @@ The spellbook opens once more, and you recite the copying spell over the silvery
 scroll.
 
 The pages flare with a blinding light. The intricate symbols of the
-Teleportation Spell bind themselves permanently into your grimoire, while the
+teleportation spell bind themselves permanently into your grimoire, while the
 silvery parchment dissolves into wisps of shimmering smoke.
 
 [You have learned the teleportation spell]
@@ -917,9 +928,22 @@ exhaustion, and he holds out a palm in mute appeal for charity.
 Layer upon layer of colourless cloth, worn so thin in places that the road wind
 goes straight through it. Something small and hard hangs beneath, out of sight.
 
+> look under rags
+You catch a glimpse of a small, hard object tucked away under the filthy cloth,
+but the beggar pulls his rags tight around himself before you can get a better
+look.
+
+> take rags
+The beggar pulls away, clutching his tattered garments tightly against his
+chest. "Here now, leave a poor man his clothes!"
+
 > x hand
 His palm is upturned and quite empty, the fingers trembling slightly with the
 effort of holding it out.
+
+> take hand
+The beggar flinches and pulls his hand back. He's looking for a coin, not a
+handshake.
 
 > x dirty road
 Dusty and uneven, the road cuts through the tall corn, leading east toward the
@@ -952,8 +976,8 @@ completely blocked by dense summer leaves. You hop back down to the dusty road.
 > talk to beggar
 The beggar looks up at you with weary, cloudy eyes. "Spare a copper for a poor
 soul, sir?" he rasps, shuffling his palm forward. "A bite of bread or a coin to
-warm my bones, and I'd be eternally grateful." He seems too weak and distracted
-by hunger to offer much conversation.
+buy a warm meal, and I'd be eternally grateful." He seems too weak and
+distracted by hunger to offer much conversation.
 
 > beggar, hello
 "Good day to you, master wizard," he rasps, and the effort of it seems to cost
@@ -1018,8 +1042,9 @@ the dusty road towards the village.
 
 The Village
 The village consists of a dozen timber-framed houses lining either side of the
-road. Despite its modest size, the area is full of life and bustle. It is market
-day.
+road, which runs from the open countryside to the west down to the far end of
+the village to the east. Despite its modest size, the area is full of life and
+bustle. It is market day.
 
 A hawker stands behind a sturdy wooden bench by the roadside. On the surface lie
 three upturned cups. The man gestures grandly over them and shouts to the crowd,
@@ -1147,7 +1172,7 @@ The dense cornfields form an unbroken wall of rustling stalks on either side of
 the road.
 
 > e
-The road runs on east through the corn and out into open country, and everything
+The road runs on east through the corn and out into open country, but everything
 you have come here for lies behind you.
 
 > s
@@ -1177,8 +1202,9 @@ side of the road.
 > w
 The Village
 The village consists of a dozen timber-framed houses lining either side of the
-road. Despite its modest size, the area is full of life and bustle. It is market
-day.
+road, which runs from the open countryside to the west down to the far end of
+the village to the east. Despite its modest size, the area is full of life and
+bustle. It is market day.
 
 The hawker stands by the roadside with his cups.
 
@@ -1495,8 +1521,9 @@ market.
 
 The Village
 The village consists of a dozen timber-framed houses lining either side of the
-road. Despite its modest size, the area is full of life and bustle. It is market
-day.
+road, which runs from the open countryside to the west down to the far end of
+the village to the east. Despite its modest size, the area is full of life and
+bustle. It is market day.
 
 The hawker stands by the roadside with his cups.
 
@@ -2359,11 +2386,24 @@ Default is "wyrmward.qzl":
 Overwrite existing file? yes
 Ok.
 
+> d
+You attempt to march past the sentinels, but as you step between them, an
+invisible force like compressed air slams against your chest, throwing you back
+into the tunnel. The statues remain motionless, watching.
+
 > cast animate on left
 The spellbook opens itself to the right page, and you read aloud the complicated
 words of the animation spell.
 
 The statue comes to life!
+
+The warrior attacks you, and only your quick reflexes save you from an early
+death.
+
+> d
+The living statue is flailing madly across the narrow passage, its strikes
+ringing against the rock walls. Trying to squeeze past its violent reach would
+be total suicide.
 
 The warrior attacks you, and only your quick reflexes save you from an early
 death.
@@ -2378,8 +2418,6 @@ a storeroom, and rows of crates and packages stand against the walls under a
 thick coat of dust. A large doorway is set in the north wall, and beyond it a
 slope runs down into the darkness.
 
-The warrior charges at you with his sword raised.
-
 > n
 The slope is so steep that you half-run down it.
 
@@ -2389,7 +2427,10 @@ down the slope from somewhere above, and the floor beneath it is thick with mud.
 
 A statue stands at the right wall, guarding the passage.
 
-The warrior charges at you with his sword raised.
+You can also see a warrior here.
+
+The warrior attacks you, and only your quick reflexes save you from an early
+death.
 
 > n
 The living statue is flailing madly across the narrow passage, its strikes
@@ -2406,6 +2447,43 @@ words of the freeze spell.
 The temperature drops at once. The water and the mud freeze hard, your boots go
 out from under you, and you slither a couple of metres down the tunnel before
 you can stop yourself.
+
+The warrior attacks you, and only your quick reflexes save you from an early
+death.
+
+The warrior slips on the ice but manages to keep his balance.
+
+> d
+The living statue is flailing madly across the narrow passage, its strikes
+ringing against the rock walls. Trying to squeeze past its violent reach would
+be total suicide.
+
+The warrior attacks you, and only your quick reflexes save you from an early
+death.
+
+The warrior slips on the ice but manages to keep his balance.
+
+> s
+The ground is frozen and hard to climb.
+
+The Rock Hall
+A great cavity in the mountain, hollowed out by nature and then squared off and
+widened by human hands. It was a grand feast hall once; now somebody keeps it as
+a storeroom, and rows of crates and packages stand against the walls under a
+thick coat of dust. A large doorway is set in the north wall, and beyond it a
+slope runs down into the darkness.
+
+> n
+The slope is frozen, and you slide down.
+
+Tunnel
+A steep passage dropping away from the rock hall into the dark. Water trickles
+down the slope from somewhere above, and the floor beneath it is thick with ice
+and frozen mud, which makes it hard to walk.
+
+A statue stands at the right wall, guarding the passage.
+
+You can also see a warrior here.
 
 The warrior attacks you, and only your quick reflexes save you from an early
 death.
@@ -2451,9 +2529,6 @@ steppe that rolls onward to the horizon. Strangest of all, you find yourself
 encircled by four free-standing, ornate archways, each facing one of the
 cardinal directions of the compass.
 
-You hear screams and the clash of weapons nearby. Then a warm gust of air comes,
-and the screams suddenly fall silent.
-
 > n
 A yellow cloud surrounds you, and as it clears you find yourself in a...
 
@@ -2493,7 +2568,14 @@ thick coat of dust. A large doorway is set in the north wall, and beyond it a
 slope runs down into the darkness.
 
 > n
-The ground is frozen, and you slip down the slope.
+The slope is so steep that you half-run down it.
+
+Tunnel
+A steep passage dropping away from the rock hall into the dark. Water trickles
+down the slope from somewhere above, and the floor beneath it is thick with mud.
+
+> n
+The slope is so steep that you half-run down it.
 
 The Dragon Hall
 You are in a vast hall cut straight out of the heart of the mountain. The stench
@@ -2501,10 +2583,9 @@ of sulfur is oppressive, and the floor lies under a layer of ash deep enough to
 say that no mortal has set foot here for centuries. The only way out is the
 treacherous, muddy incline behind you.
 
-Sprawled across a staggering hoard of gold and priceless relics is a colossal
-dragon.
-
-There is a wounded dragon here.
+The colossal dragon lies coiled upon her hoard, dark blood glistening against
+her golden bed. Her breath comes in heavy, ragged huffs that stir the ash on the
+floor.
 
 > z
 You wait. The great ragged breaths are coming slower each time.
@@ -2581,7 +2662,7 @@ pair of them to ash.
 
 > x ash
 A deep layer of fine grey ash coats the chamber floor, drifting like snow under
-your boots and smelling faintly of ancient fires.
+your boots and smelling faintly of long-dead fires.
 
 The dragon's breathing grows more ragged.
 
@@ -2615,7 +2696,7 @@ dark, a floor of dressed slabs now buried under ash. Whoever built this did not
 build it for a dragon, and the dragon has outlasted them by a very long time.
 
 > x treasure
-Coins, plate, cups and crowns lie heaped in drifts across the floor, most of it
+Coins, plates, cups and crowns lie heaped in drifts across the floor, most of it
 tarnished black with age. A fortune, and not one piece of it worth your life.
 
 > take treasure
@@ -2771,7 +2852,7 @@ and you need to read it to see its contents.
 <spell>", and then "cast <spell> on <someone or something>" to use it.]
 
 > read spellbook
-ARCANE MAGIC FOR COMPLETE NOVICES:
+A COMPENDIUM OF BASIC SPELLS
 
 The death spell: (kill someone).
 The teleportation spell: (move yourself to a new place).
@@ -2788,6 +2869,16 @@ The copying spell: (copy a spell into the spellbook).
 Whole again, she is magnificent and frankly terrifying: a long, deep-chested
 body of overlapping bronze scales, and a pair of eyes that consider you with
 perfect, unhurried intelligence.
+
+> l
+The Dragon Hall
+You are in a vast hall cut straight out of the heart of the mountain. The stench
+of sulfur is oppressive, and the floor lies under a layer of ash deep enough to
+say that no mortal has set foot here for centuries. The only way out is the
+treacherous, muddy incline behind you.
+
+Sprawled across a staggering hoard of gold and priceless relics is a colossal
+dragon.
 
 > ask dragon about stones
 "Stones." She turns the word over. "Cut stones, of four colours, that call to
@@ -2806,8 +2897,9 @@ tell you this for nothing: when an old man asks a young one to fetch what he
 will not fetch himself, it is worth asking why."
 
 > ask dragon about treasure
-"Take some, if it pleases you." She does not move. "It is only metal. I lie on
-it because it is the one thing down here that does not rot."
+"Metal and stone," she rumbles softly, not shifting an inch. "I lie upon it
+because it stays dry and cold. Do not mistake my patience for generosity, tiny
+creature."
 
 > ask dragon about death spell
 "It is a cruel gift, and I have given it to you anyway," she says. "You will
@@ -2849,6 +2941,18 @@ run an errand." She closes her eyes. "Whatever is coming for you, wizard, you
 must go and meet it yourself."
 
 > ride dragon
+You get as far as thinking about it. She opens one eye, and you find that you
+have finished thinking about it.
+
+> get on dragon
+You get as far as thinking about it. She opens one eye, and you find that you
+have finished thinking about it.
+
+> mount dragon
+You get as far as thinking about it. She opens one eye, and you find that you
+have finished thinking about it.
+
+> enter dragon
 You get as far as thinking about it. She opens one eye, and you find that you
 have finished thinking about it.
 
@@ -2926,7 +3030,7 @@ The hard dirt path offers nowhere to descend.
 The Temple
 The vaults rise high above your head, and the whole great space stands silent
 and abandoned. The leaded windows have been broken out, and almost all the
-furnishings are gone.
+furnishings are gone. An open doorway to the west leads back outside.
 
 A statue still stands in the middle of the temple.
 
@@ -2958,11 +3062,49 @@ glass has been smashed, letting in the cool ocean breeze.
 > x temple
 You are standing inside the main sanctuary of the ancient, ruined stone temple.
 
+> x ancient
+You are standing inside the main sanctuary of the ancient, ruined stone temple.
+
+> x stone temple
+You are standing inside the main sanctuary of the ancient, ruined stone temple.
+
+> x vaults
+Ribbed stone vaults span the ceiling far overhead, dark with age and hung with
+cobwebs the size of bedsheets.
+
+> x cobwebs
+Ribbed stone vaults span the ceiling far overhead, dark with age and hung with
+cobwebs the size of bedsheets.
+
+> x web
+Ribbed stone vaults span the ceiling far overhead, dark with age and hung with
+cobwebs the size of bedsheets.
+
+> x webs
+Ribbed stone vaults span the ceiling far overhead, dark with age and hung with
+cobwebs the size of bedsheets.
+
+> x ceiling
+Ribbed stone vaults span the ceiling far overhead, dark with age and hung with
+cobwebs the size of bedsheets.
+
+> x cobweb
+Ribbed stone vaults span the ceiling far overhead, dark with age and hung with
+cobwebs the size of bedsheets.
+
 > x statue
 The statue is like nothing you have seen before. The shape is broadly human, but
 the scales and the tall fin running down its back are not. At its feet lie the
 withered remains of flowers and food, so somebody worshipped here once, and did
 so for a long while.
+
+> x glass
+Multi-paned leaded windows line the high walls, though nearly every pane of
+glass has been smashed, letting in the cool ocean breeze.
+
+> x panes
+Multi-paned leaded windows line the high walls, though nearly every pane of
+glass has been smashed, letting in the cool ocean breeze.
 
 > x offerings
 Brittle stalks that were once flowers, and a few blackened scraps that were once
@@ -2973,7 +3115,7 @@ a very long time.
 The Temple
 The vaults rise high above your head, and the whole great space stands silent
 and abandoned. The leaded windows have been broken out, and almost all the
-furnishings are gone.
+furnishings are gone. An open doorway to the west leads back outside.
 
 A statue still stands in the middle of the temple.
 
@@ -2983,7 +3125,7 @@ spine. The sculptor has cut it thin enough that the light comes through at the
 edges.
 
 > x scales
-Small, overlapping and beautifully cut, running from the throat down to the
+Small, overlapping and beautifully cut, running from the neck down to the
 ankles. Whoever carved this had seen the real thing.
 
 > talk to statue
@@ -3025,7 +3167,7 @@ pull back instantly.
 The Temple
 The vaults rise high above your head, and the whole great space stands silent
 and abandoned. The leaded windows have been broken out, and almost all the
-furnishings are gone.
+furnishings are gone. An open doorway to the west leads back outside.
 
 A statue still stands in the middle of the temple.
 
@@ -3050,6 +3192,10 @@ You say another prayer, and once more you are answered. The change back is quite
 as painful as the change out was: the scales sink away, the webbing parts, and
 the fin withdraws along your spine. Your robe is the worse for all of it, but
 otherwise you are yourself again.
+
+> x me
+As good-looking as ever, though your travelling robes are now tattered from your
+shift into a sea creature, and your boots remain nearly walked through.
 
 > pray
 You utter the prayer again, and the magic takes hold instantly. Skin tightens
@@ -3160,8 +3306,7 @@ No need to concern yourself with that.
 
 > x shells
 A scattering of sea snail shells, spiral nautiluses, and polished clam shells
-coat the seabed, their iridescent mother-of-pearl catching the filtered sunlight
-from above.
+coat the seabed.
 
 > take shells
 You gather a handful, admire them, and let them fall again. You did not come
@@ -3208,7 +3353,7 @@ great temple, weathered by long centuries of sea wind.
 The Temple
 The vaults rise high above your head, and the whole great space stands silent
 and abandoned. The leaded windows have been broken out, and almost all the
-furnishings are gone.
+furnishings are gone. An open doorway to the west leads back outside.
 
 A statue still stands in the middle of the temple.
 
@@ -3259,6 +3404,12 @@ wooden box. It contains a black stone.
 Your mentor reads a parchment.
 
 You can also see a folio here.
+
+> give green stone to istar
+Istar frowns slightly, lowering his voice. "The Stone of Verdure. Bound to the
+root, coil, and life force of the wild earth."
+
+He gestures toward the gilded box. "Put it inside with its brothers, lad."
 
 > put green stone in box
 You put the green stone into the gilded box.
@@ -3361,7 +3512,7 @@ the first to be torn to pieces is you.
 
   *** You have died ***
 
-In that game you scored 31 out of a possible 40, in 557 turns.
+In that game you scored 31 out of a possible 40, in 586 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
 that game or QUIT? restore
@@ -3464,7 +3615,7 @@ the first to be torn to pieces is you.
 
   *** You have died ***
 
-In that game you scored 31 out of a possible 40, in 557 turns.
+In that game you scored 31 out of a possible 40, in 586 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
 that game or QUIT? restore
@@ -3591,7 +3742,7 @@ well.
 
   *** You have won ***
 
-In that game you scored 40 out of a possible 40, in 560 turns.
+In that game you scored 40 out of a possible 40, in 589 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
 that game or QUIT? full

@@ -277,7 +277,7 @@ Object SpellBook "spellbook"
              the information you need. There is therefore no need to open, close or leaf
              through it. Many lives have been saved by this magical property.";
         Read:
-            print "ARCANE MAGIC FOR COMPLETE NOVICES:^^";
+            print "A COMPENDIUM OF BASIC SPELLS^^";
             for(a=child(self): a~=nothing: a=sibling(a))
                 print (The) a, ": (", (string) a.comment, ").^";
             return self.instructions();
@@ -491,7 +491,7 @@ CSpellWithArgument CopySpell "copying spell" SpellBook
             TeleportSpell:
                 print
                     "The spellbook opens once more, and you recite the copying spell over the silvery scroll.^^
-                    The pages flare with a blinding light. The intricate symbols of the Teleportation Spell bind
+                    The pages flare with a blinding light. The intricate symbols of the teleportation spell bind
                     themselves permanently into your grimoire, while the silvery parchment dissolves into wisps
                     of shimmering smoke.";
                 move x to Spellbook;
@@ -606,7 +606,9 @@ Extend only 'hit' 'break' 'smash' replace
 
 Verb 'time' 'date' * -> Time;
 
-Verb 'ride' * creature -> Ride;
+Verb 'ride' 'mount' * creature -> Ride;
+Extend 'enter' first * creature -> Ride;
+Extend 'get'  first * 'on' creature -> Ride;
 [ RideSub; "You can't ride that."; ];
 
 Verb 'thank' 'thanks'
@@ -671,6 +673,9 @@ Object PlayerObject "yourself"
             if(self has general)
                 "You look down at your hands which are now pale, scaled, and webbed. A sharp, dorsal fin has
                 ripped through the back of your robe. Strangely, your lungs feel eager for the sea air.";
+            if(PlayerClothes has general) 
+                "As good-looking as ever, though your travelling robes are now tattered
+                from your shift into a sea creature, and your boots remain nearly walked through.";
             "As good-looking as ever, though weeks on the road have left your travelling
             robes mud-spattered and your boots very nearly walked through.";
         ],
@@ -762,12 +767,9 @@ Class DarkRoom;
 
 [ ParseNameMeadowGrass _w _n;
     _w = NextWord();
-    while(_w == 'damp' or 'thick' or 'wild' or 'clinging') {
-        _n++;
-        _w = NextWord();
-    }
+    while(_w == 'damp' or 'thick' or 'wild' or 'clinging') { _n++; _w = NextWord(); }
     if(_w == 'grass' or 'dew') return _n + 1;
-    rfalse;
+    return _n;
 ];
 
 Room Meadow "Meadow"
@@ -1003,21 +1005,21 @@ Object HutDoor "door"
     _w = NextWordStopped();
     while(_w == 'solitary' or 'black') { _w = NextWordStopped(); _n++; }
     if(_w == 'window' or 'soot' or 'grease' or 'glass') return _n + 1;
-    rfalse;
+    return _n;
 ];
 
 [ ParseNameHutFire _w _n;
     _w = NextWordStopped();
     while(_w == 'flickering' or 'stout') { _w = NextWordStopped(); _n++; }
     if(_w == 'flames' or 'fire' or 'log' or 'logs') return _n + 1;
-    rfalse;
+    return _n;
 ];
 
 [ ParseNameHutFireplace _w _n;
     _w = NextWordStopped();
     while(_w == 'stone' or 'blackened') { _w = NextWordStopped(); _n++; }
     if(_w == 'hearth' or 'fireplace' or 'fieldstone') return _n + 1;
-    rfalse;
+    return _n;
 ];
 
 [ ParseNameHutIngredients _w _n;
@@ -1276,8 +1278,9 @@ Object -> Istar "Istar"
         ],
         life [w1 w2 c;
         Order:
-            "~I would only slow you down, my boy, and there are eyes on this hut that I would
-            rather not lead across half the world. You go. I shall keep the box ready.~";
+            "~There are evil forces lurking, and I dare not perform any magic or action that could give
+            me away,~ Istar whispers. ~That is why I called for you. They will take no notice of you,
+            leaving you free to do what must be done.";
         Ask, Tell:
             w1 = 0;
             w2 = 0;
@@ -1314,7 +1317,7 @@ Object -> Istar "Istar"
             if(w2 == 'stone' or 'stones') {
                 if(w1 == 'black')
                     "Istar gestures toward the gilded box. ~The stone of void is resting right here before us.
-                    Its power is potent, volatile, and deeply unsettling..~";
+                    Its power is potent, volatile, and deeply unsettling.~";
                 else if(w1 == 'red')
                     "Istar's eyes glint with memory. ~The Stone of Ember, as the ancients called it. It is
                     said to burn with an inner fire that never dims.~";
@@ -1383,7 +1386,12 @@ Object -> Istar "Istar"
                 "He leafs through a few pages and hands it back with a fond, slightly wistful
                 smile. ~The same book. You have kept it well. Whatever else the Academy did to
                 you, it taught you to look after your tools.~";
-            if(noun ofclass CStone) <<Ask self noun>>;
+            if(noun ofclass CStone) {
+                <Ask self noun>;
+                if(noun notin GoldBox) 
+                    "^He gestures toward the gilded box. ~Put it inside with its brothers, lad.~";
+                rtrue;
+            }
             !if(noun==PlayerObject || noun==DirtyScroll || noun==Folio)
             if(GiveOrShowDirtyScroll()) rtrue;
         ],
@@ -1476,7 +1484,7 @@ Object -> -> Folio "folio"
     _w = NextWord();
     if(_w == 'boundless' or 'wind-swept') { _n++; _w = NextWord(); }
     if(_w == 'steppe' or 'landscape' or 'ground' or 'grass') return _n + 1;
-    rfalse;
+    return _n;
 ];
 
 [ ParseNameSteppeRunes _w _n;
@@ -1490,7 +1498,7 @@ Object -> -> Folio "folio"
     _w = NextWord();
     if(_w == 'yellow') { _n++; _w = NextWord(); }
     if(_w == 'cloud' or 'mist' or 'fog') return _n + 1;
-    rfalse;
+    return _n;
 ];
 
 Room TeleportRoom "On the Steppe"
@@ -1808,7 +1816,7 @@ Object -> CaveMud "mud"
     return normalroom;
 ];
 
-[ DownSlope normalroom otherroom;
+[ DownSlope normalroom;
     if(location == Tunnel && LeftStatue in Tunnel) 
         "You attempt to march past the sentinels, but as you step between them, an invisible force like
         compressed air slams against your chest, throwing you back into the tunnel. The statues remain
@@ -1819,12 +1827,7 @@ Object -> CaveMud "mud"
     if(location == thedark)
         "Venturing into the pitch black is suicide. Head back south to the safety of the cave.";
     if(Tunnel has general) {
-        if(otherroom) {
-            print "The ground is frozen, and you slip down the slope.^^";
-            return otherroom;
-        } else {
-            print "The slope is frozen, and you slide down.^^";
-        }
+        print "The slope is frozen, and you slide down.^^";
     } else {
         print (string) random(
             "The slope is so steep that you half-run down it.",
@@ -1887,8 +1890,8 @@ DarkRoom MountainHall "The Rock Hall"
             bitter odour of mildew from the decaying packages.";
         ],
         u_to "The vaulted rock ceiling is lost in the dark, far beyond your reach.",
-        n_to [; return DownSlope(Tunnel, DragonHall); ],
-        d_to [; return DownSlope(Tunnel, DragonHall); ],
+        n_to [; return DownSlope(Tunnel); ],
+        d_to [; return DownSlope(Tunnel); ],
         s_to Cave,
         cant_go "Rough-hewn rock walls form a solid barrier.",
     ;
@@ -2177,6 +2180,8 @@ Object LeftWarrior "warrior"
         ],
         daemon [;
             if(self.number>0) --self.number;
+            ! don't allow turn into stone if both are alive
+            if(RightWarrior in parent(self)) self.number = 1;
             if(self.number==0) {
                 if(TestScope(self)) print (The) self, " turns back into a statue.^";
                 ReplaceObj(self, LeftStatue);
@@ -2187,9 +2192,9 @@ Object LeftWarrior "warrior"
             } else {
                 if(TestScope(self)) {
                     CommentWarriorAttackingMe(self);
-                } else {
-                    move self to location;
-                    print "^", (The) self, " charges at you with his sword raised.^";
+                !} else {
+                !    move self to location;
+                !    print "^", (The) self, " charges at you with his sword raised.^";
                 }
             }
         ],
@@ -2212,6 +2217,8 @@ Object RightWarrior "barbarian"
         ],
         daemon [;
             if(self.number>0) --self.number;
+            ! don't allow turn into stone if both are alive
+            if(LeftWarrior in parent(self)) self.number = 1;
             if(self.number==0) {
                 if(TestScope(self)) print (The) self, " turns back into a statue.^";
                 ReplaceObj(self, RightStatue);
@@ -2220,9 +2227,9 @@ Object RightWarrior "barbarian"
             if(parent(self)~=parent(LeftWarrior)) {
                 if(TestScope(self)) {
                     CommentWarriorAttackingMe(self);
-                } else {
-                    move self to location;
-                    print "^", (The) self, " charges at you with his axe raised.^";
+                !} else {
+                !    move self to location;
+                !    print "^", (The) self, " charges at you with his axe raised.^";
                 }
             }
         ],
@@ -2298,10 +2305,10 @@ Object -> CrematedBarbarian "barbarian's ashes"
 
 Object -> Treasure "treasure"
     with
-        name 'pile' 'heap' 'hoard' 'valuables' 'treasure' 'coins' 'coin' 'gems' 'gold',
-        initial "Sprawled across a staggering hoard of gold and priceless relics is a colossal dragon.",
+        name 'pile' 'heap' 'hoard' 'valuables' 'treasure' 'coins' 'coin' 'gems' 'gold' 'plates'
+             'coin' 'plate' 'cups' 'crowns' 'cup' 'crown',
         description
-            "Coins, plate, cups and crowns lie heaped in drifts across the floor, most of it
+            "Coins, plates, cups and crowns lie heaped in drifts across the floor, most of it
             tarnished black with age. A fortune, and not one piece of it worth your life.",
         before [;
         Take, Remove, Transfer:
@@ -2317,7 +2324,7 @@ Object -> Treasure "treasure"
                                                         dragon guards it.";
             rfalse;
         ],
-    has static;
+    has scenery;
 
 Object -> Wound "wound"
     with
@@ -2364,8 +2371,14 @@ Object -> Dragon "dragon"
         name 'dragon' 'wyrm' 'serpent' 'wounded' 'shocked' 'she',
         number -1,                                                 ! time-out for the wounded state
         initial [;
-            if(self.number>0) "There is a wounded dragon here.";
-            "The dragon tilts her massive head, watching your sudden and undignified entrance with frank curiosity.";
+            if(self.number>0) 
+                "The colossal dragon lies coiled upon her hoard, dark blood glistening against her
+                golden bed. Her breath comes in heavy, ragged huffs that stir the ash on the floor.";
+            print "Sprawled across a staggering hoard of gold and priceless relics is a colossal dragon";
+            if(DragonHall hasnt visited)
+                print ".^^The dragon tilts her massive head, watching your sudden and undignified
+                entrance with frank curiosity";
+            ".";
         ],
         domagic [spell;
             if(spell == AnimateSpell)
@@ -2399,6 +2412,8 @@ Object -> Dragon "dragon"
             perfect, unhurried intelligence.";
         ],
         before [;
+        LookUnder:
+            "Trying to look under a resting dragon seems like a fast way to get roasted.";
         TalkTo: 
             "The dragon demands concise questions, not pleasantries.
             Try asking it about a particular subject.";
@@ -2486,18 +2501,19 @@ Object -> Dragon "dragon"
                     if(w1 == 'death' or 'spell')
                         "~It is a cruel gift, and I have given it to you anyway,~ she says. ~You will
                         know the moment it is needed. If you are fortunate, you never will.~";
-                    if(w1 == 'istar')
+                    if(w1 == 'istar' or 'mentor' or 'teacher')
                         "~I do not know your teacher. But I have lived a long time, wizard, and I will
                         tell you this for nothing: when an old man asks a young one to fetch what he
                         will not fetch himself, it is worth asking why.~";
                     if(w1 == 'treasure' or 'gold')
-                        "~Take some, if it pleases you.~ She does not move. ~It is only metal. I lie on
-                        it because it is the one thing down here that does not rot.~";
+                        "~Metal and stone,~ she rumbles softly, not shifting an inch. ~I lie upon it
+                        because it stays dry and cold. Do not mistake my patience for generosity,
+                        tiny creature.~";
                     if((w1 == 'god' or 'gods') || (w1 == 'old' && w2 == 'god' or 'gods'))
                         "The dragon is quiet for a long moment. ~We are old,~ she says at last. ~They are
                         older. My grandmothers went down into the deep rock to be out of their way, and
                         my grandmothers did not frighten easily.~";
-                    "The dragon looks at you but says nothing.";
+                    "The dragon looks at you but says nothing. Perhaps you should change the subject.";
                 }
         ],
         daemon [l r p;
@@ -2566,9 +2582,10 @@ Object -> Dragon "dragon"
                     else print "^", (The) RightWarrior;
                     PlaySound(SND_DRAGON, 0);
                     print " sees the dragon and rushes at her with weapon raised high. The dragon
-                                quickly burns him to death and cremates the body.";
+                                quickly burns him to death and cremates the body.^";
             }
-            if((l==true || r==true) && p==false) {
+            !if((l==true || r==true) && p==false) {
+            if((l==true || r==true) && location == Tunnel) {
                 PlaySound(SND_DRAGON, 0);
                 print "^You hear screams and the clash of weapons nearby. Then a warm gust of
                             air comes, and the screams suddenly fall silent.^";
@@ -2603,7 +2620,7 @@ Object -> Dragon "dragon"
     _w = NextWord();
     if(_w == 'sea') { _n++; _w = NextWord(); }
     if(_w == 'grass' or 'plant' or 'plants') return _n + 1;
-    rfalse;
+    return _n;
 ];
 
 Room ChurchYard "Before a Temple"
@@ -2615,14 +2632,14 @@ Room ChurchYard "Before a Temple"
             great temple, weathered by long centuries of sea wind.";
         ],
         cheap_scenery
+        CS_NO_ADJ 'sea'
+            "To the south, waves lap against the shore under a bright sky. The ocean
+            breeze carries a fresh, salty scent."
         CS_PARSE_NAME ParseNameSeaGrass
             "Coarse, blue-grey tussocks clinging to the sandy soil either side of the path,
             combed flat and all one way by the wind off the water."
         CS_NO_ADJ 'forest'
             "A dense cluster of tall green trees visible along the path to the north."
-        CS_NO_ADJ 'sea'
-            "To the south, waves lap against the shore under a bright sky. The ocean
-            breeze carries a fresh, salty scent."
         'narrow' 'path'
             "A narrow ribbon of trodden earth running from the treeline in the north down
             towards the shore in the south, with the temple standing off to the east.",
@@ -2656,9 +2673,23 @@ Object -> DummyChurch "temple"
 
 [ ParseNameLeadedWindows _w _n;
     _w = NextWord();
-    while(_w == 'broken' or 'leaded') { _n++; _w = NextWord(); }
-    if(_w == 'window' or 'windows') return _n + 1;
-    rfalse;
+    while(_w == 'broken' or 'leaded' or 'glass') { _n++; _w = NextWord(); }
+    if(_w == 'window' or 'windows' or 'pane' or 'panes') return _n + 1;
+    return _n;
+];
+
+[ ParseNameTemple _w _n;
+    _w = NextWord();
+    while(_w == 'ancient' or 'ruined' or 'stone' or 'main') { _n++; _w = NextWord(); }
+    if(_w == 'temple' or 'sanctuary') return _n + 1;
+    return _n;
+];
+
+[ ParseNameVaults _w _n;
+    _w = NextWord();
+    while(_w == 'ribbed' or 'stone' or 'far' or 'overhead' or 'spider') { _n++; _w = NextWord(); }
+    if(_w == 'vault' or 'vaults' or 'cobweb' or 'cobwebs' or 'ceiling' or 'web' or 'webs') return _n + 1;
+    return _n;
 ];
 
 Room Church "The Temple"
@@ -2666,7 +2697,7 @@ Room Church "The Temple"
         description
             "The vaults rise high above your head, and the whole great space stands silent
             and abandoned. The leaded windows have been broken out, and almost all the
-            furnishings are gone.",
+            furnishings are gone. An open doorway to the west leads back outside.",
         cheap_scenery
         CS_PARSE_NAME ParseNameLeadedWindows
             "Multi-paned leaded windows line the high walls, though nearly every pane of
@@ -2675,9 +2706,9 @@ Room Church "The Temple"
             "A high, ragged crest of stone rising from the shoulders to the base of the
             spine. The sculptor has cut it thin enough that the light comes through at the edges."
         CS_NO_ADJ 'scales'
-            "Small, overlapping and beautifully cut, running from the throat down to the
+            "Small, overlapping and beautifully cut, running from the neck down to the
             ankles. Whoever carved this had seen the real thing."
-        CS_NO_ADJ 'temple'
+        CS_PARSE_NAME ParseNameTemple
             "You are standing inside the main sanctuary of the ancient, ruined stone temple."
         'flowers' 'plants'
             "Withered stems and dried petals lie scattered in the dust at the statue's base."
@@ -2692,7 +2723,7 @@ Room Church "The Temple"
         'wall' 'walls'
             "High stone walls rise into the shadowed vaults above, scarred by time and dampness where
             rain creeps in through the broken windows."
-        'vault' 'vaults'
+        CS_PARSE_NAME ParseNameVaults
             "Ribbed stone vaults span the ceiling far overhead, dark with age and hung with
             cobwebs the size of bedsheets.",
         before [;
@@ -2708,6 +2739,7 @@ Room Church "The Temple"
             give self general;
             if(player has general) {
                 give player ~general;
+                give PlayerClothes general;
                 "You say another prayer, and once more you are answered. The change back is quite
                 as painful as the change out was: the scales sink away, the webbing parts, and
                 the fin withdraws along your spine. Your robe is the worse for all of it, but
@@ -2764,7 +2796,7 @@ Object -> Statue "statue"
     _w = NextWord();
     while(_w == 'dark') { _n++; _w = NextWord(); }
     if(_w == 'sand' or 'soil') return _n + 1;
-    rfalse;
+    return _n;
 ];
 
 Room Beach "The Beach"
@@ -2840,7 +2872,7 @@ Object SeaWater "sea water"
     _w = NextWord();
     while(_w == 'sea') { _n++; _w = NextWord(); }
     if(_w == 'floor' or 'seafloor' or 'sand' or 'soil') return _n + 1;
-    rfalse;
+    return _n;
 ];
 
 Room OceanFloor "The Sea Floor"
@@ -2867,14 +2899,13 @@ Room OceanFloor "The Sea Floor"
         u_to Beach,
         n_to Beach,
         d_to "The sand is packed hard beneath you, and whatever lies under it means to stay there.",
-        cant_go "Forests of dense kelp and sharp coral reefs block any progress west..";
+        cant_go "Forests of dense kelp and sharp coral reefs block any progress west.";
 
 Object -> Shells "sea shells"
     with
         name 'shells' 'shell',
         description
-            "A scattering of sea snail shells, spiral nautiluses, and polished clam shells coat the seabed,
-            their iridescent mother-of-pearl catching the filtered sunlight from above.",
+            "A scattering of sea snail shells, spiral nautiluses, and polished clam shells coat the seabed.",
         before [;
         Take:
             "You gather a handful, admire them, and let them fall again. You did not come
@@ -2886,21 +2917,21 @@ Object -> Shells "sea shells"
     _w = NextWord();
     while(_w == 'corn') { _n++; _w = NextWord(); }
     if(_w == 'fields' or 'field' or 'cornfields' or 'cornfield') return _n + 1;
-    rfalse;
+    return _n;
 ];
 
 [ ParseNameDirtRoad _w _n;
     _w = NextWord();
-    while(_w == 'dirt' or 'dirty' or 'dusty' or 'uneven') { _n++; _w = NextWord(); }
+    while(_w == 'dirt' or 'dirty' or 'dusty' or 'uneven' or 'narrow') { _n++; _w = NextWord(); }
     if(_w == 'road') return _n + 1;
-    rfalse;
+    return _n;
 ];
 
 [ ParseNameVillage _w _n;
     _w = NextWord();
     while(_w == 'small') { _n++; _w = NextWord(); }
     if(_w == 'village' or 'rooftops') return _n + 1;
-    rfalse;
+    return _n;
 ];
 
 Room VillageRoad "The Country Road"
@@ -3022,7 +3053,7 @@ Object -> Beggar "beggar"
         before [;
         TalkTo:
             "The beggar looks up at you with weary, cloudy eyes. ~Spare a copper for a poor soul, sir?~ he rasps, shuffling
-            his palm forward. ~A bite of bread or a coin to warm my bones, and I'd be eternally grateful.~
+            his palm forward. ~A bite of bread or a coin to buy a warm meal, and I'd be eternally grateful.~
             He seems too weak and distracted by hunger to offer much conversation.";
         Search:
             "The poor man has nothing on him save the threadbare rags on his back. Pulling at his clothes would be needlessly cruel.";
@@ -3070,6 +3101,8 @@ Object BeggarHands "hands"
             "His palm is upturned and quite empty, the fingers trembling slightly with the effort of holding it out.";
         ],
         before [;
+        Take, Remove:
+            "The beggar flinches and pulls his hand back. He's looking for a coin, not a handshake.";
         Receive:
             if(SleepingBeggar in VillageRoad) {
                 if(noun == SilverCoin)
@@ -3090,6 +3123,14 @@ Object BeggarRags "rags"
                 small and hard still hangs beneath them, rising and falling with his breathing.";
             "Layer upon layer of colourless cloth, worn so thin in places that the road wind goes straight through it.
             Something small and hard hangs beneath, out of sight.";
+        ],
+        before [;
+        Take, Remove:
+            "The beggar pulls away, clutching his tattered garments tightly against his chest. 
+            ~Here now, leave a poor man his clothes!~";
+        LookUnder, Search:
+            "You catch a glimpse of a small, hard object tucked away under the filthy cloth, but the
+            beggar pulls his rags tight around himself before you can get a better look.";
         ],
     has scenery pluralname;
 
@@ -3170,8 +3211,9 @@ Object Corn "corn"
 Room Village "The Village"
     with
         description
-            "The village consists of a dozen timber-framed houses lining either side of the road. Despite its modest size,
-            the area is full of life and bustle. It is market day.",
+            "The village consists of a dozen timber-framed houses lining either side of the road, 
+            which runs from the open countryside to the west down to the far end of the village to 
+            the east. Despite its modest size, the area is full of life and bustle. It is market day.",
         cheap_scenery
             'stall' 'stalls'
                 "Trestles heaped with cabbages, salt fish, rough cloth and cheap tin charms.
@@ -3547,6 +3589,11 @@ Object HawkerTunic "tunic"
         description
             "Loud stripes in three colours, cut generously, with sleeves wide enough to be
             fashionable. It is the only garment on this road that was chosen to be looked at.",
+        before [;
+        Take, Remove, Search, LookUnder:
+            "The hawker steps back with a sharp glare, clutching his tunic. ~Hey! My eyes are up here,
+            and my silver is in my pouch. Keep your hands to yourself!~";
+        ],
     has scenery;
 
 Object HawkerSleeve "sleeve"
@@ -3558,6 +3605,10 @@ Object HawkerSleeve "sleeve"
                 cloth. The stone has not been on this bench since he picked it up.";
             "Wide, deep, and gathered at the cuff. There is a great deal of room in a sleeve
             like that, and the hawker keeps turning that side of himself away from you.";
+        ],
+        before [;
+        Take, Remove, Search, LookUnder:
+            "The hawker swats your hand away from his arm. ~I'm shuffling cups here, friend.~";
         ],
     has scenery;
 
@@ -3591,7 +3642,7 @@ Room EndOfVillage "The Edge of the Village"
         d_to "Only the dusty dirt road beneath your boots, rutted hard by cartwheels.",
         e_to
             "The road runs on east through the corn and out into open country,
-            and everything you have come here for lies behind you.",
+            but everything you have come here for lies behind you.",
         cant_go "The dense cornfields form an unbroken wall of rustling stalks on either side of the road.";
 
 Object -> RoadDust "dust"
@@ -4230,7 +4281,7 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
          if(HintPause()) break;
          print "Cast the death spell at the demon.^";
          LastHintPause();
- 11: print "Your mentor dies. You cannot prevent it...^";
+ 11: print "Your mentor dies. You cannot prevent it.^";
          if(HintPause()) break;
          print "but you can raise him from the dead.^";
          if(HintPause()) break;
