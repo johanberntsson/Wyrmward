@@ -258,6 +258,7 @@ z
 say left
 say left cup
 say left cup to hawker
+point to left cup
 point at left cup
 x stone
 cast freeze on stone
@@ -297,6 +298,11 @@ beggar, hello
 beggar, wake up
 wake beggar
 shake beggar
+shake tree
+pull tree
+move tree
+cast freeze on tree
+cast freeze on beggar
 move beggar
 listen to beggar
 smell beggar
@@ -429,6 +435,8 @@ take all
 n
 cast illuminate on it
 s
+cast freeze on spellbook
+cast illuminate on spellbook
 cast illuminate on green
 e
 u
@@ -580,7 +588,6 @@ listen
 x temple
 x sea
 x path
-x mountain
 x sea grass
 w
 u
@@ -610,6 +617,7 @@ x flagstones
 x flagstone
 x moss
 x scraps
+eat scraps
 x broken
 x wood
 x bases
@@ -654,8 +662,8 @@ x path
 x soil
 enter sea
 enter water
-enter waves
 swim
+enter waves
 smell
 listen
 x sand
@@ -671,9 +679,6 @@ x sea
 x floor
 w
 x kelp
-x coral
-x reef
-x reefs
 take stone
 u
 cast teleport
@@ -697,6 +702,18 @@ ask demon about istar
 touch field
 attack demon
 
+restore
+
+x crypt
+x chamber
+x heathen
+x temple
+restore
+
+x obsidian
+x walls
+x runes
+x ceiling
 restore
 
 cast death on demon

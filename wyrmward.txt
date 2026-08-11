@@ -874,7 +874,8 @@ identical. Glowing runes are cut into its keystone, and the air beneath them
 hums quietly to itself.
 
 > x air
-Sorry, I don't understand what "air" means.
+The magical mist has already thinned and vanished into the brisk steppe air,
+leaving behind only the faint, ozone scent of teleportation magic.
 
 > touch archway
 The stone is oddly warm under your palm, and the runes brighten at the contact,
@@ -1247,7 +1248,7 @@ motioning at the cups.
 
 "Point to the cup you think the stone is under," says the man.
 
-> point at left cup
+> point to left cup
 The hawker lifts the cup, and sure enough, the stone is there. "Beginner's
 luck," he mutters. "Since that one was free, you win nothing. But win the next
 one and you take twenty silver coins off me." He picks up the stone and sets the
@@ -1255,6 +1256,12 @@ cups back in a neat row.
 
 You recognize the stone! Apart from its red colour, it is identical to your
 mentor's black stone.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> point at left cup
+The hawker's hand arrives on the bench a moment before yours does. "The cups
+stay with me, master. You are welcome to point at them all day."
 
 "Won't you try again? Just one silver coin," says the hawker.
 
@@ -1464,6 +1471,27 @@ again. He will get up when the heat goes out of the day and not a moment sooner.
 > shake beggar
 Rousing a sleeping man out of the shade at midday, so that you can give him
 money, would be a strange sort of kindness. Let him sleep and come back later.
+
+> shake tree
+Shaking a trunk that thick is a fool's errand. It stands solid as stone.
+
+> pull tree
+The oak is far too firmly rooted to be moved.
+
+> move tree
+The oak is far too firmly rooted to be moved.
+
+> cast freeze on tree
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the freeze spell.
+
+A thin layer of ice covers the oak tree, but soon melts away.
+
+> cast freeze on beggar
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the freeze spell.
+
+A thin layer of ice covers the sleeping beggar, but soon melts away.
 
 > move beggar
 There is no reason to move him. He is not in your way, and he is exactly where
@@ -2127,6 +2155,21 @@ the south wall, but it gives out well before the far corners do, so there is no
 telling how large the place really is. What you can see is a tunnel running on
 northward.
 
+> cast freeze on spellbook
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the freeze spell.
+
+As you trace the words on the page, the magic flares briefly and dissolves into
+harmless sparks. The spellbook's ancient wards refuse to let its own pages be
+turned against it.
+
+> cast illuminate on spellbook
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the illumination spell.
+
+The spellbook flares so brightly that you nearly drop it, then settles to a
+steady white glow. It will serve very well as a lamp.
+
 > cast illuminate on green
 The spellbook opens itself to the right page, and you read aloud the complicated
 words of the illumination spell.
@@ -2333,7 +2376,8 @@ invisible force like compressed air slams against your chest, throwing you back
 into the tunnel. The statues remain motionless, watching.
 
 > x statues
-Do you mean the warrior statue or the barbarian statue?
+They stand as a pair, but you'll have to deal with the left or the right one
+individually.
 
 > x left
 Cut from the same grey rock as the tunnel itself, a broad-shouldered warrior
@@ -2799,12 +2843,6 @@ The dragon shifts among the coins and tests her throat with one slow, careful
 swallow.
 
 > talk to dragon
-The dragon demands concise questions, not pleasantries. Try asking it about a
-particular subject.
-
-The dragon's breathing is steadier now, but her eyes are still glassy.
-
-> ask dragon about me
 The dragon focuses on you, and something like surprise crosses her face. "A
 wizard," she says. "Yes, of course. It was your spell that closed my throat."
 She raises her head and looks you in the eye. "You saved my life, wizard. In
@@ -2813,9 +2851,15 @@ return I shall give you the most precious thing I know."
 Your spellbook suddenly floats before you and opens itself. A new spell is
 written on a blank page: the Death Spell.
 
-Some colour is returning to the great scaled throat.
+The dragon's breathing is steadier now, but her eyes are still glassy.
 
 [The score has just gone up by 5 points.]
+
+> ask dragon about me
+The dragon mutters to herself: "A human who saves my life. Helps a dragon. Never
+heard of such a thing." She is still very far from herself.
+
+Some colour is returning to the great scaled throat.
 
 > show spellbook to dragon
 She glances at the open page and away again, unimpressed. "Books," she says
@@ -3010,9 +3054,6 @@ carries a fresh, salty scent.
 A narrow ribbon of trodden earth running from the treeline in the north down
 towards the shore in the south, with the temple standing off to the east.
 
-> x mountain
-You can't see any such thing.
-
 > x sea grass
 Coarse, blue-grey tussocks clinging to the sandy soil either side of the path,
 combed flat and all one way by the wind off the water.
@@ -3060,13 +3101,19 @@ Multi-paned leaded windows line the high walls, though nearly every pane of
 glass has been smashed, letting in the cool ocean breeze.
 
 > x temple
-You are standing inside the main sanctuary of the ancient, ruined stone temple.
+The ancient stone sanctuary rises to shadowed vaults above. Rain seeps through
+shattered windows, dripping down cold, weathered walls to the moss-covered
+flagstone floor.
 
 > x ancient
-You are standing inside the main sanctuary of the ancient, ruined stone temple.
+The ancient stone sanctuary rises to shadowed vaults above. Rain seeps through
+shattered windows, dripping down cold, weathered walls to the moss-covered
+flagstone floor.
 
 > x stone temple
-You are standing inside the main sanctuary of the ancient, ruined stone temple.
+The ancient stone sanctuary rises to shadowed vaults above. Rain seeps through
+shattered windows, dripping down cold, weathered walls to the moss-covered
+flagstone floor.
 
 > x vaults
 Ribbed stone vaults span the ceiling far overhead, dark with age and hung with
@@ -3105,6 +3152,53 @@ glass has been smashed, letting in the cool ocean breeze.
 > x panes
 Multi-paned leaded windows line the high walls, though nearly every pane of
 glass has been smashed, letting in the cool ocean breeze.
+
+> x walls
+The ancient stone sanctuary rises to shadowed vaults above. Rain seeps through
+shattered windows, dripping down cold, weathered walls to the moss-covered
+flagstone floor.
+
+> x flagstones
+The ancient stone sanctuary rises to shadowed vaults above. Rain seeps through
+shattered windows, dripping down cold, weathered walls to the moss-covered
+flagstone floor.
+
+> x flagstone
+The ancient stone sanctuary rises to shadowed vaults above. Rain seeps through
+shattered windows, dripping down cold, weathered walls to the moss-covered
+flagstone floor.
+
+> x moss
+The ancient stone sanctuary rises to shadowed vaults above. Rain seeps through
+shattered windows, dripping down cold, weathered walls to the moss-covered
+flagstone floor.
+
+> x scraps
+Desiccated crumbs and ancient bones, left long ago as offerings to the strange
+deity.
+
+> eat scraps
+No need to concern yourself with that.
+
+> x broken
+Multi-paned leaded windows line the high walls, though nearly every pane of
+glass has been smashed, letting in the cool ocean breeze.
+
+> x wood
+Only broken scraps of wood and overturned stone bases remain where altars and
+pews once stood.
+
+> x bases
+Only broken scraps of wood and overturned stone bases remain where altars and
+pews once stood.
+
+> x altars
+Only broken scraps of wood and overturned stone bases remain where altars and
+pews once stood.
+
+> x pews
+Only broken scraps of wood and overturned stone bases remain where altars and
+pews once stood.
 
 > x offerings
 Brittle stalks that were once flowers, and a few blackened scraps that were once
@@ -3172,8 +3266,9 @@ furnishings are gone. An open doorway to the west leads back outside.
 A statue still stands in the middle of the temple.
 
 > x walls
-High stone walls rise into the shadowed vaults above, scarred by time and
-dampness where rain creeps in through the broken windows.
+The ancient stone sanctuary rises to shadowed vaults above. Rain seeps through
+shattered windows, dripping down cold, weathered walls to the moss-covered
+flagstone floor.
 
 > pray to statue
 You say a quick prayer for success in your quest, as you have so many times
@@ -3228,8 +3323,8 @@ The wet sand gives way to surging surf.
 Jagged sea rocks and deep tide pools prevent travel along the beach.
 
 > x waves
-Towering, foamy waves surge onto the dark sand with a rhythmic roar, spraying
-cold saltwater into the air.
+The vast, open sea stretches endlessly to the horizon, dark blue and churning
+under the open sky.
 
 > x rocks
 Black, weed-slicked rocks break the line of the beach to either side, with deep
@@ -3274,7 +3369,29 @@ The only way out of here is to follow the path back to the temple.
 The sand is a dark, almost volcanic silt, packed firm where the waves wash over
 it.
 
+> enter sea
+You throw yourself into the surf, and your new body knows exactly what to do
+with it. Fins and webbed hands drive you down through the green water towards
+the bottom...
+
+The Sea Floor
+The sea floor is a field of ripple-marked sand, scattered with bright shells and
+combed by slow, swaying sea plants. Far above, the light comes down in shifting
+bars. You can swim back up towards the shore.
+
+You can see a blue stone here.
+
+> enter water
+You're already swimming in the ocean.
+
 > swim
+You swim back to the beach.
+
+The Beach
+Here the land gives out, and great waves come in and break along a strand of
+dark sand. A path leads back north towards the temple.
+
+> enter waves
 You throw yourself into the surf, and your new body knows exactly what to do
 with it. Fins and webbed hands drive you down through the green water towards
 the bottom...
@@ -3327,6 +3444,19 @@ there.
 > x blue stone
 Roughly carved and pulsing with a deep, inner azure glow, this stone matches the
 shape and ancient markings of your mentor's black stone.
+
+> x sea
+The water is salty and cold.
+
+> x floor
+A look in that direction reveals nothing new.
+
+> w
+Forests of dense kelp block any progress west.
+
+> x kelp
+Long ribbons of weed sway in slow unison with the swell, rooted among the
+stones, their fronds catching what little light reaches this far down.
 
 > take stone
 Taken.
@@ -3506,16 +3636,94 @@ turns to you and says, "The gate is open. A new age has begun."
 Press space to continue.
 
 
-A new age of terror and dread begins. The Old Gods rule the earth once more, and
+A new age of terror and dread begins. The Old Gods rule the Earth once more, and
 the first to be torn to pieces is you.
 
 
   *** You have died ***
 
-In that game you scored 31 out of a possible 40, in 586 turns.
+In that game you scored 31 out of a possible 40, in 601 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
 that game or QUIT? restore
+Enter a file name.
+Default is "wyrmward.qzl": 
+Ok.
+
+> x crypt
+The crypt is an ancient, subterranean chamber dominated by dark obsidian
+pillars, a central stone altar, and four glowing pedestals.
+
+The demon reads a spell aloud.
+
+The amulet begins to vibrate.
+
+> x chamber
+The crypt is an ancient, subterranean chamber dominated by dark obsidian
+pillars, a central stone altar, and four glowing pedestals.
+
+Part of the floor falls away, and a dark opening like a well appears. There is a
+slimy liquid standing in it. Still reading, the demon begins to pace anti-
+clockwise around the well.
+
+The amulet vibrates violently.
+
+> x heathen
+The crypt is an ancient, subterranean chamber dominated by dark obsidian
+pillars, a central stone altar, and four glowing pedestals.
+
+The demon drops the stones one by one into the well, and the liquid sinks away.
+
+The amulet begins to move of its own accord towards the red field.
+
+> x temple
+The crypt is an ancient, subterranean chamber dominated by dark obsidian
+pillars, a central stone altar, and four glowing pedestals.
+
+The well now glows with a red light from below. The demon looks very expectant.
+
+The amulet pulls strongly in the direction of the red field.
+
+> restore
+Enter a file name.
+Default is "wyrmward.qzl": 
+Ok.
+
+> x obsidian
+Monolithic shafts of black stone that support the vaulted ceiling far above.
+They are etched with writhing, glowing runes.
+
+The demon reads a spell aloud.
+
+The amulet begins to vibrate.
+
+> x walls
+The crypt is an ancient, subterranean chamber dominated by dark obsidian
+pillars, a central stone altar, and four glowing pedestals.
+
+Part of the floor falls away, and a dark opening like a well appears. There is a
+slimy liquid standing in it. Still reading, the demon begins to pace anti-
+clockwise around the well.
+
+The amulet vibrates violently.
+
+> x runes
+You can't read the blasphemous language, but looking at it too long gives you a
+dull headache.
+
+The demon drops the stones one by one into the well, and the liquid sinks away.
+
+The amulet begins to move of its own accord towards the red field.
+
+> x ceiling
+The crypt is an ancient, subterranean chamber dominated by dark obsidian
+pillars, a central stone altar, and four glowing pedestals.
+
+The well now glows with a red light from below. The demon looks very expectant.
+
+The amulet pulls strongly in the direction of the red field.
+
+> restore
 Enter a file name.
 Default is "wyrmward.qzl": 
 Ok.
@@ -3530,9 +3738,9 @@ The demon reads a spell aloud.
 The amulet begins to vibrate.
 
 > x altar
-A massive block of dark, unpolished granite, cut with jagged channels that all
-run inwards towards a hollow at its centre. You would rather not think about
-what the channels are for.
+The altar is a massive block of dark, unpolished granite, cut with jagged
+channels that all run inwards towards a hollow at its centre. You would rather
+not think about what the channels are for.
 
 Part of the floor falls away, and a dark opening like a well appears. There is a
 slimy liquid standing in it. Still reading, the demon begins to pace anti-
@@ -3590,9 +3798,9 @@ The demon drops the stones one by one into the well, and the liquid sinks away.
 The amulet begins to move of its own accord towards the red field.
 
 > x well
-A ragged hole where the flagstones used to be, going down further than the light
-reaches. The slimy liquid in it is settling and smoothing over as the demon
-paces around the rim.
+It's a ragged hole where the flagstones used to be, going down further than the
+light reaches. The slimy liquid in it is settling and smoothing over as the
+demon paces around the rim.
 
 The well now glows with a red light from below. The demon looks very expectant.
 
@@ -3609,13 +3817,13 @@ turns to you and says, "The gate is open. A new age has begun."
 Press space to continue.
 
 
-A new age of terror and dread begins. The Old Gods rule the earth once more, and
+A new age of terror and dread begins. The Old Gods rule the Earth once more, and
 the first to be torn to pieces is you.
 
 
   *** You have died ***
 
-In that game you scored 31 out of a possible 40, in 586 turns.
+In that game you scored 31 out of a possible 40, in 601 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
 that game or QUIT? restore
@@ -3736,13 +3944,13 @@ grass beside you. The sun is warm, and it is a perfect day for going fishing.
 Press space to continue.
 
 
-The earth is saved, and your mentor's soul is restored. All's well that ends
+The Earth is saved, and your mentor's soul is restored. All's well that ends
 well.
 
 
   *** You have won ***
 
-In that game you scored 40 out of a possible 40, in 589 turns.
+In that game you scored 40 out of a possible 40, in 604 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
 that game or QUIT? full

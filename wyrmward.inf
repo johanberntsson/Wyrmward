@@ -161,11 +161,23 @@ Include "globals.h";
     return 1;
 ];
 
-![ SceneryReply word1 word2 routine;
-!    default:
-!        routine = word1 = word2; ! getting rid of a compiler warning
-!        rfalse;
-!];
+[ SceneryReply word1 word2 routine;
+    Taste:
+        if(routine == ParseNameSea) {
+            "You wet a finger in the surf. Salt, cold, and a faint mineral bite underneath
+            it, as though the water had come a very long way to get here.";
+        }
+        rfalse;
+    Enter:
+        if(routine == ParseNameSea) {
+            if(location == Beach) <<Swim>>;
+            if(location == SeaFloor) "You're already swimming in the ocean.";
+        }
+        rfalse;
+    default:
+        routine = word1 = word2; ! getting rid of a compiler warning
+        rfalse;
+];
 
 ! Uncomment to add PunyInform extensions
 Include "ext_menu.h";
@@ -192,7 +204,7 @@ Constant PIC_DEMON      = 2;
 Constant PIC_DRAGON     = 3;
 Constant PIC_MEADOW     = 4;
 Constant PIC_TELEPORT   = 5;
-Constant PIC_CHURCH     = 6;
+Constant PIC_TEMPLE     = 6;
 Constant PIC_WAVE       = 7;
 Constant PIC_WOOD       = 8;
 Constant PIC_VILLAGE    = 9;
@@ -270,6 +282,16 @@ Object SpellBook "spellbook"
                 school. The spells written in it are the fruit of a great many years of study
                 and you need to read it to see its contents.^";
             return self.instructions();
+        ],
+        domagic [ spell;
+            if(spell == IlluminateSpell && self hasnt light) {
+                give self light;
+                "The spellbook flares so brightly that you nearly drop it, then settles to a
+                steady white glow. It will serve very well as a lamp.";
+            }
+            "As you trace the words on the page, the magic flares briefly and dissolves into
+            harmless sparks. The spellbook's ancient wards refuse to let its own pages be
+            turned against it.";
         ],
         before [ a;
         Open, Close:
@@ -583,7 +605,7 @@ Extend 'look'
 
 Verb 'untie' * noun -> Untie;
 [ UntieSub; "You would achieve nothing by this."; ];
-Verb 'point'                                    * 'at' noun -> PointAt;
+Verb 'point' * 'at'/'to' noun -> PointAt;
 [ PointAtSub; "You point. Nothing happens."; ];
 Verb 'follow' * noun -> Follow;
 [ FollowSub; "That isn't something you can follow. Try choosing a direction to move instead."; ];
@@ -1225,7 +1247,7 @@ Object -> GoldBox "gilded box"
                 Everything turns yellow as he reads a teleportation spell, and you are carried
                 away to another place.^^";
                 StartDaemon(EvilMaster);
-                PlayerTo(GateRoom);
+                PlayerTo(Crypt);
                 rtrue;
             }
         ],
@@ -1496,8 +1518,8 @@ Object -> -> Folio "folio"
 
 [ ParseNameYellowCloud _w _n;
     _w = NextWord();
-    if(_w == 'yellow') { _n++; _w = NextWord(); }
-    if(_w == 'cloud' or 'mist' or 'fog') return _n + 1;
+    if(_w == 'yellow' or 'brisk' or 'magical') { _n++; _w = NextWord(); }
+    if(_w == 'cloud' or 'mist' or 'fog' or 'air') return _n + 1;
     return _n;
 ];
 
@@ -1557,7 +1579,7 @@ Room TeleportRoom "On the Steppe"
                     and as it clears, the wide steppe vanishes...^^";
                 PlayerTo(VillageRoad); rtrue; ],
         w_to [; print "A yellow cloud surrounds you, and as it clears you find yourself...^^";
-                PlayerTo(ChurchYard); rtrue; ],
+                PlayerTo(TempleYard); rtrue; ],
         u_to "The sky over the steppe is enormous, cloudless and entirely out of reach.",
         d_to
             "Dry turf and hard-packed earth, bound together by the roots of a thousand years
@@ -1983,6 +2005,7 @@ DarkRoom Tunnel "Tunnel"
                 if(LeftWarrior in self && RightWarrior in self) {
                     move LeftWarrior to DragonHall;
                     move RightWarrior to DragonHall;
+                    move Statues to DragonHall;
                     if(player in self) {
                         print
                             "^The warrior and the barbarian slip on the ice at the same moment and go down the
@@ -2072,9 +2095,17 @@ Object -> ms_water "mud"
         ],
     has scenery concealed; ! general if referred to as water
 
+Object -> Statues "statues"
+    with
+        name 'statues' 'warriors',
+        before [;
+            "They stand as a pair, but you'll have to deal with the left or the right one individually.";
+        ],
+    has pluralname scenery;
+
 Object -> LeftStatue "warrior statue"
     with
-        name 'warrior' 'left' 'statue' 'statues',
+        name 'warrior' 'left' 'statue',
         number 0,
         description
             "Cut from the same grey rock as the tunnel itself, a broad-shouldered warrior
@@ -2107,7 +2138,7 @@ Object -> LeftStatue "warrior statue"
 
 Object -> RightStatue "barbarian statue"
     with
-        name 'barbarian' 'right' 'statue' 'statues',
+        name 'barbarian' 'right' 'statue',
         description
             "The barbarian is all snarl and sinew, a battleaxe in his right hand and a long
             dagger in his left. Whoever carved him appears to have been working from an
@@ -2415,6 +2446,7 @@ Object -> Dragon "dragon"
         LookUnder:
             "Trying to look under a resting dragon seems like a fast way to get roasted.";
         TalkTo: 
+            if(self has general && DeathSpell notin SpellBook) <<Ask Dragon self>>;
             "The dragon demands concise questions, not pleasantries.
             Try asking it about a particular subject.";
         Ride:
@@ -2568,7 +2600,10 @@ Object -> Dragon "dragon"
             p=player in parent(self);
             if(l) RemoveObj(LeftWarrior);
             if(r) RemoveObj(RightWarrior);
-            if(l==true && r==true) self.number=5; ! the dragon is wounded
+            if(l==true && r==true) {
+                remove Statues;
+                self.number=5; ! the dragon is wounded
+            }
             if(l==true && r==true && p==true) {
                 PlaySound(SND_DRAGON, 0);
                 print "^", (The) LeftWarrior, " and ", (the) RightWarrior,
@@ -2619,20 +2654,26 @@ Object -> Dragon "dragon"
 [ ParseNameSeaGrass _w _n;
     _w = NextWord();
     if(_w == 'sea') { _n++; _w = NextWord(); }
-    if(_w == 'grass' or 'plant' or 'plants') return _n + 1;
+    if(_w == 'grass' or 'plant' or 'plants' or 'kelp') return _n + 1;
     return _n;
 ];
 
-Room ChurchYard "Before a Temple"
+[ ParseNameSea _w _n;
+    _w = NextWord();
+    if(_w == 'sea' or 'ocean' or 'water' or 'waves') return _n + 1;
+    return _n;
+];
+
+Room TempleYard "Before a Temple"
     with
         description [;
-            ShowPicture(PIC_CHURCH);
+            ShowPicture(PIC_TEMPLE);
             "You stand on a narrow path that runs down to the sea in the south and into the
             forest in the north. The air is salt and fresh. To the east of you stands a
             great temple, weathered by long centuries of sea wind.";
         ],
         cheap_scenery
-        CS_NO_ADJ 'sea'
+        CS_PARSE_NAME ParseNameSea
             "To the south, waves lap against the shore under a bright sky. The ocean
             breeze carries a fresh, salty scent."
         CS_PARSE_NAME ParseNameSeaGrass
@@ -2646,7 +2687,7 @@ Room ChurchYard "Before a Temple"
         before [;
 #Iftrue (#version_number == 6);
         Picture:
-            ShowPicture(PIC_CHURCH);
+            ShowPicture(PIC_TEMPLE);
             rtrue;
 #Endif;
         ListenRoom:
@@ -2659,14 +2700,14 @@ Room ChurchYard "Before a Temple"
         n_to "The road winds on into the forest, where you have no business.",
         w_to "A thick wall of brambles and windblown scrub blocks any progress that way.",
         s_to Beach,
-        e_to Church,
+        e_to Temple,
         u_to "There is nothing above you but open sky and a few high gulls.",
         d_to "The hard dirt path offers nowhere to descend.",
         cant_go "A thick wall of brambles and scrub vegetation blocks any progress.";
 
-Object -> DummyChurch "temple"
+Object -> DummyTemple "temple"
     with
-        name 'church' 'temple',
+        name 'great' 'church' 'temple',
         description
             "The temple is run-down but still imposing, raised from great blocks of weathered, ancient stone.",
     has scenery;
@@ -2678,13 +2719,6 @@ Object -> DummyChurch "temple"
     return _n;
 ];
 
-[ ParseNameTemple _w _n;
-    _w = NextWord();
-    while(_w == 'ancient' or 'ruined' or 'stone' or 'main') { _n++; _w = NextWord(); }
-    if(_w == 'temple' or 'sanctuary') return _n + 1;
-    return _n;
-];
-
 [ ParseNameVaults _w _n;
     _w = NextWord();
     while(_w == 'ribbed' or 'stone' or 'far' or 'overhead' or 'spider') { _n++; _w = NextWord(); }
@@ -2692,7 +2726,43 @@ Object -> DummyChurch "temple"
     return _n;
 ];
 
-Room Church "The Temple"
+[ ParseNameFurnishing _w _n;
+    _w = NextWord();
+    while(_w == 'wood') { _n++; _w = NextWord(); }
+    if(_w == 'bases' or 'pews' or 'altars' or 'furnishings' or 'furniture') return _n + 1;
+    return _n;
+];
+
+[ ParseNameFoodOfferings _w _n;
+    _w = NextWord();
+    while(_w == 'bread' or 'ancient' or 'desiccated') { _n++; _w = NextWord(); }
+    if(_w == 'food' or 'crumbs' or 'scraps' or 'bones') return _n + 1;
+    return _n;
+];
+
+[ ParseNameFlowerOfferings _w _n;
+    _w = NextWord();
+    !while(_w == 'bread') { _n++; _w = NextWord(); }
+    if(_w == 'flower' or 'flowers' or 'stalks') return _n + 1;
+    return _n;
+];
+
+[ ParseNameOfferings _w _n;
+    _w = NextWord();
+    while(_w == 'flower') { _n++; _w = NextWord(); }
+    if(_w == 'offerings' or 'remains') return _n + 1;
+    return _n;
+];
+
+[ ParseNameTemple _w _n;
+    _w = NextWord();
+    while(_w == 'ancient' or 'ruined' or 'stone' or 'main') { _n++; _w = NextWord(); }
+    if(_w == 'temple' or 'sanctuary' or 'wall' or 'walls' or 'flagstone' or
+             'flagstones' or 'moss') return _n + 1;
+    return _n;
+];
+
+Room Temple "The Temple"
     with
         description
             "The vaults rise high above your head, and the whole great space stands silent
@@ -2709,20 +2779,18 @@ Room Church "The Temple"
             "Small, overlapping and beautifully cut, running from the neck down to the
             ankles. Whoever carved this had seen the real thing."
         CS_PARSE_NAME ParseNameTemple
-            "You are standing inside the main sanctuary of the ancient, ruined stone temple."
-        'flowers' 'plants'
-            "Withered stems and dried petals lie scattered in the dust at the statue's base."
-        CS_NO_ADJ 'food'
+            "The ancient stone sanctuary rises to shadowed vaults above. Rain seeps through shattered windows,
+            dripping down cold, weathered walls to the moss-covered flagstone floor."
+        CS_PARSE_NAME ParseNameFoodOfferings
             "Desiccated crumbs and ancient bones, left long ago as offerings to the strange deity."
-        CS_NO_ADJ 'furnishings'
-            "Only broken scraps of wood and overturned stone bases remain where altars and pews once stood."
-        'offerings' 'remains'
+        CS_PARSE_NAME ParseNameOfferings
             "Brittle stalks that were once flowers, and a few blackened scraps that were once
             food, laid out in a careful row at the statue's feet. Nobody has renewed them in
             a very long time."
-        'wall' 'walls'
-            "High stone walls rise into the shadowed vaults above, scarred by time and dampness where
-            rain creeps in through the broken windows."
+        CS_PARSE_NAME ParseNameFlowerOfferings
+            "Withered stems and dried petals lie scattered in the dust at the statue's base."
+        CS_PARSE_NAME ParseNameFurnishing
+            "Only broken scraps of wood and overturned stone bases remain where altars and pews once stood."
         CS_PARSE_NAME ParseNameVaults
             "Ribbed stone vaults span the ceiling far overhead, dark with age and hung with
             cobwebs the size of bedsheets.",
@@ -2761,8 +2829,8 @@ Room Church "The Temple"
             "The vast space smells of cold stone, of damp moss creeping up between the
             flagstones, and of the salt breeze blowing in through the broken windows.";
         ],
-        w_to ChurchYard,
-        out_to ChurchYard,
+        w_to TempleYard,
+        out_to TempleYard,
         u_to "The high vaulted ceiling offers no way upward.",
         d_to "The flagstone floor is solid and cold underfoot.",
         cant_go "Solid stone walls block your path.";
@@ -2822,7 +2890,7 @@ Room Beach "The Beach"
             print
                 "You throw yourself into the surf, and your new body knows exactly what to do
                 with it. Fins and webbed hands drive you down through the green water towards the bottom...^^";
-            PlayerTo(OceanFloor);
+            PlayerTo(SeaFloor);
             rtrue;
         ListenRoom:
             "The thunderous roar of crashing waves dominates the shore, followed by the wet, rushing hiss
@@ -2831,14 +2899,12 @@ Room Beach "The Beach"
             "The air is heavy with the pungent, bracing scent of ocean spray, wet kelp, and damp, sun-baked sand.";
         ],
         cheap_scenery
+        CS_PARSE_NAME ParseNameSea
+            "The vast, open sea stretches endlessly to the horizon, dark blue and churning under the open sky."
         CS_NO_ADJ 'path'
             "The only way out of here is to follow the path back to the temple."
-        'wave' 'waves'
-            "Towering, foamy waves surge onto the dark sand with a rhythmic roar, spraying cold saltwater into the air."
         CS_PARSE_NAME ParseNameDarkSand
             "The sand is a dark, almost volcanic silt, packed firm where the waves wash over it."
-        'ocean' 'sea'
-            "The vast, open sea stretches endlessly to the horizon, dark blue and churning under the open sky."
         'shore' 'beach'
             "A narrow strip of wet, pebbled sand where the surging ocean meets the rocky coast."
         'rock' 'rocks'
@@ -2850,23 +2916,11 @@ Room Beach "The Beach"
         'bird' 'birds'
             "Gulls hang almost motionless on the onshore wind, sliding sideways now and then
             to keep their station above the surf.",
-        n_to ChurchYard,
+        n_to TempleYard,
         d_to "The wet sand gives way to surging surf.",
         s_to "If you want to swim, you can just say so.",
         u_to "There is nothing above you but the open sky and soaring sea birds.",
         cant_go "Jagged sea rocks and deep tide pools prevent travel along the beach.";
-
-Object SeaWater "sea water"
-    with
-        name 'water',
-        found_in Beach OceanFloor,
-        description "It's just salty sea water.",
-        before [;
-        Taste, Drink:
-            "You wet a finger in the surf. Salt, cold, and a faint mineral bite underneath
-            it, as though the water had come a very long way to get here.";
-        ],
-    has scenery;
 
 [ ParseNameSeaFloor _w _n;
     _w = NextWord();
@@ -2875,13 +2929,15 @@ Object SeaWater "sea water"
     return _n;
 ];
 
-Room OceanFloor "The Sea Floor"
+Room SeaFloor "The Sea Floor"
     with
         description
             "The sea floor is a field of ripple-marked sand, scattered with bright shells and
             combed by slow, swaying sea plants. Far above, the light comes down in shifting
             bars. You can swim back up towards the shore.",
         cheap_scenery
+        CS_PARSE_NAME ParseNameSea
+            "The water is salty and cold."
         CS_PARSE_NAME ParseNameSeaGrass
             "Long ribbons of weed sway in slow unison with the swell, rooted among the
             stones, their fronds catching what little light reaches this far down."
@@ -2889,7 +2945,7 @@ Room OceanFloor "The Sea Floor"
             "Fine pale sand, drawn into long even ripples by the tide and marked here and
             there by the trail of something that buried itself as you came down.",
         before [;
-        Swim: <<Go FAKE_U_OBJ>>;
+        Swim: print "You swim back to the beach.^^"; <<Go FAKE_U_OBJ>>;
         ListenRoom:
             "Submerged beneath the surface, the noisy surf is reduced to a dull, soothing rumble far above.";
         SmellRoom:
@@ -2899,7 +2955,7 @@ Room OceanFloor "The Sea Floor"
         u_to Beach,
         n_to Beach,
         d_to "The sand is packed hard beneath you, and whatever lies under it means to stay there.",
-        cant_go "Forests of dense kelp and sharp coral reefs block any progress west.";
+        cant_go "Forests of dense kelp block any progress west.";
 
 Object -> Shells "sea shells"
     with
@@ -2996,6 +3052,10 @@ Object -> OakTree "oak tree"
         name 'oak' 'tree',
         description "An ancient, sprawling oak tree providing a welcome patch of deep shade beside the dusty road.",
         before [;
+        Shake: 
+            "Shaking a trunk that thick is a fool's errand. It stands solid as stone.";
+        Pull, Push, PushDir, Take, Remove:
+            "The oak is far too firmly rooted to be moved.";
         Climb:
             give self general;
             "You get no higher than the lower branches before realizing the view is completely blocked by dense
@@ -3076,7 +3136,7 @@ Object Amulet "amulet"
                 "The beggar's little amulet is shaking against your breastbone hard enough to
                 hurt, and it has gone hot. It is straining away from you on its cord, towards
                 the red light, the way a compass needle strains towards north.";
-            if(player in GateRoom)
+            if(player in Crypt)
                 "The beggar's amulet hangs cold and still on its cord, and the ornate work across
                 its face has gone dull and grey. Whatever was in it, it spent all of it at once.";
             "A surprisingly ornate amulet, slightly tarnished around the rim, hanging from a
@@ -3670,7 +3730,35 @@ Object -> SilverCoin "silver coin"
             tavern, or one turn at a certain gentleman's cups.",
     ;
 
-Room GateRoom "The Crypt"
+[ ParseNameCrypt _w _n;
+    _w = NextWord();
+    while(_w == 'heathen') { _n++; _w = NextWord(); }
+    if(_w == 'chamber' or 'crypt' or 'temple' or 'wall' or 'walls' or 'floor' or 'ceiling') return _n + 1;
+    return _n;
+];
+
+[ ParseNamePillars _w _n;
+    _w = NextWord();
+    while(_w == 'obsidian') { _n++; _w = NextWord(); }
+    if(_w == 'pillar' or 'pillars' or 'temple' or 'wall' or 'walls') return _n + 1;
+    return _n;
+];
+
+[ ParseNameRunes _w _n;
+    _w = NextWord();
+    while(_w == 'blasphemous' or 'glowing') { _n++; _w = NextWord(); }
+    if(_w == 'rune' or 'runes') return _n + 1;
+    return _n;
+];
+
+[ ParseNameAltar _w _n;
+    _w = NextWord();
+    while(_w == 'massive' or 'block' or 'of' or 'unpolished' or 'jagged') { _n++; _w = NextWord(); }
+    if(_w == 'altar' or 'granite' or 'channels') return _n + 1;
+    return _n;
+];
+
+Room Crypt "The Crypt"
     with
         number 0,
         description [;
@@ -3682,9 +3770,15 @@ Room GateRoom "The Crypt"
             by old rituals, and four glowing pedestals surround it. There are no exits.";
 	    ],
         cheap_scenery
-        CS_NO_ADJ 'altar'
-            "A massive block of dark, unpolished granite, cut with jagged channels that all run inwards
-            towards a hollow at its centre. You would rather not think about what the channels are for."
+        CS_PARSE_NAME ParseNameCrypt
+            "The crypt is an ancient, subterranean chamber dominated by dark obsidian pillars,
+            a central stone altar, and four glowing pedestals."
+        CS_PARSE_NAME ParseNameRunes
+            "You can't read the blasphemous language, but looking at it too long gives you a dull headache."
+        CS_PARSE_NAME ParseNameAltar
+            "The altar is a massive block of dark, unpolished granite, cut with jagged channels that all
+            run inwards towards a hollow at its centre. You would rather not think about what the channels
+            are for."
         'pedestal' 'pedestals'
             "Four squat plinths of the same black stone stand at the compass points around the altar.
             Each is cut with a shallow depression, and each depression is exactly the size of a man's fist."
@@ -3692,7 +3786,7 @@ Room GateRoom "The Crypt"
             "The four of them ride in the demon's fist, black and red and green and blue, and
             they have begun to shine in a way you have never seen them shine before. You
             fetched three of those yourself."
-        'pillar' 'pillars'
+        CS_PARSE_NAME ParseNamePillars
             "Monolithic shafts of black stone that support the vaulted ceiling far above.
             They are etched with writhing, glowing runes.",
         each_turn [;
@@ -3855,7 +3949,7 @@ Object -> RedField "red force field"
             if(second==Amulet) {
                 print "The amulet meets the red field, and the field goes out like a snuffed candle!^^";
                 RemoveObj(RedField);
-                PlayerTo(GateRoom);
+                PlayerTo(Crypt);
                 rtrue;
             }
             rfalse;
@@ -3871,9 +3965,9 @@ Object -> RedField "red force field"
 
 Object GateOpening "opening in the floor"
     with
-        name 'black' 'opening' 'floor' 'well' 'red' 'glow' 'slimy' 'liquid',
+        name 'black' 'opening' 'floor' 'well' 'red' 'glow' 'slimy' 'liquid' 'ragged' 'hole',
         description
-            "A ragged hole where the flagstones used to be, going down further than the light
+            "It's a ragged hole where the flagstones used to be, going down further than the light
             reaches. The slimy liquid in it is settling and smoothing over as the demon
             paces around the rim.",
     has static concealed;
@@ -3959,8 +4053,8 @@ CSpellWithArgument FreezeSpell "freeze spell"
         name 'freeze' 'spell',
         comment "freeze something",
         domagic [obj;
+            print "The spellbook opens itself to the right page, and you read aloud the complicated words of the freeze spell.^^";
             if(obj provides domagic) {
-                print "The spellbook opens itself to the right page, and you read aloud the complicated words of the freeze spell.^^";
                 if(obj.domagic(self)) rtrue;
             }
             "A thin layer of ice covers ", (the) obj, ", but soon melts away.";
@@ -4071,7 +4165,7 @@ CStone GreenStone "green stone" Cave
         add_to_scope StoneMarkings
     ;
 
-CStone BlueStone "blue stone" OceanFloor
+CStone BlueStone "blue stone" SeaFloor
     with
         name 'blue',
         description
@@ -4163,6 +4257,7 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
     print "     The discarded scroll^";
     print "     How do I beat the hawker?^";
     print "     What do I do with the coin?^";
+    print "     What do I do wake the beggar?^";
     print "     What do I do in the temple?^";
     print "     Where do I find the dragon?^";
     print "     How do I kill the dragon?^";
@@ -4173,32 +4268,33 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
 
 [ HintMenu;
     switch(menu_item) {
-    0: item_width=3;    item_name="Hints"; return 11;
+    0: item_width=3;    item_name="Hints"; return 12;
     1: item_width=8;    item_name="Collecting stones";
     2: item_width=7;    item_name="Getting around";
     3: item_width=8;    item_name="The discarded scroll";
     4: item_width=12; item_name="How do I beat the hawker?";
     5: item_width=13; item_name="What do I do with the coin?";
-    6: item_width=12; item_name="What do I do in the temple?";
-    7: item_width=12; item_name="Where do I find the dragon?";
-    8: item_width=11; item_name="How do I kill the dragon?";
-    9: item_width=14; item_name="How do I break the force field?";
-    10: item_width=25; item_name="I have broken the force field but am still powerless";
-    11: item_width=15; item_name="I do not like the unhappy ending";
+    6: item_width=12; item_name="What do I wake the beggar?";
+    7: item_width=12; item_name="What do I do in the temple?";
+    8: item_width=12; item_name="Where do I find the dragon?";
+    9: item_width=11; item_name="How do I kill the dragon?";
+    10: item_width=14; item_name="How do I break the force field?";
+    11: item_width=25; item_name="I have broken the force field but am still powerless";
+    12: item_width=15; item_name="I do not like the unhappy ending";
     }
 ];
 
 [ HintInfo;
     switch(menu_item) {
-    1: print "Your mentor needs the stones. Find them and put them in the gilded box.^";
+    1:   print "Your mentor needs the stones. Find them and put them in the gilded box.^";
          if(HintPause()) break;
          print "When you have found them all, he can open the gate.^";
          if(HintPause()) break;
-         print "Save the game before you put down the last stone. Something unexpected will
-                happen.^";
+         print "Save the game before you put down the last stone. 
+                Something unexpected will happen.^";
          LastHintPause();
-    2: print "Your mentor asks you to travel far to find the stones, and gives you a little
-              help along the way.^";
+    2:   print "Your mentor asks you to travel far to find the stones, and gives
+               you a little help along the way.^";
          if(HintPause()) break;
          print "Surely he gave you a scroll when you left him?^";
          if(HintPause()) break;
@@ -4207,11 +4303,11 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
          if(HintPause()) break;
          print "Type ~teleport~ and see what happens.^";
          LastHintPause();
-    3: print "Your mentor has great experience with magic.^";
+    3:   print "Your mentor has great experience with magic.^";
          if(HintPause()) break;
          print "Show him the blank scroll.^";
          LastHintPause();
-    4: print "He is nimble-fingered, and faster than you.^";
+    4:   print "He is nimble-fingered, and faster than you.^";
          if(HintPause()) break;
          print "You must cheat.^";
          if(HintPause()) break;
@@ -4223,20 +4319,26 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
          if(HintPause()) break;
          print "Cast the animation spell on the bench or one of the cups.^";
          LastHintPause();
-    5: print "If you want to play with the hawker you need the coin.^";
+    5:   print "If you want to play with the hawker you need the coin.^";
          if(HintPause()) break;
          print "You only have one coin, so you will never see it again if you lose. Do not
                 lose!^";
          if(HintPause()) break;
          print "But what use do you have for money? Share it with those less fortunate.^";
          LastHintPause();
-    6: print "Pray.^";
+    6:   print "It's hot in the sun. Let him sleep.^";
+         if(HintPause()) break;
+         print "He will wake up later, once you have a coin to spare.^";
+         if(HintPause()) break;
+         print "If he's still sleeping it's because you need the coin for something else.^";
+         LastHintPause();
+    7:   print "Pray.^";
          if(HintPause()) break;
          print "Itching? Perhaps a swim will help?^";
          if(HintPause()) break;
          print "No? Perhaps it is time for another prayer?^";
          LastHintPause();
-    7: print "Dragons prefer to live in mountain caves.^";
+    8:   print "Dragons prefer to live in mountain caves.^";
          if(HintPause()) break;
          print "Have you seen any mountains?^";
          if(HintPause()) break;
@@ -4248,9 +4350,11 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
          if(HintPause()) break;
          print "You have a spell for making things glow.^";
          if(HintPause()) break;
-         print "Illuminate the backpack.^";
+         print "It only seems to work well on magical items.^";
+         if(HintPause()) break;
+         print "Illuminate one of the stones.^";
          LastHintPause();
-    8: print "Perhaps someone can help you?^";
+    9:   print "Perhaps someone can help you?^";
          if(HintPause()) break;
          print "Is the discarded scroll still blank?^";
          if(HintPause()) break;
@@ -4262,16 +4366,21 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
          if(HintPause()) break;
          print "Have you asked your mentor about dragons?^";
          if(HintPause()) break;
-         print "Animate the statues and freeze the slope. Let the statues wound the dragon,
-                        and heal it afterwards. Ask the dragon about magic.^";
+         print "Animate the statues and freeze the slope. Let the statues
+                 wound the dragon, and heal it afterwards.^";
+         if(HintPause()) break;
+         print "The dragon will be grateful. Talk with her and she might give you something useful.^";
+         if(HintPause()) break;
+         print  "Talk to her after healing her. In gratitude, she will inscribe the Death Spell in
+                your spellbook. Use it wisely.^";
          LastHintPause();
-    9: print "Do you have any item that can be used against black magic?^";
+    10:  print "Do you have any item that can be used against black magic?^";
          if(HintPause()) break;
          print "If not, you have not used the coin wisely.^";
          if(HintPause()) break;
          print "Touch the force field with the amulet.^";
          LastHintPause();
- 10: print "Your magic is too weak.^";
+    11:  print "Your magic is too weak.^";
          if(HintPause()) break;
          print "You need something stronger.^";
          if(HintPause()) break;
@@ -4281,7 +4390,7 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
          if(HintPause()) break;
          print "Cast the death spell at the demon.^";
          LastHintPause();
- 11: print "Your mentor dies. You cannot prevent it.^";
+    12:  print "Your mentor dies. You cannot prevent it.^";
          if(HintPause()) break;
          print "but you can raise him from the dead.^";
          if(HintPause()) break;
@@ -4401,14 +4510,14 @@ Object EpilogueRoom "Epilogue";
     location=EpilogueRoom;
     switch(status) {
     1:
-        print "A new age of terror and dread begins. The Old Gods rule the earth once
+        print "A new age of terror and dread begins. The Old Gods rule the Earth once
                      more, and the first to be torn to pieces is you.^";
         deadflag=1;
     2:
-        print "The earth is saved, but the memory of your mentor's death pains you.^";
+        print "The Earth is saved, but the memory of your mentor's death pains you.^";
         deadflag=2;
     3:
-        print "The earth is saved, and your mentor's soul is restored. All's well that
+        print "The Earth is saved, and your mentor's soul is restored. All's well that
                      ends well.^";
         deadflag=2;
     }
