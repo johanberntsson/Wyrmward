@@ -1,0 +1,6 @@
+* Körde vidare igen, efter att ha läst walkthrough. Hm, i hints står det alltså att man ska frysa slope, men det enda som funkar att frysa är mud.
+
+* Nu har jag räddat draken, frågat om magic, men fick inget svar. Sedan frågar jag om spell book, och får svaret "It is a cruel gift, and I have given it to you anyway. You will know the moment it is needed..." Jag kollar igen, och jag har ingen ny scroll, och det finns ingen ny spell i min bok.
+
+* Läste källkoden. Jag tror du har en luddig ide om vad attributet general betyder för draken. Det som jag tror hänt är att (1) Draken blir skadad, (2) jag helar draken och den får general, (3) draken får läka i fred och efter sex drag mår den helt bra, och tappar då general, (4) jag frågar om magi och annat, och jag ska få en death spell om draken har general, vilket den nu inte har. Spelet har hamnat i ett ovinnbart läge. Du använder general som att det betyder att jag har helat draken *och* som att det betyder att draken håller på att återhämta sig.
+

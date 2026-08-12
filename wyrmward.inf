@@ -3,7 +3,30 @@
 !% $ZCODE_LESS_DICT_DATA=1
 !% $LONG_DICT_FLAG_BUG=0
 !% $ZCODE_COMPACT_GLOBALS=1
-
+!
+! HISTORY:
+!
+! OLDER VERSIONS
+!
+! 961014: First lines of code written.
+! 961023: The introduction, the dragon problem and the endgame
+!         have been implemented and a first version sent to Staffan Friberg.
+! 961028: The first bugs reported by Staffan have been fixed.
+! 970728: Added two stones and related problems. Rewrote some texts.
+!
+! 020204: rewritten in Swedish
+! 020304: two new puzzles, some improvments.
+! 020305: Ported to Glulx, some graphics added.
+!
+! 030227: updated to new version of swedish.h. More help texts. Released in public domain.
+! 030617: updated to new version of swedish.h.
+! 040315: updated to new version of swedish.h. (v1.2, compiler 6.30, library 6/11). Slight cleanup of code.
+! 040615: a few bugs fixed and missing description added. New dragon picture in Glulx mode.
+!
+! 260816: New English translation and a new name, Wyrmward. Ported to PunyInform with many
+!         improvements in texts and puzzle design. Both z5 and z6 versions produced, with 
+!         the same pictures as the old Glulx version, a few new ones and some sound effects.
+!
 ! The very first lines of the main source code file for a game can
 ! contain compiler options, like the lines above. -~S disables
 ! strict error checking. This is otherwise used in z5 and z8 games by
@@ -4428,10 +4451,10 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
         lists your full achievements.^^
         The parser recognizes over 100 verbs. If a command doesn't work, try phrasing it
         another way. Type HINT at any time if you get stuck.";
-    3: "The original Swedish version, Drakmagi, was released in 1996 and later updated with Glulx
+    3: "The original version of this game was released in 1996 and later updated with Glulx
        graphics in 2005. This expanded English edition was written by Johan Berntsson in 2026 to
        showcase z6 graphics support in PunyInform and Ozmoo.^^
-       Special thanks to Garry Francis, Stefan Vogt, Gianluca, and Fredrik Ramsberg for testing
+       Special thanks to Garry Francis, Stefan Vogt, Gianluca Girelli, and Fredrik Ramsberg for testing
        and valuable feedback.";
     4: DoMenu(HintItems, HintMenu, HintInfo);
        return 2;

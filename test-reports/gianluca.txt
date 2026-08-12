@@ -1,0 +1,5 @@
+As promised, I played the game once again, trying to focus on what I pointed out in the betas. I played RC1, which may not be the latest version. There are a few minor things that you may want to fix (search for the "*"). 
+
+Also, I ended up in an "unwinnable" situation since I forgot to give the coin to the beggar and I faced the demon without the amulet. I always avoid these situations when I port the games for the BDB Project (they are already cruel enough as they are), but I understand this is different, and you want the player to explore the good and the bad endings.
+
+Aside from that (and once what I've pointed out is fixed), the game is releasable.

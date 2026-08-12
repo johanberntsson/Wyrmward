@@ -1,0 +1,1775 @@
+Start of a transcript of
+
+Wyrmward
+(c) 1996, 2005, 2026 Johan Berntsson. Type "help" or "h" for instructions.
+Release 0 / Serial number 260731 / Inform v6.44 PunyInform v6.7 R
+
+> l
+The Rock Hall
+A great cavity in the mountain, hollowed out by nature and then squared off and
+widened by human hands. It was a grand feast hall once; now somebody keeps it as
+a storeroom, and rows of crates and packages stand against the walls under a
+thick coat of dust. A large doorway is set in the north wall, and beyond it a
+slope runs down into the darkness.
+
+> w
+Rough-hewn rock walls form a solid barrier.
+
+> e
+Rough-hewn rock walls form a solid barrier.
+
+> s
+Cave
+The cave is a single irregular chamber. Daylight reaches in through the mouth in
+the south wall, but it gives out well before the far corners do, so there is no
+telling how large the place really is. What you can see is a tunnel running on
+northward.
+
+> n
+The Rock Hall
+A great cavity in the mountain, hollowed out by nature and then squared off and
+widened by human hands. It was a grand feast hall once; now somebody keeps it as
+a storeroom, and rows of crates and packages stand against the walls under a
+thick coat of dust. A large doorway is set in the north wall, and beyond it a
+slope runs down into the darkness.
+
+> n
+You walk easily down the slope.
+
+Tunnel
+A steep passage dropping away from the rock hall into the dark. Water trickles
+down the slope from somewhere above, and the floor beneath it is thick with mud.
+
+Two statues guard the passage.
+
+
+> s
+With some effort you climb the steep slope.
+
+The Rock Hall
+A great cavity in the mountain, hollowed out by nature and then squared off and
+widened by human hands. It was a grand feast hall once; now somebody keeps it as
+a storeroom, and rows of crates and packages stand against the walls under a
+thick coat of dust. A large doorway is set in the north wall, and beyond it a
+slope runs down into the darkness.
+
+> d
+You walk easily down the slope.
+
+Tunnel
+A steep passage dropping away from the rock hall into the dark. Water trickles
+down the slope from somewhere above, and the floor beneath it is thick with mud.
+
+Two statues guard the passage.
+
+
+> u
+The slope is steep, and you are left breathless.
+
+The Rock Hall
+A great cavity in the mountain, hollowed out by nature and then squared off and
+widened by human hands. It was a grand feast hall once; now somebody keeps it as
+a storeroom, and rows of crates and packages stand against the walls under a
+thick coat of dust. A large doorway is set in the north wall, and beyond it a
+slope runs down into the darkness.
+
+> d
+The slope is so steep that you half-run down it.
+
+Tunnel
+A steep passage dropping away from the rock hall into the dark. Water trickles
+down the slope from somewhere above, and the floor beneath it is thick with mud.
+
+Two statues guard the passage.
+
+
+> x mud
+Grey, glutinous and ankle-deep in the hollows, worked to a slick paste by the
+water running through it. Your boots have no purchase in it whatsoever.
+
+> take it
+That's hardly portable.
+
+> i
+You're carrying a black scroll, a green stone (providing light), a weathered
+scroll, your backpack (which is open but empty) and your spellbook.
+
+> x statues
+Do you mean the warrior statue or the barbarian statue?
+
+> x warrior statue
+Cut from the same grey rock as the tunnel itself, a broad-shouldered warrior
+stands with a broadsword held point-down before him. The work is crude, but the
+face is startlingly alive, caught somewhere between boredom and bad temper.
+
+> search it
+You find nothing special.
+
+> x broadsword
+A slab of stone sword, chipped along one edge. Carved or not, you would not care
+to be standing in front of it.
+
+> take it
+No need to concern yourself with that.
+
+> x barbarian statue
+The barbarian is all snarl and sinew, a sword in his right hand and a long
+dagger in his left. Whoever carved him appears to have been working from an
+unpleasantly clear memory.
+
+> x dagger
+Short, curved and held low and close, in the grip of a man who has used one
+before.
+
+> x sword
+A slab of stone sword, chipped along one edge. Carved or not, you would not care
+to be standing in front of it.
+
+> x barbarian sword
+I only understood you as far as "x barbarian" but then you lost me.
+
+> * so if I examine the sword I only get a description for the warrior's one,
+[Comment recorded]
+
+> * what about the one the barbarian is holding
+[Comment recorded]
+
+> w
+Rough cavern walls block that way, dripping with moisture.
+
+> e
+Rough cavern walls block that way, dripping with moisture.
+
+> n
+You attempt to march past the sentinels, but as you step between them, an
+invisible force like compressed air slams against your chest, throwing you back
+into the tunnel. The statues remain motionless, watching.
+
+> read spellbook
+ARCANE MAGIC FOR COMPLETE NOVICES:
+
+The teleportation spell: (move yourself to a new place).
+The healing spell: (heal someone).
+The freeze spell: (freeze something).
+The illumination spell: (make something glow).
+The copying spell: (copy a spell into the spellbook).
+
+[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
+<spell> on <someone or something>" to use it.]
+
+> cast healing spell on statues
+Do you mean the warrior statue or the barbarian statue?
+
+> warrior
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the healing spell.
+
+The warrior statue looks healthier than ever.
+
+> cast healing spell on barbarian statue
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the healing spell.
+
+The barbarian statue looks healthier than ever.
+
+> n
+You attempt to march past the sentinels, but as you step between them, an
+invisible force like compressed air slams against your chest, throwing you back
+into the tunnel. The statues remain motionless, watching.
+
+> x barbarian
+The barbarian is all snarl and sinew, a sword in his right hand and a long
+dagger in his left. Whoever carved him appears to have been working from an
+unpleasantly clear memory.
+
+> talk to him
+The barbarian statue remains silent and stone-still.
+
+> talk to warrior statue
+The stone warrior stands motionless, its cold gaze staring blankly into the
+dark.
+
+> touch it
+You don't feel anything unexpected.
+
+> listen 
+The continuous trickling and splashing of water flowing down the slick stone
+floor echoes wetly off the narrow tunnel walls.
+
+> read spellbooks
+ARCANE MAGIC FOR COMPLETE NOVICES:
+
+The teleportation spell: (move yourself to a new place).
+The healing spell: (heal someone).
+The freeze spell: (freeze something).
+The illumination spell: (make something glow).
+The copying spell: (copy a spell into the spellbook).
+
+[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
+<spell> on <someone or something>" to use it.]
+
+> cast freeze  spell on barbarian statue
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the freeze spell.
+
+A thin layer of ice covers the barbarian statue, but soon melts away.
+
+> cast freeze  spell on warrior statue
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the freeze spell.
+
+A thin layer of ice covers the warrior statue, but soon melts away.
+
+> n
+You attempt to march past the sentinels, but as you step between them, an
+invisible force like compressed air slams against your chest, throwing you back
+into the tunnel. The statues remain motionless, watching.
+
+> i
+You're carrying a black scroll, a green stone (providing light), a weathered
+scroll, your backpack (which is open but empty) and your spellbook.
+
+> read black scroll
+It reads: "The resurrection spell -- raise the dead." The spell itself runs on
+for a great many lines, and every one of them is more complicated than the last.
+
+> cast resurrection spell on warrior statue
+You read aloud the complicated words of the resurrection spell.
+
+Nothing happens.
+
+> cast resurrection spell on barbarian statue
+You read aloud the complicated words of the resurrection spell.
+
+Nothing happens.
+
+> * I guess I need to come back later, then.
+[Comment recorded]
+
+> cast teleportation spell
+Your spellbook snaps open to the correct page, and you speak the complex,
+resonant incantation of the teleportation spell.
+
+A yellow cloud swirls around you, and as it clears you find yourself...
+
+On the Steppe
+The yellow cloud dissipates, leaving you standing in a boundless, wind-swept
+steppe that rolls onward to the horizon. Strangest of all, you find yourself
+encircled by four free-standing, ornate archways, each facing one of the
+cardinal directions of the compass.
+
+> e
+Step by step, you pass beneath the eastern arch. A swirl of yellow mist envelops
+you once more, and as it clears, the wide steppe vanishes...
+
+The Country Road
+You stand on a narrow dirt road winding between vast, rustling cornfields. To
+the east, past the golden stalks, you can see the thatched rooftops of a small
+village. A solitary oak tree casts its shadow over the wayside.
+
+A ragged beggar leans against the trunk of the tree, holding out a weathered
+hand.
+
+> x dirt road
+You can't see any such thing.
+
+> * I do, but I know it's just scenery
+[Comment recorded]
+
+> x cornfields
+Tall stalks of corn sway gently in the breeze, forming a rustling wall on either
+side of the road.
+
+> enter cornfields
+No need to concern yourself with that.
+
+> * nice
+[Comment recorded]
+
+> x small village
+You can't see any such thing.
+
+> * I do. It's in the description. But again, I know the scenery will come later
+[Comment recorded]
+
+> l
+The Country Road
+You stand on a narrow dirt road winding between vast, rustling cornfields. To
+the east, past the golden stalks, you can see the thatched rooftops of a small
+village. A solitary oak tree casts its shadow over the wayside.
+
+A ragged beggar leans against the trunk of the tree, holding out a weathered
+hand.
+
+> x oak
+An ancient, sprawling oak tree providing a welcome patch of deep shade beside
+the dusty road.
+
+> x shade
+Sorry, I don't understand what "shade" means.
+
+> climb oak
+You get no higher than the lower branches before realizing the view is
+completely blocked by dense summer leaves. You hop back down to the dusty road.
+
+> * nice
+[Comment recorded]
+
+> x beggar
+He is a gaunt, frail man clad in threadbare rags. His eyes are sunken with
+exhaustion, and he holds out a palm in mute appeal for charity.
+
+> i
+You're carrying a black scroll, a green stone (providing light), a weathered
+scroll, your backpack (which is open but empty) and your spellbook.
+
+> talk to him
+The beggar looks up at you with weary, cloudy eyes. "Spare a copper for a poor
+soul, sir?" he rasps, shuffling his palm forward. "A bite of bread or a coin to
+warm my bones, and I'd be eternally grateful." He seems too weak and distracted
+by hunger to offer much conversation.
+
+> ask him about stones
+"Stones I have plenty of, master. They're free, and they don't fill a belly." He
+gestures vaguely at the roadside gravel and lets his hand fall back into its
+begging posture.
+
+> ask him about himsefl
+The beggar looks up at you with weary, cloudy eyes. "Spare a copper for a poor
+soul, sir?" he rasps, shuffling his palm forward. "A bite of bread or a coin to
+warm my bones, and I'd be eternally grateful." He seems too weak and distracted
+by hunger to offer much conversation.
+
+> ask him about istar
+The beggar looks up at you with weary, cloudy eyes. "Spare a copper for a poor
+soul, sir?" he rasps, shuffling his palm forward. "A bite of bread or a coin to
+warm my bones, and I'd be eternally grateful." He seems too weak and distracted
+by hunger to offer much conversation.
+
+> n
+The corn grows right up to the edge of the road, a dense wall of stalks taller
+than a man. Trampling a farmer's crop is a poor way to repay the hospitality of
+the country.
+
+> s
+The cornfields close the road in on that side as well. The track itself runs
+only east and west.
+
+> e
+The beggar watches you with a mournful sigh as you step past him and go on down
+the dusty road towards the village.
+
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+A hawker stands behind a sturdy wooden bench by the roadside. On the surface lie
+three upturned cups. The man gestures grandly over them and shouts to the crowd,
+"Test your skill and win ten silver coins!"
+
+Catching your eye, he grins wide. "Ah, my good wizard! How about trying your
+luck? Stake a single silver coin and win ten times your wager!"
+
+> talk to hawker
+The hawker doesn't seem interested.
+
+"To show my goodwill, I will let you play once for free. Now watch carefully,"
+says the hawker, taking out a little stone which he places under one of the cups
+on the bench. He then starts to move the cups this way and that.
+
+> save
+Ok.
+
+> l
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+The man speeds up, but you still keep track.
+
+> g
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+The man moves the cups so fast that you almost lose track, but you think you
+still know which cup the stone is under.
+
+> g
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+"Well, where is the stone?" asks the man when he has stopped moving the cups.
+You are unsure, but you think it is the left cup.
+
+> g
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+"Point to the cup you think the stone is under," says the man.
+
+> point to left cup
+I only understood you as far as "point" but then you lost me.
+
+> x left cup
+A plain beechwood cup, upturned and giving nothing away. Staring at it will not
+make it transparent.
+
+"Point to the cup you think the stone is under," says the man.
+
+> x right cup
+A plain beechwood cup, upturned and giving nothing away. Staring at it will not
+make it transparent.
+
+"Point to the cup you think the stone is under," says the man.
+
+> point left
+I only understood you as far as "point" but then you lost me.
+
+> left
+That is not a verb I recognize.
+
+> l
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+"Point to the cup you think the stone is under," says the man.
+
+> say left
+You can't see any such thing.
+
+> say left cup
+I think you wanted to say "say something to someone". Please try again.
+
+> say left cup to hawker
+"Well met, master wizard!" He says it to the whole street rather than to you,
+and two more people drift over to watch. "Step up, step up. The learned
+gentleman is going to show us how it is done."
+
+"Point to the cup you think the stone is under," says the man.
+
+> g
+"Well met, master wizard!" He says it to the whole street rather than to you,
+and two more people drift over to watch. "Step up, step up. The learned
+gentleman is going to show us how it is done."
+
+"Point to the cup you think the stone is under," says the man.
+
+> take left cup
+The hawker lifts the cup, and sure enough, the stone is there. "Beginner's
+luck," he mutters. "Since that one was free, you win nothing. But win the next
+one and you take twenty silver coins off me." He picks up the stone and sets the
+cups back in a neat row.
+
+You recognize the stone! Apart from its red colour, it is identical to your
+mentor's black stone.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> * If the man says "Point to the cup...", maybe "point" should be added as verb
+[Comment recorded]
+
+> *in the grammar. It took a bit of guess-the-verb to solve this.
+[Comment recorded]
+
+> l
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> n
+The village road runs east and west, and the houses stand shoulder to shoulder
+in between.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> s
+The road leads east and west.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> x houses
+Simple cottages with thatched roofs and whitewashed walls. Banners and market
+stalls line the space between them.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> enter houses
+No need to concern yourself with that.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> e
+The Edge of the Village
+Just a few steps east of the village centre, the houses give way to cornfields
+again. The road runs on east into open country, and back west into the market.
+
+It seems to be your lucky day. A silver coin lies in the dust at your feet.
+
+> take coin, x it
+Taken.
+
+It is not worth very much, but it would buy you a few beers at the village
+tavern, or one turn at a certain gentleman's cups.
+
+> n
+The dense cornfields form an unbroken wall of rustling stalks on either side of
+the road.
+
+> s
+The corn stands too thick to push through, and there is nothing beyond it but
+more corn.
+
+> e
+The road runs on east through the corn and out into open country, and everything
+you have come here for lies behind you.
+
+> w
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> w
+The Country Road
+You stand on a narrow dirt road winding between vast, rustling cornfields. To
+the east, past the golden stalks, you can see the thatched rooftops of a small
+village. A solitary oak tree casts its shadow over the wayside.
+
+The beggar has slid down into the shade of the oak and gone to sleep. It is the
+hottest part of the afternoon, and he has clearly decided that the road can do
+without him for an hour. You will have to come back later.
+
+> save
+Ok.
+
+> give coin to beggar
+You press the coin into his open palm. He sleeps on, entirely unaware of it, and
+after a moment you take it back. Silver left in a sleeping man's hand on an open
+road will not be there when he wakes.
+
+> * nice! I wonder what would happen, and if giving the coin could lead to an
+[Comment recorded]
+
+> * unwinnable state.
+[Comment recorded]
+
+> e
+You leave the beggar to his nap and walk back up the dusty road towards the
+market.
+
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> give coin to hawker
+The hawker pockets the silver coin. He places the stone under one of the cups
+and says, "Let us begin again. Concentrate, and the twenty silver coins are
+yours."
+
+The man starts moving the cups this way and that.
+
+> l
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+The man speeds up, but you still keep track.
+
+> g
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+The man moves the cups so fast that you almost lose track, but you think you
+still know which cup the stone is under.
+
+> g
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+"Well, where is the stone?" asks the man when he has stopped moving the cups.
+You are unsure, but you think it is the right cup.
+
+> take right cup
+The hawker lifts the cup, but there is no stone under it. "Bad luck, but it will
+surely go better next time!" he says encouragingly. He lifts the left cup and
+produces the stone, then sets the cups back in a neat row.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+Disappointed, and with very little hope, you turn out your pockets one last
+time. Something hard shifts in the lining of your robe. You unpick the seam and
+a second silver coin drops into your palm, forgotten there for who knows how
+long. You will not be lucky a third time, so spend this one well.
+
+> give coin to hawker
+The hawker pockets the silver coin. He places the stone under one of the cups
+and says, "Let us begin again. Concentrate, and the twenty silver coins are
+yours."
+
+The man starts moving the cups this way and that.
+
+> l
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+The man speeds up, but you still keep track.
+
+> g
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+The man moves the cups so fast that you almost lose track, but you think you
+still know which cup the stone is under.
+
+> g
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+"Well, where is the stone?" asks the man when he has stopped moving the cups.
+You are unsure, but you think it is the right cup.
+
+> save
+Ok.
+
+> take left cup
+The hawker lifts the cup, but there is no stone under it. "Bad luck, but it will
+surely go better next time!" he says encouragingly. He lifts the middle cup and
+produces the stone, then sets the cups back in a neat row.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> undo
+Previous turn undone.
+
+> take right cup
+The hawker lifts the cup, but there is no stone under it. "Bad luck, but it will
+surely go better next time!" he says encouragingly. He lifts the left cup and
+produces the stone, then sets the cups back in a neat row.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> undo
+Previous turn undone.
+
+> take center cup
+The hawker lifts the cup, but there is no stone under it. "Bad luck, but it will
+surely go better next time!" he says encouragingly. He lifts the right cup and
+produces the stone, then sets the cups back in a neat row.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> undo 
+Previous turn undone.
+
+> take right cup
+The hawker lifts the cup, but there is no stone under it. "Bad luck, but it will
+surely go better next time!" he says encouragingly. He lifts the left cup and
+produces the stone, then sets the cups back in a neat row.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> * so there's no way to get the stone? Or do you have to guess it right the 
+[Comment recorded]
+
+> * first time? Let me try
+[Comment recorded]
+
+> restore
+Ok.
+
+> l
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+"Point to the cup you think the stone is under," says the man.
+
+> take right cup
+The hawker lifts the cup, but there is no stone under it. "Bad luck, but it will
+surely go better next time!" he says encouragingly. He lifts the left cup and
+produces the stone, then sets the cups back in a neat row.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> restore
+Ok.
+
+> take left cup
+The hawker lifts the cup, but there is no stone under it. "Bad luck, but it will
+surely go better next time!" he says encouragingly. He lifts the middle cup and
+produces the stone, then sets the cups back in a neat row.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> restore
+Ok.
+
+> take middle cup
+The hawker lifts the cup, but there is no stone under it. "Bad luck, but it will
+surely go better next time!" he says encouragingly. He lifts the right cup and
+produces the stone, then sets the cups back in a neat row.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> take stone
+You already have it.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> take rd stone
+Sorry, I don't understand what "rd" means.
+
+> take red stone
+The hawker's hand closes over it before yours is halfway across the bench.
+"Under the cups or not at all, master wizard."
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> read spellbook
+ARCANE MAGIC FOR COMPLETE NOVICES:
+
+The teleportation spell: (move yourself to a new place).
+The healing spell: (heal someone).
+The freeze spell: (freeze something).
+The illumination spell: (make something glow).
+The copying spell: (copy a spell into the spellbook).
+
+[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
+<spell> on <someone or something>" to use it.]
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> * let's teach him some manners
+[Comment recorded]
+
+> cast freeze spell on hawker
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the freeze spell.
+
+The spell finds nothing in him to take hold of. He shivers violently, pulls his
+tunic straight and carries on shuffling. "Draughty spot, this," he says.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> * well, I had to try. LOL!
+[Comment recorded]
+
+> w
+The Country Road
+You stand on a narrow dirt road winding between vast, rustling cornfields. To
+the east, past the golden stalks, you can see the thatched rooftops of a small
+village. A solitary oak tree casts its shadow over the wayside.
+
+The beggar has slid down into the shade of the oak and gone to sleep. It is the
+hottest part of the afternoon, and he has clearly decided that the road can do
+without him for an hour. You will have to come back later.
+
+> w
+The road winds on westward into open country, where you have no business and no
+time to spare.
+
+> w
+The road winds on westward into open country, where you have no business and no
+time to spare.
+
+> cast teleportation spell
+Your spellbook snaps open to the correct page, and you speak the complex,
+resonant incantation of the teleportation spell.
+
+A yellow cloud swirls around you, and as it clears you find yourself...
+
+On the Steppe
+The yellow cloud dissipates, leaving you standing in a boundless, wind-swept
+steppe that rolls onward to the horizon. Strangest of all, you find yourself
+encircled by four free-standing, ornate archways, each facing one of the
+cardinal directions of the compass.
+
+> s
+A yellow cloud surrounds you, and as it clears you find yourself in the...
+
+Meadow
+You stand in a small, overgrown clearing dominated by a dilapidated hut hunched
+immediately to the south. Looming on all other sides is a dense, ancient forest
+whose twisted boughs form an impenetrable wall of shadow. A faint dirt path cuts
+through the weeds, winding away north into the dark tree line.
+
+> s
+As you enter the hut your old mentor says, "I see you have found a new stone.
+Well done. Put it in the gilded box."
+
+Hut
+The interior of the hut is cramped and gloomy. Thick soot cakes the solitary
+window, leaving the flickering flames of a stone hearth as the room's sole
+source of light. Atop the fire, rusted iron vessels bubble quietly, venting
+strange, multi-coloured vapours. A massive, cluttered workbench is buried under
+a chaotic heap of heavy grimoires, brittle sheets of paper, and exotic
+alchemical ingredients. A heavy wooden door leads north, back out to the forest
+path.
+
+Resting within a small alcove in the stone wall is a beautifully carved, gilded
+wooden box. It contains a black stone.
+
+Your mentor ponders something.
+
+You can also see a folio here.
+
+> give green stone to mentor
+Istar frowns slightly, lowering his voice. "The Stone of Verdure. Bound to the
+root, coil, and life force of the wild earth."
+
+> ask him about geen stone
+You can't see "him" (hawker) at the moment.
+
+> ask mentor about green stone
+Istar frowns slightly, lowering his voice. "The Stone of Verdure. Bound to the
+root, coil, and life force of the wild earth."
+
+> i
+You're carrying a black scroll, a green stone (providing light), a weathered
+scroll, your backpack (which is open but empty) and your spellbook.
+
+> put stone in box
+You put the green stone into the gilded box.
+
+> i
+You're carrying a black scroll, a weathered scroll, your backpack (which is open
+but empty) and your spellbook.
+
+> ask him about box
+"A wizard's strongbox," he says. "Nothing goes into it that I have not made room
+for, and nothing comes out that I have not called for. The stones will be safe
+in there until the hour I need them."
+
+> x box
+The box is crafted from a rare, dark wood, seamlessly overlaid with an
+intricate, swirling filigree of pure gold. Professional wizards use enchanted
+repositories like this to store highly volatile magical items.
+
+In the box is a green stone (providing light) and a black stone.
+
+> take black stone
+You reach for it, but a sharp, static shock bites at your fingers, forcing you
+to pull back. The box is anchored to the alcove by powerful protective spells
+designed to prevent theft and ward off damage.
+
+> take green stone
+You reach for it, but a sharp, static shock bites at your fingers, forcing you
+to pull back. The box is anchored to the alcove by powerful protective spells
+designed to prevent theft and ward off damage.
+
+> * I hope I don't need it later, down in the dark cave. Could this be an
+[Comment recorded]
+
+> * unwinnable state?
+[Comment recorded]
+
+> n
+Meadow
+You stand in a small, overgrown clearing dominated by a dilapidated hut hunched
+immediately to the south. Looming on all other sides is a dense, ancient forest
+whose twisted boughs form an impenetrable wall of shadow. A faint dirt path cuts
+through the weeds, winding away north into the dark tree line.
+
+> n
+That winding dirt track is the way you arrived on foot. Trudging all the way
+back would take weeks you simply don't have. Istar gave you the teleportation
+spell for a reason!
+
+> cast teleportation spell
+Your spellbook snaps open to the correct page, and you speak the complex,
+resonant incantation of the teleportation spell.
+
+A swirling yellow mist springs up from the ground, engulfing you completely. As
+the fog dissipates, the meadow vanishes, and you find yourself standing in a
+vast new landscape...
+
+On the Steppe
+The yellow cloud dissipates, leaving you standing in a boundless, wind-swept
+steppe that rolls onward to the horizon. Strangest of all, you find yourself
+encircled by four free-standing, ornate archways, each facing one of the
+cardinal directions of the compass.
+
+> w
+A yellow cloud surrounds you, and as it clears you find yourself...
+
+Before a Temple
+You stand on a narrow path that runs down to the sea in the south and into the
+forest in the north. The air is salt and fresh. To the east of you stands a
+great temple, weathered by long centuries of sea wind.
+
+> w
+A thick wall of brambles and windblown scrub blocks any progress that way.
+
+> e
+The Temple
+The vaults rise high above your head, and the whole great space stands silent
+and abandoned. The leaded windows have been broken out, and almost all the
+furnishings are gone.
+
+A statue still stands in the middle of the temple.
+
+> w
+Before a Temple
+You stand on a narrow path that runs down to the sea in the south and into the
+forest in the north. The air is salt and fresh. To the east of you stands a
+great temple, weathered by long centuries of sea wind.
+
+> w
+A thick wall of brambles and windblown scrub blocks any progress that way.
+
+> x sea
+To the south, waves lap against the shore under a bright sky. The ocean breeze
+carries a fresh, salty scent.
+
+> x
+I think you wanted to say "examine something". Please try again.
+
+> x temple
+The temple is run-down but still imposing, raised from great blocks of
+weathered, ancient stone.
+
+> x forest
+A dense cluster of tall green trees visible along the path to the north.
+
+> s
+The Beach
+Here the land gives out, and great waves come in and break along a strand of
+dark sand. A path leads back north towards the temple.
+
+> w
+Jagged sea rocks and deep tide pools prevent travel along the beach.
+
+> s
+If you want to swim, you can just say so.
+
+> e
+Jagged sea rocks and deep tide pools prevent travel along the beach.
+
+> swim
+You are no great swimmer, and the waves are too high today.
+
+> * nice response
+[Comment recorded]
+
+> l
+The Beach
+Here the land gives out, and great waves come in and break along a strand of
+dark sand. A path leads back north towards the temple.
+
+> x sand
+You can't see any such thing.
+
+> * I can't see sand on a beach?
+[Comment recorded]
+
+> x soil
+You can't see any such thing.
+
+> dig
+I think you wanted to say "dig something". Please try again.
+
+> dig ground
+Digging would achieve nothing here.
+
+> dig sand
+You can't see any such thing.
+
+> l
+The Beach
+Here the land gives out, and great waves come in and break along a strand of
+dark sand. A path leads back north towards the temple.
+
+> x waves
+Towering, foamy waves surge onto the dark sand with a rhythmic roar, spraying
+cold saltwater into the air.
+
+> x path
+You can't see any such thing.
+
+> n
+Before a Temple
+You stand on a narrow path that runs down to the sea in the south and into the
+forest in the north. The air is salt and fresh. To the east of you stands a
+great temple, weathered by long centuries of sea wind.
+
+> n
+The road winds on into the forest, where you have no business.
+
+> e
+The Temple
+The vaults rise high above your head, and the whole great space stands silent
+and abandoned. The leaded windows have been broken out, and almost all the
+furnishings are gone.
+
+A statue still stands in the middle of the temple.
+
+> s
+Solid stone walls block your path.
+
+> e
+Solid stone walls block your path.
+
+> n
+Solid stone walls block your path.
+
+> w
+Before a Temple
+You stand on a narrow path that runs down to the sea in the south and into the
+forest in the north. The air is salt and fresh. To the east of you stands a
+great temple, weathered by long centuries of sea wind.
+
+> e
+The Temple
+The vaults rise high above your head, and the whole great space stands silent
+and abandoned. The leaded windows have been broken out, and almost all the
+furnishings are gone.
+
+A statue still stands in the middle of the temple.
+
+> x statue
+The statue is like nothing you have seen before. The shape is broadly human, but
+the scales and the tall fin running down its back are not. At its feet lie the
+withered remains of flowers and food, so somebody worshipped here once, and did
+so for a long while.
+
+> search it
+You find nothing hidden about the statue, only the old offerings mouldering at
+its feet.
+
+> x offering
+Sorry, I don't understand what "offering" means.
+
+> x offerings
+Sorry, I don't understand what "offerings" means.
+
+> x room
+You can't see any such thing.
+
+> x temple
+You are standing inside the main sanctuary of the ancient, ruined stone temple.
+
+> push statue
+That's fixed in place.
+
+> pull it
+That's fixed in place.
+
+> take it
+The heavy stone statue is firmly anchored to the sanctuary floor.
+
+> read spellbook
+ARCANE MAGIC FOR COMPLETE NOVICES:
+
+The teleportation spell: (move yourself to a new place).
+The healing spell: (heal someone).
+The freeze spell: (freeze something).
+The illumination spell: (make something glow).
+The copying spell: (copy a spell into the spellbook).
+
+[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
+<spell> on <someone or something>" to use it.]
+
+> cast resurrection on statue
+You read aloud the complicated words of the resurrection spell.
+
+Nothing happens.
+
+> cast illumination on statue
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the illumination spell.
+
+You cannot cast the illumination spell on a statue.
+
+> cast healing on statue
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the healing spell.
+
+You can only heal living creatures.
+
+> hit statue
+You raise a hand and then feel extremely foolish. It is a block of carved stone,
+and the only thing you would break is your knuckles.
+
+> * nice response.
+[Comment recorded]
+
+> i
+You're carrying a black scroll, a weathered scroll, your backpack (which is open
+but empty) and your spellbook.
+
+> x backpack
+It looks like an ordinary backpack, but it is a little special. No matter how
+much you stuff into it, it never grows heavier and it never seems to fill up. A
+very handy gift from your first teacher of magic, given to you long ago.
+
+> put statue in pack
+(first taking the statue)
+The heavy stone statue is firmly anchored to the sanctuary floor.
+
+> e
+Solid stone walls block your path.
+
+> x walls
+You can't see any such thing.
+
+> * I do. They block my path.
+[Comment recorded]
+
+> climb statue
+You would achieve nothing by this.
+
+> w
+Before a Temple
+You stand on a narrow path that runs down to the sea in the south and into the
+forest in the north. The air is salt and fresh. To the east of you stands a
+great temple, weathered by long centuries of sea wind.
+
+> search temple
+You find nothing special.
+
+> w
+A thick wall of brambles and windblown scrub blocks any progress that way.
+
+> s
+The Beach
+Here the land gives out, and great waves come in and break along a strand of
+dark sand. A path leads back north towards the temple.
+
+> cast freeze on waves
+A thin layer of ice covers the object, but soon melts away.
+
+> search
+I think you wanted to say "search something". Please try again.
+
+> search sand
+You can't see any such thing.
+
+> n
+Before a Temple
+You stand on a narrow path that runs down to the sea in the south and into the
+forest in the north. The air is salt and fresh. To the east of you stands a
+great temple, weathered by long centuries of sea wind.
+
+> n
+The road winds on into the forest, where you have no business.
+
+> cast teleportation
+Your spellbook snaps open to the correct page, and you speak the complex,
+resonant incantation of the teleportation spell.
+
+A yellow cloud swirls around you, and as it clears you find yourself...
+
+On the Steppe
+The yellow cloud dissipates, leaving you standing in a boundless, wind-swept
+steppe that rolls onward to the horizon. Strangest of all, you find yourself
+encircled by four free-standing, ornate archways, each facing one of the
+cardinal directions of the compass.
+
+> e
+Step by step, you pass beneath the eastern arch. A swirl of yellow mist envelops
+you once more, and as it clears, the wide steppe vanishes...
+
+The Country Road
+You stand on a narrow dirt road winding between vast, rustling cornfields. To
+the east, past the golden stalks, you can see the thatched rooftops of a small
+village. A solitary oak tree casts its shadow over the wayside.
+
+The beggar has slid down into the shade of the oak and gone to sleep. It is the
+hottest part of the afternoon, and he has clearly decided that the road can do
+without him for an hour. You will have to come back later.
+
+> cast healing on beggar
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the healing spell.
+
+There is nothing wrong with the man that a spell can mend. He is asleep, not
+ill.
+
+> s
+The cornfields close the road in on that side as well. The track itself runs
+only east and west.
+
+> n
+The corn grows right up to the edge of the road, a dense wall of stalks taller
+than a man. Trampling a farmer's crop is a poor way to repay the hospitality of
+the country.
+
+> e
+You leave the beggar to his nap and walk back up the dusty road towards the
+market.
+
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> e
+The Edge of the Village
+Just a few steps east of the village centre, the houses give way to cornfields
+again. The road runs on east into open country, and back west into the market.
+
+> e
+The road runs on east through the corn and out into open country, and everything
+you have come here for lies behind you.
+
+> n
+The dense cornfields form an unbroken wall of rustling stalks on either side of
+the road.
+
+> s
+The corn stands too thick to push through, and there is nothing beyond it but
+more corn.
+
+> w
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> talk to hawker
+The hawker doesn't seem interested.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> give coin to hawker
+You turn out your pockets and find them as empty as the beggar's palm. Whatever
+else you win from this man today, it will not be with silver.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> ask him about red stone
+The impatient hawker motions to the cups in front of him.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> w
+The Country Road
+You stand on a narrow dirt road winding between vast, rustling cornfields. To
+the east, past the golden stalks, you can see the thatched rooftops of a small
+village. A solitary oak tree casts its shadow over the wayside.
+
+The beggar has slid down into the shade of the oak and gone to sleep. It is the
+hottest part of the afternoon, and he has clearly decided that the road can do
+without him for an hour. You will have to come back later.
+
+> w
+The road winds on westward into open country, where you have no business and no
+time to spare.
+
+> cast teleportation
+Your spellbook snaps open to the correct page, and you speak the complex,
+resonant incantation of the teleportation spell.
+
+A yellow cloud swirls around you, and as it clears you find yourself...
+
+On the Steppe
+The yellow cloud dissipates, leaving you standing in a boundless, wind-swept
+steppe that rolls onward to the horizon. Strangest of all, you find yourself
+encircled by four free-standing, ornate archways, each facing one of the
+cardinal directions of the compass.
+
+> n
+A yellow cloud surrounds you, and as it clears you find yourself in a...
+
+Forest
+You stand on a path in a mature forest, deep enough that the daylight arrives
+green and second-hand. The path leads on eastward between the trees, and every
+other direction is trunks.
+
+> s
+The forest closes in just as solidly on that side. The path runs east and
+nowhere else.
+
+> w
+Behind you the trunks crowd right up to the path's edge. You did not walk into
+this forest, and you will not be walking out of it either.
+
+> n
+The trees grow far too close together here, their thick trunks and tangled roots
+forming an impassable wooden wall. The path only runs east.
+
+> e
+Forest Path
+You stand on a narrow path in a dark forest. Ahead to the east the trees thin
+out against the grey flank of a tall mountain; behind you the path runs west,
+back into the gloom.
+
+> n
+The trees stand shoulder to shoulder that way, with bramble filling every gap
+between them. The path is the only road through this forest, and it runs east
+and west.
+
+> s
+The dark woods are far too thick to navigate.
+
+> e
+The Mountain
+The forest gives out here against the flank of a great mountain, far too steep
+to climb. A path leads back west into the trees, and a short way north of you a
+cave mouth opens in the rock.
+
+> e
+The sheer mountain wall curves around you, blocking further passage.
+
+> s
+The sheer mountain wall curves around you, blocking further passage.
+
+> u
+The mountain slope is far too steep to scale without proper gear.
+
+> n
+Cave
+The cave is a single irregular chamber. Daylight reaches in through the mouth in
+the south wall, but it gives out well before the far corners do, so there is no
+telling how large the place really is. What you can see is a tunnel running on
+northward.
+
+> w
+Rough stone walls lie that way, solid and impassable.
+
+> e
+Rough stone walls lie that way, solid and impassable.
+
+> n
+Darkness
+It is pitch dark here!
+
+> n
+Venturing into the pitch black is suicide. Head back south to the safety of the
+cave.
+
+> s
+Cave
+The cave is a single irregular chamber. Daylight reaches in through the mouth in
+the south wall, but it gives out well before the far corners do, so there is no
+telling how large the place really is. What you can see is a tunnel running on
+northward.
+
+> i
+You're carrying a black scroll, a weathered scroll, your backpack (which is open
+but empty) and your spellbook.
+
+> read spellbook
+ARCANE MAGIC FOR COMPLETE NOVICES:
+
+The teleportation spell: (move yourself to a new place).
+The healing spell: (heal someone).
+The freeze spell: (freeze something).
+The illumination spell: (make something glow).
+The copying spell: (copy a spell into the spellbook).
+
+[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
+<spell> on <someone or something>" to use it.]
+
+> cast illumination on backpack
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the illumination spell.
+
+A sudden light bursts forth, hovering over the backpack before quickly fading
+back into the dark. It seems the magic requires a better vessel. Only some magic
+objects can sustain a permanent glow.
+
+> cast illumination on black scroll
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the illumination spell.
+
+A sudden light bursts forth, hovering over the black scroll before quickly
+fading back into the dark. It seems the magic requires a better vessel. Only
+some magic objects can sustain a permanent glow.
+
+> cast illumination on spellbook
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the illumination spell.
+
+A sudden light bursts forth, hovering over the spellbook before quickly fading
+back into the dark. It seems the magic requires a better vessel. Only some magic
+objects can sustain a permanent glow.
+
+> i
+You're carrying a black scroll, a weathered scroll, your backpack (which is open
+but empty) and your spellbook.
+
+> cast illumination on me
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the illumination spell.
+
+A dazzling light surrounds you and you begin to glow. The light slowly fades,
+but you are now a perfectly adequate light source.
+
+> i
+You're carrying a black scroll, a weathered scroll, your backpack (which is open
+but empty) and your spellbook.
+
+> x me
+As good-looking as ever, though weeks on the road have left your travelling
+robes mud-spattered and your boots very nearly walked through.
+
+> n
+The Rock Hall
+A great cavity in the mountain, hollowed out by nature and then squared off and
+widened by human hands. It was a grand feast hall once; now somebody keeps it as
+a storeroom, and rows of crates and packages stand against the walls under a
+thick coat of dust. A large doorway is set in the north wall, and beyond it a
+slope runs down into the darkness.
+
+> * So I shine like a saint, and that solved my problem. Yet my description 
+[Comment recorded]
+
+> * should be updated to the new state, I think.
+[Comment recorded]
+
+> x crates
+Rough wooden boxes of various sizes, nailed shut and coated in a thick layer of
+dust.
+
+> break crates
+Violence isn't the answer to this one.
+
+> open crates
+The lids are nailed down hard and the wood has swollen tight with damp. You
+would need a crowbar and a very good reason.
+
+> read spellbook
+ARCANE MAGIC FOR COMPLETE NOVICES:
+
+The teleportation spell: (move yourself to a new place).
+The healing spell: (heal someone).
+The freeze spell: (freeze something).
+The illumination spell: (make something glow).
+The copying spell: (copy a spell into the spellbook).
+
+[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
+<spell> on <someone or something>" to use it.]
+
+> l
+The Rock Hall
+A great cavity in the mountain, hollowed out by nature and then squared off and
+widened by human hands. It was a grand feast hall once; now somebody keeps it as
+a storeroom, and rows of crates and packages stand against the walls under a
+thick coat of dust. A large doorway is set in the north wall, and beyond it a
+slope runs down into the darkness.
+
+> x packages
+Heavy cloth-wrapped bundles tied tightly with frayed twine, stacked alongside
+the crates.
+
+> open them
+You can't open those.
+
+> search them
+You rummage through the packages but find nothing of interest.
+
+> search crates
+You feel along the gaps between the dusty crates and turn up nothing but cobwebs
+and a dead spider of impressive size.
+
+> x doorway
+A broad opening cut square into the north wall. Beyond it the floor falls away
+into a dark, downward slope.
+
+> open it
+No need to concern yourself with that.
+
+> close it
+No need to concern yourself with that.
+
+> n
+You walk easily down the slope.
+
+Tunnel
+A steep passage dropping away from the rock hall into the dark. Water trickles
+down the slope from somewhere above, and the floor beneath it is thick with mud.
+
+Two statues guard the passage.
+
+
+> w
+Rough cavern walls block that way, dripping with moisture.
+
+> e
+Rough cavern walls block that way, dripping with moisture.
+
+> n
+You attempt to march past the sentinels, but as you step between them, an
+invisible force like compressed air slams against your chest, throwing you back
+into the tunnel. The statues remain motionless, watching.
+
+> push statues
+Do you mean the warrior statue or the barbarian statue?
+
+> warrior
+It does not shift so much as a hair. The statue and the mountain appear to be
+the same piece of rock.
+
+> cast illumination on warrior statue
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the illumination spell.
+
+You cannot cast the illumination spell on a warrior statue.
+
+> cast illumination on barbarian  statue
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the illumination spell.
+
+You cannot cast the illumination spell on a barbarian statue.
+
+> s
+The slope is steep, and you are left breathless.
+
+The Rock Hall
+A great cavity in the mountain, hollowed out by nature and then squared off and
+widened by human hands. It was a grand feast hall once; now somebody keeps it as
+a storeroom, and rows of crates and packages stand against the walls under a
+thick coat of dust. A large doorway is set in the north wall, and beyond it a
+slope runs down into the darkness.
+
+> s
+Cave
+The cave is a single irregular chamber. Daylight reaches in through the mouth in
+the south wall, but it gives out well before the far corners do, so there is no
+telling how large the place really is. What you can see is a tunnel running on
+northward.
+
+> s
+The Mountain
+The forest gives out here against the flank of a great mountain, far too steep
+to climb. A path leads back west into the trees, and a short way north of you a
+cave mouth opens in the rock.
+
+> w
+Forest Path
+You stand on a narrow path in a dark forest. Ahead to the east the trees thin
+out against the grey flank of a tall mountain; behind you the path runs west,
+back into the gloom.
+
+> w
+Forest
+You stand on a path in a mature forest, deep enough that the daylight arrives
+green and second-hand. The path leads on eastward between the trees, and every
+other direction is trunks.
+
+> s
+The forest closes in just as solidly on that side. The path runs east and
+nowhere else.
+
+> cast teleportation
+Your spellbook snaps open to the correct page, and you speak the complex,
+resonant incantation of the teleportation spell.
+
+A yellow cloud swirls around you, and as it clears you find yourself...
+
+On the Steppe
+The yellow cloud dissipates, leaving you standing in a boundless, wind-swept
+steppe that rolls onward to the horizon. Strangest of all, you find yourself
+encircled by four free-standing, ornate archways, each facing one of the
+cardinal directions of the compass.
+
+> s
+A yellow cloud surrounds you, and as it clears you find yourself in the...
+
+Meadow
+You stand in a small, overgrown clearing dominated by a dilapidated hut hunched
+immediately to the south. Looming on all other sides is a dense, ancient forest
+whose twisted boughs form an impenetrable wall of shadow. A faint dirt path cuts
+through the weeds, winding away north into the dark tree line.
+
+> s
+Hut
+The interior of the hut is cramped and gloomy. Thick soot cakes the solitary
+window, leaving the flickering flames of a stone hearth as the room's sole
+source of light. Atop the fire, rusted iron vessels bubble quietly, venting
+strange, multi-coloured vapours. A massive, cluttered workbench is buried under
+a chaotic heap of heavy grimoires, brittle sheets of paper, and exotic
+alchemical ingredients. A heavy wooden door leads north, back out to the forest
+path.
+
+Resting within a small alcove in the stone wall is a beautifully carved, gilded
+wooden box. It contains a green stone (providing light) and a black stone.
+
+Your mentor ponders something.
+
+You can also see a folio here.
+
+> s
+You bump straight into the hut's sturdy timber walls, cluttered with dusty
+shelves of strange ingredients. The only way out is back through the doorway to
+the north.
+
+> read folio
+Inscribed in your mentor's familiar, frantic handwriting is a harrowing log of
+his forbidden studies.
+
+He writes that the present age will soon give way to an era of terror and dread,
+heralded by the return of the Old Gods to the Earth. It would mean nothing less
+than the annihilation of humanity. Ever since his exile from the Academy he has
+searched, without rest, for a way to delay the waking of these malevolent
+powers.
+
+There is but one hope. By opening a gateway to a higher dimension, he can
+channel a torrent of pure, white magic powerful enough to seal the evil gods
+away. To tear open this gate, however, he requires four elemental stones. He
+already possesses the first, a dark, abyssal stone, and he needs your help to
+unearth the remaining three.
+
+> l
+Hut
+The interior of the hut is cramped and gloomy. Thick soot cakes the solitary
+window, leaving the flickering flames of a stone hearth as the room's sole
+source of light. Atop the fire, rusted iron vessels bubble quietly, venting
+strange, multi-coloured vapours. A massive, cluttered workbench is buried under
+a chaotic heap of heavy grimoires, brittle sheets of paper, and exotic
+alchemical ingredients. A heavy wooden door leads north, back out to the forest
+path.
+
+Resting within a small alcove in the stone wall is a beautifully carved, gilded
+wooden box. It contains a green stone (providing light) and a black stone.
+
+Your mentor ponders something.
+
+You can also see a folio here.
+
+> ask mentor about red stone
+Istar's eyes glint with memory. "The Stone of Ember, as the ancients called it.
+It is said to burn with an inner fire that never dims."
+
+> ask mentor about black stone
+Istar gestures toward the gilded box. "The stone of void is resting right here
+before us. Its power is potent, volatile, and deeply unsettling.."
+
+> ask mentor about blue stone
+Istar nods slowly. "The Stone of Tides. Woven with the essence of deep waters
+and tempestuous winds."
+
+> ask mentor about yellow stone
+Istar scoffs, shaking his head. "That is no stone of power, just ordinary
+rubble. Do not let your imagination wander."
+
+> * hahah
+[Comment recorded]
+
+> * I wonder where the blue stone is. Maybe at sea? But I tried to freeze it
+[Comment recorded]
+
+> * and it didn't work.
+[Comment recorded]
+
+> ask him about beggar
+Istar shakes his head dismissively. "That matters little right now. Pay
+attention to what is at hand."
+
+> ask him about hawker
+Istar shakes his head dismissively. "That matters little right now. Pay
+attention to what is at hand."
+
+> cast teleportation
+Your spellbook snaps open to the correct page, and you speak the complex,
+resonant incantation of the teleportation spell.
+
+A yellow cloud swirls around you, and as it clears you find yourself...
+
+On the Steppe
+The yellow cloud dissipates, leaving you standing in a boundless, wind-swept
+steppe that rolls onward to the horizon. Strangest of all, you find yourself
+encircled by four free-standing, ornate archways, each facing one of the
+cardinal directions of the compass.
+
+> e
+Step by step, you pass beneath the eastern arch. A swirl of yellow mist envelops
+you once more, and as it clears, the wide steppe vanishes...
+
+The Country Road
+You stand on a narrow dirt road winding between vast, rustling cornfields. To
+the east, past the golden stalks, you can see the thatched rooftops of a small
+village. A solitary oak tree casts its shadow over the wayside.
+
+The beggar has slid down into the shade of the oak and gone to sleep. It is the
+hottest part of the afternoon, and he has clearly decided that the road can do
+without him for an hour. You will have to come back later.
+
+> e
+You leave the beggar to his nap and walk back up the dusty road towards the
+market.
+
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> save
+Ok.
+
+> script off
+
+End of transcript.

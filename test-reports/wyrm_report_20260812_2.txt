@@ -1,0 +1,11 @@
+* Enligt hints ska jag kasta animate på statyerna och freeze på slope. "CAST ANIMATE ON STATUES" ger dock bara "The statues comes to life, runs about for a while and then stiffens again.", och "CAST FREEZE ON SLOPE" ger "A thin layer of ice covers the object, but soon melts away." . Notera också att meddelandet om statyerna innehåller "comes", "runs" och "stiffens", som om det var singular.
+
+* "X STATUES" skulle kunna beskriva att de är två, en krigare och en barbar, och om någon av dem just nu rör på sig. Nu står det bara att jag måste välja en att undersöka.
+
+* När jag har animerat respektive staty, står de och slåss. Jag kan inte gå förbi, och "CAST FREEZE ON SLOPE" ger samma meddelande som innan - "A thin layer of ice covers the object, but soon melts away."
+
+* "CAST FREEZE ON GROUND" get "A thin layer of ice covers the down, but soon melts away." (Kanske vore bra att redirecta handlingen till slope?)
+
+* "PUSH WARRIOR" - "That would be less than courteous." känns lite malplacerat här.
+
+Summa summarum: Jag gav upp att komma fram till draken, trots att jag läst alla hints.

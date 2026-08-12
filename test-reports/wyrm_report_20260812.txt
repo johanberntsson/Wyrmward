@@ -1,0 +1,45 @@
+* I den svenska versionen av spelet, var det vettigt att tillåta "H" för att gå instruktioner, eftersom man kanske satt med en speltolk som inte hanterade svenska tecken korrekt, och man behövde komma in i spelhjälpen för att få se hur man använder TRANSKRIPTION för att kunna spela ändå. I ett engelskspråkigt spel känns det däremot inte nödvändigt att stödja H för HELP.
+
+* "cast teleport on box" tyckte jag skulle ge något intressant svar, men jag teleporterades bara iväg som om jag kastat den på mig själv.
+
+* Om jag försöker ge Folio till Istar är han ointresserad, men om jag försöker gå ut genom dörren med den, tar han tillbaka den.
+
+* Om jag teleporterar mig när jag är i stugan, får jag med mig folio. Jag vet inte om det är dåligt?
+
+* Det känns överraskande att jag inte får några poäng för att lägga stenar i lådan.
+
+* När man står utanför templet, borde IN leda in i templet.
+Nu får man istället "A thick wall of brambles and scrub vegetation blocks any progress." (Samma sak med OUT, där svaret också känns märkligt)
+
+* "ENTER TEMPLE" borde funka.
+
+* Istar borde ha "man" som synonym.
+
+* Hjälp-texten nämner att spelet är till för att dema z6-stödet i PunyInform och Ozmoo.
+Kanske ta bort omnämnadet av Ozmoo i Release 1?
+
+* Ljudeffekten för demonen spårar ur fullständigt. Den spelar några millisekunder tills MORE-prompten kommer - då pausas den och ersätts av typ störigt brus. När jag trycker mellanslag spelar den lite igen, tills nästa MORE-prompt kommer, då ersätts den av bruset igen. När jag trycker mellanslag igen spelas till slut slutet av ljudeffekten.
+
+* I initiala texten i byn står det att hawker står med kopparna på "a bench". Jag måste sedan referera till denna bench, men den verkar aldrig nämnas igen. Det är lite taskigt.
+Man kan lätt minnas det som "table" eller liknande.
+
+* "give coin" hos hawker ger "I think you wanted to say 'give silver coin life'". Det känns inte alls som vad jag ville säga.
+
+* "man" borde vara synonym för Beggar.
+
+* sound borde vara meta
+
+* Även en inkomplett cast borde vara meta, tycker jag.
+Typ "CAST RESURRECT" borde inte förbruka ett drag, då spelet bara klargör syntaxen för mig.
+
+* anti-clockwise : borde vara counter-clockwise?
+
+* "PUSH DEMON" - That would be less than courteous. - Well, jag tycker han är ganska lite courteous som håller på att åkalla de gamla gudarna som ska göra kaos i världen. Jag borde inte låta bli att försöka knuffa honom för att det är oartigt.
+
+* "CAST TELEPORT" medan man är med demonen gör att man flyger iväg till Steppe, men man ser fortfarande att "The well now glows with a red light from below. The demon looks very expectant."
+
+* "PUT AMULET IN RED FIELD" borde funka som synonym för "TOUCH RED FIELD WITH AMULET"
+
+* Om man först gör "put amulet in red", och sedan "touch red with amulet" får man "You can't see any such thing." - Skumt. Verkar som att "red" ibland räcker för att beskriva fältet, medan det ibland krävs "red field".
+
+* "SHOUT", "SHOUT AT DEMON" och "KILL DEMON" borde inte bara ge standardsvaren.

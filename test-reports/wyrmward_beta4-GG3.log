@@ -1,0 +1,738 @@
+Start of a transcript of
+
+Wyrmward
+(c) 1996, 2005, 2026 Johan Berntsson. Type "help" or "h" for instructions.
+Release 0 / Serial number 260731 / Inform v6.44 PunyInform v6.7 R
+
+> l
+The Village
+The village consists of a dozen timber-framed houses lining either side of the
+road. Despite its modest size, the area is full of life and bustle. It is market
+day.
+
+The hawker stands by the roadside with his cups.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> i
+You're carrying a silver coin, a folio, your backpack (which is open but empty)
+and your spellbook.
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> read spellbook
+ARCANE MAGIC FOR COMPLETE NOVICES:
+
+The animation spell: (bring something to life).
+The teleportation spell: (move yourself to a new place).
+The healing spell: (heal someone).
+The freeze spell: (freeze something).
+The illumination spell: (make something glow).
+The copying spell: (copy a spell into the spellbook).
+
+[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
+<spell> on <someone or something>" to use it.]
+
+"Won't you try again? Just one silver coin," says the hawker.
+
+> give coin to hawker
+The hawker pockets the silver coin. He places the stone under one of the cups
+and says, "Let us begin again. Concentrate, and the twenty silver coins are
+yours."
+
+The man starts moving the cups this way and that.
+
+> cast animate on bench
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the animation spell.
+
+The bench comes to life, bucks violently for a moment and then stiffens again.
+The cups roll off onto the ground, and there is no sign of the stone under any
+of them. The hawker bends quickly to gather them up, and as he does so the stone
+drops out of his sleeve and into the dust. The man goes scarlet. "Please, sir,
+do not be angry. I have seven children at home to feed, and I never cheat
+against the poor. You can have your stake back, and this fine gem with it, if
+you will promise not to mention this to the watch." He presses the silver coin
+and the stone into your hand, gathers up his things and is gone down the road
+before you can think of a reply.
+
+> i
+You're carrying a red stone, a silver coin, a folio, your backpack (which is
+open but empty) and your spellbook.
+
+> w
+The Country Road
+You stand on a narrow dirt road winding between vast, rustling cornfields. To
+the east, past the golden stalks, you can see the thatched rooftops of a small
+village. A solitary oak tree casts its shadow over the wayside.
+
+A ragged beggar leans against the trunk of the tree, holding out a weathered
+hand.
+
+> * oh, so now he's awake again.
+[Comment recorded]
+
+> give coin to beggar
+The beggar is overwhelmed by your generosity. It has clearly been a long time
+since he last held a silver coin. From under his rags he pulls out an amulet on
+a cord and presses it on you, and will not hear of your refusing it.
+
+Content with the day's work, the beggar wanders off to the west.
+
+> x amulet
+A surprisingly ornate amulet, slightly tarnished around the rim, hanging from a
+simple cord. It radiates a faint, comforting warmth. An inscription on the back
+promises that it will serve as both shield and weapon against black magic.
+
+> i
+You're carrying an amulet, a red stone, a folio, your backpack (which is open
+but empty) and your spellbook.
+
+> wear amulet
+You are now wearing the amulet.
+
+> cast teleport
+Your spellbook snaps open to the correct page, and you speak the complex,
+resonant incantation of the teleportation spell.
+
+A yellow cloud swirls around you, and as it clears you find yourself...
+
+On the Steppe
+The yellow cloud dissipates, leaving you standing in a boundless, wind-swept
+steppe that rolls onward to the horizon. Strangest of all, you find yourself
+encircled by four free-standing, ornate archways, each facing one of the
+cardinal directions of the compass.
+
+> n
+A yellow cloud surrounds you, and as it clears you find yourself in a...
+
+Forest
+You stand on a path in a mature forest, deep enough that the daylight arrives
+green and second-hand. The path leads on eastward between the trees, and every
+other direction is trunks.
+
+> e
+Forest Path
+You stand on a narrow path in a dark forest. Ahead to the east the trees thin
+out against the grey flank of a tall mountain; behind you the path runs west,
+back into the gloom.
+
+> e
+The Mountain
+The forest gives out here against the flank of a great mountain, far too steep
+to climb. A path leads back west into the trees, and a short way north of you a
+cave mouth opens in the rock.
+
+> n
+Cave
+The cave is a single irregular chamber. Daylight reaches in through the mouth in
+the south wall, but it gives out well before the far corners do, so there is no
+telling how large the place really is. What you can see is a tunnel running on
+northward.
+
+Something glitters in the mud by the entrance. It is a green stone!
+
+> take green stone
+Taken.
+
+> x it
+Roughly carved and glowing with a faint, inner emerald light, this stone matches
+the shape and ancient markings of your mentor's black stone.
+
+> cast illuminate on green stone
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the illumination spell.
+
+The green stone flares so brightly that you nearly drop it, then settles to a
+steady emerald glow that throws your shadow halfway up the cave wall. It will
+serve very well as a lamp.
+
+> i
+You're carrying a green stone (providing light), an amulet (worn), a red stone,
+a folio, your backpack (which is open but empty) and your spellbook.
+
+> n
+The Rock Hall
+A great cavity in the mountain, hollowed out by nature and then squared off and
+widened by human hands. It was a grand feast hall once; now somebody keeps it as
+a storeroom, and rows of crates and packages stand against the walls under a
+thick coat of dust. A large doorway is set in the north wall, and beyond it a
+slope runs down into the darkness.
+
+You see a scroll wedged between two crates.
+
+> get scroll
+Taken.
+
+> x it
+It reads: "The resurrection spell -- raise the dead." The spell itself runs on
+for a great many lines, and every one of them is more complicated than the last.
+
+> cast copy on resurrection spell
+The spellbook begins to glow. It strains at the task, drawing on every scrap of
+power it has, but the resurrection spell is simply too long, too intricate and
+too strong to be lifted off the page. The glow dies away. Luckily the scroll
+itself is unharmed, so you will have to read the spell straight from it.
+
+> n
+You walk easily down the slope.
+
+Tunnel
+A steep passage dropping away from the rock hall into the dark. Water trickles
+down the slope from somewhere above, and the floor beneath it is thick with mud.
+
+Two statues guard the passage.
+
+
+> * remove on trailing blank line above
+[Comment recorded]
+
+> x mud
+Grey, glutinous and ankle-deep in the hollows, worked to a slick paste by the
+water running through it. Your boots have no purchase in it whatsoever.
+
+> n
+You attempt to march past the sentinels, but as you step between them, an
+invisible force like compressed air slams against your chest, throwing you back
+into the tunnel. The statues remain motionless, watching.
+
+> cast animate on warrior
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the animation spell.
+
+The statue comes to life!
+
+The warrior attacks you and aims at your chest. You manage to squirm past him.
+
+> cast animate on barbarian
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the animation spell.
+
+The statue comes to life!
+
+The warrior and the barbarian fight each other. The swords clash, but both are
+still unharmed.
+
+> cast freeze on mud
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the freeze spell.
+
+The temperature drops at once. The water and the mud freeze hard, your boots go
+out from under you, and you slither a couple of metres down the tunnel before
+you can stop yourself.
+
+The warrior and the barbarian trade blows across the frozen floor, and neither
+of them has landed one yet.
+
+The warrior and the barbarian slip on the ice at the same moment and go down the
+slope together. The barbarian grabs at your leg on the way past, and takes you
+with him.
+
+The Dragon Hall
+You slide to a stop in a vast hall cut straight out of the heart of the
+mountain. The stench of sulfur is oppressive, and the floor lies under a layer
+of ash deep enough to say that no mortal has set foot here for centuries. The
+only way out is the treacherous, muddy incline behind you.
+
+Sprawled across a staggering hoard of gold and priceless relics is a colossal
+dragon.
+
+The dragon tilts her massive head, watching your sudden and undignified entrance
+with frank curiosity.
+
+You can also see a barbarian and a warrior here.
+
+> x dragon
+Whole again, she is magnificent and frankly terrifying: a long, deep-chested
+body of overlapping bronze scales, and a pair of eyes that consider you with
+perfect, unhurried intelligence.
+
+The warrior and the barbarian see the dragon and rush forward with weapons
+drawn. She takes the warrior first and he goes up like dry kindling, but the
+barbarian is inside her guard before she can turn, and drives his sword deep
+into her throat. Beside herself with rage and pain, she burns what is left of
+the pair of them to ash.
+
+> x it
+The spell reads "freeze spell: freeze something."
+
+The dragon is almost dead.
+
+> cast healing on dragon
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the healing spell.
+
+The blood stops flowing and the wound in her throat closes. The dragon is still
+in shock, but you have saved her life.
+
+The dragon lies where she fell, flanks heaving, and does not seem to have
+noticed you at all yet.
+
+[The score has just gone up by 10 points.]
+
+> save
+Ok.
+
+> x dragon
+The dragon's wounds are healed, but she is still in shock.
+
+The dragon shifts among the coins and tests her throat with one slow, careful
+swallow.
+
+> talk to dragon
+The dragon doesn't seem interested.
+
+The dragon's breathing is steadier now, but her eyes are still glassy.
+
+> ask dragon about magic
+The dragon focuses on you, and something like surprise crosses her face. "A
+wizard," she says. "Yes, of course. It was your spell that closed my throat."
+She raises her head and looks you in the eye. "You saved my life, wizard. In
+return I shall give you the most precious thing I know."
+
+Your spellbook suddenly floats before you and opens itself. A new spell is
+written on a blank page: the Death Spell.
+
+Some colour is returning to the great scaled throat.
+
+[The score has just gone up by 10 points.]
+
+> * I only did this because Garry sent me the solution. I would have never 
+[Comment recorded]
+
+> * thought about "ask dragon about magic", since she's not interested
+[Comment recorded]
+
+> * in talking (see lines above). I think this part needs some hint, otherwise
+[Comment recorded]
+
+> * it's a little bit of moon-logic.
+[Comment recorded]
+
+> i
+You're carrying a black scroll, a green stone (providing light), an amulet
+(worn), a red stone, a folio, your backpack (which is open but empty) and your
+spellbook.
+
+The dragon draws one long, deep breath and holds it, as though testing whether
+it hurts.
+
+> ask dragon about magic
+The dragon mutters to herself: "A human who saves my life. Helps a dragon. Never
+heard of such a thing." She is still very far from herself.
+
+The dragon pulls herself together and looks as strong and calm as before the
+attack.
+
+> g
+The dragon looks at you but says nothing.
+
+> talk to dragon
+The dragon doesn't seem interested.
+
+> ask dragon about stones
+"Stones." She turns the word over. "Cut stones, of four colours, that call to
+one another across a great distance. Yes. They were made to open something, and
+whatever they open was shut for a reason. I would think very hard about who is
+asking you to collect them."
+
+> ask dragon about istar
+"I do not know your teacher. But I have lived a long time, wizard, and I will
+tell you this for nothing: when an old man asks a young one to fetch what he
+will not fetch himself, it is worth asking why."
+
+> ask dragon about old gods
+The dragon is quiet for a long moment. "We are old," she says at last. "They are
+older. My grandmothers went down into the deep rock to be out of their way, and
+my grandmothers did not frighten easily."
+
+> * the dragon has nice responses, that's why she should react to "talk" with
+[Comment recorded]
+
+> * something like "Please ask me more specific questions" (or something
+[Comment recorded]
+
+> * like that, otherwise the player will just go away and miss part of the story
+[Comment recorded]
+
+> cast teleport
+Your spellbook snaps open to the correct page, and you speak the complex,
+resonant incantation of the teleportation spell.
+
+A yellow cloud swirls around you, and as it clears you find yourself...
+
+On the Steppe
+The yellow cloud dissipates, leaving you standing in a boundless, wind-swept
+steppe that rolls onward to the horizon. Strangest of all, you find yourself
+encircled by four free-standing, ornate archways, each facing one of the
+cardinal directions of the compass.
+
+> w
+A yellow cloud surrounds you, and as it clears you find yourself...
+
+Before a Temple
+You stand on a narrow path that runs down to the sea in the south and into the
+forest in the north. The air is salt and fresh. To the east of you stands a
+great temple, weathered by long centuries of sea wind.
+
+> e
+The Temple
+The vaults rise high above your head, and the whole great space stands silent
+and abandoned. The leaded windows have been broken out, and almost all the
+furnishings are gone.
+
+A statue still stands in the middle of the temple.
+
+> x statue
+The statue is like nothing you have seen before. The shape is broadly human, but
+the scales and the tall fin running down its back are not. At its feet lie the
+withered remains of flowers and food, so somebody worshipped here once, and did
+so for a long while.
+
+> worship statue
+That is not a verb I recognize.
+
+> pray
+You say a quick prayer for success in your quest, as you have so many times
+before, but this time the answer comes back with alarming speed. Scales push up
+through the skin of your arms. Your sight goes strange and swimming. Webbing
+stretches between your fingers, your back begins to ache, and something sharp
+breaks out along your spine and tears a long hole in your robe.
+
+The whole business takes only a few minutes. At the end of it you are very
+nearly a copy of the statue standing before you.
+
+> * that's something else that needed to be hinted better IMHO, especially since
+[Comment recorded]
+
+> * the suggested action (worship) does not work (maybe add it as a synonym?)
+[Comment recorded]
+
+> w
+Before a Temple
+You stand on a narrow path that runs down to the sea in the south and into the
+forest in the north. The air is salt and fresh. To the east of you stands a
+great temple, weathered by long centuries of sea wind.
+
+> s
+The Beach
+Here the land gives out, and great waves come in and break along a strand of
+dark sand. A path leads back north towards the temple.
+
+> s
+If you want to swim, you can just say so.
+
+> swim
+You throw yourself into the surf, and your new body knows exactly what to do
+with it. Fins and webbed hands drive you down through the green water towards
+the bottom...
+
+The Sea Floor
+The sea floor is a field of ripple-marked sand, scattered with bright shells and
+combed by slow, swaying sea plants. Far above, the light comes down in shifting
+bars. You can swim back up towards the shore.
+
+You can see a blue stone here.
+
+> * when I tried this the first time I couldn't swim. I now realize that it was 
+[Comment recorded]
+
+> * because I was still "human", but maybe in that case the response to "swim"
+[Comment recorded]
+
+> * could hint that you are not a fish ...
+[Comment recorded]
+
+> x me
+You look down at your hands which are now pale, scaled, and webbed. A sharp,
+dorsal fin has ripped through the back of your robe. Strangely, your lungs feel
+eager for the sea air.
+
+> * this is nice. the change in the player description is more than appropriate
+[Comment recorded]
+
+> i
+You're carrying a black scroll, a green stone (providing light), an amulet
+(worn), a red stone, a folio, your backpack (which is open but empty) and your
+spellbook.
+
+> x robe
+Sorry, I don't understand what "robe" means.
+
+> * maybe the robe should be mentioned (as worn) in the inventory and, from
+[Comment recorded]
+
+> * now on, that is has been pierced by the dorsal fin.
+[Comment recorded]
+
+> l
+The Sea Floor
+The sea floor is a field of ripple-marked sand, scattered with bright shells and
+combed by slow, swaying sea plants. Far above, the light comes down in shifting
+bars. You can swim back up towards the shore.
+
+You can see a blue stone here.
+
+> take stone
+Taken.
+
+> x blue stone
+Roughly carved and pulsing with a deep, inner azure glow, this stone matches the
+shape and ancient markings of your mentor's black stone.
+
+> x sand
+Fine pale sand, drawn into long even ripples by the tide and marked here and
+there by the trail of something that buried itself as you came down.
+
+> x sea flor
+You can't see any such thing.
+
+> x sea floor
+You can't see any such thing.
+
+> * I do. It's a field of ripple-marked sand
+[Comment recorded]
+
+> x shells
+A scattering of sea snail shells, spiral nautiluses, and polished clam shells
+coat the seabed, their iridescent mother-of-pearl catching the filtered sunlight
+from above.
+
+> * nice
+[Comment recorded]
+
+> take them
+You can't see "them" (crowd) at the moment.
+
+> pronouns
+That is not a verb I recognize.
+
+> * shells should be plural and take the place of the crowd (or any other
+[Comment recorded]
+
+> * pluralname object examined before this last one)
+[Comment recorded]
+
+> u
+The Beach
+Here the land gives out, and great waves come in and break along a strand of
+dark sand. A path leads back north towards the temple.
+
+> n
+Before a Temple
+You stand on a narrow path that runs down to the sea in the south and into the
+forest in the north. The air is salt and fresh. To the east of you stands a
+great temple, weathered by long centuries of sea wind.
+
+> e
+The Temple
+The vaults rise high above your head, and the whole great space stands silent
+and abandoned. The leaded windows have been broken out, and almost all the
+furnishings are gone.
+
+A statue still stands in the middle of the temple.
+
+> pray
+You say another prayer, and once more you are answered. The change back is quite
+as painful as the change out was: the scales sink away, the webbing parts, and
+the fin withdraws along your spine. Your robe is the worse for all of it, but
+otherwise you are yourself again.
+
+> * nice description of the robe
+[Comment recorded]
+
+> cast teleport
+Your spellbook snaps open to the correct page, and you speak the complex,
+resonant incantation of the teleportation spell.
+
+A yellow cloud swirls around you, and as it clears you find yourself...
+
+On the Steppe
+The yellow cloud dissipates, leaving you standing in a boundless, wind-swept
+steppe that rolls onward to the horizon. Strangest of all, you find yourself
+encircled by four free-standing, ornate archways, each facing one of the
+cardinal directions of the compass.
+
+> save
+Ok.
+
+> s
+A yellow cloud surrounds you, and as it clears you find yourself in the...
+
+Meadow
+You stand in a small, overgrown clearing dominated by a dilapidated hut hunched
+immediately to the south. Looming on all other sides is a dense, ancient forest
+whose twisted boughs form an impenetrable wall of shadow. A faint dirt path cuts
+through the weeds, winding away north into the dark tree line.
+
+> s
+As you enter the hut your old mentor says, "I see you have found more stones.
+Very good. If you keep up this pace we shall soon be done. Put the stones in the
+gilded box."
+
+Hut
+The interior of the hut is cramped and gloomy. Thick soot cakes the solitary
+window, leaving the flickering flames of a stone hearth as the room's sole
+source of light. Atop the fire, rusted iron vessels bubble quietly, venting
+strange, multi-coloured vapours. A massive, cluttered workbench is buried under
+a chaotic heap of heavy grimoires, brittle sheets of paper, and exotic
+alchemical ingredients. A heavy wooden door leads north, back out to the forest
+path.
+
+Resting within a small alcove in the stone wall is a beautifully carved, gilded
+wooden box. It contains a black stone.
+
+Your mentor reads a parchment.
+
+> x parchment
+It reads: "The resurrection spell -- raise the dead." The spell itself runs on
+for a great many lines, and every one of them is more complicated than the last.
+
+> put stones in box
+blue stone: You put the blue stone into the gilded box.
+green stone: You put the green stone into the gilded box.
+red stone: Your mentor sees you place the last stone in the box and cries, "The
+last stone! Now I can open the gate!"
+
+He takes the stones out of the box and says, "Come with me. Great tasks await."
+Everything turns yellow as he reads a teleportation spell, and you are carried
+away to another place.
+
+The Crypt
+The chamber has the look of a heathen temple. Obsidian pillars rise into the
+darkness, carved with blasphemous runes that seem to shift whenever you are not
+looking straight at them. A great stone altar stands at the centre, stained dark
+by old rituals, and four glowing pedestals surround it. There are no exits.
+
+Your mentor stands before you.
+
+Istar's familiar, kindly features suddenly warp and contort. His skin blackens
+and splits, his eyes igniting with a hellish, crimson fire as his bones snap out
+of place. Before you stands a towering, grotesque demon, its voice echoing like
+grinding stones:
+
+"At last, I have you right where I want you! Your precious mentor was a fool...
+far too curious for his own good. The moment he began dabbling in the dark arts,
+he practically invited me in. Snaring his soul was trivial. His snobbish
+colleagues at the Academy were sharper than you; they sensed my presence,
+forcing me to flee to this wretched wilderness. Because their inquisitors hunted
+me, I could not gather the stones myself. I needed a naive pawn to fetch the
+keys to open the gateway... not to white magic, you poor blind thing, but to
+unleash the Old Gods whom I serve!
+
+I searched your mentor's memories and found you. I knew you would come when he
+called, and now you have carried me the key to your own doom. Was it not a fine
+plan?"
+
+"Now to work. First a small precaution," says the demon, and you are trapped in
+a red force field.
+
+> x field
+A shimmering sphere of translucent red energy surrounds you completely,
+crackling with raw, dark magic. Touching it causes a sharp, burning shock.
+
+The demon reads a spell aloud.
+
+The amulet begins to vibrate.
+
+> x amulet
+The beggar's little amulet is shaking against your breastbone hard enough to
+hurt, and it has gone hot. It is straining away from you on its cord, towards
+the red light, the way a compass needle strains towards north.
+
+Part of the floor falls away, and a dark opening like a well appears. There is a
+slimy liquid standing in it. Still reading, the demon begins to pace anti-
+clockwise around the well.
+
+The amulet vibrates violently.
+
+> touch field with amulet
+The amulet meets the red field, and the field goes out like a snuffed candle!
+
+The Crypt
+The chamber has the look of a heathen temple. Obsidian pillars rise into the
+darkness, carved with blasphemous runes that seem to shift whenever you are not
+looking straight at them. A great stone altar stands at the centre, stained dark
+by old rituals, and four glowing pedestals surround it. There are no exits.
+
+
+The demon drops the stones one by one into the well, and the liquid sinks away.
+
+> * remove one of the two blank line after "no exits."
+[Comment recorded]
+
+> x demon
+The demon is vaguely human, but its eyes are cold and unfathomable like a
+reptile's. Its skin is covered with brown, matted stubble that gives off a
+loathsome smell of sulfur.
+
+The well now glows with a red light from below. The demon looks very expectant.
+
+> cast death on demon
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the death spell.
+
+A red glow gathers around the demon. For a moment it burns from within, so that
+you can see the bones through the skin, and then the whole shape collapses in on
+itself and goes up in smoke.
+
+Where the demon stood, your mentor stands in its place, blinking, himself again
+for the space of a single breath. Then his knees give way and he falls dead to
+the floor.
+
+The room begins to come apart. Your senses will not hold still, strange visions
+arrive and go again, and the crypt seems to be draining away before your eyes.
+
+[The score has just gone up by 10 points.]
+
+> cast heal on istar
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the healing spell.
+
+The spell goes out of you and finds nothing at all to work on. Healing is for
+the living, and it will not cross the line he has just crossed. You will need
+something a great deal longer and more complicated than anything in this book.
+
+The room is changing and vanishing.
+
+> cast resurrection on istar
+You read aloud the complicated words of the resurrection spell.
+
+For a long moment nothing happens at all. Then a faint colour comes back into
+his cheeks, and a breath, and then another, until his chest is rising and
+falling as steadily as your own. He is unconscious, but he is alive!
+
+The room is changing and vanishing.
+
+[The score has just gone up by 10 points.]
+
+> l
+The Crypt
+The chamber has the look of a heathen temple. Obsidian pillars rise into the
+darkness, carved with blasphemous runes that seem to shift whenever you are not
+looking straight at them. A great stone altar stands at the centre, stained dark
+by old rituals, and four glowing pedestals surround it. There are no exits.
+
+On the floor lies your mentor. He is unconscious, but breathing again.
+
+The last of the visions gives way to a scene that stays where it is put. You are
+standing in a meadow in a green deciduous wood, with your mentor asleep in the
+grass beside you. The sun is warm, and it is a perfect day for going fishing.
+
+Press space to continue.
+
+
+The earth is saved, and your mentor's soul is restored. All's well that ends
+well.
+
+
+  *** You have won ***
+
+In that game you scored 50 out of a possible 50, in 166 turns.
+
+Would you like to RESTART, RESTORE, UNDO the last move or QUIT? undo
+Previous turn undone.
+
+> script off
+
+End of transcript.

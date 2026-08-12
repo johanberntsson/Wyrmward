@@ -1,0 +1,671 @@
+Start of a transcript of
+
+Wyrmward
+(c) 1996, 2005, 2026 Johan Berntsson. Type "help" or "h" for instructions.
+Release 0 / Serial number 260731 / Inform v6.44 PunyInform v6.7 R
+
+> about
+
+
+
+
+This game is much like the adventure games Infocom wrote in the eighties. The
+player types what he or she wants to do, and the game tells what happens.
+
+You cannot finish the game without using magic. You can read spells from scrolls
+or your spellbook by typing "cast SPELL on SOMETHING/SOMEONE" You copy a spell
+into your spellbook with "cast copy on SPELL" To see what spells you have you
+can type "read spellbook"
+
+[Please press SPACE.]
+
+
+
+In this game you control the main character by typing commands that tell him
+what to do. Examples of such commands are:
+
+> look (look around you)
+> north (go north from where you are)
+> inventory (show a list of what you are carrying)
+> take the map
+> examine it ("it" here refers to the map)
+> give the map to the woman
+> wizard, open the door (ask someone to do something)
+> ask the wizard about the map
+> throw the knife at the black bird
+
+There are some common abbreviations:
+
+g = again (repeat the last command)
+l = look
+i = inventory
+x = examine
+z = wait (lets the game clock tick one step)
+
+The possible directions are all compass directions plus up and down, and can be
+abbreviated: "n" means north, "u" means up, "sw" means southwest, and so on.
+
+A game can be saved with "save" and a saved game restored with "restore". You
+can start over with "restart" and quit with "quit". "score" shows how many
+points you have. If you make a mistake you can undo one step with "undo".
+
+[Please press SPACE.]
+
+
+
+This English translation was written by Johan Berntsson in 2026 as a showcase
+for Z6 support in PunyInform and Ozmoo. The original Swedish version, called
+Drakmagi, had Swedish language support written by Fredrik Ramsberg. Staffan
+Friberg and Fredrik Ramsberg helped me find bugs.
+
+[Please press SPACE.]
+
+
+
+
+
+
+Meadow
+You stand in a small, overgrown clearing dominated by a dilapidated hut hunched
+immediately to the south. Looming on all other sides is a dense, ancient forest
+whose twisted boughs form an impenetrable wall of shadow. A faint dirt path cuts
+through the weeds, winding away north into the dark tree line.
+
+Nestled deep in the damp grass, a flash of parchment catches your eye. It
+appears to be a discarded scroll.
+
+> n
+That dirt track is the way you arrived, and there is nothing back down it but
+weeks of hard walking. You did not come all this distance to turn around on the
+doorstep.
+
+> w
+You push into the tree line, but the brambles close ranks and the boughs knit
+together above them. The forest will not let you pass.
+
+> e
+You push into the tree line, but the brambles close ranks and the boughs knit
+together above them. The forest will not let you pass.
+
+> nw
+That is not a verb I recognize.
+
+> x clearing
+Just a small patch of overgrown grass, squeezed between the dark forest to the
+north and the dilapidated hut to the south.
+
+> x hut
+The structure is a sorry sight. Built from rough-hewn logs that have rotted and
+warped over the years, it leans heavily to one side as if weary from the
+elements. Thick, dark moss carpets the sagging thatch roof, and a thin wisp of
+acrid smoke curls sleepily from a crude stone chimney.
+
+> x roof
+Sagging thatch under a deep pelt of moss, patched here and there with turf. It
+has not been rethatched in your lifetime, and probably not in his.
+
+> x moss
+A plush, damp carpet of dark green moss coats the base of the massive trees and
+the exposed roots.
+
+> x chimney
+A crooked stack of unmortared field stones, leaning with the rest of the hut.
+Whatever is burning inside sends up a smoke that is not quite the colour of
+woodsmoke.
+
+> * nice scenery
+[Comment recorded]
+
+> l
+Meadow
+You stand in a small, overgrown clearing dominated by a dilapidated hut hunched
+immediately to the south. Looming on all other sides is a dense, ancient forest
+whose twisted boughs form an impenetrable wall of shadow. A faint dirt path cuts
+through the weeds, winding away north into the dark tree line.
+
+Nestled deep in the damp grass, a flash of parchment catches your eye. It
+appears to be a discarded scroll.
+
+> x forest
+The trees are massive, ancient oaks and pines, their roots writhing through the
+earth like frozen serpents. Their dense canopy blocks out most of the daylight,
+plunging the depths of the woods into absolute, suffocating darkness.
+
+> x canopy
+The trees are massive, ancient oaks and pines, their roots writhing through the
+earth like frozen serpents. Their dense canopy blocks out most of the daylight,
+plunging the depths of the woods into absolute, suffocating darkness.
+
+> climb tree
+The lowest branches are twenty feet up a trunk with nothing to grip, and the
+canopy above them is thicker than the one you would be climbing out of.
+
+> * nice
+[Comment recorded]
+
+> l
+Meadow
+You stand in a small, overgrown clearing dominated by a dilapidated hut hunched
+immediately to the south. Looming on all other sides is a dense, ancient forest
+whose twisted boughs form an impenetrable wall of shadow. A faint dirt path cuts
+through the weeds, winding away north into the dark tree line.
+
+Nestled deep in the damp grass, a flash of parchment catches your eye. It
+appears to be a discarded scroll.
+
+> x grass
+The grass is thick, wild, and heavy with a cold, clinging dew that quickly soaks
+through the hems of your travelling robes.
+
+> take parchment
+Taken.
+
+> x it
+It is a tightly rolled cylinder of heavy parchment, tied with a frayed piece of
+twine. The surface is weathered, as if it has been lying out in the damp meadow
+air for some time.
+
+> x me
+As good-looking as ever, though weeks on the road have left your travelling
+robes mud-spattered and your boots very nearly walked through.
+
+> read scroll
+You unroll the parchment far enough to look. The sheet is blank, top to bottom.
+Either somebody went to considerable trouble to tie up an empty page, or there
+is something written here that does not care to be read by just anyone.
+
+> i
+You're carrying a weathered scroll, your backpack (which is open but empty) and
+your spellbook.
+
+> x spellbook
+It is your well-thumbed spellbook, bought on the day you started at the wizards'
+school. The spells written in it are the fruit of a great many years of study
+and you need to read it to see its contents.
+
+[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
+<spell> on <someone or something>" to use it.]
+
+> read book
+ARCANE MAGIC FOR COMPLETE NOVICES:
+
+The healing spell: (heal someone).
+The freeze spell: (freeze something).
+The illumination spell: (make something glow).
+The copying spell: (copy a spell into the spellbook).
+
+[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
+<spell> on <someone or something>" to use it.]
+
+> l
+Meadow
+You stand in a small, overgrown clearing dominated by a dilapidated hut hunched
+immediately to the south. Looming on all other sides is a dense, ancient forest
+whose twisted boughs form an impenetrable wall of shadow. A faint dirt path cuts
+through the weeds, winding away north into the dark tree line.
+
+> s
+Hut
+The interior of the hut is cramped and gloomy. Thick soot cakes the solitary
+window, leaving the flickering flames of a stone hearth as the room's sole
+source of light. Atop the fire, rusted iron vessels bubble quietly, venting
+strange, multi-coloured vapours. A massive, cluttered workbench is buried under
+a chaotic heap of heavy grimoires, brittle sheets of paper, and exotic
+alchemical ingredients. A heavy wooden door leads north, back out to the forest
+path.
+
+Resting within a small alcove in the stone wall is a beautifully carved, gilded
+wooden box.
+
+Your old mentor, Istar, is hunched over the workbench, intently poring over a
+faded tome. When he sees you he says, "My boy, I am so glad to see you again.
+Great tasks await us, but to begin with, I need you to read this." He picks up a
+slim, leather-bound folio and presses it into your hands. "It is the culmination
+of everything I have uncovered since my exile."
+
+> i
+You're carrying a folio, a weathered scroll, your backpack (which is open but
+empty) and your spellbook.
+
+> read folio
+Inscribed in your mentor's familiar, frantic handwriting is a harrowing log of
+his forbidden studies.
+
+He writes that the present age will soon give way to an era of terror and dread,
+heralded by the return of the Old Gods to the Earth. It would mean nothing less
+than the annihilation of humanity. Ever since his exile from the Academy he has
+searched, without rest, for a way to delay the waking of these malevolent
+powers.
+
+There is but one hope. By opening a gateway to a higher dimension, he can
+channel a torrent of pure, white magic powerful enough to seal the evil gods
+away. To tear open this gate, however, he requires four elemental stones. He
+already possesses the first, a dark, abyssal stone, and he needs your help to
+unearth the remaining three.
+
+> l
+Hut
+The interior of the hut is cramped and gloomy. Thick soot cakes the solitary
+window, leaving the flickering flames of a stone hearth as the room's sole
+source of light. Atop the fire, rusted iron vessels bubble quietly, venting
+strange, multi-coloured vapours. A massive, cluttered workbench is buried under
+a chaotic heap of heavy grimoires, brittle sheets of paper, and exotic
+alchemical ingredients. A heavy wooden door leads north, back out to the forest
+path.
+
+Resting within a small alcove in the stone wall is a beautifully carved, gilded
+wooden box.
+
+Your mentor checks the contents of one of the beakers.
+
+> x mentor
+Time has not been kind to your old teacher. His once-proud silver beard is
+tangled and stained with potion ingredients, and deep lines of exhaustion are
+etched into his face. Yet as he looks up at you, the familiar, brilliant spark
+of intellect still dances in his eyes.
+
+> talk to him
+Istar doesn't seem interested.
+
+> ask him about stones
+He taps the folio in your hands. "Elemental stones. Four of them, cut long
+before the first cities were built. I have one. The others lie scattered across
+half the world, and I am too old and too closely watched to go after them
+myself."
+
+> ask him about stone
+He taps the folio in your hands. "Elemental stones. Four of them, cut long
+before the first cities were built. I have one. The others lie scattered across
+half the world, and I am too old and too closely watched to go after them
+myself."
+
+> x woodwn box
+Sorry, I don't understand what "woodwn" means.
+
+> x wooden box
+The box is crafted from a rare, dark wood, seamlessly overlaid with an
+intricate, swirling filigree of pure gold. Professional wizards use enchanted
+repositories like this to store highly volatile magical items.
+
+> open box
+The box has no lock to speak of, but it is sealed by a potent ward. Only its
+true owner, Istar, can safely open and close it.
+
+> ask istar to open box
+"I would only slow you down, my boy, and there are eyes on this hut that I would
+rather not lead across half the world. You go. I shall keep the box ready."
+
+> l
+Hut
+The interior of the hut is cramped and gloomy. Thick soot cakes the solitary
+window, leaving the flickering flames of a stone hearth as the room's sole
+source of light. Atop the fire, rusted iron vessels bubble quietly, venting
+strange, multi-coloured vapours. A massive, cluttered workbench is buried under
+a chaotic heap of heavy grimoires, brittle sheets of paper, and exotic
+alchemical ingredients. A heavy wooden door leads north, back out to the forest
+path.
+
+Resting within a small alcove in the stone wall is a beautifully carved, gilded
+wooden box.
+
+Your mentor checks the contents of one of the beakers.
+
+> x wall
+You can't see any such thing.
+
+> x stone wall
+I only understood you as far as "x stone" but then you lost me.
+
+> x hut
+You are inside the hut. It is a cramped, gloomy space smelling of old parchment
+and boiling alchemy, lit only by the flickering stone hearth.
+
+> x workbench
+A massive slab of scarred oak that has survived a great many experiments, though
+not without marks. Books and papers lie on the bench.
+
+> search it
+There is nothing on the work bench.
+
+> * Actually, there are books and papers.  Maybe just say there's nothing
+[Comment recorded]
+
+> * useful on it.
+[Comment recorded]
+
+> take all
+direction: That's hardly portable.
+door: That's hardly portable.
+object: No need to concern yourself with that.
+yourself: You are always self-possessed.
+(PlayerClothes): There is no need to worry about your clothing.
+folio: You already have it.
+weathered scroll: You already have it.
+twine: That's hardly portable.
+backpack: You already have it.
+spellbook: You already have it.
+healing spell: The healing spell seems to be part of the spellbook.
+freeze spell: The freeze spell seems to be part of the spellbook.
+illumination spell: The illumination spell seems to be part of the spellbook.
+copying spell: The copying spell seems to be part of the spellbook.
+hut: That's hardly portable.
+vessels: They're hardly portable.
+work bench: That's hardly portable.
+books: Istar swats your hand away from the desk. "Leave that alone! Everything
+is arranged precisely as I need it."
+gilded box: You reach for it, but a sharp, static shock bites at your fingers,
+forcing you to pull back. The box is anchored to the alcove by powerful
+protective spells designed to prevent theft and ward off damage.
+Istar: I don't suppose Istar would care for that.
+
+> * that's a little bit too much. Was it intentional, or not?
+[Comment recorded]
+
+> l
+Hut
+The interior of the hut is cramped and gloomy. Thick soot cakes the solitary
+window, leaving the flickering flames of a stone hearth as the room's sole
+source of light. Atop the fire, rusted iron vessels bubble quietly, venting
+strange, multi-coloured vapours. A massive, cluttered workbench is buried under
+a chaotic heap of heavy grimoires, brittle sheets of paper, and exotic
+alchemical ingredients. A heavy wooden door leads north, back out to the forest
+path.
+
+Resting within a small alcove in the stone wall is a beautifully carved, gilded
+wooden box.
+
+Your mentor checks the contents of one of the beakers.
+
+> s
+You bump straight into the hut's sturdy timber walls, cluttered with dusty
+shelves of strange ingredients. The only way out is back through the doorway to
+the north.
+
+> w
+You bump straight into the hut's sturdy timber walls, cluttered with dusty
+shelves of strange ingredients. The only way out is back through the doorway to
+the north.
+
+> e
+You bump straight into the hut's sturdy timber walls, cluttered with dusty
+shelves of strange ingredients. The only way out is back through the doorway to
+the north.
+
+> u
+The low, thatched ceiling offers no way upward, unless you fancy poking your
+head through the dried reed roof.
+
+> d
+The floorboards are solid and worn. There are no trapdoors or cellars beneath
+your feet.
+
+> * just checking
+[Comment recorded]
+
+> n
+
+As you turn towards the door to leave, Istar calls out, "Before you go, I should
+show you my stone." He picks up a black stone and places it in the gilded box.
+"If you find more stones, I want you to put them in the box. Take this too," he
+says, handing you a silvery scroll. "The stones are far too distant for you to
+reach on foot. Copy this teleportation spell into your spellbook and you can
+travel faster."
+
+> i
+You're carrying a silvery scroll, a folio, a weathered scroll, your backpack
+(which is open but empty) and your spellbook.
+
+> x scroll
+Do you mean the silvery scroll or the weathered scroll?
+
+> silvery
+It reads "teleportation spell: move yourself to a new place."
+
+> cast copy on teleportation spell
+The spellbook opens once more, and you recite the copying spell over the silvery
+scroll.
+
+The pages flare with a blinding light. The intricate symbols of the
+Teleportation Spell bind themselves permanently into your grimoire, while the
+silvery parchment dissolves into wisps of shimmering smoke.
+[You have learned the teleportation spell]
+
+> * lovely
+[Comment recorded]
+
+> i
+You're carrying a folio, a weathered scroll, your backpack (which is open but
+empty) and your spellbook.
+
+> read spellbook
+ARCANE MAGIC FOR COMPLETE NOVICES:
+
+The teleportation spell: (move yourself to a new place).
+The healing spell: (heal someone).
+The freeze spell: (freeze something).
+The illumination spell: (make something glow).
+The copying spell: (copy a spell into the spellbook).
+
+[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
+<spell> on <someone or something>" to use it.]
+
+> n
+
+"It is safest that this stays here," says Istar, taking the folio from your
+hands before you step outside.
+
+Meadow
+You stand in a small, overgrown clearing dominated by a dilapidated hut hunched
+immediately to the south. Looming on all other sides is a dense, ancient forest
+whose twisted boughs form an impenetrable wall of shadow. A faint dirt path cuts
+through the weeds, winding away north into the dark tree line.
+
+> n
+That winding dirt track is the way you arrived on foot. Trudging all the way
+back would take weeks you simply don't have. Istar gave you the teleportation
+spell for a reason!
+
+> cast teleportation spell
+Your spellbook snaps open to the correct page, and you speak the complex,
+resonant incantation of the teleportation spell.
+
+A swirling yellow mist springs up from the ground, engulfing you completely. As
+the fog dissipates, the meadow vanishes, and you find yourself standing in a
+vast new landscape...
+
+On the Steppe
+The yellow cloud dissipates, leaving you standing in a boundless, wind-swept
+steppe that rolls onward to the horizon. Strangest of all, you find yourself
+encircled by four free-standing, ornate archways, each facing one of the
+cardinal directions of the compass.
+
+> x archways
+Four massive stone arches stand in a wide circle around you, each squarely
+aligned with one of the cardinal compass directions. Glowing runes are cut into
+the keystone of every arch, and the air beneath them hums quietly to itself.
+
+> x runes
+Deep-cut characters march across each keystone in a script far older than
+anything you were taught to read. They pulse slowly, in a rhythm uncomfortably
+like breathing.
+
+> read runes
+No need to concern yourself with that.
+
+> n
+A yellow cloud surrounds you, and as it clears you find yourself in a...
+
+Forest
+You stand on a path in a mature forest, deep enough that the daylight arrives
+green and second-hand. The path leads on eastward between the trees, and every
+other direction is trunks.
+
+> n
+The trees grow far too close together here, their thick trunks and tangled roots
+forming an impassable wooden wall. The path only runs east.
+
+> s
+The forest closes in just as solidly on that side. The path runs east and
+nowhere else.
+
+> w
+Behind you the trunks crowd right up to the path's edge. You did not walk into
+this forest, and you will not be walking out of it either.
+
+> n
+The trees grow far too close together here, their thick trunks and tangled roots
+forming an impassable wooden wall. The path only runs east.
+
+> e
+Forest Path
+You stand on a narrow path in a dark forest. Ahead to the east the trees thin
+out against the grey flank of a tall mountain; behind you the path runs west,
+back into the gloom.
+
+> n
+The trees stand shoulder to shoulder that way, with bramble filling every gap
+between them. The path is the only road through this forest, and it runs east
+and west.
+
+> s
+The dark woods are far too thick to navigate.
+
+> e
+The Mountain
+The forest gives out here against the flank of a great mountain, far too steep
+to climb. A path leads back west into the trees, and a short way north of you a
+cave mouth opens in the rock.
+
+> x cave
+A dark, jagged opening yawning in the side of the mountain. A faint cool draught
+whistles out of the shadows within, and it smells of wet stone.
+
+> e
+The sheer mountain wall curves around you, blocking further passage.
+
+> s
+The sheer mountain wall curves around you, blocking further passage.
+
+> n
+Cave
+The cave is a single irregular chamber. Daylight reaches in through the mouth in
+the south wall, but it gives out well before the far corners do, so there is no
+telling how large the place really is. What you can see is a tunnel running on
+northward.
+
+Something glitters in the mud by the entrance. It is a green stone!
+
+> x green stone
+Roughly carved and glowing with a faint, inner emerald light, this stone matches
+the shape and ancient markings of your mentor's black stone.
+
+> take all
+direction: That's hardly portable.
+object: No need to concern yourself with that.
+yourself: You are always self-possessed.
+(PlayerClothes): There is no need to worry about your clothing.
+weathered scroll: You already have it.
+twine: That's hardly portable.
+backpack: You already have it.
+spellbook: You already have it.
+teleportation spell: The teleportation spell seems to be part of the spellbook.
+healing spell: The healing spell seems to be part of the spellbook.
+freeze spell: The freeze spell seems to be part of the spellbook.
+illumination spell: The illumination spell seems to be part of the spellbook.
+copying spell: The copying spell seems to be part of the spellbook.
+cave opening: That's hardly portable.
+mud: That's hardly portable.
+green stone: Taken.
+(StoneMarkings): That's hardly portable.
+
+> * I don't think it's intentional
+[Comment recorded]
+
+> x green stone
+Roughly carved and glowing with a faint, inner emerald light, this stone matches
+the shape and ancient markings of your mentor's black stone.
+
+> l
+Cave
+The cave is a single irregular chamber. Daylight reaches in through the mouth in
+the south wall, but it gives out well before the far corners do, so there is no
+telling how large the place really is. What you can see is a tunnel running on
+northward.
+
+> n
+Darkness
+It is pitch dark here!
+
+> read spellbook
+ARCANE MAGIC FOR COMPLETE NOVICES:
+
+The teleportation spell: (move yourself to a new place).
+The healing spell: (heal someone).
+The freeze spell: (freeze something).
+The illumination spell: (make something glow).
+The copying spell: (copy a spell into the spellbook).
+
+[Use "cast copy on <spell>" to add new spells to the spellbook, and "cast
+<spell> on <someone or something>" to use it.]
+
+> cast illumination spell
+You must say what you want to cast the spell on.
+
+> s
+Cave
+The cave is a single irregular chamber. Daylight reaches in through the mouth in
+the south wall, but it gives out well before the far corners do, so there is no
+telling how large the place really is. What you can see is a tunnel running on
+northward.
+
+> n
+Darkness
+It is pitch dark here!
+
+> cast illumination spell on green stone
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the illumination spell.
+
+The green stone flares so brightly that you nearly drop it, then settles to a
+steady emerald glow that throws your shadow halfway up the cave wall. It will
+serve very well as a lamp.
+
+The Rock Hall
+A great cavity in the mountain, hollowed out by nature and then squared off and
+widened by human hands. It was a grand feast hall once; now somebody keeps it as
+a storeroom, and rows of crates and packages stand against the walls under a
+thick coat of dust. A large doorway is set in the north wall, and beyond it a
+slope runs down into the darkness.
+
+You see a scroll wedged between two crates.
+
+> * nice, but how could I read the spellbook in darkness?
+[Comment recorded]
+
+> take scroll
+Taken.
+
+> x it
+It reads: "The resurrection spell -- raise the dead." The spell itself runs on
+for a great many lines, and every one of them is more complicated than the last.
+
+> read it
+It reads: "The resurrection spell -- raise the dead." The spell itself runs on
+for a great many lines, and every one of them is more complicated than the last.
+
+> cast copy on resurrection spell
+The spellbook begins to glow. It strains at the task, drawing on every scrap of
+power it has, but the resurrection spell is simply too long, too intricate and
+too strong to be lifted off the page. The glow dies away. Luckily the scroll
+itself is unharmed, so you will have to read the spell straight from it.
+
+> i
+You're carrying a black scroll, a green stone (providing light), a weathered
+scroll, your backpack (which is open but empty) and your spellbook.
+
+> save
+Ok.
+
+> script off
+
+End of transcript.
