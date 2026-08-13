@@ -1,7 +1,7 @@
 Start of a transcript of
 
 Wyrmward
-(c) 1996, 2005, 2026 Johan Berntsson. Type "help" or "h" for instructions.
+(c) 2026 Johan Berntsson. Type "help" for instructions.
 
 > restart
 Are you sure you want to restart? yes
@@ -17,7 +17,7 @@ wind, you followed the cryptic instructions in his letter, and after weeks of
 gruelling travel you now stand before your mentor's secluded, humble dwelling.
 
 Wyrmward
-(c) 1996, 2005, 2026 Johan Berntsson. Type "help" or "h" for instructions.
+(c) 2026 Johan Berntsson. Type "help" for instructions.
 
 Meadow
 You stand in a small, overgrown clearing dominated by a dilapidated hut hunched

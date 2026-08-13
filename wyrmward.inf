@@ -23,9 +23,12 @@
 ! 040315: updated to new version of swedish.h. (v1.2, compiler 6.30, library 6/11). Slight cleanup of code.
 ! 040615: a few bugs fixed and missing description added. New dragon picture in Glulx mode.
 !
-! 260816: New English translation and a new name, Wyrmward. Ported to PunyInform with many
+! CURRENT GAME
+!
+! 260721: New English translation and a new name, Wyrmward. Ported to PunyInform with many
 !         improvements in texts and puzzle design. Both z5 and z6 versions produced, with 
 !         the same pictures as the old Glulx version, a few new ones and some sound effects.
+! 260816: Release 1 announced
 !
 ! The very first lines of the main source code file for a game can
 ! contain compiler options, like the lines above. -~S disables
@@ -40,7 +43,7 @@
 ! $ZCODE_COMPACT_GLOBALS=1 avoids reserving dynmem space for unused globals.
 
 Constant Story            "Wyrmward";
-Constant Headline     "^(c) 1996, 2005, 2026 Johan Berntsson. Type ~help~ or ~h~ for instructions.^";
+Constant Headline     "^(c) 2026 Johan Berntsson. Type ~help~ for instructions.^";
 Release 1;
 Serial "260816";
 
@@ -704,7 +707,7 @@ Verb 'cheat' * -> Cheat;
 ];
 #Endif;
 
-Verb 'help' 'hint' 'hints' 'info' 'about' 'credits' 'h//' * -> Help;
+Verb 'help' 'hint' 'hints' 'info' 'about' 'credits' * -> Help;
 
 Object PlayerObject "yourself"
     with
@@ -4464,11 +4467,13 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
         lists your full achievements.^^
         The parser recognizes over 100 verbs. If a command doesn't work, try phrasing it
         another way. Type HINT at any time if you get stuck.";
-    3: "The original version of this game was released in 1996 and later updated with Glulx
-       graphics in 2005. This expanded English edition was written by Johan Berntsson in 2026 to
-       showcase z6 graphics support in PunyInform and Ozmoo.^^
-       Special thanks to Garry Francis, Stefan Vogt, Gianluca Girelli, and Fredrik Ramsberg for testing
-       and valuable feedback.";
+    3: "The original version of this game, called ~Of Things Good and Evil,~ was released in 1996. 
+        In 2002, I translated and released the game as ~Drakmagi~ in Swedish, followed by an expanded
+        Glulx version with graphics in 2005.^^
+        This enhanced English edition was written by Johan Berntsson in 2026 to showcase Z-machine
+        version 6 (z6) graphics support in PunyInform and Ozmoo.^^
+        Special thanks to Garry Francis, Stefan Vogt, Gianluca Girelli, and Fredrik Ramsberg for testing
+        and valuable feedback.";
     4: DoMenu(HintItems, HintMenu, HintInfo);
        return 2;
     5: "* Kill your mentor with a spell?^";
