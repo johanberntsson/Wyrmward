@@ -687,10 +687,16 @@ e
 pray
 cast teleport
 s
+drop amulet
 s
 give green stone to istar
 put green stone in box
 put blue stone in box
+put red stone in box
+n
+take amulet
+s
+put red stone in box
 put red stone in box
 
 save

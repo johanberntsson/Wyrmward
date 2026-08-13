@@ -3514,6 +3514,10 @@ immediately to the south. Looming on all other sides is a dense, ancient forest
 whose twisted boughs form an impenetrable wall of shadow. A faint dirt path cuts
 through the weeds, winding away north into the dark tree line.
 
+> drop amulet
+(first taking off the amulet)
+Dropped.
+
 > s
 As you enter the hut your old mentor says, "I see you have found more stones.
 Very good. If you keep up this pace we shall soon be done. Put the stones in the
@@ -3546,6 +3550,47 @@ You put the green stone into the gilded box.
 
 > put blue stone in box
 You put the blue stone into the gilded box.
+
+> put red stone in box
+A cold wave of dread stops your hand inches from the box. You feel a deep,
+terrifying certainty that you are missing something essential. You cannot bring
+yourself to place the final stone until you are properly equipped.
+
+> n
+Meadow
+You stand in a small, overgrown clearing dominated by a dilapidated hut hunched
+immediately to the south. Looming on all other sides is a dense, ancient forest
+whose twisted boughs form an impenetrable wall of shadow. A faint dirt path cuts
+through the weeds, winding away north into the dark tree line.
+
+You can see an amulet here.
+
+> take amulet
+Taken.
+
+> s
+Hut
+The interior of the hut is cramped and gloomy. Thick soot cakes the solitary
+window, leaving the flickering flames of a stone hearth as the room's sole
+source of light. Atop the fire, rusted iron vessels bubble quietly, venting
+strange, multi-coloured vapours. A massive, cluttered workbench is buried under
+a chaotic heap of heavy grimoires, brittle sheets of paper, and exotic
+alchemical ingredients. A heavy wooden door leads north, back out to the forest
+path.
+
+Resting within a small alcove in the stone wall is a beautifully carved, gilded
+wooden box. It contains a blue stone, a green stone (providing light) and a
+black stone.
+
+Your mentor reads a parchment.
+
+You can also see a folio here.
+
+> put red stone in box
+You hover the red stone over the gilded box, overcome by an overwhelming sense
+of foreboding. The air grows heavy with impending danger.
+
+[It would be wise to SAVE your game here.]
 
 > put red stone in box
 Your mentor sees you place the last stone in the box and cries, "The last stone!
@@ -3642,7 +3687,7 @@ the first to be torn to pieces is you.
 
   *** You have died ***
 
-In that game you scored 31 out of a possible 40, in 601 turns.
+In that game you scored 31 out of a possible 40, in 607 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
 that game or QUIT? restore
@@ -3823,7 +3868,7 @@ the first to be torn to pieces is you.
 
   *** You have died ***
 
-In that game you scored 31 out of a possible 40, in 601 turns.
+In that game you scored 31 out of a possible 40, in 607 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
 that game or QUIT? restore
@@ -3950,7 +3995,7 @@ well.
 
   *** You have won ***
 
-In that game you scored 40 out of a possible 40, in 604 turns.
+In that game you scored 40 out of a possible 40, in 610 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
 that game or QUIT? full

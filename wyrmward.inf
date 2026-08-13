@@ -1256,6 +1256,19 @@ Object -> GoldBox "gilded box"
                The box is anchored to the alcove by powerful protective spells designed to prevent theft
                and ward off damage.";
         Receive:
+            if(children(self)==(WantedStones-->0 - 1)) {
+                if(Amulet notin player) {
+                    "A cold wave of dread stops your hand inches from the box. You feel a deep, 
+                    terrifying certainty that you are missing something essential. You cannot
+                    bring yourself to place the final stone until you are properly equipped.";
+                }
+                if(self hasnt general) {
+                    give self general;
+                    "You hover the red stone over the gilded box, overcome by an overwhelming 
+                    sense of foreboding. The air grows heavy with impending danger.^^
+                    [It would be wise to SAVE your game here.]";
+                }
+            }
             if((noun ofclass CStone)==false)
                 "The golden filigree brightens as you reach inside, and the ward pushes your hand
                 gently but very firmly out again. The box stands open for the artefacts Istar is
@@ -1274,7 +1287,7 @@ Object -> GoldBox "gilded box"
                 rtrue;
             }
         ],
-    has container open static;
+    has container open static; ! general if warned to save
 
 Object -> Istar "Istar"
     with
