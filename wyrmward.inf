@@ -395,7 +395,7 @@ Class CComplicatedScroll
     ;
 
 Class CSpell
-    ! A general spell (no argument).
+    ! A spell that doesn't take an object
     with
 !        number 0, ! number of memorized copies of this spell
         description [;
@@ -439,7 +439,7 @@ Class CSpell
                 meta = 1;
                 print_ret (string) CS_DEFAULT_MSG;
             }
-            if(FlagIsSet(F_PLAYER_IS_FISH)) ! player has general)
+            if(FlagIsSet(F_PLAYER_IS_FISH))
                 "Your webbed fingers are far too clumsy to turn the fragile pages of your spellbook,
                 and your altered throat cannot pronounce the precise incantation. You must return
                 to your human form before you can cast magic again.";
@@ -760,10 +760,10 @@ Object PlayerObject "yourself"
         parse_name 0, orders 0,
         name 'me' 'myself' 'self',
         description [;
-            if(FlagIsSet(F_PLAYER_IS_FISH)) ! self has general)
+            if(FlagIsSet(F_PLAYER_IS_FISH))
                 "You look down at your hands which are now pale, scaled, and webbed. A sharp, dorsal fin has
                 ripped through the back of your robe. Strangely, your lungs feel eager for the sea air.";
-            if(FlagIsSet(F_PLAYER_TORN_CLOTHES)) ! PlayerClothes has general) 
+            if(FlagIsSet(F_PLAYER_TORN_CLOTHES))
                 "As good-looking as ever, though your travelling robes are now tattered
                 from your shift into a sea creature, and your boots remain nearly walked through.";
             "As good-looking as ever, though weeks on the road have left your travelling
@@ -967,7 +967,7 @@ CScroll -> DirtyScroll "weathered scroll"
             "Nestled deep in the damp grass, a flash of parchment catches your eye.
             It appears to be a discarded scroll.",
         description [;
-            if(FlagIsSet(F_SCROLL_REVEALED)) ! self has general)
+            if(FlagIsSet(F_SCROLL_REVEALED))
                 "The parchment is unrolled now, its surface stained by the acrid fumes of Istar's mixture. Inscribed
                 across the centre in sharp, shimmering ink are the ancient runes of an animation spell (used to bring
                 inanimate objects to life).";
@@ -983,7 +983,6 @@ CScroll -> DirtyScroll "weathered scroll"
         Close, Tie: <<Tie Twine>>;
         Open, Untie: <<Untie Twine>>;
         Read:
-            !if(self has general) <<Examine self>>;
             if(FlagIsSet(F_SCROLL_REVEALED)) <<Examine self>>;
             give self open;
             "You unroll the parchment far enough to look. The sheet is blank, top to bottom.
@@ -1317,8 +1316,8 @@ Object -> GoldBox "gilded box"
                     terrifying certainty that you are missing something essential. You cannot
                     bring yourself to place the final stone until you are properly equipped.";
                 }
-                if(FlagIsClear(F_ENDGAME_WARNING)) { ! self hasnt general) {
-                    SetFlag(F_ENDGAME_WARNING); ! give self general;
+                if(FlagIsClear(F_ENDGAME_WARNING)) {
+                    SetFlag(F_ENDGAME_WARNING);
                     "You hover the red stone over the gilded box, overcome by an overwhelming 
                     sense of foreboding. The air grows heavy with impending danger.^^
                     [It would be wise to SAVE your game here.]";
@@ -1342,7 +1341,7 @@ Object -> GoldBox "gilded box"
                 rtrue;
             }
         ],
-    has container open static; ! general if warned to save
+    has container open static;
 
 Object -> Istar "Istar"
     with
@@ -1524,7 +1523,7 @@ Object -> Istar "Istar"
         react_before [;
         Go, Exit:
             if(selected_direction && selected_direction ~= n_to && selected_direction ~= out_to) rfalse;
-            if(FlagIsClear(F_FOLIO_READ)) ! Folio hasnt general)
+            if(FlagIsClear(F_FOLIO_READ))
                 "Istar has only just handed you his folio. You ought to hear what he has to say before leaving.";
             if(BlackStone in self) {
                 move BlackStone to GoldBox;
@@ -1565,7 +1564,7 @@ Object -> Istar "Istar"
                 Istar strokes his beard flat and says nothing at all, which is his way of being
                 insufferably pleased with himself.^";
             move AnimateSpell to DirtyScroll;
-            SetFlag(F_SCROLL_REVEALED); give DirtyScroll general; ! It's been opened and its contents revealed
+            SetFlag(F_SCROLL_REVEALED); ! It's been opened and its contents revealed
             give DirtyScroll open;
             Achieved(TASK_FINDING_ANIMATE_SPELL);
             rtrue;
@@ -1592,7 +1591,7 @@ Object -> -> Folio "folio"
             black, abyssal stone, and he needs your help to unearth the remaining three.";
         ],
         after [;
-        Read, Examine: SetFlag(F_FOLIO_READ); ! give self general;
+        Read, Examine: SetFlag(F_FOLIO_READ);
         ],
     ;
 
@@ -1932,7 +1931,7 @@ Object -> CaveMud "mud"
     has scenery;
 
 [ UpSlope normalroom;
-    if(FlagIsSet(F_TUNNEL_FROZEN)) { !Tunnel has general) {
+    if(FlagIsSet(F_TUNNEL_FROZEN)) {
         print (string) random(
             "The ground is frozen and hard to climb.",
             "With some effort you manage to climb the frozen slope."), "^^";
@@ -1954,7 +1953,7 @@ Object -> CaveMud "mud"
         rock walls. Trying to squeeze past its violent reach would be total suicide.";
     if(location == thedark)
         "Venturing into the pitch black is suicide. Head back south to the safety of the cave.";
-    if(FlagIsSet(F_TUNNEL_FROZEN)) { ! Tunnel has general) {
+    if(FlagIsSet(F_TUNNEL_FROZEN)) {
         print "The slope is frozen, and you slide down.^^";
     } else {
         print (string) random(
@@ -2081,7 +2080,7 @@ DarkRoom Tunnel "Tunnel"
         description [;
             print "A steep passage dropping away from the rock hall into the dark. Water trickles
                 down the slope from somewhere above, and the floor beneath it is thick with ";
-            if(FlagIsSet(F_TUNNEL_FROZEN)) ! self has general)
+            if(FlagIsSet(F_TUNNEL_FROZEN))
                 print "ice and frozen mud, which makes it hard to walk";
             else
                 print "mud";
@@ -2104,10 +2103,10 @@ DarkRoom Tunnel "Tunnel"
         time_left 0,
         time_out [;
             if(player in self) print "^The ice melts.^";
-            ClearFlag(F_TUNNEL_FROZEN); ! give self ~general;
+            ClearFlag(F_TUNNEL_FROZEN);
         ],
         each_turn [;
-            if(FlagIsSet(F_TUNNEL_FROZEN)) { ! self has general) {
+            if(FlagIsSet(F_TUNNEL_FROZEN)) {
                 if(LeftWarrior in self && RightWarrior in self) {
                     move LeftWarrior to DragonHall;
                     move RightWarrior to DragonHall;
@@ -2156,7 +2155,7 @@ DarkRoom Tunnel "Tunnel"
         d_to [; return DownSlope(DragonHall); ],
         n_to [; return DownSlope(DragonHall); ],
         cant_go "Rough cavern walls block that way, dripping with moisture.",
-    ; ! general is mud frozen
+    ;
 
 Object -> ms_floor "floor"
     with
@@ -2169,24 +2168,23 @@ Object -> ms_floor "floor"
 Object -> ms_water "mud"
     with
         short_name [;
-            if(FlagIsSet(F_TUNNEL_FROZEN)) !Tunnel has general) {
+            if(FlagIsSet(F_TUNNEL_FROZEN))
                  print "frozen mud";
             else print "wet mud";
             rtrue;
         ],
         parse_name [ w n;
-            ClearFlag(F_MUD_CALLED_WATER); !give self ~general; ! general if we parsed water, else mud
+            ClearFlag(F_MUD_CALLED_WATER); ! if we parsed water, else mud
             w = NextWordStopped();
             if(w == 'frozen' or 'wet') { w = NextWordStopped(); n++; }
-            !if(w == 'water' or 'ice') { give self general; return n + 1; }
             if(w == 'water' or 'ice') { SetFlag(F_MUD_CALLED_WATER); return n + 1; }
             if(w == 'mud' or 'ground' or 'mire' or 'paste') return n + 1;
             return n;
         ],
         description [;
-            if(FlagIsSet(F_TUNNEL_FROZEN)) ! Tunnel has general)
+            if(FlagIsSet(F_TUNNEL_FROZEN))
                 "The mud is frozen solid and covered with ice.";
-            if(FlagIsSet(F_MUD_CALLED_WATER)) ! self has general)
+            if(FlagIsSet(F_MUD_CALLED_WATER))
                 "A thin trickle of cold spring water runs constantly down the stone incline,
                 turning the cavern floor into a slippery mire.";
             "Grey, glutinous and ankle-deep in the hollows, worked to a slick paste by the
@@ -2197,11 +2195,11 @@ Object -> ms_water "mud"
         ],
         domagic [spell;
             if(spell==FreezeSpell) {
-                if(FlagIsSet(F_TUNNEL_FROZEN)) { ! Tunnel has general) {
+                if(FlagIsSet(F_TUNNEL_FROZEN)) {
                     print "Nothing happens. The ground is still frozen.^";
                     Tunnel.time_left=10;
                 } else {
-                    SetFlag(F_TUNNEL_FROZEN); ! give Tunnel general; ! frozen mud
+                    SetFlag(F_TUNNEL_FROZEN); ! frozen mud
                     print
                         "The temperature drops at once. The water and the mud freeze hard, your boots go
                         out from under you, and you slither a couple of metres down the tunnel before
@@ -2212,7 +2210,7 @@ Object -> ms_water "mud"
             }
             rfalse;
         ],
-    has scenery concealed; ! general if referred to as water
+    has scenery concealed;
 
 Object -> Statues "statues"
     with
@@ -2301,7 +2299,7 @@ Object -> RightStatue "barbarian statue"
 ];
 
 [ CommentWarriorAttackingWarrior;
-    if(FlagIsSet(F_TUNNEL_FROZEN)) ! Tunnel has general)
+    if(FlagIsSet(F_TUNNEL_FROZEN))
         "^The warrior and the barbarian trade blows across the frozen floor, and neither
         of them has landed one yet.";
     LeftStatue.number = LeftStatue.number + 1;
@@ -2558,9 +2556,9 @@ Object -> Dragon "dragon"
                 blood has gone into the ash. It is a great deal. You let the light go out again.";
             if(self.number<=0)
                 print_ret (The) self, " stops you with a short spell, but looks amused.";
-            if(spell==HealSpell && FlagIsClear(F_DRAGON_HEALED)) { !JB self hasnt general) {
+            if(spell==HealSpell && FlagIsClear(F_DRAGON_HEALED)) {
                 SetFlag(F_DRAGON_RECOVERING);
-                SetFlag(F_DRAGON_HEALED); !JB give self general;
+                SetFlag(F_DRAGON_HEALED);
                 print "The blood stops flowing and the wound in her throat closes. The dragon
                             is still in shock, but you have saved her life.^";
                 self.number=6;
@@ -2572,7 +2570,7 @@ Object -> Dragon "dragon"
         ],
         description [;
             if(self.number>0) {
-                if(FlagIsSet(F_DRAGON_RECOVERING)) { ! self has general)
+                if(FlagIsSet(F_DRAGON_RECOVERING)) {
                     "The dragon's wounds are healed, but she is still in shock.";
                 }
                 "The dragon's blood pours out through the wound in her throat, and you watch
@@ -2593,7 +2591,6 @@ Object -> Dragon "dragon"
         LookUnder:
             "Trying to look under a resting dragon seems like a fast way to get roasted.";
         TalkTo: 
-            !if(self has general && DeathSpell notin SpellBook) <<Ask Dragon self>>;
             if(FlagIsSet(F_DRAGON_HEALED) && DeathSpell notin SpellBook) <<Ask Dragon self>>;
             "The dragon demands concise questions, not pleasantries.
             Try asking it about a particular subject.";
@@ -2627,7 +2624,6 @@ Object -> Dragon "dragon"
                 if(c>1) w2=NextWord();
                 if(c>2) "What you cannot say in few words, probably isn't worth saying.";
 
-                !if(self has general && DeathSpell notin SpellBook) {
                 if(FlagIsSet(F_DRAGON_HEALED) && DeathSpell notin SpellBook) {
                     print
                         "The dragon focuses on you, and something like surprise crosses her face. ~A
@@ -2642,7 +2638,7 @@ Object -> Dragon "dragon"
                 }
                 if(self.number>0) {
                     ! dragon is wounded
-                    if(FlagIsClear(F_DRAGON_HEALED)) { ! self hasnt general) {
+                    if(FlagIsClear(F_DRAGON_HEALED)) {
                         "The great eye tracks you across the ash, but she has no breath to spare for an answer.";
                     } else {
                         "The dragon mutters to herself: ~A human who saves my life. Helps a dragon.
@@ -2707,15 +2703,15 @@ Object -> Dragon "dragon"
             ! Dragon wounded timer
             if(self.number>0) {
                 --self.number;
-                if(self.number == 1 && FlagIsClear(F_DRAGON_HEALED)) { ! self hasnt general) {
+                if(self.number == 1 && FlagIsClear(F_DRAGON_HEALED)) {
                     print "^The dragon falls silent. Only the faintest movement of her flank shows that she is still alive.^";
                 }
                 if(self.number==0) {
-                    if(FlagIsSet(F_DRAGON_RECOVERING)) { ! self has general) {
+                    if(FlagIsSet(F_DRAGON_RECOVERING)) {
                         if(TestScope(self)) {
                             print "^", (The) self, " pulls herself together and looks as strong and calm
                                         as before the attack.^";
-                            ClearFlag(F_DRAGON_RECOVERING); ! give self ~general;
+                            ClearFlag(F_DRAGON_RECOVERING); !
                             self.number=-1;
                         }
                     } else {
@@ -2729,7 +2725,7 @@ Object -> Dragon "dragon"
                         rtrue;
                     }
                 } else if(TestScope(self)) {
-                    if(FlagIsSet(F_DRAGON_RECOVERING)) { ! self has general) {
+                    if(FlagIsSet(F_DRAGON_RECOVERING)) {
                         switch(self.number) {
                         5:
                             "^The dragon lies where she fell, flanks heaving, and does not seem to have noticed you at all yet.";
@@ -2792,7 +2788,8 @@ Object -> Dragon "dragon"
 !            switch(spell) {
 !            ResurrectSpell:
 !                ReplaceObj(self, Dragon);
-!                give Dragon general;
+!                SetFlag(F_DRAGON_HEALED);
+!                SetFlag(F_DRAGON_RECOVERING);
 !                Dragon.number=6;
 !                StartDaemon(Dragon);
 !                "The dragon's body shudders. The gaping wound in her throat draws together, and
@@ -2959,24 +2956,23 @@ Room Temple "The Temple"
             off the stone walls in a long, dying echo.";
         Pray:
             ! we've done it before
-            !if(self has general && player hasnt general) {
             if(FlagIsSet(F_PRAYED_BEFORE) && FlagIsClear(F_PLAYER_IS_FISH)) {
-                SetFlag(F_PLAYER_IS_FISH); !  give player general;
+                SetFlag(F_PLAYER_IS_FISH);
                 "You utter the prayer again, and the magic takes hold instantly. Skin tightens
                 into scales, fins burst through your torn robe, and your vision blurs into the aquatic.
                 In seconds, the fish-form takes you over once more.";
             }
             ! first time
-            SetFlag(F_PRAYED_BEFORE); ! give self general;
-            if(FlagIsSet(F_PLAYER_IS_FISH)) { !player has general) {
-                ClearFlag(F_PLAYER_IS_FISH); !  give player ~general;
-                SetFlag(F_PLAYER_TORN_CLOTHES); ! give PlayerClothes general;
+            SetFlag(F_PRAYED_BEFORE);
+            if(FlagIsSet(F_PLAYER_IS_FISH)) {
+                ClearFlag(F_PLAYER_IS_FISH);
+                SetFlag(F_PLAYER_TORN_CLOTHES);
                 "You say another prayer, and once more you are answered. The change back is quite
                 as painful as the change out was: the scales sink away, the webbing parts, and
                 the fin withdraws along your spine. Your robe is the worse for all of it, but
                 otherwise you are yourself again.";
             }
-            SetFlag(F_PLAYER_IS_FISH); !  give player general;
+            SetFlag(F_PLAYER_IS_FISH);
             Achieved(TASK_PRAYING_TO_STATUE);
             "You say a quick prayer for success in your quest, as you have so many times
             before, but this time the answer comes back with alarming speed. Scales push up
@@ -3050,7 +3046,7 @@ Room Beach "The Beach"
             rtrue;
 #Endif;
         Swim:
-            if(FlagIsClear(F_PLAYER_IS_FISH)) ! player hasnt general)
+            if(FlagIsClear(F_PLAYER_IS_FISH))
                 "You are no great swimmer, and the waves are too high today.";
             print
                 "You throw yourself into the surf, and your new body knows exactly what to do
@@ -3211,7 +3207,7 @@ Room VillageRoad "The Country Road"
         s_to "The cornfields close the road in on that side as well. The track itself runs only east and west.",
         w_to "The road winds on westward into open country, where you have no business and no time to spare.",
         u_to [;
-            if(FlagIsSet(F_OAKTREE_CLIMBED)) ! OakTree has general)
+            if(FlagIsSet(F_OAKTREE_CLIMBED))
                 "The oak's lower branches are the only way up from here, and you have already tried those.";
             "You don't possess a levitation spell.";
         ],
@@ -3228,7 +3224,7 @@ Object -> OakTree "oak tree"
         Pull, Push, PushDir, Take, Remove:
             "The oak is far too firmly rooted to be moved.";
         Climb:
-            SetFlag(F_OAKTREE_CLIMBED); ! give self general;
+            SetFlag(F_OAKTREE_CLIMBED);
             "You get no higher than the lower branches before realizing the view is completely blocked by dense
             summer leaves. You hop back down to the dusty road.";
         ],
@@ -3372,9 +3368,9 @@ Object SleepingBeggar "sleeping beggar"
     with
         name 'sleeping' 'ragged' 'beggar' 'man',
         initial [;
-            if(FlagIsClear(F_SEEN_SLEEPING_BEGGAR)) { !self hasnt general) {
+            if(FlagIsClear(F_SEEN_SLEEPING_BEGGAR)) {
                 PlaySound(SND_SNORE, 0);
-                SetFlag(F_SEEN_SLEEPING_BEGGAR); !give self general;
+                SetFlag(F_SEEN_SLEEPING_BEGGAR);
             }
             "The beggar has slid down into the shade of the oak and gone to sleep. It is the
             hottest part of the afternoon, and he has clearly decided that the road can do
@@ -3523,9 +3519,9 @@ Object -> Bench "bench"
         domagic [spell;
             if(spell==AnimateSpell) {
                 if((Hawker.number==7 or 8 or 9 or 10 or 11) || 
-                   (SilverCoin in Hawker && FlagIsSet(F_SECOND_COIN_FOUND))) { ! SilverCoin has general)) {
+                   (SilverCoin in Hawker && FlagIsSet(F_SECOND_COIN_FOUND))) {
                     move SilverCoin to player;
-                    ClearFlag(F_RED_STONE_SEEN); ! give RedStone ~general; ! no more hawker puzzles
+                    ClearFlag(F_RED_STONE_SEEN); ! no more hawker puzzles
                     move RedStone to player;
                     give RedStone ~scenery;
                     Achieved(TASK_GETTING_RED_STONE);
@@ -3744,8 +3740,8 @@ Object -> Hawker "hawker"
                 You are unsure, but you think it is the left cup.";
             5:  "^~Point to the cup you think the stone is under,~ says the man.";
             6:  print "^~Won't you try again? Just one silver coin,~ says the hawker";
-                if(SilverCoin in Hawker && FlagIsClear(F_SECOND_COIN_FOUND)) { ! SilverCoin hasnt general) {
-                    SetFlag(F_SECOND_COIN_FOUND); ! give SilverCoin general;
+                if(SilverCoin in Hawker && FlagIsClear(F_SECOND_COIN_FOUND)) {
+                    SetFlag(F_SECOND_COIN_FOUND);
                     move SilverCoin to player;
                     print
                         ".^^Disappointed, and with very little hope, you turn out your pockets one last
@@ -3843,7 +3839,7 @@ Object HawkerSleeve "sleeve"
     with
         name 'sleeve' 'sleeves',
         description [;
-            if(FlagIsSet(F_RED_STONE_SEEN)) ! RedStone has general)
+            if(FlagIsSet(F_RED_STONE_SEEN))
                 "The glow moves with his arm, a dull ember travelling up and down inside the
                 cloth. The stone has not been on this bench since he picked it up.";
             "Wide, deep, and gathered at the cuff. There is a great deal of room in a sleeve
@@ -4246,8 +4242,8 @@ CSpell TeleportSpell "teleportation spell" SilverScroll
                 print "A yellow cloud swirls around you, and as it clears you find yourself...^^";
             }
             PlayerTo(TeleportRoom);
-            if(FlagIsSet(F_PLAYER_IS_FISH)) { ! player has general) {
-                ClearFlag(F_PLAYER_IS_FISH); ! give player ~general;
+            if(FlagIsSet(F_PLAYER_IS_FISH)) {
+                ClearFlag(F_PLAYER_IS_FISH);
                 print "^To your relief you notice that the teleportation seems to have removed
                             your fish transformation.^";
             }
@@ -4402,12 +4398,12 @@ CStone RedStone "red stone" Village
         description
             "The stone is roughly carved, glowing with a faint, inner crimson warmth. Aside from its deep red colour, its strange shape and ancient markings match your mentor's black stone perfectly.",
         domagic [spell;
-            if(spell == AnimateSpell && FlagIsSet(F_RED_STONE_SEEN)) ! self has general)
+            if(spell == AnimateSpell && FlagIsSet(F_RED_STONE_SEEN))
                 "The stone squirms once inside his sleeve. The hawker's grin flickers and he
                 clamps his arm against his side, and the crowd, watching the cups, sees nothing
                 at all. You will have to make them look somewhere else.";
             if(spell == IlluminateSpell && RedStone in Village) {
-                SetFlag(F_RED_STONE_SEEN); ! give self general; ! we've discovered the cheat
+                SetFlag(F_RED_STONE_SEEN); ! we've discovered the cheat
                 "Somewhere under the sliding cups a red light kindles. It does not shine out from
                 beneath any of the three. It shines, faint and quite unmistakable, through the
                 cloth of the hawker's right sleeve, and he has not noticed it yet.";
