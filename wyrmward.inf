@@ -142,11 +142,14 @@ Include "globals.h";
 ! Setup custom library messages
 [LibraryMessages p_msg p_arg_1 p_arg_2;
         switch(p_msg) {
-        MSG_TOUCHABLE_FOUND_CLOSED:
+        ! it seems I have to replace all or nothing (since SKIP_MSG_CLOSE_NOT_OPEN)
+        MSG_CLOSE_NOT_OPEN, MSG_TOUCHABLE_FOUND_CLOSED,
+        MSG_PARSER_CONTAINER_ISNT_OPEN:
             if(player in RedField)
                 "The glowing red barrier holds firm. You can't reach anything outside the force field.";
+            print_ret (CObjIs) p_arg_1, "n't open.";
         }
-        p_arg_1 = 0; p_arg_2 = 0; ! To avoid warnings
+        p_arg_2 = 0; ! To avoid warnings
 ];
 
 !Constant max_no_memorized_spells 5;
@@ -1361,6 +1364,7 @@ Object -> Istar "Istar"
         initial [;
             if(Folio in self) {
                 move Folio to player;
+                update_moved = true;
                 "Your old mentor, Istar, is hunched over the workbench, intently poring over a faded tome.
                 When he sees you he says, ~My boy, I am so glad to see you again. Great tasks await us, but
                 to begin with, I need you to read this.~ He picks up a slim, leather-bound folio and presses
@@ -1528,6 +1532,7 @@ Object -> Istar "Istar"
             if(BlackStone in self) {
                 move BlackStone to GoldBox;
                 move SilverScroll to player;
+                update_moved = true;
                 print "^As you turn towards the door to leave, Istar calls out,
                       ~Before you go, I should show you my stone.~ He picks up
                       a black stone and places it in ", (the) GoldBox,
@@ -2965,8 +2970,7 @@ Room Temple "The Temple"
             ! first time
             SetFlag(F_PRAYED_BEFORE);
             if(FlagIsSet(F_PLAYER_IS_FISH)) {
-                ClearFlag(F_PLAYER_IS_FISH);
-                SetFlag(F_PLAYER_TORN_CLOTHES);
+                SetFlag(-F_PLAYER_IS_FISH, F_PLAYER_TORN_CLOTHES);
                 "You say another prayer, and once more you are answered. The change back is quite
                 as painful as the change out was: the scales sink away, the webbing parts, and
                 the fin withdraws along your spine. Your robe is the worse for all of it, but
@@ -3267,6 +3271,7 @@ Object -> Beggar "beggar"
                 if(noun==SilverCoin) {
                     remove noun;
                     move Amulet to player;
+                    update_moved = true;
                     Achieved(TASK_GIVING_MONEY_TO_BEGGAR);
                     remove self;
                     "The beggar is overwhelmed by your generosity. It has clearly been a long time
@@ -3520,9 +3525,10 @@ Object -> Bench "bench"
             if(spell==AnimateSpell) {
                 if((Hawker.number==7 or 8 or 9 or 10 or 11) || 
                    (SilverCoin in Hawker && FlagIsSet(F_SECOND_COIN_FOUND))) {
-                    move SilverCoin to player;
                     ClearFlag(F_RED_STONE_SEEN); ! no more hawker puzzles
+                    move SilverCoin to player;
                     move RedStone to player;
+                    update_moved = true;
                     give RedStone ~scenery;
                     Achieved(TASK_GETTING_RED_STONE);
                     remove SleepingBeggar;
@@ -3599,6 +3605,8 @@ Class HawkerCup
                 if(Hawker.number==7 or 8 or 9 or 10 or 11) {
                     move SilverCoin to player;
                     move RedStone to player;
+                    update_moved = true;
+                    Achieved(TASK_GETTING_RED_STONE);
                     give RedStone ~scenery;
                     remove Hawker;
                     remove Bench;
@@ -3699,6 +3707,7 @@ Object -> Hawker "hawker"
                           and gives back the silver coin.^^";
                     self.number=6;
                     move SilverCoin to player;
+                    update_moved = true;
                 }
             }
         ],
@@ -3743,6 +3752,7 @@ Object -> Hawker "hawker"
                 if(SilverCoin in Hawker && FlagIsClear(F_SECOND_COIN_FOUND)) {
                     SetFlag(F_SECOND_COIN_FOUND);
                     move SilverCoin to player;
+                    update_moved = true;
                     print
                         ".^^Disappointed, and with very little hope, you turn out your pockets one last
                         time. Something hard shifts in the lining of your robe. You unpick the seam and
@@ -4705,8 +4715,9 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
     lookmode=2;                        ! always show long room descriptions (verbose)
 
     location=Meadow;
-    move SpellBook to player;
+    move SpellBook   to player;
     move BackPack    to player;
+    update_moved = true;
 
     move DirtyScroll to Meadow;
     move FreezeSpell to SpellBook;
