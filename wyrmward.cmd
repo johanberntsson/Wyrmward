@@ -70,6 +70,8 @@ enter hut
 x soot
 x grease
 x glass
+x grimoire
+x grimoires
 x flickering flames
 x flames
 x stone hearth
@@ -153,6 +155,7 @@ give scroll to istar
 x scroll
 cast copy on animation spell
 n
+x black stone
 copy teleportation spell
 cast copy on teleportation spell
 cast teleport on box

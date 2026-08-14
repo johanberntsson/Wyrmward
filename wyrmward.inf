@@ -614,6 +614,9 @@ Verb meta 'sound' * -> Sound;
 
 Extend 'pray'
     * 'to' topic -> Pray;
+Verb 'worship'
+    * -> Pray
+    * topic -> Pray;
 
 Extend 'smell' replace
     * -> SmellRoom
@@ -826,11 +829,11 @@ Object PlayerClothes "your clothes"
     remove cur_obj;
 ];
 
-[ IsObjInContainer obj container;
-    for(:parent(obj)~=container:obj=parent(obj))
-        if(parent(obj)==nothing) rfalse;
-    rtrue;
-];
+![ IsObjInContainer obj container;
+!    for(:parent(obj)~=container:obj=parent(obj))
+!        if(parent(obj)==nothing) rfalse;
+!    rtrue;
+!];
 
 [ NumberOfNewStones i total;
     total=0;
@@ -1264,11 +1267,11 @@ Object -> hut_bench "workbench"
         before [;
         Search: <<Examine self>>;
         ],
-    has scenery supporter;
+    has scenery supporter open;
 
 Object -> -> hut_doc "books"
     with
-        name 'books' 'book'  'sheets' 'of' 'paper' 'papers',
+        name 'books' 'book'  'sheets' 'of' 'paper' 'papers' 'grimoire' 'grimoires',
         description
             "Warped grimoires and loose sheets of papers, most of them older than the hut
             itself. Every margin is crowded with your mentor's cramped, urgent handwriting.",
@@ -1575,16 +1578,18 @@ Object -> -> Folio "folio"
     with
         name 'folio' 'notes' 'report',
         description [;
-            "Inscribed in your mentor's familiar, frantic handwriting is a harrowing log of his forbidden studies.^^
+            "Inscribed in your mentor's familiar, frantic handwriting is a harrowing log
+            of his forbidden studies.^^
             He writes that the present age will soon give way to an era of terror and dread,
             heralded by the return of the Old Gods to the Earth. It would mean nothing less
             than the annihilation of humanity. Ever since his exile from the Academy he has
             searched, without rest, for a way to delay the waking of these malevolent
             powers.^^
-            There is but one hope. By opening a gateway to a higher dimension, he can channel a torrent of pure,
-            white magic powerful enough to seal the evil gods away. To tear open this gate, however, he requires ",
-            (LanguageNumber) WantedStones-->0, " elemental stones. He already possesses the first, a dark, abyssal stone,
-            and he needs your help to unearth the remaining three.";
+            There is but one hope. By opening a gateway to a higher dimension, he can channel a
+            torrent of pure, white magic powerful enough to seal the evil gods away. To tear open this
+            gate, however, he requires ",
+            (LanguageNumber) WantedStones-->0, " elemental stones. He already possesses the first, a
+            black, abyssal stone, and he needs your help to unearth the remaining three.";
         ],
         after [;
         Read, Examine: SetFlag(F_FOLIO_READ); ! give self general;
@@ -4333,7 +4338,7 @@ Class CStone
 
 CStone BlackStone "black stone" Istar
     with
-        name 'black',
+        name 'black' 'abyssal',
         description
             "It sits in the gilded box, roughly carved and marked with signs you have never
             seen in any grimoire. It is not simply black; it is the colour of a hole in the

@@ -329,6 +329,14 @@ daylight from the meadow outside.
 Thick layers of black grease and soot coat the glass, completely choking out the
 daylight from the meadow outside.
 
+> x grimoire
+Warped grimoires and loose sheets of papers, most of them older than the hut
+itself. Every margin is crowded with your mentor's cramped, urgent handwriting.
+
+> x grimoires
+Warped grimoires and loose sheets of papers, most of them older than the hut
+itself. Every margin is crowded with your mentor's cramped, urgent handwriting.
+
 > x flickering flames
 A few stout logs burn steadily in the stone hearth, feeding the flames.
 
@@ -484,7 +492,7 @@ Istar arches an eyebrow. "Awakening the unliving is a perilous path, my boy. See
 that you exercise proper restraint when casting it."
 
 > score
-You have so far scored 5 out of a possible 40, in 98 turns.
+You have so far scored 5 out of a possible 40, in 100 turns.
 
 > full
 
@@ -691,7 +699,7 @@ powers.
 There is but one hope. By opening a gateway to a higher dimension, he can
 channel a torrent of pure, white magic powerful enough to seal the evil gods
 away. To tear open this gate, however, he requires four elemental stones. He
-already possesses the first, a dark, abyssal stone, and he needs your help to
+already possesses the first, a black, abyssal stone, and he needs your help to
 unearth the remaining three.
 
 > give scroll to istar
@@ -722,6 +730,11 @@ show you my stone." He picks up a black stone and places it in the gilded box.
 says, handing you a silvery scroll. "The stones are far too distant for you to
 reach on foot. Copy this teleportation spell into your spellbook and you can
 travel faster."
+
+> x black stone
+It sits in the gilded box, roughly carved and marked with signs you have never
+seen in any grimoire. It is not simply black; it is the colour of a hole in the
+world, and looking at it for long makes your eyes water.
 
 > copy teleportation spell
 To use magic, try CAST spell instead.
@@ -3764,7 +3777,7 @@ the first to be torn to pieces is you.
 
   *** You have died ***
 
-In that game you scored 31 out of a possible 40, in 612 turns.
+In that game you scored 31 out of a possible 40, in 615 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
 that game or QUIT? restore
@@ -3948,7 +3961,7 @@ the first to be torn to pieces is you.
 
   *** You have died ***
 
-In that game you scored 31 out of a possible 40, in 612 turns.
+In that game you scored 31 out of a possible 40, in 615 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
 that game or QUIT? restore
@@ -4073,7 +4086,7 @@ well.
 
   *** You have won ***
 
-In that game you scored 40 out of a possible 40, in 615 turns.
+In that game you scored 40 out of a possible 40, in 618 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
 that game or QUIT? full
