@@ -154,7 +154,7 @@ words of the healing spell.
 You feel healthier and stronger than before.
 
 > score
-You have so far scored 0 out of a possible 40, in 30 turns.
+You have so far scored 0 out of a possible 40, in 29 turns.
 
 > xyzzy
 You pronounce the ancient word with great care. Somewhere very far away a door
@@ -484,7 +484,7 @@ Istar arches an eyebrow. "Awakening the unliving is a perilous path, my boy. See
 that you exercise proper restraint when casting it."
 
 > score
-You have so far scored 5 out of a possible 40, in 99 turns.
+You have so far scored 5 out of a possible 40, in 98 turns.
 
 > full
 
@@ -736,6 +736,28 @@ silvery parchment dissolves into wisps of shimmering smoke.
 
 [You have learned the teleportation spell]
 
+> cast teleport on box
+Your spellbook snaps open to the correct page, and you speak the complex,
+resonant incantation of the teleportation spell.
+
+The spell's magic clings to your own skin and fizzles out. You can only cast
+teleportation upon yourself.
+
+> cast freeze
+You must say what you want to cast the spell on.
+
+> show folio to istar
+Istar waves a hand dismissively. "I wrote those pages for your benefit, not
+mine. Read what I wrote instead of fussing with it."
+
+> give folio to istar
+Istar waves a hand dismissively. "I wrote those pages for your benefit, not
+mine. Read what I wrote instead of fussing with it."
+
+> ask istar about folio
+Istar doesn't look up from his work. "I put it in writing so I wouldn't have to
+repeat myself, lad. Read the pages."
+
 > x black stone
 It sits in the gilded box, roughly carved and marked with signs you have never
 seen in any grimoire. It is not simply black; it is the colour of a hole in the
@@ -748,10 +770,6 @@ The markings are strange, unknown glyphs carved into the surface of the stone.
 That isn't something you can follow. Try choosing a direction to move instead.
 
 > n
-
-"It is safest that this stays here," says Istar, taking the folio from your
-hands before you step outside.
-
 Meadow
 You stand in a small, overgrown clearing dominated by a dilapidated hut hunched
 immediately to the south. Looming on all other sides is a dense, ancient forest
@@ -1165,8 +1183,8 @@ tavern, or one turn at a certain gentleman's cups.
 Taken.
 
 > i
-You're carrying a silver coin, your spellbook and your backpack (which is open
-but empty).
+You're carrying a silver coin, your spellbook, a folio and your backpack (which
+is open but empty).
 
 > n
 The dense cornfields form an unbroken wall of rustling stalks on either side of
@@ -1557,6 +1575,9 @@ The hawker stands by the roadside with his cups.
 
 "Won't you try again? Just one silver coin," says the hawker.
 
+> give coin
+I think you wanted to say "give silver coin to someone". Please try again.
+
 > give coin to hawker
 The hawker pockets the silver coin. He places the stone under one of the cups
 and says, "Let us begin again. Concentrate, and the twenty silver coins are
@@ -1653,8 +1674,8 @@ before you can think of a reply.
 [The score has just gone up by 4 points.]
 
 > i
-You're carrying a red stone, a silver coin, your spellbook and your backpack
-(which is open but empty).
+You're carrying a red stone, a silver coin, your spellbook, a folio and your
+backpack (which is open but empty).
 
 > w
 The Country Road
@@ -1743,8 +1764,8 @@ before you can think of a reply.
 [The score has just gone up by 4 points.]
 
 > i
-You're carrying a red stone, a silver coin, your spellbook and your backpack
-(which is open but empty).
+You're carrying a red stone, a silver coin, your spellbook, a folio and your
+backpack (which is open but empty).
 
 > w
 The Country Road
@@ -1768,8 +1789,8 @@ Content with the day's work, the beggar wanders off to the west.
 You are now wearing the amulet.
 
 > i
-You're carrying an amulet (worn), a red stone, your spellbook and your backpack
-(which is open but empty).
+You're carrying an amulet (worn), a red stone, your spellbook, a folio and your
+backpack (which is open but empty).
 
 > x amulet
 A surprisingly ornate amulet, slightly tarnished around the rim, hanging from a
@@ -2435,6 +2456,23 @@ You attempt to march past the sentinels, but as you step between them, an
 invisible force like compressed air slams against your chest, throwing you back
 into the tunnel. The statues remain motionless, watching.
 
+> cast animate on statues
+They stand as a pair, but you'll have to deal with the left or the right one
+individually.
+
+> cast animate on folio
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the animation spell.
+
+The folio comes to life, runs about for a while and then stiffens again.
+
+> cast animate on slope
+No need to concern yourself with that.
+
+> push statues
+They stand as a pair, but you'll have to deal with the left or the right one
+individually.
+
 > cast animate on left
 The spellbook opens itself to the right page, and you read aloud the complicated
 words of the animation spell.
@@ -3058,6 +3096,34 @@ towards the shore in the south, with the temple standing off to the east.
 Coarse, blue-grey tussocks clinging to the sandy soil either side of the path,
 combed flat and all one way by the wind off the water.
 
+> in
+The Temple
+The vaults rise high above your head, and the whole great space stands silent
+and abandoned. The leaded windows have been broken out, and almost all the
+furnishings are gone. An open doorway to the west leads back outside.
+
+A statue still stands in the middle of the temple.
+
+> out
+Before a Temple
+You stand on a narrow path that runs down to the sea in the south and into the
+forest in the north. The air is salt and fresh. To the east of you stands a
+great temple, weathered by long centuries of sea wind.
+
+> enter temple
+The Temple
+The vaults rise high above your head, and the whole great space stands silent
+and abandoned. The leaded windows have been broken out, and almost all the
+furnishings are gone. An open doorway to the west leads back outside.
+
+A statue still stands in the middle of the temple.
+
+> w
+Before a Temple
+You stand on a narrow path that runs down to the sea in the south and into the
+forest in the north. The air is salt and fresh. To the east of you stands a
+great temple, weathered by long centuries of sea wind.
+
 > w
 A thick wall of brambles and windblown scrub blocks any progress that way.
 
@@ -3514,6 +3580,12 @@ immediately to the south. Looming on all other sides is a dense, ancient forest
 whose twisted boughs form an impenetrable wall of shadow. A faint dirt path cuts
 through the weeds, winding away north into the dark tree line.
 
+> n
+You take a step toward the northern path, but hesitate. What the dragon said
+lingers heavily in your mind; something is deeply wrong here. Leaving feels like
+running away from a fire that is already spreading. You cannot abandon this now,
+you must see it through to the end.
+
 > drop amulet
 (first taking off the amulet)
 Dropped.
@@ -3536,8 +3608,6 @@ Resting within a small alcove in the stone wall is a beautifully carved, gilded
 wooden box. It contains a black stone.
 
 Your mentor reads a parchment.
-
-You can also see a folio here.
 
 > give green stone to istar
 Istar frowns slightly, lowering his voice. "The Stone of Verdure. Bound to the
@@ -3584,7 +3654,13 @@ black stone.
 
 Your mentor reads a parchment.
 
-You can also see a folio here.
+> cast death spell on istar
+The spellbook opens itself to the right page, and you read aloud the complicated
+words of the death spell.
+
+As the final syllables leave your lips, your voice falters. The dragon's words
+planted dark seeds of doubt, but you still have no proof. Striking down your own
+mentor on mere suspicion is a line you cannot cross.
 
 > put red stone in box
 You hover the red stone over the gilded box, overcome by an overwhelming sense
@@ -3649,7 +3725,7 @@ reptile's. Its skin is covered with brown, matted stubble that gives off a
 loathsome smell of sulfur.
 
 Part of the floor falls away, and a dark opening like a well appears. There is a
-slimy liquid standing in it. Still reading, the demon begins to pace anti-
+slimy liquid standing in it. Still reading, the demon begins to pace counter-
 clockwise around the well.
 
 The amulet vibrates violently.
@@ -3667,7 +3743,8 @@ The amulet begins to move of its own accord towards the red field.
 You put a hand out to the red light and snatch it back with your fingers
 smarting. The field does not want you, and it is not subtle about saying so.
 
-The well now glows with a red light from below. The demon looks very expectant.
+The well now glows with a eerie light from below. The demon looks very
+expectant.
 
 The amulet pulls strongly in the direction of the red field.
 
@@ -3687,7 +3764,7 @@ the first to be torn to pieces is you.
 
   *** You have died ***
 
-In that game you scored 31 out of a possible 40, in 607 turns.
+In that game you scored 31 out of a possible 40, in 612 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
 that game or QUIT? restore
@@ -3708,7 +3785,7 @@ The crypt is an ancient, subterranean chamber dominated by dark obsidian
 pillars, a central stone altar, and four glowing pedestals.
 
 Part of the floor falls away, and a dark opening like a well appears. There is a
-slimy liquid standing in it. Still reading, the demon begins to pace anti-
+slimy liquid standing in it. Still reading, the demon begins to pace counter-
 clockwise around the well.
 
 The amulet vibrates violently.
@@ -3725,7 +3802,8 @@ The amulet begins to move of its own accord towards the red field.
 The crypt is an ancient, subterranean chamber dominated by dark obsidian
 pillars, a central stone altar, and four glowing pedestals.
 
-The well now glows with a red light from below. The demon looks very expectant.
+The well now glows with a eerie light from below. The demon looks very
+expectant.
 
 The amulet pulls strongly in the direction of the red field.
 
@@ -3747,7 +3825,7 @@ The crypt is an ancient, subterranean chamber dominated by dark obsidian
 pillars, a central stone altar, and four glowing pedestals.
 
 Part of the floor falls away, and a dark opening like a well appears. There is a
-slimy liquid standing in it. Still reading, the demon begins to pace anti-
+slimy liquid standing in it. Still reading, the demon begins to pace counter-
 clockwise around the well.
 
 The amulet vibrates violently.
@@ -3764,7 +3842,8 @@ The amulet begins to move of its own accord towards the red field.
 The crypt is an ancient, subterranean chamber dominated by dark obsidian
 pillars, a central stone altar, and four glowing pedestals.
 
-The well now glows with a red light from below. The demon looks very expectant.
+The well now glows with a eerie light from below. The demon looks very
+expectant.
 
 The amulet pulls strongly in the direction of the red field.
 
@@ -3788,7 +3867,7 @@ channels that all run inwards towards a hollow at its centre. You would rather
 not think about what the channels are for.
 
 Part of the floor falls away, and a dark opening like a well appears. There is a
-slimy liquid standing in it. Still reading, the demon begins to pace anti-
+slimy liquid standing in it. Still reading, the demon begins to pace counter-
 clockwise around the well.
 
 The amulet vibrates violently.
@@ -3806,7 +3885,8 @@ Four squat plinths of the same black stone stand at the compass points around
 the altar. Each is cut with a shallow depression, and each depression is exactly
 the size of a man's fist.
 
-The well now glows with a red light from below. The demon looks very expectant.
+The well now glows with a eerie light from below. The demon looks very
+expectant.
 
 The amulet pulls strongly in the direction of the red field.
 
@@ -3828,7 +3908,7 @@ dried blood, ancient ozone, and the faint, coppery tang of unholy power humming
 from the pedestals.
 
 Part of the floor falls away, and a dark opening like a well appears. There is a
-slimy liquid standing in it. Still reading, the demon begins to pace anti-
+slimy liquid standing in it. Still reading, the demon begins to pace counter-
 clockwise around the well.
 
 The amulet vibrates violently.
@@ -3847,14 +3927,14 @@ It's a ragged hole where the flagstones used to be, going down further than the
 light reaches. The slimy liquid in it is settling and smoothing over as the
 demon paces around the rim.
 
-The well now glows with a red light from below. The demon looks very expectant.
+The well now glows with a eerie light from below. The demon looks very
+expectant.
 
 The amulet pulls strongly in the direction of the red field.
 
-> x stones
-The four of them ride in the demon's fist, black and red and green and blue, and
-they have begun to shine in a way you have never seen them shine before. You
-fetched three of those yourself.
+> push demon
+The glowing red barrier holds firm. You can't reach anything outside the force
+field.
 
 The glow grows brighter and a dull rumble builds under the floor. The demon
 turns to you and says, "The gate is open. A new age has begun."
@@ -3868,7 +3948,7 @@ the first to be torn to pieces is you.
 
   *** You have died ***
 
-In that game you scored 31 out of a possible 40, in 607 turns.
+In that game you scored 31 out of a possible 40, in 612 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
 that game or QUIT? restore
@@ -3885,7 +3965,7 @@ The demon reads a spell aloud.
 
 The amulet begins to vibrate.
 
-> touch field with amulet
+> touch red with amulet
 The amulet meets the red field, and the field goes out like a snuffed candle!
 
 The Crypt
@@ -3896,25 +3976,23 @@ by old rituals, and four glowing pedestals surround it. There are no exits.
 
 
 Part of the floor falls away, and a dark opening like a well appears. There is a
-slimy liquid standing in it. Still reading, the demon begins to pace anti-
+slimy liquid standing in it. Still reading, the demon begins to pace counter-
 clockwise around the well.
 
-> x amulet
-The beggar's amulet hangs cold and still on its cord, and the ornate work across
-its face has gone dull and grey. Whatever was in it, it spent all of it at once.
+> cast teleport
+You begin the incantation, but your magic bounces harmlessly off the heavy
+malevolence surrounding the demon. It doesn't even look at you, entirely
+consumed by the ritual tearing open the portal. Simple magic won't suffice,
+you'll need something more powerful.
 
 The demon drops the stones one by one into the well, and the liquid sinks away.
 
-> cast freeze spell on demon
-The spellbook opens itself to the right page, and you read aloud the complicated
-words of the freeze spell.
+> push demon
+You reach out toward the demon, but its presence radiates an oppressive,
+suffocating heat. Laying a hand on such an entity feels like a suicidal impulse.
 
-The cold rolls over the demon and does nothing whatever. It turns its head and
-looks at you for the first time since it caged you. "You have one spell that can
-touch me, wizard," it says, almost kindly, "and we both know you were given it
-by something that wished me ill."
-
-The well now glows with a red light from below. The demon looks very expectant.
+The well now glows with a eerie light from below. The demon looks very
+expectant.
 
 > cast death spell on demon
 The spellbook opens itself to the right page, and you read aloud the complicated
@@ -3995,7 +4073,7 @@ well.
 
   *** You have won ***
 
-In that game you scored 40 out of a possible 40, in 610 turns.
+In that game you scored 40 out of a possible 40, in 615 turns.
 
 Would you like to RESTART, RESTORE, UNDO the last move, give the FULL score for
 that game or QUIT? full

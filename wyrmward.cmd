@@ -155,6 +155,11 @@ cast copy on animation spell
 n
 copy teleportation spell
 cast copy on teleportation spell
+cast teleport on box
+cast freeze
+show folio to istar
+give folio to istar
+ask istar about folio
 x black stone
 x signs
 follow istar
@@ -316,6 +321,7 @@ attack beggar
 cast heal on beggar
 z
 e
+give coin
 give coin to hawker
 z
 z
@@ -501,6 +507,10 @@ save
 
 yes
 d
+cast animate on statues
+cast animate on folio
+cast animate on slope
+push statues
 cast animate on left
 d
 s
@@ -589,6 +599,10 @@ x temple
 x sea
 x path
 x sea grass
+in
+out
+enter temple
+w
 w
 u
 d
@@ -687,6 +701,7 @@ e
 pray
 cast teleport
 s
+n
 drop amulet
 s
 give green stone to istar
@@ -696,6 +711,7 @@ put red stone in box
 n
 take amulet
 s
+cast death spell on istar
 put red stone in box
 put red stone in box
 
@@ -732,14 +748,14 @@ n
 smell
 x amulet
 x well
-x stones
+push demon
 
 restore
 
 listen
-touch field with amulet
-x amulet
-cast freeze spell on demon
+touch red with amulet
+cast teleport
+push demon
 cast death spell on demon
 save
 
