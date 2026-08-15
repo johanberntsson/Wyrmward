@@ -85,8 +85,8 @@ Constant OPTIONAL_LANGUAGE_NUMBER;
 !Constant OPTIONAL_SCORED;
 Constant OPTIONAL_FULL_SCORE; ! Comment out NO_SCORE when uncommenting this
 !Constant OPTIONAL_SIMPLE_DOORS;
-!Constant OPTIONAL_MANUAL_SCOPE;
-!Constant OPTIONAL_MANUAL_SCOPE_BOOST;
+Constant OPTIONAL_MANUAL_SCOPE;
+Constant OPTIONAL_MANUAL_SCOPE_BOOST;
 !Constant OPTIONAL_MANUAL_REACTIVE;
 !Constant OPTIONAL_ORDERED_TIMERS;
 !Constant OPTIONAL_REACTIVE_PARSE_NAME;
@@ -577,6 +577,7 @@ CSpellWithArgument CopySpell "copying spell" SpellBook
                     original scroll crumbles into a fine silver ash that vanishes into thin air.";
                 move x to Spellbook;
                 remove obj;
+                scope_modified = true;
             TeleportSpell:
                 print
                     "The spellbook opens once more, and you recite the copying spell over the silvery scroll.^^
@@ -585,6 +586,7 @@ CSpellWithArgument CopySpell "copying spell" SpellBook
                     of shimmering smoke.";
                 move x to Spellbook;
                 remove obj;
+                scope_modified = true;
             default:
                 print (The) SpellBook, " begins to glow. Slowly and majestically the words of ",
                             (the) x, " appear on a blank page, shining more brightly than the book
@@ -594,6 +596,7 @@ CSpellWithArgument CopySpell "copying spell" SpellBook
                     print " The scroll it was written on goes up in smoke as the copying finishes.";
                     remove obj;
                 }
+                scope_modified = true;
             }
             "^^[You have learned ", (the) x, "]";
         ]
@@ -748,6 +751,7 @@ Verb 'cheat' * -> Cheat;
     give player light;
     move AnimateSpell to spellbook;
     move TeleportSpell to spellbook;
+    scope_modified = true;
     PlayerTo(TeleportRoom);
 ];
 #Endif;
@@ -824,12 +828,14 @@ Object PlayerClothes "your clothes"
 [ RemoveObj obj notstop;
     if(notstop==0) { StopDaemon(obj); StopTimer(obj); }
     remove obj;
+    scope_modified = true;
 ];
 
 [ ReplaceObj cur_obj new_obj notstop;
     if(notstop==0) { StopDaemon(cur_obj); StopTimer(cur_obj); }
     move new_obj to parent(cur_obj);
     remove cur_obj;
+    scope_modified = true;
 ];
 
 ![ IsObjInContainer obj container;
@@ -1365,6 +1371,7 @@ Object -> Istar "Istar"
             if(Folio in self) {
                 move Folio to player;
                 update_moved = true;
+                scope_modified = true;
                 "Your old mentor, Istar, is hunched over the workbench, intently poring over a faded tome.
                 When he sees you he says, ~My boy, I am so glad to see you again. Great tasks await us, but
                 to begin with, I need you to read this.~ He picks up a slim, leather-bound folio and presses
@@ -1533,6 +1540,7 @@ Object -> Istar "Istar"
                 move BlackStone to GoldBox;
                 move SilverScroll to player;
                 update_moved = true;
+                scope_modified = true;
                 print "^As you turn towards the door to leave, Istar calls out,
                       ~Before you go, I should show you my stone.~ He picks up
                       a black stone and places it in ", (the) GoldBox,
@@ -1569,6 +1577,7 @@ Object -> Istar "Istar"
                 Istar strokes his beard flat and says nothing at all, which is his way of being
                 insufferably pleased with himself.^";
             move AnimateSpell to DirtyScroll;
+            scope_modified = true;
             SetFlag(F_SCROLL_REVEALED); ! It's been opened and its contents revealed
             give DirtyScroll open;
             Achieved(TASK_FINDING_ANIMATE_SPELL);
@@ -2116,6 +2125,7 @@ DarkRoom Tunnel "Tunnel"
                     move LeftWarrior to DragonHall;
                     move RightWarrior to DragonHall;
                     move Statues to DragonHall;
+                    scope_modified = true;
                     if(player in self) {
                         print
                             "^The warrior and the barbarian slip on the ice at the same moment and go down the
@@ -2638,6 +2648,7 @@ Object -> Dragon "dragon"
                         Your spellbook suddenly floats before you and opens itself.
                         A new spell is written on a blank page: the Death Spell.^";
                     move DeathSpell to SpellBook;
+                    scope_modified = true;
                     Achieved(TASK_GETTING_DEATH_SPELL);
                     rtrue;
                 }
@@ -2758,6 +2769,7 @@ Object -> Dragon "dragon"
             if(r) RemoveObj(RightWarrior);
             if(l==true && r==true) {
                 remove Statues;
+                scope_modified = true;
                 self.number=5; ! the dragon is wounded
             }
             if(l==true && r==true && p==true) {
@@ -3270,10 +3282,11 @@ Object -> Beggar "beggar"
             Give:
                 if(noun==SilverCoin) {
                     remove noun;
+                    remove self;
                     move Amulet to player;
                     update_moved = true;
+                    scope_modified = true;
                     Achieved(TASK_GIVING_MONEY_TO_BEGGAR);
-                    remove self;
                     "The beggar is overwhelmed by your generosity. It has clearly been a long time
                     since he last held a silver coin. From under his rags he pulls out an amulet on
                     a cord and presses it on you, and will not hear of your refusing it.^^
@@ -3535,6 +3548,7 @@ Object -> Bench "bench"
                     move Beggar to VillageRoad;
                     remove Hawker;
                     remove self;
+                    scope_modified = true;
                     "The bench comes to life, bucks violently for a moment and then stiffens again.
                     The cups roll off onto the ground, and there is no sign of the stone under any
                     of them. The hawker bends quickly to gather them up, and as he does so the stone
@@ -3610,6 +3624,7 @@ Class HawkerCup
                     give RedStone ~scenery;
                     remove Hawker;
                     remove Bench;
+                    scope_modified = true;
                     "The cup comes to life, jerks about violently for a while and knocks the other
                     cups to the ground before it too stiffens and falls. There is no sign of the
                     stone. The hawker quickly bends to pick up the cups, and from his sleeve the
@@ -3708,6 +3723,7 @@ Object -> Hawker "hawker"
                     self.number=6;
                     move SilverCoin to player;
                     update_moved = true;
+                    scope_modified = true;
                 }
             }
         ],
@@ -3753,6 +3769,7 @@ Object -> Hawker "hawker"
                     SetFlag(F_SECOND_COIN_FOUND);
                     move SilverCoin to player;
                     update_moved = true;
+                    scope_modified = true;
                     print
                         ".^^Disappointed, and with very little hope, you turn out your pockets one last
                         time. Something hard shifts in the lining of your robe. You unpick the seam and
@@ -3819,6 +3836,7 @@ Object -> Hawker "hawker"
                 if(noun==SilverCoin) {
                     self.number=7;
                     move SilverCoin to Hawker;
+                    scope_modified = true;
                     "The hawker pockets the silver coin. He places the stone under one of the cups
                     and says, ~Let us begin again. Concentrate, and the twenty silver coins are
                     yours.~";
@@ -3867,6 +3885,7 @@ Room EndOfVillage "The Edge of the Village"
             if(self hasnt visited) {
                 remove Beggar;
                 move SleepingBeggar to VillageRoad;
+                scope_modified = true;
             }
             "Just a few steps east of the village centre, the houses give way to cornfields
             again. The road runs on east into open country, and back west into the market.";
@@ -3984,6 +4003,7 @@ Room Crypt "The Crypt"
             switch(self.number) {
             1:
                 move DeadMaster to self;
+                scope_modified = true;
                 "^Where the demon stood, your mentor stands in its place, blinking, himself again for
                 the space of a single breath. Then his knees give way and he falls dead to the floor.^^
                 The room begins to come apart. Your senses will not hold still, strange visions
@@ -4080,12 +4100,14 @@ Object -> Demon "demon"
                     I searched your mentor's memories and found you. I knew you would come when he
                     called, and now you have carried me the key to your own doom. Was it not a fine plan?~^^";
                 move player to RedField;
+                scope_modified = true;
                 print "~Now to work. First a small precaution,~ says the demon, and you are
                             trapped in a red force field.^";
             2:  print "^The demon reads a spell aloud";
                 if(Amulet in player && RedField in location) print ".^^The amulet begins to vibrate";
                  ".";
             3:  move GateOpening to location;
+                scope_modified = true;
                 print
                     "^Part of the floor falls away, and a dark opening like a well appears. There is a
                     slimy liquid standing in it. Still reading, the demon begins to pace 
@@ -4722,6 +4744,7 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
     move DirtyScroll to Meadow;
     move FreezeSpell to SpellBook;
     move HealSpell     to SpellBook;
+    scope_modified = true;
 
     !StartDaemon(Dragon);
     return 2; ! don't print banner
