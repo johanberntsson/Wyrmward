@@ -34,8 +34,17 @@ WAVS     = resources/003.wav resources/004.wav resources/005.wav resources/006.w
 
 all: test
 
-z5:
+z5-debug:
 	$(INFORM) +$(PUNY)/lib -v5 -es -D wyrmward.inf
+
+z5-release:
+	$(INFORM) +$(PUNY)/lib -v5 -es wyrmward.inf
+
+wyrmward.z6: $(STORYSRC)
+	$(INFORM) +$(PUNY)/lib -v6 -es wyrmward.inf
+
+z6: wyrmward.z6
+
 
 # Real file rules, not one recipe under a phony name: sox dithers with a fresh
 # random seed on every run, so remaking these unconditionally rewrote both wavs
@@ -85,11 +94,6 @@ wyrmward.blb: $(PICSRC)
 
 blorb: wyrmward.blb
 
-wyrmward.z6: $(STORYSRC)
-	$(INFORM) +$(PUNY)/lib -v6 -es -D wyrmward.inf
-
-z6: wyrmward.z6
-
 x16_wyrmward.zip: wyrmward.blb wyrmward.z6
 	$(OZMOOBUILD) -t:x16 -asw resources -pics wyrmward.blb wyrmward.z6
 
@@ -103,9 +107,9 @@ mega65_wyrmward.d81: wyrmward.blb wyrmward.z6 $(WAVS)
 mega65: mega65_wyrmward.d81
 	$(XMEGA65) -8 mega65_wyrmward.d81
 
-.PHONY: all z5 sound blorb z6 x16 mega65 test frotz sfrotz release clean
+.PHONY: all z5-release z5-debug sound blorb z6 x16 mega65 test frotz sfrotz release clean
 
-test: z5
+test: z5-debug
 	rm -f wyrmward.scr wyrmward.qzl wyrmward.cur
 	frotz wyrmward.z5 < wyrmward.cmd
 	grep -v "Serial number" wyrmward.scr > wyrmward.cur
@@ -116,14 +120,13 @@ z6test:
 	$(INFORM) -v6 --define Z6_TESTPROGRAM  $(PUNY)/lib/ext_z6graphics.h
 	sfrotz ext_z6graphics.z6
 
-frotz: z5
+frotz: z5-debug
 	frotz -d wyrmward.z5
 
 sfrotz: wyrmward.z6 wyrmward.blb
 	$(SFROTZ) wyrmward.z6
 
-release:
-	$(INFORM) +$(PUNY)/lib -v5 -es wyrmward.inf
+release: z5-release
 	frotz -d wyrmward.z5
 
 clean:
