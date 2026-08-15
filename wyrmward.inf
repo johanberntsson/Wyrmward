@@ -3634,6 +3634,8 @@ Class HawkerCup
                     update_moved = true;
                     Achieved(TASK_GETTING_RED_STONE);
                     give RedStone ~scenery;
+                    remove SleepingBeggar;
+                    move Beggar to VillageRoad;
                     remove Hawker;
                     remove Bench;
                     scope_modified = true;
