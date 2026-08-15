@@ -3,6 +3,7 @@
 !% $ZCODE_LESS_DICT_DATA=1
 !% $LONG_DICT_FLAG_BUG=0
 !% $ZCODE_COMPACT_GLOBALS=1
+!% $ZCODE_MAX_INLINE_STRING=9999
 !
 ! HISTORY:
 !
@@ -335,7 +336,7 @@ Object SpellBook "spellbook"
         ],
         domagic [ spell;
             if(spell == IlluminateSpell && self hasnt light) {
-                give self light;
+                give self light; scope_modified = true;
                 "The spellbook flares so brightly that you nearly drop it, then settles to a
                 steady white glow. It will serve very well as a lamp.";
             }
@@ -577,7 +578,7 @@ CSpellWithArgument CopySpell "copying spell" SpellBook
                     original scroll crumbles into a fine silver ash that vanishes into thin air.";
                 move x to Spellbook;
                 remove obj;
-                scope_modified = true;
+                !scope_modified = true;
             TeleportSpell:
                 print
                     "The spellbook opens once more, and you recite the copying spell over the silvery scroll.^^
@@ -586,7 +587,7 @@ CSpellWithArgument CopySpell "copying spell" SpellBook
                     of shimmering smoke.";
                 move x to Spellbook;
                 remove obj;
-                scope_modified = true;
+                !scope_modified = true;
             default:
                 print (The) SpellBook, " begins to glow. Slowly and majestically the words of ",
                             (the) x, " appear on a blank page, shining more brightly than the book
@@ -596,8 +597,8 @@ CSpellWithArgument CopySpell "copying spell" SpellBook
                     print " The scroll it was written on goes up in smoke as the copying finishes.";
                     remove obj;
                 }
-                scope_modified = true;
             }
+            scope_modified = true;
             "^^[You have learned ", (the) x, "]";
         ]
     ;
@@ -752,7 +753,7 @@ Verb 'cheat' * -> Cheat;
     give player light;
     move AnimateSpell to spellbook;
     move TeleportSpell to spellbook;
-    scope_modified = true;
+    ! scope_modified = true; ! taken care of by PlayerTo
     PlayerTo(TeleportRoom);
 ];
 #Endif;
@@ -785,7 +786,7 @@ Object PlayerObject "yourself"
                 "Suddenly you are covered by a thin layer of ice. It is very cold and
                 unpleasant, but the ice melts quickly.";
             IlluminateSpell:
-                give player light;
+                give player light; scope_modified = true;
                 "A dazzling light surrounds you and you begin to glow. The light slowly
                 fades, but you are now a perfectly adequate light source.";
             AnimateSpell:
@@ -995,7 +996,7 @@ CScroll -> DirtyScroll "weathered scroll"
         Open, Untie: <<Untie Twine>>;
         Read:
             if(FlagIsSet(F_SCROLL_REVEALED)) <<Examine self>>;
-            give self open;
+            give self open; scope_modified = true;
             "You unroll the parchment far enough to look. The sheet is blank, top to bottom.
             Either somebody went to considerable trouble to tie up an empty page, or there
             is something written here that does not care to be read by just anyone.";
@@ -1012,11 +1013,11 @@ Object Twine "twine"
         before [;
         Close, Tie:
             if(DirtyScroll hasnt open) "It's already bound tightly with the twine.";
-            give DirtyScroll ~open;
+            give DirtyScroll ~open; scope_modified = true;
             "You roll the parchment back up tightly and wrap the twine around it.";
         Open, Untie:
             if(DirtyScroll has open) "It's already unrolled.";
-            give DirtyScroll open;
+            give DirtyScroll open; scope_modified = true;
             "You work at the damp knot until the twine slips free, allowing you to unroll the heavy parchment.";
         ],
     has openable scenery;
@@ -1582,7 +1583,7 @@ Object -> Istar "Istar"
             move AnimateSpell to DirtyScroll;
             scope_modified = true;
             SetFlag(F_SCROLL_REVEALED); ! It's been opened and its contents revealed
-            give DirtyScroll open;
+            give DirtyScroll open; scope_modified = true;
             Achieved(TASK_FINDING_ANIMATE_SPELL);
             rtrue;
         }
@@ -2776,7 +2777,7 @@ Object -> Dragon "dragon"
             if(r) RemoveObj(RightWarrior);
             if(l==true && r==true) {
                 remove Statues;
-                scope_modified = true;
+                ! scope_modified = true; ! taken care of by RemoveObj
                 self.number=5; ! the dragon is wounded
             }
             if(l==true && r==true && p==true) {
@@ -3633,7 +3634,7 @@ Class HawkerCup
                     move RedStone to player;
                     update_moved = true;
                     Achieved(TASK_GETTING_RED_STONE);
-                    give RedStone ~scenery;
+                    give RedStone ~scenery; ClearFlag(F_RED_STONE_SEEN); ! no more hawker puzzles
                     remove SleepingBeggar;
                     move Beggar to VillageRoad;
                     remove Hawker;
@@ -4418,7 +4419,7 @@ CStone GreenStone "green stone" Cave
         ],
         domagic [spell;
             if(spell == IlluminateSpell && self hasnt light) {
-                give self light;
+                give self light; scope_modified = true;
                 "The green stone flares so brightly that you nearly drop it, then settles to a
                 steady emerald glow that throws your shadow halfway up the cave wall. It will
                 serve very well as a lamp.";
