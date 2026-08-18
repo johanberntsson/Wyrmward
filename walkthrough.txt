@@ -36,7 +36,7 @@ cast animate on left
 cast animate on right
 cast freeze on mud
 z
-cast heali on dragon
+cast heal on dragon
 ask dragon about magic
 cast teleport
 w
