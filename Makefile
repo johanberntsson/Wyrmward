@@ -107,6 +107,9 @@ mega65_wyrmward.d81: wyrmward.blb wyrmward.z6 $(WAVS)
 mega65: mega65_wyrmward.d81
 	$(XMEGA65) -8 mega65_wyrmward.d81
 
+c64: z6
+	$(OZMOOBUILD) -s wyrmward.z6
+
 .PHONY: all z5-release z5-debug sound blorb z6 x16 mega65 test frotz sfrotz release clean
 
 test: z5-debug

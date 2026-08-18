@@ -4,6 +4,8 @@
 !% $LONG_DICT_FLAG_BUG=0
 !% $ZCODE_COMPACT_GLOBALS=1
 !% $ZCODE_MAX_INLINE_STRING=9999
+!% $MAX_ABBREVS=96
+!% $TRANSCRIPT_FORMAT=1
 !
 ! HISTORY:
 !
@@ -43,10 +45,108 @@
 ! on long words are heeded, e.g. 'transmogrifiers//p'.
 ! $ZCODE_COMPACT_GLOBALS=1 avoids reserving dynmem space for unused globals.
 
+Constant CUSTOM_ABBREVIATIONS;
+Abbreviate "What you cannot say in few words, probably isn't worth saying.";!     5x66, saved   254
+Abbreviate "There is no";                   !    22x12, saved   208
+Abbreviate "our mentor";                    !    29x10, saved   220
+Abbreviate ", and the ";                    !    42x11, saved   366
+Abbreviate "barbarian";                     !    17x 9, saved   110
+Abbreviate " yourself";                     !    26x 9, saved   173
+Abbreviate " in the ";                      !    82x 8, saved   483
+Abbreviate "already ";                      !    24x 8, saved   135
+Abbreviate "mountain";                      !    22x 8, saved   123
+Abbreviate " of the ";                      !    96x 8, saved   567
+Abbreviate " through";                      !    53x 8, saved   309
+Abbreviate "to the ";                       !   119x 7, saved   586
+Abbreviate " before";                       !    44x 7, saved   211
+Abbreviate "hawker";                        !    48x 6, saved   186
+Abbreviate " again";                        !    56x 6, saved   218
+Abbreviate "dragon";                        !    55x 6, saved   214
+Abbreviate "beggar";                        !    28x 6, saved   106
+Abbreviate " under";                        !    52x 6, saved   202
+Abbreviate " your ";                        !   169x 6, saved   670
+Abbreviate "s the ";                        !   118x 6, saved   466
+Abbreviate ", and ";                        !   174x 7, saved   861
+Abbreviate " have ";                        !    92x 6, saved   362
+Abbreviate " not ";                         !   104x 5, saved   306
+Abbreviate "spell";                         !    96x 5, saved   282
+Abbreviate " you ";                         !   223x 5, saved   663
+Abbreviate ", but";                         !    75x 6, saved   294
+Abbreviate " from";                         !    66x 5, saved   192
+Abbreviate " back";                         !    68x 5, saved   198
+Abbreviate "thing";                         !   170x 5, saved   504
+Abbreviate "stone";                         !   146x 5, saved   432
+Abbreviate ". The";                         !    98x 7, saved   481
+Abbreviate " with";                         !   179x 5, saved   531
+Abbreviate " and ";                         !   295x 5, saved   879
+Abbreviate " that";                         !   125x 5, saved   369
+Abbreviate " are ";                         !    83x 5, saved   243
+Abbreviate " the ";                         !   688x 5, saved  2058
+Abbreviate " has ";                         !    57x 5, saved   165
+Abbreviate "Istar";                         !    31x 6, saved   118
+Abbreviate "magic";                         !    41x 5, saved   117
+Abbreviate " some";                         !    48x 5, saved   138
+Abbreviate " down";                         !    59x 5, saved   171
+Abbreviate "long";                          !    47x 4, saved    88
+Abbreviate " is ";                          !   263x 4, saved   520
+Abbreviate "open";                          !    60x 4, saved   114
+Abbreviate "here";                          !   129x 4, saved   252
+Abbreviate "ther";                          !    81x 4, saved   156
+Abbreviate "his ";                          !   136x 4, saved   266
+Abbreviate " for";                          !   141x 4, saved   276
+Abbreviate "ough";                          !    62x 4, saved   118
+Abbreviate "ight";                          !   110x 4, saved   214
+Abbreviate "tion";                          !   106x 4, saved   206
+Abbreviate " the";                          !   112x 4, saved   218
+Abbreviate " of ";                          !   306x 4, saved   606
+Abbreviate "You ";                          !   202x 5, saved   600
+Abbreviate "side";                          !    61x 4, saved   116
+Abbreviate "ing ";                          !   354x 4, saved   702
+Abbreviate "The ";                          !   293x 5, saved   873
+Abbreviate "ould";                          !    70x 4, saved   134
+Abbreviate "ound";                          !    70x 4, saved   134
+Abbreviate " you";                          !   147x 4, saved   288
+Abbreviate " to ";                          !   302x 4, saved   598
+Abbreviate "n't ";                          !    59x 5, saved   171
+Abbreviate "s, ";                           !   113x 4, saved   220
+Abbreviate "hat";                           !    98x 3, saved    95
+Abbreviate " in";                           !   279x 3, saved   276
+Abbreviate "ed ";                           !   289x 3, saved   286
+Abbreviate " a ";                           !   286x 3, saved   283
+Abbreviate "st ";                           !   113x 3, saved   110
+Abbreviate "ter";                           !   139x 3, saved   136
+Abbreviate "ear";                           !   114x 3, saved   111
+Abbreviate "out";                           !   160x 3, saved   157
+Abbreviate " on";                           !   189x 3, saved   186
+Abbreviate "ill";                           !   134x 3, saved   131
+Abbreviate " be";                           !   134x 3, saved   131
+Abbreviate ". ~";                           !    85x 5, saved   249
+Abbreviate "en ";                           !   109x 3, saved   106
+Abbreviate " it";                           !   236x 3, saved   233
+Abbreviate "rea";                           !   165x 3, saved   162
+Abbreviate "all";                           !   165x 3, saved   162
+Abbreviate "ly ";                           !   171x 3, saved   168
+Abbreviate ". I";                           !    77x 5, saved   225
+Abbreviate "ver";                           !   197x 3, saved   194
+Abbreviate "and";                           !   223x 3, saved   220
+Abbreviate " co";                           !   166x 3, saved   163
+Abbreviate "an ";                           !   123x 3, saved   120
+Abbreviate " sh";                           !   108x 3, saved   105
+Abbreviate "es ";                           !   168x 3, saved   165
+Abbreviate "'s ";                           !    83x 4, saved   160
+Abbreviate "ing";                           !   278x 3, saved   275
+Abbreviate " st";                           !   188x 3, saved   185
+Abbreviate "ent";                           !   204x 3, saved   201
+Abbreviate "e.";                            !   113x 3, saved   110
+Abbreviate ".~";                            !   100x 4, saved   194
+Abbreviate ", ";                            !   465x 3, saved   462
+Abbreviate ". ";                            !   330x 3, saved   327
+Abbreviate ".^";                            !   125x 4, saved   244
+
 Constant Story            "Wyrmward";
 Constant Headline     "^(c) 2026 Johan Berntsson. Type ~help~ for instructions.^";
-Release 1; ! restore Ozmoo reference in release 2
-Serial "260816";
+Release 2; 
+Serial "260916";
 
 Array UUID_ARRAY string "UUID://C958551F-A82B-47DD-994B-FFB657010CA4//";
 #Ifdef UUID_ARRAY;#Endif;
@@ -4695,7 +4795,7 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
         In 2002, I translated and released the game as ~Drakmagi~ in Swedish, followed by an expanded
         Glulx version with graphics in 2005.^^
         This enhanced English edition was written by Johan Berntsson in 2026 to showcase Z-machine
-        version 6 (z6) graphics support in PunyInform.^^
+        version 6 (z6) graphics support in PunyInform and Ozmoo.^^
         Special thanks to Garry Francis, Stefan Vogt, Gianluca Girelli, and Fredrik Ramsberg for testing
         and valuable feedback.";
     4: DoMenu(HintItems, HintMenu, HintInfo);
@@ -4724,9 +4824,11 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
 [ Initialise key;
 #Iftrue (#version_number == 6);
     PlaySound(SND_INTRO, 0);
-    ShowPicture(PIC_INTRO);
-    @read_char key;
-    @erase_window 0;
+    if(Z6PictureExists(PIC_INTRO)) {
+        ShowPicture(PIC_INTRO);
+        @read_char key;
+        @erase_window 0;
+    }
 #IfNot;
     key = SND_INTRO; key = PIC_INTRO; ! avoid compiler warnings
 #Endif;
@@ -4745,9 +4847,11 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
     @new_line;
 
 #Iftrue (#version_number == 6);
-    print "^Press any key to start the game^";
-    @read_char key;
-    @erase_window 0;
+    if(Z6PictureExists(PIC_INTRO)) {
+        print "^Press any key to start the game^";
+        @read_char key;
+        @erase_window 0;
+    }
 #Endif;
 
     score=0;
