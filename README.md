@@ -1,6 +1,8 @@
 # A PunyInform game with optional Z6 graphics
 
-Wyrmward places a spellbook in your hands and tests your wits against slumbering dragons, living stone, and forgotten ruins. Every spell has its purpose, every word matters, and every command shapes your fate. 
+Wyrmward places a spellbook in your hands and tests your wits against slumbering dragons, living stone, and forgotten ruins. Every spell has its purpose, every word matters, and every command shapes your fate.
+
+![Wyrmward screenshot](https://github.com/johanberntsson/Wyrmward/blob/master/screenshots//screenshots-z6.png?raw=true) 
 
 ## Building the text only version (z5)
 
