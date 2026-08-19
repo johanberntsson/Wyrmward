@@ -58,6 +58,6 @@ put blue stone in box
 put red stone in box
 touch field with amulet
 cast death on demon
-cast resurrecti on istar
+cast resurrect on istar
 z
 z
