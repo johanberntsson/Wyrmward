@@ -2,7 +2,7 @@
 
 Wyrmward places a spellbook in your hands and tests your wits against slumbering dragons, living stone, and forgotten ruins. Every spell has its purpose, every word matters, and every command shapes your fate.
 
-![Wyrmward screenshot](https://github.com/johanberntsson/Wyrmward/blob/master/screenshots/screenshot_z6.png?raw=true) 
+![Wyrmward screenshot](https://github.com/johanberntsson/Wyrmward/blob/main/screenshots/screenshot_z6.png?raw=true) 
 
 ## Building the text only version (z5)
 
