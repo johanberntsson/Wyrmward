@@ -40,7 +40,7 @@ z5-debug:
 z5-release:
 	$(INFORM) +$(PUNY)/lib -v5 -es wyrmward.inf
 
-wyrmward.z6: $(STORYSRC)
+wyrmward.z6: $(STORYSRC) wyrmward.blb
 	$(INFORM) +$(PUNY)/lib -v6 -es wyrmward.inf
 
 z6: wyrmward.z6
