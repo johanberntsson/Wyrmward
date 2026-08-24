@@ -1,4 +1,4 @@
-# A PunyInform game with optional Z6 graphics
+# A PunyInform game with optional graphics in z6 mode
 
 Wyrmward places a spellbook in your hands and tests your wits against slumbering dragons, living stone, and forgotten ruins. Every spell has its purpose, every word matters, and every command shapes your fate.
 
@@ -26,11 +26,11 @@ You can also build it manually
 
 To test the new file you can use frotz with "frotz wyrmward.z5" or use Windows Frotz.
 
-## Building the graphical version version (z6)
+## Building the graphical version (z6)
 
 You will need Ozmoo to create the asset file for graphics and sound, in addition to the Inform compiler and PunyInform library that we installed for the z5 version. To get Ozmoo, either clone its github archive on [https://github.com/johanberntsson/ozmoo](https://github.com/johanberntsson/ozmoo), or download the assets from latest release.
 
-To use Ozmoo some additional software is needed; the ACME cross assembler, the Ezomizer file compression program, Ruby and Python. For more instructions, refer to Ozmoo's README and manual.
+To use Ozmoo some additional software is needed; the ACME cross assembler, the Exomizer file compression program, Ruby and Python. For more instructions, refer to Ozmoo's README and manual.
 
 Once Ozmoo and its requirements are installed, then for Linux, update the OZMOO variable in Makefile, and type "make z6". This will create wyrmward.z6 and wyrmward.blb, and can be run with for example sfrotz with "sfrotz wyrmward.z6 wyrmward.blb"
 
@@ -45,7 +45,7 @@ Since we already have Ozmoo installed we can create graphical versions for MEGA6
 
 ## How to change or add resources (graphics and sound)
 
-The resources folder contains graphics (png files), sounds (wav files) and a index file called contents.yaml. The make_blorb.py script will read the configuration file and create a blorb file as defined by the contents. The png files are just normal png files, but make_blorb.py will concert these to indexed png files with a 16 colour palette, adjusting colours if needed. Because of this, the resulting picture may look slightly different from the original files. In addition, they will be scaled to fit the 320x200 standard screen of Ozmoo Z6, and may be cropped further by adding optional max height and width parameters.
+The resources folder contains graphics (png files), sounds (wav files) and a index file called contents.yaml. The make_blorb.py script will read the configuration file and create a blorb file as defined by the contents. The png files are just normal png files, but make_blorb.py will convert these to indexed png files with a 16 colour palette, adjusting colours if needed. Because of this, the resulting picture may look slightly different from the original files. In addition, they will be scaled to fit the 320x200 standard size of the Ozmoo z6 screen model, and may be cropped further by adding optional max height and width parameters.
 
 The config file consists of these fields: blorb, outdir, pictures[]. Each picture needs two fields; id, file (filename), and can also have these optional fields; name, height, width, location.
 
