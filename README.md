@@ -43,7 +43,7 @@ It's also possible to create these files manually
 
 Since we already have Ozmoo installed we can create graphical versions for MEGA65 and X16. There are already targets for this: "make mega65" and "make x16". If the MEGA65 and X16 emulators are installed, then the game will be launched automatically.
 
-# How to change or add resources (graphics and sound)
+## How to change or add resources (graphics and sound)
 
 The resources folder contains graphics (png files), sounds (wav files) and a index file called contents.yaml. The make_blorb.py script will read the configuration file and create a blorb file as defined by the contents. The png files are just normal png files, but make_blorb.py will concert these to indexed png files with a 16 colour palette, adjusting colours if needed. Because of this, the resulting picture may look slightly different from the original files. In addition, they will be scaled to fit the 320x200 standard screen of Ozmoo Z6, and may be cropped further by adding optional max height and width parameters.
 
