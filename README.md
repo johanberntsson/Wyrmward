@@ -50,3 +50,8 @@ The resources folder contains graphics (png files), sounds (wav files) and a ind
 The config file consists of these fields: blorb, outdir, pictures[]. Each picture needs two fields; id, file (filename), and can also have these optional fields; name, height, width, location.
 
 Add assets as needed, update contents.yaml, and run make_blorb.py to create a blorb with new assets.
+
+## Licensing
+
+- **Source Code:** Distributed under the [MIT License](LICENSE).
+- **Game Assets (Graphics, Music, Story Text):** Distributed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
