@@ -1,5 +1,5 @@
 INFORM = inform
-OZMOO = /home/johan/commodore/ozmoo-z6
+OZMOO = /home/johan/commodore/ozmoo
 PUNY = /home/johan/commodore/punyinform
 
 XMEGA65 = xemu-xmega65 -besure
@@ -108,17 +108,17 @@ mega65: mega65_wyrmward.d81
 	$(XMEGA65) -8 mega65_wyrmward.d81
 
 c64: z6
-	$(OZMOOBUILD) -s wyrmward.z6
+	$(OZMOOBUILD) -ch -s wyrmward.z6
 
 c128: z6
-	$(OZMOOBUILD) -t:c128 -s wyrmward.z6
+	$(OZMOOBUILD) -ch -t:c128 -s wyrmward.z6
 
 c128-80: z6
-	$(OZMOOBUILD) -t:c128 wyrmward.z6
+	$(OZMOOBUILD) -ch -t:c128 wyrmward.z6
 	x128 -silent -80col -8 c128_wyrmward.d71
 
 plus4: z6
-	$(OZMOOBUILD) -t:plus4 -s wyrmward.z6
+	$(OZMOOBUILD) -ch -t:plus4 -s wyrmward.z6
 
 .PHONY: all z5-release z5-debug sound blorb z6 x16 mega65 test frotz sfrotz release clean
 

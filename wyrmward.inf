@@ -146,7 +146,7 @@ Abbreviate ".^";                            !   125x 4, saved   244
 Constant Story            "Wyrmward";
 Constant Headline     "^(c) 2026 Johan Berntsson. Type ~help~ for instructions.^";
 Release 2; 
-Serial "260916";
+Serial "260830";
 
 Array UUID_ARRAY string "UUID://C958551F-A82B-47DD-994B-FFB657010CA4//";
 #Ifdef UUID_ARRAY;#Endif;
