@@ -110,6 +110,16 @@ mega65: mega65_wyrmward.d81
 c64: z6
 	$(OZMOOBUILD) -s wyrmward.z6
 
+c128: z6
+	$(OZMOOBUILD) -t:c128 -s wyrmward.z6
+
+c128-80: z6
+	$(OZMOOBUILD) -t:c128 wyrmward.z6
+	x128 -silent -80col -8 c128_wyrmward.d71
+
+plus4: z6
+	$(OZMOOBUILD) -t:plus4 -s wyrmward.z6
+
 .PHONY: all z5-release z5-debug sound blorb z6 x16 mega65 test frotz sfrotz release clean
 
 test: z5-debug
@@ -133,4 +143,4 @@ release: z5-release
 	frotz -d wyrmward.z5
 
 clean:
-	rm -rf wyrmward.z5 wyrmward.z6 wyrmward.blb wyrmward.scr wyrmward.cur pics *.d81 x16_wyrmward* *qzl  sounds/*small.wav
+	rm -rf wyrmward.z5 wyrmward.z6 wyrmward.blb wyrmward.scr wyrmward.cur pics *.d64 *.d71 *.d81 x16_wyrmward* *qzl  sounds/*small.wav
