@@ -1,0 +1,30 @@
+Jag har spelat igenom Wyrmward R2, med debug, kollat efter problem, läst källkod, och undersökt gränser. Här är mina findings:
+
+a archway
+a mud
+a wet mud
+a axe
+a oak tree
+some crowd
+a dust
+a animation spell
+a illumination spell
+
+Axe.before borde reagera på Take
+StoneMarkings saknar namn
+
+"The demon reads a spell aloud." skrivs ut med två tomrader över sig, borde bara vara en.
+
+Det finns 6 objekt med timer/daemon i spelet. Det finns 7 objekt med found_in. Det finns 
+23 objekt som kan vara i scope var som helst, och högst 9 static/scenery-objekt i ett rum (byn).
+
+Constant MAX_TIMERS 7;
+Constant MAX_FLOATING_OBJECTS 8;
+Constant MAX_SCOPE 34;
+
+Jag skulle rekommendera att du för ett produktionsbygge lägger till detta på command line:
+
+--opt OMIT_SYMBOL_TABLE=1 --define RUNTIME_ERRORS=0
+
+(Runtime errors vara eller icke vara i produktionsbyggen är ju dock omtvistat)
+
