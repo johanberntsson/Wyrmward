@@ -38,10 +38,10 @@ z5-debug:
 	$(INFORM) +$(PUNY)/lib -v5 -es -D wyrmward.inf
 
 z5-release:
-	$(INFORM) +$(PUNY)/lib -v5 -es wyrmward.inf
+	$(INFORM) +$(PUNY)/lib -v5 -es --opt OMIT_SYMBOL_TABLE=1 --define RUNTIME_ERRORS=0 wyrmward.inf
 
 wyrmward.z6: $(STORYSRC) wyrmward.blb
-	$(INFORM) +$(PUNY)/lib -v6 -es wyrmward.inf
+	$(INFORM) +$(PUNY)/lib -v6 -es --opt OMIT_SYMBOL_TABLE=1 --define RUNTIME_ERRORS=0 wyrmward.inf
 
 z6: wyrmward.z6
 
@@ -139,8 +139,11 @@ frotz: z5-debug
 sfrotz: wyrmward.z6 wyrmward.blb
 	$(SFROTZ) wyrmward.z6
 
-release: z5-release
-	frotz -d wyrmward.z5
+release: z5-release z6 mega65_wyrmward.d81 x16_wyrmward.zip
+	$(OZMOOBUILD) -ch wyrmward.z6
+	$(OZMOOBUILD) -ch -t:c128 wyrmward.z6
+	$(OZMOOBUILD) -ch -t:plus4 wyrmward.z6
+	zip release.zip mega65_wyrmward.d81 x16_wyrmward.zip c64_wyrmward.d64 c128_wyrmward.d71 plus4_wyrmward.d64
 
 clean:
 	rm -rf wyrmward.z5 wyrmward.z6 wyrmward.blb wyrmward.scr wyrmward.cur pics *.d64 *.d71 *.d81 x16_wyrmward* *qzl  sounds/*small.wav

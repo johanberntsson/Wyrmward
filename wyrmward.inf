@@ -151,6 +151,10 @@ Serial "260830";
 Array UUID_ARRAY string "UUID://C958551F-A82B-47DD-994B-FFB657010CA4//";
 #Ifdef UUID_ARRAY;#Endif;
 
+Constant MAX_TIMERS 7;
+Constant MAX_FLOATING_OBJECTS 8;
+Constant MAX_SCOPE 34;
+
 ! Uncomment ONE of the two following lines, to show either time or score/turns
 ! Leaving both commented out makes the library bigger.
 !Constant STATUSLINE_TIME; Statusline time;
@@ -617,6 +621,7 @@ Class CSpellWithArgument
 CSpellWithArgument IlluminateSpell "illumination spell" SpellBook
     with
         name 'illumination' 'illuminate' 'spell',
+        article "an",
         comment "make something glow",
         domagic [obj;
             if(obj provides domagic) if(obj.domagic(self)) rtrue;
@@ -1062,7 +1067,7 @@ Object -> Path "path"
 
 Object -> Hut "hut"
     with
-        name 'hut' 'dilapidated',
+        name 'dilapidated' 'hut' 'cottage' 'shed' 'house',
         description
             "The structure is a sorry sight. Built from rough-hewn logs that have rotted and warped over the years,
             it leans heavily to one side as if weary from the elements. Thick, dark moss carpets the sagging
@@ -1826,6 +1831,7 @@ Object -> Archway "archway"
                     'door' or 'doorway' or 'keystone') n++;
             return n;
         ],
+        article "an",
         description
             "Apart from their alignment with the compass points, all four arches appear identical.
             Glowing runes are cut into its keystone, and the air beneath them hums quietly to itself.",
@@ -2041,6 +2047,7 @@ Object -> CaveOpening "cave opening"
 Object -> CaveMud "mud"
     with
         name 'mud',
+        article "some",
         description
             "Cold grey silt, washed down from somewhere deeper in the mountain and thick
             enough to take the print of your boot.",
@@ -2303,6 +2310,7 @@ Object -> ms_water "mud"
             if(w == 'mud' or 'ground' or 'mire' or 'paste') return n + 1;
             return n;
         ],
+        article "some",
         description [;
             if(FlagIsSet(F_TUNNEL_FROZEN))
                 "The mud is frozen solid and covered with ice.";
@@ -2643,12 +2651,13 @@ Object -> Wound "wound"
 Object -> Axe "axe"
     with
         name 'axe' 'battleaxe',
+        article "an",
         description
             "The barbarian's axe, buried to half its length under her jaw and moving
             slightly with each breath she takes. It is the only thing in this hall that is
             still doing exactly what it was made for.",
         before [;
-        Pull, Push, PushDir:
+        Take,Pull, Push, PushDir:
             "You get both hands to the grip before you stop yourself. Draw it out and the
             bleeding will not slow; it will become a flood, and she will be gone before you
             have thought of anything better. Whatever you do for her, do it with the axe
@@ -3346,6 +3355,7 @@ Room VillageRoad "The Country Road"
 Object -> OakTree "oak tree"
     with
         name 'oak' 'tree',
+        article "an",
         description "An ancient, sprawling oak tree providing a welcome patch of deep shade beside the dusty road.",
         before [;
         Shake: 
@@ -4031,6 +4041,7 @@ Room EndOfVillage "The Edge of the Village"
 Object -> RoadDust "dust"
     with
         name 'road' 'dust',
+        article "some",
         description  [;
             print "Thick, bone-dry earth ground to a fine powder by years of passing boots and wagon wheels";
             if(SilverCoin hasnt moved)
@@ -4402,6 +4413,7 @@ CSpell TeleportSpell "teleportation spell" SilverScroll
 CSpellWithArgument AnimateSpell "animation spell"
     with
         name 'animation' 'animate' 'spell',
+        article "an",
         comment "bring something to life",
         domagic [obj;
             if(obj provides domagic) if(obj.domagic(self)) rtrue;
@@ -4491,7 +4503,7 @@ CStone BlackStone "black stone" Istar
         add_to_scope StoneMarkings
     ;
 
-Object StoneMarkings
+Object StoneMarkings "stone markings"
     with
         parse_name [_w _n;
             _w = NextWordStopped();
@@ -4499,6 +4511,7 @@ Object StoneMarkings
             if(_w == 'signs' or 'markings' or 'glyphs' or 'shape') return _n + 1;
             rfalse;
         ],
+        article "some",
         description
             "The markings are strange, unknown glyphs carved into the surface of the stone.",
     has scenery;
