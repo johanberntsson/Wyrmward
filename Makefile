@@ -143,7 +143,7 @@ release: z5-release z6 mega65_wyrmward.d81 x16_wyrmward.zip
 	$(OZMOOBUILD) -ch wyrmward.z6
 	$(OZMOOBUILD) -ch -t:c128 wyrmward.z6
 	$(OZMOOBUILD) -ch -t:plus4 wyrmward.z6
-	zip release.zip mega65_wyrmward.d81 x16_wyrmward.zip c64_wyrmward.d64 c128_wyrmward.d71 plus4_wyrmward.d64
+	zip release3.zip wyrmward.z5 wyrmward.z6 wyrmward.blb mega65_wyrmward.d81 x16_wyrmward.zip c64_wyrmward.d64 c128_wyrmward.d71 plus4_wyrmward.d64
 
 clean:
 	rm -rf wyrmward.z5 wyrmward.z6 wyrmward.blb wyrmward.scr wyrmward.cur pics *.d64 *.d71 *.d81 x16_wyrmward* *qzl  sounds/*small.wav
