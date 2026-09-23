@@ -4864,6 +4864,7 @@ Array WantedStones --> 4 1 BlackStone 0 GreenStone 0 BlueStone 0 RedStone;
         print "^Press any key to start the game^";
         @read_char key;
         @erase_window 0;
+        @new_line;
     }
 #Endif;
 
