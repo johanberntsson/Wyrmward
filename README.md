@@ -4,6 +4,11 @@ Wyrmward places a spellbook in your hands and tests your wits against slumbering
 
 ![Wyrmward screenshot](https://github.com/johanberntsson/Wyrmward/blob/main/screenshots/screenshot_z6.png?raw=true) 
 
+## I just want to play the game!
+
+Download precompiled binaries on my itch page: [https://johanberntsson.itch.io/wyrmward](https://johanberntsson.itch.io/wyrmward)
+
+
 ## Building the text only version (z5)
 
 Wyrmwatd is a PunyInform game and requires the PunyInform library, and the Inform 6 compiler.
