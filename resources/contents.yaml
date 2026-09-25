@@ -9,6 +9,7 @@
 
 blorb:  wyrmward.blb
 outdir: pics
+scale: 2
 
 # id and file are mandatory; name, location, width and height are optional.
 # width/height cap a single picture (preserving aspect ratio); omit them for

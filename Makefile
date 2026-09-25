@@ -12,10 +12,7 @@ X16 = /home/johan/commodore/ozmoo/x16-emulator46/x16emu
 #XMEGA65 = SDL_AUDIODRIVER=pulseaudio xemu-xmega65
 #X16 = SDL_AUDIODRIVER=pulseaudio /home/johan/commodore/ozmoo/x16-emulator46/x16emu
 
-# --xscale 2 --yscale 2 is not optional here: sfrotz's screen is
-# always 640x400 and it draws pictures at 1:1 unless it detects
-# that the game is one of ARTHUR/JOURNEY/SHOGUN/ZORK_ZERO
-SFROTZ = sfrotz --xscale 2 --yscale 2 
+SFROTZ = sfrotz
 
 # make.rb anchors everything it reads to its own directory (asm/, tools/, temp/,
 # exomizer) and writes the finished disk image into the CURRENT directory, so it

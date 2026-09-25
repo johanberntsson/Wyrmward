@@ -32,6 +32,9 @@
 !         improvements in texts and puzzle design. Both z5 and z6 versions produced, with 
 !         the same pictures as the old Glulx version, a few new ones and some sound effects.
 ! 260816: Release 1 announced
+! 260901: Release 2 added a license and fixed some typos
+! 260908: Release 3 optimized the code for speed on small computers
+! 260925: Release 4 makes the blorb sizes to match Windows Frotz, and fixes a small erase_window bug
 !
 ! The very first lines of the main source code file for a game can
 ! contain compiler options, like the lines above. -~S disables
@@ -145,8 +148,8 @@ Abbreviate ".^";                            !   125x 4, saved   244
 
 Constant Story            "Wyrmward";
 Constant Headline     "^(c) 2026 Johan Berntsson. Type ~help~ for instructions.^";
-Release 3; 
-Serial "260908";
+Release 4; 
+Serial "260925";
 
 Array UUID_ARRAY string "UUID://C958551F-A82B-47DD-994B-FFB657010CA4//";
 #Ifdef UUID_ARRAY;#Endif;
